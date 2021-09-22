@@ -18,8 +18,9 @@ buildscript {
 allprojects {
 	repositories {
 		google()
-		maven { url "http://maven.usehover.com/releases" }
-		maven { url "http://maven.usehover.com/snapshots" }
+		mavenCentral()
+		maven { url "https://maven.usehover.com/releases" }
+		maven { url "https://maven.usehover.com/snapshots" }
 //        maven {
 //            url 'https://pro.maven.usehover.com/releases'
 //            credentials {
