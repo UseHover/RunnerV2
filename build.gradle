@@ -19,17 +19,18 @@ allprojects {
 	repositories {
 		google()
 		mavenCentral()
+		maven { url 'https://jitpack.io' }
 		maven { url "https://maven.usehover.com/releases" }
 		maven { url "https://maven.usehover.com/snapshots" }
-//        maven {
-//            url 'https://pro.maven.usehover.com/releases'
-//            credentials {
-//                username project.HoverUsername
-//                password project.HoverPassword
-//            }
-//            authentication { basic(BasicAuthentication) }
-//            content { includeGroup "com.hover" }
-//        }
+        maven {
+            url 'https://pro.maven.usehover.com/releases'
+            credentials {
+	            username "${HoverUsername}"
+	            password "${HoverPassword}"
+            }
+            authentication { basic(BasicAuthentication) }
+            content { includeGroup "com.hover" }
+        }
 	}
 }
 
