@@ -81,8 +81,8 @@ class SplashScreenActivity : AppCompatActivity() {
                 sharedElement1,
                 sharedElement2
             )
-            loginResultLauncher.launch(intent, activityOptionsCompat)
-        } else loginResultLauncher.launch(intent)
+            loginProcessLauncher.launch(intent, activityOptionsCompat)
+        } else loginProcessLauncher.launch(intent)
     }
 
     private fun observeLogin() {
@@ -112,7 +112,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     }
 
-    private val loginResultLauncher =
+    private val loginProcessLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Array<String> = result.data!!.getStringArrayExtra("login_data")!!

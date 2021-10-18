@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hover.runner.databinding.ActivityMainBinding
+import com.hover.runner.login.activities.SplashScreenActivity
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         //Hover.initialize(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        checkForLoginStatus()
+        redirectIfRequired()
         initHover()
         checkForPermissions()
         setContentView(binding.root)
@@ -38,9 +39,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun checkForLoginStatus() {
-        if (allowIntoMainActivity()) {
-            startActivity(Intent(this, LoginActivity::class.java))
+    private fun redirectIfRequired() {
+        if (!isLoggedIn()) {
+            startActivity(Intent(this, SplashScreenActivity::class.java))
             finish()
             return
         }
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun allowIntoMainActivity(): Boolean {
+    private fun isLoggedIn(): Boolean {
         with(Utils.getApiKey(this)) {
             return this != null && this.isNotEmpty()
         }

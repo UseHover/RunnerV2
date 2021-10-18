@@ -8,10 +8,18 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val useCase: LoginUseCase) : ViewModel() {
     val loginLiveData : MutableLiveData<Resource<Int>> = MutableLiveData()
+    val validationLiveData : MutableLiveData<Resource<Int>> = MutableLiveData()
+
     fun doLogin(email : String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             loginLiveData.postValue(Resource.Loading())
             loginLiveData.postValue(useCase.login(email, password))
+        }
+    }
+
+    fun validate(email : String, password: String) {
+        viewModelScope.launch(Dispatchers.Main) {
+            validationLiveData.postValue(useCase.validate(email, password))
         }
     }
 }
