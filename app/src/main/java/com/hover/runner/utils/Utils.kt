@@ -2,22 +2,13 @@ package com.hover.runner.utils
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.content.Context
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
-import androidx.core.app.ActivityCompat
 import com.hover.runner.R
-import com.hover.sdk.api.HoverParameters.*
 import org.json.JSONArray
 import org.json.JSONException
-import java.lang.Exception
-import java.lang.NullPointerException
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.regex.Pattern
 
 class Utils {
@@ -47,7 +38,8 @@ class Utils {
         @SuppressLint("HardwareIds", "MissingPermission")
         fun getDeviceId(c: Context): String? {
             try {
-                if (PermissionsUtil.hasPermissions(c,
+                if (PermissionsUtil.hasPermissions(
+                        c,
                         arrayOf(
                             Manifest.permission.READ_PHONE_STATE,
                             Manifest.permission.CALL_PHONE

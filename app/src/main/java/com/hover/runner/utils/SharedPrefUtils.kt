@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import com.hover.runner.R
 import com.hover.sdk.api.HoverParameters
-import java.lang.NullPointerException
 
 class SharedPrefUtils {
     companion object {

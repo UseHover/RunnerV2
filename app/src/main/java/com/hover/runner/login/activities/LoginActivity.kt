@@ -17,7 +17,6 @@ import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
-import com.hover.runner.utils.Utils
 import com.hover.runner.webview.WebViewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,18 +24,18 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var emailEdit: EditText
     private lateinit var passwordEdit: EditText
     private lateinit var errorEmailText: TextView
-    private lateinit var errorPasswordText:TextView
-    private lateinit var emailLabel:TextView
-    private lateinit var passwordLabel:TextView
+    private lateinit var errorPasswordText: TextView
+    private lateinit var emailLabel: TextView
+    private lateinit var passwordLabel: TextView
     private lateinit var signInButton: Button
-    private lateinit var forgotPassword : TextView
+    private lateinit var forgotPassword: TextView
 
-    private val validateViewModel : LoginViewModel by viewModel()
+    private val validateViewModel: LoginViewModel by viewModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding =  LoginActivity2Binding.inflate(layoutInflater)
+        val binding = LoginActivity2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initViews(binding)
@@ -78,6 +77,7 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
+
     private fun setupPasswordEdit() {
         passwordEdit.setOnClickListener { v: View? ->
             undoErrorView(
@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun observeValidation() {
         validateViewModel.validationLiveData.observe(this, {
-            when(it) {
+            when (it) {
                 is Resource.Success -> {
                     SharedPrefUtils.saveEmail(emailEdit.text.toString(), this)
                     sendDataToPreviousActivity()
@@ -117,11 +117,13 @@ class LoginActivity : AppCompatActivity() {
     private fun setupSignInButton() {
         signInButton.setOnClickListener { callSignIn() }
     }
+
     private fun callSignIn() {
         val email = emailEdit.text.toString()
         val password = passwordEdit.getText().toString()
         validateViewModel.validate(email, password)
     }
+
     private fun setTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val fade = Fade()
@@ -141,10 +143,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun handleDataError(error: Int) {
-        when(error) {
+        when (error) {
             R.string.INVALID_EMAIL -> showInvalidEmail(error)
             R.string.INVALID_PASSWORD -> showInvalidPassword(error)
-            R.string.NO_NETWORK -> UIHelper.flashMessage(this, currentFocus, getString(R.string.NO_NETWORK))
+            R.string.NO_NETWORK -> UIHelper.flashMessage(
+                this,
+                currentFocus,
+                getString(R.string.NO_NETWORK)
+            )
         }
     }
 
@@ -159,6 +165,7 @@ class LoginActivity : AppCompatActivity() {
         setErrorView(passwordEdit, errorPasswordText, passwordLabel)
         errorPasswordText.setText(stringRes)
     }
+
     private fun showInvalidEmail(stringRes: Int) {
         //Just to make sure password error gets cleared
         if (errorPasswordText.visibility == View.VISIBLE) undoErrorView(

@@ -5,21 +5,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
 import com.hover.runner.utils.PermissionsUtil
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
-import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
 
@@ -55,13 +49,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkForPermissions() {
-        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode != Activity.RESULT_OK) {
-                UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
+        val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode != Activity.RESULT_OK) {
+                    UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
+                }
             }
-        }
 
-        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
+        if (!PermissionsUtil.hasPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
+            )
+        ) {
             resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }
@@ -78,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun isLoggedIn(): Boolean {
         with(SharedPrefUtils.getApiKey(this)) {
             return this != null && this.isNotEmpty()

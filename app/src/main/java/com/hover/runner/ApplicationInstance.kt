@@ -14,19 +14,21 @@ class ApplicationInstance : Application() {
         initDI()
         setRetrofit()
     }
+
     private fun initDI() {
         startKoin {
             androidContext(this@ApplicationInstance)
             modules(appModule)
         }
     }
+
     companion object {
         lateinit var retrofit: Retrofit
     }
 
     fun setRetrofit() {
         val gson = GsonBuilder().setLenient().create()
-        retrofit =  Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(getString(R.string.api_url))
             .build()
