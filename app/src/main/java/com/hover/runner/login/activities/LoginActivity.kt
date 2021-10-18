@@ -15,6 +15,7 @@ import com.hover.runner.R
 import com.hover.runner.databinding.LoginActivity2Binding
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
+import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.runner.webview.WebViewActivity
@@ -98,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
         validateViewModel.validationLiveData.observe(this, {
             when(it) {
                 is Resource.Success -> {
-                    Utils.saveEmail(emailEdit.text.toString(), this)
+                    SharedPrefUtils.saveEmail(emailEdit.text.toString(), this)
                     sendDataToPreviousActivity()
                 }
 

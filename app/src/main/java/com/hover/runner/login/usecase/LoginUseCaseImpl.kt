@@ -6,6 +6,7 @@ import com.hover.runner.api.Apis
 import com.hover.runner.login.endpoint.TokenModel
 import com.hover.runner.utils.NetworkUtil
 import com.hover.runner.utils.Resource
+import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.Utils
 
 class LoginUseCaseImpl(private val context: Context) : LoginUseCase {
@@ -26,8 +27,8 @@ class LoginUseCaseImpl(private val context: Context) : LoginUseCase {
     }
 
     private fun cacheToken(token: TokenModel) {
-        Utils.saveOrgId(token.orgId, context)
-        Utils.saveToken(token.auth_token, context)
-        Utils.saveApiKey(token.apiKey, context)
+        SharedPrefUtils.saveOrgId(token.orgId, context)
+        SharedPrefUtils.saveToken(token.auth_token, context)
+        SharedPrefUtils.saveApiKey(token.apiKey, context)
     }
 }

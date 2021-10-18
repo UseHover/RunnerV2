@@ -16,6 +16,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
+import com.hover.runner.utils.PermissionsUtil
+import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initHover() {
-        Hover.initialize(this, Utils.getApiKey(this))
+        Hover.initialize(this, SharedPrefUtils.getApiKey(this))
         Hover.setBranding("Runner by Hover", R.drawable.ic_runner_logo, this)
     }
 
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (!Utils.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
+        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
             resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun isLoggedIn(): Boolean {
-        with(Utils.getApiKey(this)) {
+        with(SharedPrefUtils.getApiKey(this)) {
             return this != null && this.isNotEmpty()
         }
     }
