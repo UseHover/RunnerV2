@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun callSignIn() {
         val email = emailEdit.text.toString()
-        val password = passwordEdit.getText().toString()
+        val password = passwordEdit.text.toString()
         validateViewModel.validate(email, password)
     }
 

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
@@ -16,6 +17,7 @@ import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,14 +27,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Hover.initialize(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
-        redirectIfRequired()
         initHover()
         checkForPermissions()
         setContentView(binding.root)
         setupNavigation()
-
+        redirectIfRequired()
     }
 
     private fun redirectIfRequired() {
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun isLoggedIn(): Boolean {
         with(SharedPrefUtils.getApiKey(this)) {
-            return this != null && this.isNotEmpty()
+            return this != null && this.length > 5
         }
     }
 

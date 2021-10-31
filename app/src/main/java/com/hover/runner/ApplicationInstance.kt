@@ -26,7 +26,7 @@ class ApplicationInstance : Application() {
         lateinit var retrofit: Retrofit
     }
 
-    fun setRetrofit() {
+    private fun setRetrofit() {
         val gson = GsonBuilder().setLenient().create()
         retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))

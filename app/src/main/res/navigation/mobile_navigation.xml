@@ -7,13 +7,13 @@
 
 	<fragment
 		android:id="@+id/navigation_actions"
-		android:name="com.hover.runner.ui.actions.ActionsFragment"
+		android:name="com.hover.runner.actions.ActionsFragment"
 		android:label="@string/title_actions"
 		tools:layout="@layout/fragment_actions" />
 
 	<fragment
 		android:id="@+id/navigation_transactions"
-		android:name="com.hover.runner.ui.transactions.TransactionFragment"
+		android:name="com.hover.runner.transactions.TransactionFragment"
 		android:label="@string/title_transactions"
 		tools:layout="@layout/fragment_transactions" />
 

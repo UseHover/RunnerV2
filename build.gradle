@@ -20,8 +20,10 @@ allprojects {
 		google()
 		mavenCentral()
 		maven { url 'https://jitpack.io' }
-		maven { url "https://maven.usehover.com/releases" }
-		maven { url "https://maven.usehover.com/snapshots" }
+		maven { url "https://maven.usehover.com/releases"
+			allowInsecureProtocol = true}
+		maven { url "https://maven.usehover.com/snapshots"
+			allowInsecureProtocol = true}
         maven {
             url 'https://pro.maven.usehover.com/releases'
             credentials {

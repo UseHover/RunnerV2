@@ -11,7 +11,7 @@ class SharedPrefUtils {
     companion object {
 
         private const val SHARED_PREFS = "_runner"
-        private const val API_KEY_LABEL = "apiKey"
+        private const val API_KEY_LABEL = "runner_apiKey"
         private const val DELAY = "delay"
         private const val TOKEN = "token"
         private const val ORG = "org_id"
@@ -38,7 +38,7 @@ class SharedPrefUtils {
             editor.apply()
         }
 
-        fun getSavedString(key: String?, c: Context): String? {
+        private fun getSavedString(key: String?, c: Context): String? {
             return getSharedPrefs(c).getString(key, "")
         }
 
