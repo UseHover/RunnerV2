@@ -18,6 +18,9 @@ import com.hover.runner.utils.Resource
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.webview.WebViewActivity
+import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.actions.HoverActionDao
+import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -116,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupSignInButton() {
         signInButton.setOnClickListener { callSignIn() }
+
     }
 
     private fun callSignIn() {
