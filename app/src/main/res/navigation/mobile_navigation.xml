@@ -7,7 +7,7 @@
 
 	<fragment
 		android:id="@+id/navigation_actions"
-		android:name="com.hover.runner.actions.ActionsFragment"
+		android:name="com.hover.runner.actions.fragments.ActionsFragment"
 		android:label="@string/title_actions"
 		tools:layout="@layout/fragment_actions" />
 
