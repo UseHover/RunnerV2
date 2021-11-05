@@ -7,7 +7,7 @@
 		android:background="@color/colorPrimaryDark"
 		android:layout_marginBottom="55dp"
 		xmlns:tools="http://schemas.android.com/tools"
-		tools:context=".ui.actions.ActionsFragment"
+		tools:context=".actions.fragments.ActionsFragment"
 		xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -57,9 +57,12 @@
 
 			</LinearLayout>
 
-			<include layout="@layout/recycler_view_state"/>
+			<include android:id="@+id/recyclerViewState"
+				layout="@layout/recycler_view_state"/>
 
-			<include layout="@layout/general_recycler_view"
+			<include
+				android:id="@+id/recyclerView"
+				layout="@layout/general_recycler_view"
 					android:visibility="gone"/>
 
 		</LinearLayout>

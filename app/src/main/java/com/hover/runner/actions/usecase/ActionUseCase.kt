@@ -1,8 +1,8 @@
 package com.hover.runner.actions.usecase
 
-import com.hover.runner.actions.model.ActionModel
+import com.hover.runner.actions.models.Action
 
 interface ActionUseCase {
-    suspend fun loadAll() : List<ActionModel>
-    suspend fun filter() : List<ActionModel>
+    suspend fun loadAll() : List<Action>
+    suspend fun filter() : List<Action>
 }

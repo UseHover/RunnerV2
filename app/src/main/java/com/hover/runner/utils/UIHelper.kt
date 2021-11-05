@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.hover.runner.R
+import com.hover.runner.actions.ActionStatusEnum
 import timber.log.Timber
 
 class UIHelper {
@@ -25,7 +27,7 @@ class UIHelper {
             return linearLayoutManager
         }
 
-        fun setTextUnderline(textView: TextView, cs: String?) {
+        fun underlineText(textView: TextView, cs: String?) {
             val content = SpannableString(cs)
             content.setSpan(UnderlineSpan(), 0, content.length, 0)
             content.setSpan(Typeface.BOLD, 0, content.length, 0)
@@ -67,6 +69,14 @@ class UIHelper {
 
         fun flashMessage(context: Context, message: String?) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+
+        fun getActionIconDrawable(enum: ActionStatusEnum?): Int {
+            return when (enum) {
+                ActionStatusEnum.PENDING -> R.drawable.ic_warning_yellow_24dp
+                ActionStatusEnum.UNSUCCESSFUL -> R.drawable.ic_error_red_24dp
+                else -> R.drawable.ic_check_circle_green_24dp
+            }
         }
     }
 

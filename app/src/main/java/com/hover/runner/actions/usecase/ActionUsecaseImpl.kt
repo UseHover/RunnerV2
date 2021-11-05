@@ -1,15 +1,13 @@
 package com.hover.runner.actions.usecase
 
-import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import com.hover.runner.actions.model.ActionModel
+import com.hover.runner.actions.models.Action
 
-class ActionUseCaseImpl(private val context: Context)  : ActionUseCase {
-    override suspend fun loadAll(): List<ActionModel> {
-        TODO("Not yet implemented")
+class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUseCase {
+    override suspend fun loadAll(): List<Action> {
+        return actionRepo.getAllActionsFromHover()
     }
 
-    override suspend fun filter(): List<ActionModel> {
+    override suspend fun filter(): List<Action> {
         TODO("Not yet implemented")
     }
 

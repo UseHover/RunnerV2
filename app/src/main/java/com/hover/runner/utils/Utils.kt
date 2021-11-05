@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager
 import com.hover.runner.R
 import org.json.JSONArray
 import org.json.JSONException
+import java.lang.NullPointerException
 import java.util.regex.Pattern
 
 class Utils {
@@ -23,6 +24,14 @@ class Utils {
             return if (string == null) false else string.length < 40 && string.length > 4 && !string.contains(
                 " "
             )
+        }
+
+        fun getPackage(c: Context): String? {
+            return try {
+                c.applicationContext.packageName
+            } catch (e: NullPointerException) {
+                "fail"
+            }
         }
 
         @Throws(JSONException::class)
