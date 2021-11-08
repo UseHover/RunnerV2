@@ -52,26 +52,6 @@ class UIHelper {
             }
         }
 
-        fun makeEachTextLinks(text: String?, tv: TextView?, clickListener: ParserClickListener?) {
-            if (text == null || tv == null) {
-                return
-            }
-            val ss = SpannableString(text)
-            val items = text.split(", ").toTypedArray()
-            var start = 0
-            var end: Int
-            for (item in items) {
-                end = start + item.length
-                if (start < end) {
-                    ss.setSpan(UnderlineSpan(), start, end, 0)
-                    ss.setSpan(UIHelper.MyClickableSpan(item, clickListener), start, end, 0)
-                    ss.setSpan(ForegroundColorSpan(Color.WHITE), start, end, 0)
-                }
-                start += item.length + 2 //comma and space in the original text ;)
-            }
-            tv.movementMethod = LinkMovementMethod.getInstance()
-            tv.setText(ss, TextView.BufferType.SPANNABLE)
-        }
 
         fun changeStatusBarColor(activity: Activity, color: Int) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return

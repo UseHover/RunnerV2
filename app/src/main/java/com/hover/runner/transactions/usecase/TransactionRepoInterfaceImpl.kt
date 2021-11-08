@@ -20,7 +20,7 @@ class TransactionRepoInterfaceImpl(private val repo: DatabaseRepo) : Transaction
         return repo.getTransaction(uuid)
     }
 
-    override suspend fun getTransactionSuspended(uuid: String): RunnerTransaction {
+    override suspend fun getTransactionSuspended(uuid: String): RunnerTransaction? {
         return repo.getTransactionSuspended(uuid)
     }
 
@@ -28,7 +28,11 @@ class TransactionRepoInterfaceImpl(private val repo: DatabaseRepo) : Transaction
         return repo.getTransactionsByAction(actionId)
     }
 
-    override suspend fun getLastTransaction(actionId: String): RunnerTransaction {
+    override fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> {
+        return repo.getTransactionsByAction(actionId, limit)
+    }
+
+    override suspend fun getLastTransaction(actionId: String): RunnerTransaction? {
         return repo.getLastTransaction(actionId)
     }
 

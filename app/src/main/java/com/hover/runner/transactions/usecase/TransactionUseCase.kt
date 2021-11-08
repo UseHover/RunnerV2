@@ -7,4 +7,5 @@ interface TransactionUseCase {
     fun getAllTransactions() : LiveData<List<RunnerTransaction>>
     fun getTransaction(uuid: String) : LiveData<RunnerTransaction>
     fun getTransactionsByAction(actionId: String)  : LiveData<List<RunnerTransaction>>
+    fun getTransactionsByAction(actionId: String, limit: Int)  : LiveData<List<RunnerTransaction>>
 }

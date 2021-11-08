@@ -26,7 +26,7 @@
 
 	<fragment
 		android:id="@+id/navigation_transactions"
-		android:name="com.hover.runner.transactions.TransactionFragment"
+		android:name="com.hover.runner.transactions.fragments.TransactionListFragment"
 		android:label="@string/title_transactions"
 		tools:layout="@layout/fragment_transactions" />
 

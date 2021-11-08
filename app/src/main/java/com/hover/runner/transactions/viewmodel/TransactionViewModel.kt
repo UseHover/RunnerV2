@@ -16,6 +16,8 @@ class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel(
         return useCase.getTransactionsByAction(actionId)
     }
 
-
+    fun getTransactionsByAction(actionId: String, limit: Int) : LiveData<List<RunnerTransaction>> {
+        return useCase.getTransactionsByAction(actionId, limit)
+    }
 
 }

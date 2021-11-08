@@ -17,34 +17,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) : ActionRepoInterface, TransactionRepoInterface {
+class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) : DatabaseRepoInterface {
 
     private val transactionDao: RunnerTransactionDao = db.runnerTransactionDao()
 
-    override suspend fun getAllActionsFromHover(): List<Action> {
-        val hoverActions: List<HoverAction> = sdkDB.actionDao().all
-        val runnerActions = mutableListOf<Action>()
-        hoverActions.forEachIndexed { pos, act ->
-            runnerActions[pos] = Action(
-                act.public_id, act.from_institution_name,
-                act.root_code, act.country_alpha2,
-                act.network_name, act.custom_steps, Action.getStatus(getLastTransaction(act.public_id)?.status )
-            )
-        }
-        return runnerActions;
+    override suspend fun getAllActionsFromHover(): List<HoverAction> {
+       return sdkDB.actionDao().all
     }
 
-    override suspend fun getActionDetailsById(id: String) : ActionDetails {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getAction(id: String): Action {
-        val act: HoverAction = sdkDB.actionDao().getAction(id)
-        return Action(
-                act.public_id, act.from_institution_name,
-                act.root_code, act.country_alpha2,
-                act.network_name, act.custom_steps, Action.getStatus(getLastTransaction(act.public_id)?.status)
-            )
+    override suspend fun getHoverAction(id: String): HoverAction {
+        return sdkDB.actionDao().getAction(id)
     }
 
     override fun getAllTransactions(): LiveData<List<RunnerTransaction>> {
@@ -61,6 +43,10 @@ class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) : Acti
 
     override fun getTransactionsByAction(actionId: String): LiveData<List<RunnerTransaction>> {
         return transactionDao.transactionsByAction(actionId)
+    }
+
+    override fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> {
+        return transactionDao.transactionsByAction(actionId, limit)
     }
 
     override suspend fun getLastTransaction(actionId: String): RunnerTransaction? {

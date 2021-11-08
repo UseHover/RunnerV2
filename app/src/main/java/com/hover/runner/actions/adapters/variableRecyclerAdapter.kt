@@ -16,14 +16,12 @@ import java.util.*
 
 class VariableRecyclerAdapter(
     private val actionId: String, private var stepsModel: StreamlinedStepsModel?,
-    editInterface: ActionVariableEditListener, private var initialData: Map<String, String?>
-)
+    private val editInterface: ActionVariableEditListener, private var initialData: Map<String, String?>)
     : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
 
-    private var editInterface: ActionVariableEditListener = editInterface
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariableItemListView {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.variables_items, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.variables_items, parent, false)
         return VariableItemListView(view)
     }
 
@@ -42,7 +40,7 @@ class VariableRecyclerAdapter(
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                editInterface.onDataUpdated(label!!, s.toString())
+                editInterface.updateVariableCache(label!!, s.toString())
             }
         })
     }

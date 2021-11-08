@@ -24,23 +24,13 @@ class ActionRecyclerAdapter(private val actionList: List<Action>, private val cl
         val action: Action = actionList[position]
 
         UIHelper.underlineText(holder.actionIdText, action.id)
-        setIdTextColor(holder.actionIdText, action)
+        holder.actionIdText.setTextColor(action.getStatusColor())
         holder.actionTitleText.text = action.title
 
-        if (action.isNotYetRun()) holder.iconImage.setImageResource(UIHelper.getActionIconDrawable(action.statusEnum))
+        holder.iconImage.setImageResource(action.getStatusDrawable())
 
         holder.itemView.setOnClickListener { view->
             action.id?.let { clickListener.onActionItemClick(action.id!!, view)}
-        }
-    }
-
-    private fun setIdTextColor(actionIdView: TextView, action: Action) {
-        with(actionIdView) {
-            when {
-                action.isSuccessful() -> setTextColor(RunnerColor(context).GREEN)
-                action.isPending() -> setTextColor(RunnerColor(context).YELLOW)
-                action.isFailed() -> setTextColor(RunnerColor(context).RED)
-            }
         }
     }
 

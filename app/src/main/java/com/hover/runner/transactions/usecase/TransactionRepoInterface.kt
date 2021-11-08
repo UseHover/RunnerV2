@@ -10,9 +10,6 @@ interface TransactionRepoInterface {
     fun getTransaction(uuid: String) : LiveData<RunnerTransaction>
     suspend fun getTransactionSuspended(uuid: String) : RunnerTransaction?
     fun getTransactionsByAction(actionId: String) : LiveData<List<RunnerTransaction>>
+    fun getTransactionsByAction(actionId: String, limit: Int) : LiveData<List<RunnerTransaction>>
     suspend fun getLastTransaction(actionId: String) : RunnerTransaction?
-
-    fun updateTransaction(transaction: RunnerTransaction)
-    fun insertTransaction(transaction: RunnerTransaction)
-    fun insertOrUpdateTransaction(intent: Intent, context: Context)
 }

@@ -2,7 +2,9 @@ package com.hover.runner.actions.models
 
 import com.hover.runner.R
 import com.hover.runner.actions.ActionStatusEnum
+import com.hover.runner.transactions.RunnerTransaction
 import com.hover.runner.utils.RunnerColor
+import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
 import com.hover.sdk.transactions.TransactionContract
 import org.json.JSONArray
@@ -40,7 +42,24 @@ class Action(var id: String?, var title:String?,
     }
     }
 
+    fun getStatusDrawable() : Int {
+            return when (statusEnum) {
+                ActionStatusEnum.PENDING -> R.drawable.ic_warning_yellow_24dp
+                ActionStatusEnum.FAILED -> R.drawable.ic_error_red_24dp
+                ActionStatusEnum.SUCCEEDED -> R.drawable.ic_check_circle_green_24dp
+                else -> 0
+            }
+    }
+
     companion object {
+        fun get(act: HoverAction, lastTransaction: RunnerTransaction?) : Action {
+            return Action(
+                act.public_id, act.from_institution_name,
+                act.root_code, act.country_alpha2,
+                act.network_name, act.custom_steps, getStatus(lastTransaction?.status)
+            )
+        }
+
         fun getStatus(string: String?) : ActionStatusEnum {
             return when(string) {
                 Transaction.PENDING -> ActionStatusEnum.PENDING
