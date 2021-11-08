@@ -18,7 +18,7 @@
 		android:supportsRtl="true"
 		android:theme="@style/myHoverTheme">
 		<activity
-			android:name=".MainActivity"
+			android:name=".home.MainActivity"
 			android:exported="true"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -35,5 +35,14 @@
 		<meta-data
 			android:name="com.hover.ApiKey"
 			android:value="986c2e2d1b1af0040b10ae8c8b206c37" />
+
+		<receiver
+			android:name=".transactions.TransactionReceiver"
+			android:enabled="true"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="com.hover.runner.TRANSACTION_UPDATE" />
+			</intent-filter>
+		</receiver>
 	</application>
 </manifest>

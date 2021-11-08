@@ -1,6 +1,7 @@
 package com.hover.runner.actions.usecase
 
 import com.hover.runner.actions.models.Action
+import com.hover.runner.actions.models.ActionDetails
 
 class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUseCase {
     override suspend fun loadAll(): List<Action> {
@@ -9,6 +10,14 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUs
 
     override suspend fun filter(): List<Action> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getAction(id: String): Action {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getActionDetails(id: String): ActionDetails {
+        return actionRepo.getActionDetailsById(id)
     }
 
 

@@ -12,6 +12,19 @@
 		tools:layout="@layout/fragment_actions" />
 
 	<fragment
+		android:id="@+id/navigation_actionDetails"
+		android:name="com.hover.runner.actions.fragments.ActionDetailsFragment"
+		android:label="@string/action_details"
+		tools:layout="@layout/action_details_fragment">
+		<argument
+			android:name="action_id"
+			app:argType="string" />
+	</fragment>
+
+
+
+
+	<fragment
 		android:id="@+id/navigation_transactions"
 		android:name="com.hover.runner.transactions.TransactionFragment"
 		android:label="@string/title_transactions"

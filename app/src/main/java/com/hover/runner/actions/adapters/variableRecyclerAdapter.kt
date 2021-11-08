@@ -1,0 +1,71 @@
+package com.hover.runner.actions.adapters
+
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.hover.runner.R
+import com.hover.runner.actions.listeners.ActionVariableEditListener
+import com.hover.runner.actions.models.StreamlinedStepsModel
+import java.util.*
+
+
+class VariableRecyclerAdapter(
+    private val actionId: String, private var stepsModel: StreamlinedStepsModel?,
+    editInterface: ActionVariableEditListener, private var initialData: Map<String, String?>
+)
+    : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
+
+    private var editInterface: ActionVariableEditListener = editInterface
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariableItemListView {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.variables_items, parent, false)
+        return VariableItemListView(view)
+    }
+
+    override fun onBindViewHolder(holder: VariableItemListView, position: Int) {
+        val label: String? = stepsModel?.stepVariableLabel?.get(position)
+        val desc: String? = stepsModel?.stepsVariableDesc?.get(position)
+        holder.view.tag = actionId + label
+        holder.labelText.text = label
+        holder.editText.hint = desc
+        if (initialData[label] != null) {
+            if (!Objects.requireNonNull(initialData[label])?.isEmpty()!!) holder.editText.setText(
+                initialData[label]
+            )
+        }
+        holder.editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                editInterface.onDataUpdated(label!!, s.toString())
+            }
+        })
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
+    override fun getItemCount(): Int {
+        if (stepsModel == null) return 0
+        return if (stepsModel!!.stepVariableLabel.size != stepsModel!!.stepsVariableDesc.size) 0
+        else stepsModel!!.stepVariableLabel.size
+    }
+
+    class VariableItemListView(val view: View) :
+        RecyclerView.ViewHolder(view) {
+        val labelText: TextView = itemView.findViewById(R.id.variable_label_id)
+        val editText: EditText = itemView.findViewById(R.id.variableEditId)
+    }
+
+}
+

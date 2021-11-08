@@ -9,7 +9,11 @@ class ActionRepoInterfaceImpl(private val databaseRepo: DatabaseRepo) : ActionRe
         return databaseRepo.getAllActionsFromHover()
     }
 
-    override suspend fun getActionDetailsById() : ActionDetails {
-        return databaseRepo.getActionDetailsById()
+    override suspend fun getActionDetailsById(id: String) : ActionDetails {
+        return databaseRepo.getActionDetailsById(id)
+    }
+
+    override suspend fun getAction(id: String): Action {
+        TODO("Not yet implemented")
     }
 }

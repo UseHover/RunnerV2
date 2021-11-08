@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.R
-import com.hover.runner.actions.ActionClickListener
+import com.hover.runner.actions.listeners.ActionClickListener
 import com.hover.runner.actions.models.Action
 import com.hover.runner.utils.RunnerColor
 
@@ -29,8 +29,8 @@ class ActionRecyclerAdapter(private val actionList: List<Action>, private val cl
 
         if (action.isNotYetRun()) holder.iconImage.setImageResource(UIHelper.getActionIconDrawable(action.statusEnum))
 
-        holder.itemView.setOnClickListener {
-            action.id?.let { clickListener.onClick(action.id!!)}
+        holder.itemView.setOnClickListener { view->
+            action.id?.let { clickListener.onActionItemClick(action.id!!, view)}
         }
     }
 

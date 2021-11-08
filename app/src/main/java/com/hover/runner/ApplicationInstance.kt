@@ -3,6 +3,7 @@ package com.hover.runner
 import android.app.Application
 import com.google.gson.GsonBuilder
 import com.hover.runner.di.appModule
+import com.hover.runner.di.dataModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import retrofit2.Retrofit
@@ -18,7 +19,7 @@ class ApplicationInstance : Application() {
     private fun initDI() {
         startKoin {
             androidContext(this@ApplicationInstance)
-            modules(appModule)
+            modules(listOf(appModule, dataModule))
         }
     }
 

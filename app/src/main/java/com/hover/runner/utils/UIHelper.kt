@@ -2,9 +2,12 @@ package com.hover.runner.utils
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.view.WindowManager
@@ -20,7 +23,7 @@ class UIHelper {
     companion object {
         private val INITIAL_ITEMS_FETCH = 30
 
-        fun setMainLinearManagers(context: Context?): LinearLayoutManager? {
+        fun setMainLinearManagers(context: Context?): LinearLayoutManager {
             val linearLayoutManager = LinearLayoutManager(context)
             linearLayoutManager.initialPrefetchItemCount = INITIAL_ITEMS_FETCH
             linearLayoutManager.isSmoothScrollbarEnabled = true
@@ -49,6 +52,27 @@ class UIHelper {
             }
         }
 
+        fun makeEachTextLinks(text: String?, tv: TextView?, clickListener: ParserClickListener?) {
+            if (text == null || tv == null) {
+                return
+            }
+            val ss = SpannableString(text)
+            val items = text.split(", ").toTypedArray()
+            var start = 0
+            var end: Int
+            for (item in items) {
+                end = start + item.length
+                if (start < end) {
+                    ss.setSpan(UnderlineSpan(), start, end, 0)
+                    ss.setSpan(UIHelper.MyClickableSpan(item, clickListener), start, end, 0)
+                    ss.setSpan(ForegroundColorSpan(Color.WHITE), start, end, 0)
+                }
+                start += item.length + 2 //comma and space in the original text ;)
+            }
+            tv.movementMethod = LinkMovementMethod.getInstance()
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
+
         fun changeStatusBarColor(activity: Activity, color: Int) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
             val window = activity.window
@@ -74,7 +98,7 @@ class UIHelper {
         fun getActionIconDrawable(enum: ActionStatusEnum?): Int {
             return when (enum) {
                 ActionStatusEnum.PENDING -> R.drawable.ic_warning_yellow_24dp
-                ActionStatusEnum.UNSUCCESSFUL -> R.drawable.ic_error_red_24dp
+                ActionStatusEnum.FAILED -> R.drawable.ic_error_red_24dp
                 else -> R.drawable.ic_check_circle_green_24dp
             }
         }

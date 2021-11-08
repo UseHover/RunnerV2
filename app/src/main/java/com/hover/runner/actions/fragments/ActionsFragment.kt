@@ -16,12 +16,14 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
+import com.hover.runner.actions.listeners.ActionClickListener
+import com.hover.runner.actions.adapters.ActionRecyclerAdapter
 import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FragmentActionsBinding
+import com.hover.runner.actions.navigation.ActionNavigationInterface
 import com.hover.runner.utils.NetworkUtil
+import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
@@ -30,7 +32,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.lang.Exception
 import java.util.ArrayList
 
-class ActionsFragment  : Fragment(), Hover.DownloadListener {
+class ActionsFragment  : Fragment(),
+      Hover.DownloadListener, ActionClickListener {
 
     private var _binding: FragmentActionsBinding? = null
     private val actionViewModel: ActionViewModel by sharedViewModel()
@@ -43,6 +46,7 @@ class ActionsFragment  : Fragment(), Hover.DownloadListener {
     private lateinit var emptyStateView: RelativeLayout
     private lateinit var emptyTitle: TextView
     private lateinit var emptySubtitle:TextView
+    private lateinit var actionNavigationInterface: ActionNavigationInterface
 
 
     private val binding get() = _binding!!
@@ -51,8 +55,17 @@ class ActionsFragment  : Fragment(), Hover.DownloadListener {
         initViews()
         pullToRefresh.isRefreshing = false
         setupRecyclerView()
+        setupPullToRefresh()
+        observeActionLoading()
+        observeActions()
 
+        actionNavigationInterface = activity as ActionNavigationInterface
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
     }
 
     private fun initViews() {
@@ -67,6 +80,55 @@ class ActionsFragment  : Fragment(), Hover.DownloadListener {
 
     }
 
+    private fun observeActionLoading() {
+        actionViewModel.isLoadingCompleted.observe(viewLifecycleOwner) { hasLoaded->
+            if(hasLoaded)  showRecyclerView()
+            else showLoadingView()
+        }
+    }
+
+    private fun showLoadingView() {
+        actionsRecyclerView.visibility = View.GONE
+        if (emptyInfoLayout.visibility == View.VISIBLE) {
+            emptyInfoLayout.visibility = View.GONE
+            emptyStateView.visibility = View.GONE
+        }
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun showRecyclerView() {
+        if (emptyInfoLayout.visibility == View.VISIBLE) {
+            emptyInfoLayout.visibility = View.GONE
+            emptyStateView.visibility = View.GONE
+        }
+        progressBar.visibility = View.GONE
+        actionsRecyclerView.visibility = View.VISIBLE
+    }
+
+    private fun showEmptyDataView() {
+        actionsRecyclerView.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        emptyInfoLayout.visibility = View.VISIBLE
+        emptyStateView.visibility = View.VISIBLE
+        emptyTitle.text = resources.getString(R.string.no_actions_yet)
+        emptySubtitle.text = resources.getString(R.string.no_actions_desc)
+    }
+
+    private fun observeActions() {
+        actionViewModel.loadAllActions()
+        actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
+            if(actions !=null) {
+                if(actions.isEmpty()) {
+                    showEmptyDataView()
+                }
+                else {
+                    val actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
+                    actionsRecyclerView.adapter = actionRecyclerAdapter
+                }
+            }
+        }
+    }
+
     private fun setupRecyclerView() {
         actionsRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
         actionsRecyclerView.setHasFixedSize(true)
@@ -74,21 +136,25 @@ class ActionsFragment  : Fragment(), Hover.DownloadListener {
 
     private fun setupPullToRefresh() {
         pullToRefresh.setOnRefreshListener {
-            if (NetworkUtil(requireContext()).isNetworkAvailable) {
-                LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
-                    actionUpdateReceiver,
-                    IntentFilter(Utils.getPackage(requireContext()).toString() + ".ACTIONS_DOWNLOADED")
-                )
-                Hover.updateActionConfigs(this, requireContext())
-            } else {
-                pullToRefresh.isRefreshing = false
-                UIHelper.flashMessage(
-                    requireContext(),
-                    if (activity != null) requireActivity().currentFocus else null,
-                    requireContext().getString(R.string.NO_NETWORK)
-                )
-            }
+            if (NetworkUtil(requireContext()).isNetworkAvailable) refreshActions()
+            else showNetworkError()
         }
+    }
+    private fun refreshActions() {
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            actionUpdateReceiver,
+            IntentFilter(Utils.getPackage(requireContext()).toString() + ".ACTIONS_DOWNLOADED")
+        )
+        Hover.updateActionConfigs(this, requireContext())
+    }
+
+    private fun showNetworkError() {
+        pullToRefresh.isRefreshing = false
+        UIHelper.flashMessage(
+            requireContext(),
+            if (activity != null) requireActivity().currentFocus else null,
+            requireContext().getString(R.string.NO_NETWORK)
+        )
     }
 
     var actionUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -111,10 +177,17 @@ class ActionsFragment  : Fragment(), Hover.DownloadListener {
     }
 
     override fun onError(reason: String?) {
-        TODO("Not yet implemented")
+        pullToRefresh.isRefreshing = false
+        UIHelper.flashMessage(requireContext(), reason)
     }
 
     override fun onSuccess(actionList: ArrayList<HoverAction>?) {
-        TODO("Not yet implemented")
+        pullToRefresh.isRefreshing = false
+        actionViewModel.loadAllActions()
+        UIHelper.flashMessage(requireContext(), resources.getString(R.string.refreshed_successfully))
+    }
+
+    override fun onActionItemClick(actionId: String, titleTextView: View) {
+        actionNavigationInterface.navActionDetails(actionId, titleTextView)
     }
 }

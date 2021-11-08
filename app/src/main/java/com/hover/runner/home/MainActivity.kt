@@ -1,15 +1,12 @@
-package com.hover.runner
+package com.hover.runner.home
 
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.NavController
+import com.hover.runner.R
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
 import com.hover.runner.utils.PermissionsUtil
@@ -17,9 +14,8 @@ import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
-import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AbstractNavigationActivity() {
 
     private lateinit var binding: ActivityMainBinding
     val permission_acceptance_incomplete = "You did not allow all permissions"
@@ -32,8 +28,12 @@ class MainActivity : AppCompatActivity() {
         initHover()
         checkForPermissions()
         setContentView(binding.root)
-        setupNavigation()
         redirectIfRequired()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupNavigation()
     }
 
     private fun redirectIfRequired() {
@@ -63,19 +63,6 @@ class MainActivity : AppCompatActivity() {
             )
         ) {
             resultLauncher.launch(Intent(this, PermissionActivity::class.java))
-        }
-    }
-
-
-    private fun setupNavigation() {
-        val navView = findViewById<BottomNavigationView>(R.id.nav_view)
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        NavigationUI.setupWithNavController(navView, navController)
-
-        if (intent.extras != null) {
-            if (intent.extras!!.getString("navigate") != null) {
-                navController.navigate(R.id.navigation_transactions)
-            }
         }
     }
 

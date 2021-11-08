@@ -4,6 +4,7 @@
 	<string name="title_transactions">Transactions</string>
 	<string name="title_settings">Settings</string>
 	<string name="title_actions_in_filter">Choose actions</string>
+	<string name="action_details">Action details</string>
 
 	<string name="title_filter">Filter Actions</string>
 	<string name="title_filter_trans">Filter transactions</string>
@@ -73,6 +74,8 @@
 	<string name="pendingStatus_desc">This transaction has no parsers or has failed to match an existing parser.</string>
 	<string name="pendingStatus_linkText">Learn more about pending transactions</string>
 	<string name="pendingStatus_url">https://docs.usehover.com/parsing</string>
+	<string name="pending_transaction">Pending Transaction</string>
+	<string name="failed_transaction">Failed Transaction</string>
 
 	<string name="failedStatus_title">This action has a failed transaction.</string>
 	<string name="failedStatus_desc">This action has matched a parser with a failed transaction status.</string>

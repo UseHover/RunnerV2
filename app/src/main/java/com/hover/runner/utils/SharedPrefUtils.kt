@@ -38,7 +38,7 @@ class SharedPrefUtils {
             editor.apply()
         }
 
-        private fun getSavedString(key: String?, c: Context): String? {
+        fun getSavedString(key: String?, c: Context): String? {
             return getSharedPrefs(c).getString(key, "")
         }
 

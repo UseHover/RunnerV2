@@ -4,8 +4,12 @@ import android.content.Context
 import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
 
-class RunnerColor(val context: Context) {
-        val RED = context.getResources().getColor(R.color.colorRed)
-        val YELLOW = context.getResources().getColor(R.color.colorYellow)
-        val GREEN = context.getResources().getColor(R.color.colorGreen)
+open class RunnerColor(val context: Context) {
+        val RED = context.resources.getColor(R.color.colorRed)
+        val YELLOW = context.resources.getColor(R.color.colorYellow)
+        val GREEN : Int = context.resources.getColor(R.color.colorGreen)
+        val DARK = context.resources.getColor(R.color.colorPrimaryDark)
+        val WHITE = context.resources.getColor(R.color.colorHoverWhite)
+
+        fun get(intRes: Int)  :Int = context.resources.getColor(intRes)
 }
