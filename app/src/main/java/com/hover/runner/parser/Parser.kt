@@ -9,10 +9,23 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
 import com.hover.runner.utils.UIHelper
+import com.hover.sdk.parsers.HoverParser
+import java.lang.StringBuilder
 
 class Parser {
 
     companion object {
+
+        fun listIdsToString(parserList: List<HoverParser>) : String{
+            val parsers = StringBuilder()
+            for (hoverParser in parserList) {
+                parsers.append(hoverParser.serverId).append(", ")
+            }
+            var parserString = ""
+            if (parsers.toString().isNotEmpty()) parserString =  parsers.toString().substring(0, parsers.length - 2)
+            return parserString
+        }
+
         fun convertTextToLinks(text: String, tv: TextView, clickListener: ParserClickListener) {
             val ss = SpannableString(text)
             val items = text.split(", ").toTypedArray()
@@ -36,5 +49,7 @@ class Parser {
                 clickListener.onParserItemClicked(mText.replace(" ", "").trim { it <= ' ' })
             }
         }
+
+
     }
 }

@@ -2,12 +2,17 @@ package com.hover.runner.actions.repo
 
 import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.models.Action
+import com.hover.runner.actions.models.StreamlinedSteps
+import com.hover.runner.parser.Parser
 import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.transactions.repo.TransactionRepo
+import com.hover.runner.utils.Utils
+import com.hover.sdk.transactions.Transaction
 
 class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
                               private val transactionRepo: TransactionRepo,
                               private val parserRepo: ParserRepo) : ActionRepoInterface {
+
     override suspend fun getAllActions(): List<Action> {
         val hoverActions =  actionRepo.getAllActionsFromHover()
 
@@ -17,7 +22,6 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
             runnerActions[pos] = Action.get(act, lastTransaction)
         }
         return runnerActions;
-
     }
 
     override suspend fun getActionDetailsById(id: String) : ActionDetails {
@@ -25,10 +29,14 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
         val parsersList = parserRepo.getParsersByActionId(id)
         val hoverAction = actionRepo.getHoverAction(id)
 
+        val parserString = Parser.listIdsToString(parsersList)
+        val streamlinedSteps = StreamlinedSteps.get(hoverAction.root_code, hoverAction.custom_steps)
 
-
-
-
+        val actionDetails = ActionDetails.init(transactionList)
+        actionDetails.streamlinedSteps = streamlinedSteps
+        actionDetails.parsers = parserString
+        actionDetails.operators = hoverAction.network_name
+        return actionDetails
     }
 
     override suspend fun getAction(id: String): Action {
