@@ -15,8 +15,7 @@ enum class DetailScreenType {
     ACTION, TRANSACTION
 }
 
-class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) : TopDetailsContentChooser(context, attributeSet),
-    RunnerTopDetailsInterface {
+class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) : TopDetailsContentChooser(context, attributeSet){
     private var binding: DetailsTopLayoutBinding = DetailsTopLayoutBinding.inflate(LayoutInflater.from(context), this, true)
 
     private var titleText: TextView = binding.actionDetailsToolbarText
@@ -27,11 +26,11 @@ class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) : TopDe
     private var topLayout: LinearLayout = binding.actionDetailsTopLayoutId
 
 
-    override fun setLayout(status: String, detailsScreenType: DetailScreenType) {
+     private fun setLayout(status: String) {
         topLayout.setBackgroundColor(getLayoutBackground(status))
     }
 
-    override fun setTitle(content: String, status : String) {
+     fun setTitle(content: String, status : String) {
         titleText.text = content
         titleText.setTextColor(getTitleTextColor(status))
         titleText.setCompoundDrawablesWithIntrinsicBounds(
@@ -42,18 +41,18 @@ class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) : TopDe
         )
     }
 
-    override fun setSubTitle(content: String, status : String) {
+     fun setSubTitle(content: String, status : String) {
         subtitleText.text = content
         subtitleText.setTextColor(getSubTitleTextColor(status))
     }
     fun setup(status: String, detailsScreenType: DetailScreenType, activity: Activity) {
-        setLayout(status, detailsScreenType)
+        setLayout(status)
         setDescription(status, detailsScreenType)
         setDescriptionVisibility(status)
         setViewClicks(status, activity)
     }
 
-    override fun setDescription(status: String, detailsScreenType: DetailScreenType) {
+     private fun setDescription(status: String, detailsScreenType: DetailScreenType) {
         descTitle.setText(getDescTitle(status, detailsScreenType))
         descTitle.setCompoundDrawablesWithIntrinsicBounds(getDescCompoundDrawable(status), 0, 0, 0)
         descTitle.compoundDrawablePadding = 32
@@ -62,12 +61,12 @@ class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) : TopDe
         UIHelper.underlineText(descLink, resources.getString(getDescLinkLabel(status)))
     }
 
-   override fun setDescriptionVisibility(status: String) {
+    private fun setDescriptionVisibility(status: String) {
         descTitle.visibility = getDescVisibility(status)
         descContent.visibility = getDescVisibility(status)
     }
 
-    override fun setViewClicks(status: String, activity: Activity) {
+     private fun setViewClicks(status: String, activity: Activity) {
         descLink.setOnClickListener { v: View? ->
            val navInterface = activity as ActionNavigationInterface
             navInterface.navWebView(resources.getString(getWebTitle(status)), resources.getString(getLink()) )

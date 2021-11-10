@@ -9,9 +9,8 @@ import com.hover.runner.actions.ActionStatusEnum
 import com.hover.runner.actions.models.Action
 import com.hover.runner.utils.RunnerColor
 
- abstract  class TopDetailsContentChooser(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet),
-     TopDetailsContentChooseInterface {
-    override fun getLayoutBackground(status: String) : Int {
+ abstract  class TopDetailsContentChooser(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet){
+     fun getLayoutBackground(status: String) : Int {
        return when (status) {
             "PENDING" -> RunnerColor(context).YELLOW
             "FAILED" -> RunnerColor(context).RED
@@ -20,21 +19,21 @@ import com.hover.runner.utils.RunnerColor
         }
     }
 
-     override fun getTitleTextColor(status: String): Int {
+      fun getTitleTextColor(status: String): Int {
          return if(status == Action.statusToString(ActionStatusEnum.NOT_YET_RUN)) RunnerColor(context).WHITE
          else RunnerColor(context).DARK
      }
 
-     override fun getTitleTextCompoundDrawable(status: String): Int {
+      fun getTitleTextCompoundDrawable(status: String): Int {
          return if(status == Action.statusToString(ActionStatusEnum.NOT_YET_RUN)) R.drawable.ic_arrow_back_white_24dp
          else 0
      }
 
-     override fun getSubTitleTextColor(status: String): Int {
+      fun getSubTitleTextColor(status: String): Int {
          return getTitleTextColor(status)
      }
 
-     override fun getDescTitle(status: String, detailScreenType: DetailScreenType) : Int {
+      fun getDescTitle(status: String, detailScreenType: DetailScreenType) : Int {
         return if(detailScreenType == DetailScreenType.ACTION) {
            when(status) {
                "PENDING" -> R.string.pendingStatus_title
@@ -50,7 +49,7 @@ import com.hover.runner.utils.RunnerColor
        }
     }
 
-    override fun getDescContent(status: String, detailScreenType: DetailScreenType) : Int {
+     fun getDescContent(status: String, detailScreenType: DetailScreenType) : Int {
         return if(detailScreenType == DetailScreenType.ACTION) {
             when(status) {
                 "PENDING" -> R.string.pendingStatus_desc
@@ -65,7 +64,7 @@ import com.hover.runner.utils.RunnerColor
         }
     }
 
-     override fun getDescCompoundDrawable(status: String) : Int {
+      fun getDescCompoundDrawable(status: String) : Int {
          return when(status) {
              "PENDING" -> R.drawable.ic_warning_black_24dp
              "FAILED" -> R.drawable.ic_error_black_24dp
@@ -73,11 +72,11 @@ import com.hover.runner.utils.RunnerColor
          }
      }
 
-     override fun getDescVisibility(status: String): Int {
+      fun getDescVisibility(status: String): Int {
          return if(status == "SUCCEEDED") View.GONE else View.VISIBLE
      }
 
-     override fun getDescLinkLabel(status: String)  : Int {
+      fun getDescLinkLabel(status: String)  : Int {
             return when(status) {
                 "PENDING" -> R.string.pendingStatus_linkText
                 "FAILED" -> R.string.failedStatus_linkText
@@ -85,11 +84,11 @@ import com.hover.runner.utils.RunnerColor
             }
     }
 
-    override  fun getLink() : Int {
+      fun getLink() : Int {
         return R.string.pendingStatus_url
     }
 
-    override fun getWebTitle(status: String) : Int {
+     fun getWebTitle(status: String) : Int {
         return when(status) {
             "PENDING" -> R.string.pending_transaction
             else-> R.string.failed_transaction
