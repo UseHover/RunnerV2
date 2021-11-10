@@ -8,11 +8,16 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
+import com.hover.runner.actions.ActionStatusEnum
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.parsers.HoverParser
 import java.lang.StringBuilder
 
-class Parser {
+data class Parser(
+    val type: String, val action_name: String,
+    val action_id: String, val regex: String,
+    val actionStatusEnum: ActionStatusEnum,
+    var category: String? = null, var created_date: String, var sender: String? = null) {
 
     companion object {
 

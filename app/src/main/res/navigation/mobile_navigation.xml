@@ -5,6 +5,7 @@
 	android:id="@+id/mobile_navigation"
 	app:startDestination="@+id/navigation_actions">
 
+	<!--Actions -->
 	<fragment
 		android:id="@+id/navigation_actions"
 		android:name="com.hover.runner.actions.fragments.ActionsFragment"
@@ -21,9 +22,7 @@
 			app:argType="string" />
 	</fragment>
 
-
-
-
+	<!--Transactions -->
 	<fragment
 		android:id="@+id/navigation_transactions"
 		android:name="com.hover.runner.transactions.fragments.TransactionListFragment"
@@ -31,8 +30,22 @@
 		tools:layout="@layout/fragment_transactions" />
 
 	<fragment
+		android:id="@+id/navigation_transactionDetails"
+		android:name="com.hover.runner.transactions.fragments.TransactionDetailsFragment"
+		android:label="@string/transaction_details"
+		tools:layout="@layout/transaction_details_fragment">
+		<argument
+			android:name="uuid"
+			app:argType="string" />
+	</fragment>
+
+	<!--Parsers -->
+
+	<!--Settings -->
+	<fragment
 		android:id="@+id/navigation_settings"
 		android:name="com.hover.runner.settings.SettingsFragment"
 		android:label="@string/title_settings"
 		tools:layout="@layout/settings_fragment" />
+
 </navigation>

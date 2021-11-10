@@ -60,7 +60,7 @@ class Action(var id: String?, var title:String?,
             )
         }
 
-        fun getStatus(string: String?) : ActionStatusEnum {
+        private fun getStatus(string: String?) : ActionStatusEnum {
             return when(string) {
                 Transaction.PENDING -> ActionStatusEnum.PENDING
                 Transaction.FAILED -> ActionStatusEnum.FAILED

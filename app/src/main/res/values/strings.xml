@@ -5,6 +5,7 @@
 	<string name="title_settings">Settings</string>
 	<string name="title_actions_in_filter">Choose actions</string>
 	<string name="action_details">Action details</string>
+	<string name="transaction_details">Action details</string>
 
 	<string name="title_filter">Filter Actions</string>
 	<string name="title_filter_trans">Filter transactions</string>
