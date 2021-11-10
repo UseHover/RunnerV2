@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import com.hover.runner.transactions.RunnerTransaction
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.parsers.HoverParser
 
 interface DatabaseRepoInterface {
     suspend fun getAllActionsFromHover() : List<HoverAction>
@@ -12,6 +13,7 @@ interface DatabaseRepoInterface {
 
     suspend fun getTransactionSuspended(uuid: String) : RunnerTransaction?
     suspend fun getLastTransaction(actionId: String) : RunnerTransaction?
+    suspend fun getTransactionsByActionSuspended(actionId: String) : List<RunnerTransaction>
     fun getAllTransactions() : LiveData<List<RunnerTransaction>>
     fun getTransaction(uuid: String) : LiveData<RunnerTransaction>
     fun getTransactionsByAction(actionId: String) : LiveData<List<RunnerTransaction>>
@@ -19,4 +21,7 @@ interface DatabaseRepoInterface {
     fun updateTransaction(transaction: RunnerTransaction)
     fun insertTransaction(transaction: RunnerTransaction)
     fun insertOrUpdateTransaction(intent: Intent, context: Context)
+
+    suspend fun getParsersByActionId(actionId: String?): List<HoverParser>
+    suspend fun getParser(id: Int): HoverParser?
 }

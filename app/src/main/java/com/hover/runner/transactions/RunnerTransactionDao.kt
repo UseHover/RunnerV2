@@ -9,6 +9,9 @@ interface RunnerTransactionDao {
     @Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at DESC")
     fun transactionsByAction(actionId: String): LiveData<List<RunnerTransaction>>
 
+    @Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at DESC")
+    suspend fun transactionsByAction_Suspended(actionId: String): List<RunnerTransaction>
+
     @Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at DESC LIMIT :limit")
     fun transactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>>
 

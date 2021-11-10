@@ -10,14 +10,16 @@ import com.hover.runner.transactions.RunnerTransaction
 import com.hover.runner.transactions.RunnerTransactionDao
 import com.hover.runner.transactions.usecase.TransactionRepoInterface
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.api.Hover
 import com.hover.sdk.database.HoverRoomDatabase
+import com.hover.sdk.parsers.HoverParser
 import com.hover.sdk.transactions.TransactionContract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) : DatabaseRepoInterface {
+class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase, private val context: Context) : DatabaseRepoInterface {
 
     private val transactionDao: RunnerTransactionDao = db.runnerTransactionDao()
 
@@ -53,6 +55,10 @@ class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) : Data
         return transactionDao.lastTransactionsByAction_Suspended(actionId)
     }
 
+    override suspend fun getTransactionsByActionSuspended(actionId: String): List<RunnerTransaction> {
+        return transactionDao.transactionsByAction_Suspended(actionId)
+    }
+
     override fun updateTransaction(transaction: RunnerTransaction) {
         transactionDao.update(transaction)
     }
@@ -82,6 +88,14 @@ class DatabaseRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) : Data
                 }
             }
         }
+    }
+
+    override suspend fun getParsersByActionId(actionId: String?): List<HoverParser> {
+        return HoverParser.loadUSSDForAction(actionId, context)
+    }
+
+    override suspend fun getParser(id: Int): HoverParser? {
+        return HoverParser.load(IntArray(id), context).first()
     }
 
 

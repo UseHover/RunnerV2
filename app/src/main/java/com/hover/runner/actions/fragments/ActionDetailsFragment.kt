@@ -141,7 +141,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
         actionViewModel.actionDetailsLiveData.observe(viewLifecycleOwner) { actionDetail ->
             if (actionDetail != null) {
                 setDetailTexts(actionDetail)
-                if (actionDetail.streamlinedStepsModel?.stepVariableLabel!!.isEmpty()) setVariableEditsVisibiltyGone()
+                if (actionDetail.streamlinedSteps?.stepVariableLabel!!.isEmpty()) setVariableEditsVisibiltyGone()
                 else setVariableEditRecyclerAdapter(action, actionDetail)
             }
         }
@@ -151,7 +151,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
         variablesRecyclerView.layoutManager = UIHelper.setMainLinearManagers(requireContext())
         variablesRecyclerView.adapter = action.id?.let {
             VariableRecyclerAdapter(
-                it, actionDetail.streamlinedStepsModel, this,
+                it, actionDetail.streamlinedSteps, this,
                 ActionVariablesCache.get(requireContext(),it).actionMap
             )
         }
@@ -164,7 +164,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     }
     private fun setDetailTexts(actionDetail: ActionDetails) {
         operatorsText.text = actionDetail.operators
-        if (actionDetail.streamlinedStepsModel != null) stepsText.text = actionDetail.streamlinedStepsModel!!.fullUSSDCodeStep
+        if (actionDetail.streamlinedSteps != null) stepsText.text = actionDetail.streamlinedSteps!!.fullUSSDCodeStep
 
         actionDetail.parsers?.let { Parser.convertTextToLinks(it, parsersText, this) }
         transacText.text = actionDetail.transactionsNo

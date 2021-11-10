@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.actions.listeners.ActionVariableEditListener
-import com.hover.runner.actions.models.StreamlinedStepsModel
+import com.hover.runner.actions.models.StreamlinedSteps
 import java.util.*
 
 
 class VariableRecyclerAdapter(
-    private val actionId: String, private var stepsModel: StreamlinedStepsModel?,
+    private val actionId: String, private var steps: StreamlinedSteps?,
     private val editInterface: ActionVariableEditListener, private var initialData: Map<String, String?>)
     : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
 
@@ -26,8 +26,8 @@ class VariableRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: VariableItemListView, position: Int) {
-        val label: String? = stepsModel?.stepVariableLabel?.get(position)
-        val desc: String? = stepsModel?.stepsVariableDesc?.get(position)
+        val label: String? = steps?.stepVariableLabel?.get(position)
+        val desc: String? = steps?.stepsVariableDesc?.get(position)
         holder.view.tag = actionId + label
         holder.labelText.text = label
         holder.editText.hint = desc
@@ -54,9 +54,9 @@ class VariableRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        if (stepsModel == null) return 0
-        return if (stepsModel!!.stepVariableLabel.size != stepsModel!!.stepsVariableDesc.size) 0
-        else stepsModel!!.stepVariableLabel.size
+        if (steps == null) return 0
+        return if (steps!!.stepVariableLabel.size != steps!!.stepsVariableDesc.size) 0
+        else steps!!.stepVariableLabel.size
     }
 
     class VariableItemListView(val view: View) :
