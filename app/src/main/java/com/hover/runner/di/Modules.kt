@@ -20,7 +20,7 @@ val appModule = module {
     viewModel {
         LoginViewModel(LoginUseCaseImpl(get()))
 
-        val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl( get() ))
+        val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl( get(), get(), get()))
         ActionViewModel(actionUseCaseImpl)
 
         val transactionUseCaseImpl = TransactionUseCaseImpl(TransactionRepoInterfaceImpl( get() ))
