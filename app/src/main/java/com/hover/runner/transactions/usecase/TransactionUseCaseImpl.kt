@@ -2,6 +2,7 @@ package com.hover.runner.transactions.usecase
 
 import androidx.lifecycle.LiveData
 import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.repo.TransactionRepoInterface
 
 class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRepoInterface) : TransactionUseCase {
     override fun getAllTransactions(): LiveData<List<RunnerTransaction>> {

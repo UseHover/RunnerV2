@@ -1,4 +1,4 @@
-package com.hover.runner.actions.usecase
+package com.hover.runner.actions.repo
 
 import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.models.Action

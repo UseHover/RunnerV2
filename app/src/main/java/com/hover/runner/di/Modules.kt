@@ -1,13 +1,15 @@
 package com.hover.runner.di
 
-import com.hover.runner.actions.usecase.ActionRepoInterfaceImpl
+import com.hover.runner.actions.repo.ActionRepo
+import com.hover.runner.actions.repo.ActionRepoInterfaceImpl
 import com.hover.runner.actions.usecase.ActionUseCaseImpl
 import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.database.AppDatabase
-import com.hover.runner.database.DatabaseRepo
 import com.hover.runner.login.usecase.LoginUseCaseImpl
 import com.hover.runner.login.viewmodel.LoginViewModel
-import com.hover.runner.transactions.usecase.TransactionRepoInterfaceImpl
+import com.hover.runner.parser.repo.ParserRepo
+import com.hover.runner.transactions.repo.TransactionRepo
+import com.hover.runner.transactions.repo.TransactionRepoInterfaceImpl
 import com.hover.runner.transactions.usecase.TransactionUseCaseImpl
 import com.hover.runner.transactions.viewmodel.TransactionViewModel
 import com.hover.sdk.database.HoverRoomDatabase
@@ -30,5 +32,7 @@ val appModule = module {
 val dataModule = module(createdAtStart = true) {
     single { AppDatabase.getInstance(get()) }
     single { HoverRoomDatabase.getInstance(get()) }
-    single { DatabaseRepo(get()) }
+    single { ActionRepo(get(), get()) }
+    single { TransactionRepo(get(), get()) }
+    single { ParserRepo(get(), get(), get()) }
 }

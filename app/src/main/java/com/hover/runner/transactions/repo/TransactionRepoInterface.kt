@@ -1,4 +1,4 @@
-package com.hover.runner.transactions.usecase
+package com.hover.runner.transactions.repo
 
 import android.content.Context
 import android.content.Intent
