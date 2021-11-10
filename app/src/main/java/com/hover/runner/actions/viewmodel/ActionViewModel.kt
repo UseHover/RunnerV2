@@ -13,25 +13,24 @@ import kotlinx.coroutines.launch
 
 class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     lateinit var filterStatus: MutableLiveData<Boolean>
-    lateinit var isLoadingCompleted  : MutableLiveData<Boolean>
+    lateinit var loadingStatusLiveData  : MutableLiveData<Boolean>
     lateinit var actions: MutableLiveData<List<Action>>
     lateinit var actionDetailsLiveData: MutableLiveData<ActionDetails>
 
     init {
         filterStatus.value = false
-        isLoadingCompleted.value = false
-        actionDetailsLiveData = MutableLiveData()
+        loadingStatusLiveData.value = false
     }
 
-    fun loadAllActions() {
-        isLoadingCompleted.postValue(false)
+    fun getAllActions() {
+        loadingStatusLiveData.postValue(false)
         val loadedActions = viewModelScope.async(Dispatchers.IO) {
             return@async useCase.loadAll()
         }
         load(loadedActions)
     }
 
-    fun loadActionDetail(id:String) {
+    fun getActionDetail(id:String) {
         viewModelScope.launch(Dispatchers.Main) {
             actionDetailsLiveData.postValue(useCase.getActionDetails(id))
         }
@@ -44,7 +43,7 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     }
 
     fun filterActions() {
-        isLoadingCompleted.postValue(false)
+        loadingStatusLiveData.postValue(false)
         val loadedActions = viewModelScope.async(Dispatchers.IO) {
             return@async useCase.filter()
         }
@@ -54,7 +53,7 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     private fun load(deferredActions : Deferred<List<Action>>) {
         viewModelScope.launch (Dispatchers.Main) {
             actions.postValue(deferredActions.await())
-            isLoadingCompleted.postValue(true)
+            loadingStatusLiveData.postValue(true)
         }
     }
 

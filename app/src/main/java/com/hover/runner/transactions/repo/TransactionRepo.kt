@@ -13,11 +13,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class TransactionRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) {
+class TransactionRepo(db: AppDatabase) {
     private val transactionDao: RunnerTransactionDao = db.runnerTransactionDao()
 
-    fun getAllTransactions(): LiveData<List<RunnerTransaction>> {
-        return transactionDao.allTransactions
+    suspend fun getAllTransactions(): List<RunnerTransaction> {
+        return transactionDao.allTransactions()
+    }
+
+    suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction> {
+        return transactionDao.transactionsByAction_Suspended(actionId)
     }
 
     fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
@@ -28,20 +32,12 @@ class TransactionRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) {
         return transactionDao.getTransaction_Suspended(uuid)
     }
 
-    fun getTransactionsByAction(actionId: String): LiveData<List<RunnerTransaction>> {
-        return transactionDao.transactionsByAction(actionId)
-    }
-
     fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> {
         return transactionDao.transactionsByAction(actionId, limit)
     }
 
     suspend fun getLastTransaction(actionId: String): RunnerTransaction? {
         return transactionDao.lastTransactionsByAction_Suspended(actionId)
-    }
-
-    suspend fun getTransactionsByActionSuspended(actionId: String): List<RunnerTransaction> {
-        return transactionDao.transactionsByAction_Suspended(actionId)
     }
 
     private fun updateTransaction(transaction: RunnerTransaction) {

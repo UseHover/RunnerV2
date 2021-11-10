@@ -25,7 +25,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
     }
 
     override suspend fun getActionDetailsById(id: String) : ActionDetails {
-        val transactionList = transactionRepo.getTransactionsByActionSuspended(id)
+        val transactionList = transactionRepo.getTransactionsByAction(id)
         val parsersList = parserRepo.getParsersByActionId(id)
         val hoverAction = actionRepo.getHoverAction(id)
 

@@ -5,7 +5,7 @@ import com.hover.runner.database.AppDatabase
 import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.parsers.HoverParser
 
-class ParserRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase, private val context: Context) {
+class ParserRepo(private val context: Context) {
     suspend fun getParsersByActionId(actionId: String?): List<HoverParser> {
         return HoverParser.loadUSSDForAction(actionId, context)
     }

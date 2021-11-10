@@ -99,7 +99,6 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
             val action = actionViewModel.getAction(requireArguments().getString("action_id", ""))
             actionId = action.id!!
             setupTopDetailsLayout(action)
-            actionViewModel.loadActionDetail(action.id!!)
             observeActionDetails(action)
 
         }
@@ -112,6 +111,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     }
 
     private fun observeActionDetails(action: Action) {
+        actionViewModel.getActionDetail(action.id!!)
         setVariableEditList(action)
         setTransactionsList(action.id!!)
     }
@@ -120,7 +120,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
         transactionRecyclerView = binding.actionTransacRecyclerView
         transactionRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
 
-        transactionViewModel.getTransactionsByAction(actionId, maxTransactionListSize + 1).observe(viewLifecycleOwner) { transactions ->
+        transactionViewModel.observeTransactionsByAction(actionId, (maxTransactionListSize + 1)).observe(viewLifecycleOwner) { transactions ->
                 if(transactions !=null) {
                     if(transactions.isEmpty()) {
                         recentTransactionTextView.setText(R.string.zero_transactions)

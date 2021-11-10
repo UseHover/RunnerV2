@@ -6,7 +6,7 @@
 		android:background="@color/colorPrimaryDark"
 		android:orientation="vertical"
 		android:layout_marginBottom="55dp"
-		tools:context=".ui.transactions.TransactionFragment">
+		tools:context=".transactions.fragments.TransactionListFragment">
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -49,8 +49,12 @@
 
 		</LinearLayout>
 
-		<include layout="@layout/recycler_view_state" android:visibility="gone"/>
-		<include layout="@layout/general_recycler_view"
+		<include android:id="@+id/recyclerViewState"
+			layout="@layout/recycler_view_state"
+			android:visibility="gone"/>
+
+		<include android:id="@+id/recyclerViewLayout"
+				layout="@layout/general_recycler_view"
 				android:visibility="gone"/>
 
 	</LinearLayout>

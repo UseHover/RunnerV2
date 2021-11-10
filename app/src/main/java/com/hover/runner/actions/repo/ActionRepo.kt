@@ -5,7 +5,7 @@ import com.hover.runner.database.AppDatabase
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.database.HoverRoomDatabase
 
-class ActionRepo(db: AppDatabase, private val sdkDB: HoverRoomDatabase) {
+class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 
     suspend fun getAllActionsFromHover(): List<HoverAction> {
         return sdkDB.actionDao().all

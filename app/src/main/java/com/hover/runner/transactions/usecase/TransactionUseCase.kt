@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.hover.runner.transactions.RunnerTransaction
 
 interface TransactionUseCase {
-    fun getAllTransactions() : LiveData<List<RunnerTransaction>>
+    suspend fun getAllTransactions() : List<RunnerTransaction>
+    suspend fun getTransactionsByAction(actionId: String)  : List<RunnerTransaction>
     fun getTransaction(uuid: String) : LiveData<RunnerTransaction>
-    fun getTransactionsByAction(actionId: String)  : LiveData<List<RunnerTransaction>>
     fun getTransactionsByAction(actionId: String, limit: Int)  : LiveData<List<RunnerTransaction>>
 }

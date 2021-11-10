@@ -32,7 +32,7 @@ val appModule = module {
 val dataModule = module(createdAtStart = true) {
     single { AppDatabase.getInstance(get()) }
     single { HoverRoomDatabase.getInstance(get()) }
-    single { ActionRepo(get(), get()) }
-    single { TransactionRepo(get(), get()) }
-    single { ParserRepo(get(), get(), get()) }
+    single { ActionRepo(get()) }
+    single { TransactionRepo(get()) }
+    single { ParserRepo(get()) }
 }

@@ -11,9 +11,10 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
 import com.hover.runner.actions.navigation.ActionNavigationInterface
+import com.hover.runner.transactions.navigation.TransactionNavigationInterface
 import com.hover.runner.webview.WebViewActivity
 
-abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigationInterface {
+ abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigationInterface, TransactionNavigationInterface {
     private lateinit var navController : NavController
 
     fun setupNavigation() {
@@ -42,5 +43,17 @@ abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigati
         startActivity(i)
     }
 
+     override fun navParserFragment(parserId: Int) {
+         TODO("Not yet implemented")
+     }
 
-}
+     override fun navTransactionListFragment(filterByActionId: String) {
+         TODO("Not yet implemented")
+     }
+
+     override fun navTransactionDetails(uuid: String) {
+         TODO("Not yet implemented")
+     }
+
+
+ }

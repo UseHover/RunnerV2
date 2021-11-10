@@ -81,41 +81,13 @@ class ActionsFragment  : Fragment(),
     }
 
     private fun observeActionLoading() {
-        actionViewModel.isLoadingCompleted.observe(viewLifecycleOwner) { hasLoaded->
-            if(hasLoaded)  showRecyclerView()
-            else showLoadingView()
+        actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
+            if(hasLoaded)  showRecyclerView() else showLoadingView()
         }
-    }
-
-    private fun showLoadingView() {
-        actionsRecyclerView.visibility = View.GONE
-        if (emptyInfoLayout.visibility == View.VISIBLE) {
-            emptyInfoLayout.visibility = View.GONE
-            emptyStateView.visibility = View.GONE
-        }
-        progressBar.visibility = View.VISIBLE
-    }
-
-    private fun showRecyclerView() {
-        if (emptyInfoLayout.visibility == View.VISIBLE) {
-            emptyInfoLayout.visibility = View.GONE
-            emptyStateView.visibility = View.GONE
-        }
-        progressBar.visibility = View.GONE
-        actionsRecyclerView.visibility = View.VISIBLE
-    }
-
-    private fun showEmptyDataView() {
-        actionsRecyclerView.visibility = View.GONE
-        progressBar.visibility = View.GONE
-        emptyInfoLayout.visibility = View.VISIBLE
-        emptyStateView.visibility = View.VISIBLE
-        emptyTitle.text = resources.getString(R.string.no_actions_yet)
-        emptySubtitle.text = resources.getString(R.string.no_actions_desc)
     }
 
     private fun observeActions() {
-        actionViewModel.loadAllActions()
+        actionViewModel.getAllActions()
         actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
             if(actions !=null) {
                 if(actions.isEmpty()) {
@@ -128,6 +100,31 @@ class ActionsFragment  : Fragment(),
             }
         }
     }
+
+    private fun showLoadingView() {
+        actionsRecyclerView.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+        emptyInfoLayout.visibility = View.GONE
+        emptyStateView.visibility = View.GONE
+    }
+
+    private fun showRecyclerView() {
+        progressBar.visibility = View.GONE
+        actionsRecyclerView.visibility = View.VISIBLE
+        emptyInfoLayout.visibility = View.GONE
+        emptyStateView.visibility = View.GONE
+    }
+
+    private fun showEmptyDataView() {
+        actionsRecyclerView.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        emptyInfoLayout.visibility = View.VISIBLE
+        emptyStateView.visibility = View.VISIBLE
+
+        emptyTitle.text = resources.getString(R.string.no_actions_yet)
+        emptySubtitle.text = resources.getString(R.string.no_actions_desc)
+    }
+
 
     private fun setupRecyclerView() {
         actionsRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
@@ -183,7 +180,7 @@ class ActionsFragment  : Fragment(),
 
     override fun onSuccess(actionList: ArrayList<HoverAction>?) {
         pullToRefresh.isRefreshing = false
-        actionViewModel.loadAllActions()
+        actionViewModel.getAllActions()
         UIHelper.flashMessage(requireContext(), resources.getString(R.string.refreshed_successfully))
     }
 

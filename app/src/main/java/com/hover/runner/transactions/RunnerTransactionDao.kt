@@ -18,8 +18,8 @@ interface RunnerTransactionDao {
     @Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at ASC LIMIT 1")
     suspend fun lastTransactionsByAction_Suspended(actionId: String): RunnerTransaction?
 
-    @get:Query("SELECT * FROM runner_transactions ORDER BY initiated_at DESC")
-    val allTransactions: LiveData<List<RunnerTransaction>>
+    @Query("SELECT * FROM runner_transactions ORDER BY initiated_at DESC")
+    suspend  fun allTransactions(): List<RunnerTransaction>
 
     @Query("SELECT * FROM runner_transactions WHERE uuid = :uuid LIMIT 1")
     fun getTransaction(uuid: String): LiveData<RunnerTransaction>

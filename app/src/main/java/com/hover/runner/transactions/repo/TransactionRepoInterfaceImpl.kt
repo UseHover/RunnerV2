@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import com.hover.runner.transactions.RunnerTransaction
 
 class TransactionRepoInterfaceImpl(private val repo: TransactionRepo) : TransactionRepoInterface {
-    override fun getAllTransactions(): LiveData<List<RunnerTransaction>> {
+    override suspend fun getAllTransactions(): List<RunnerTransaction> {
         return repo.getAllTransactions()
+    }
+    override suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction> {
+        return repo.getTransactionsByAction(actionId)
     }
 
     override fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
@@ -14,10 +17,6 @@ class TransactionRepoInterfaceImpl(private val repo: TransactionRepo) : Transact
 
     override suspend fun getTransactionSuspended(uuid: String): RunnerTransaction? {
         return repo.getTransactionSuspended(uuid)
-    }
-
-    override fun getTransactionsByAction(actionId: String): LiveData<List<RunnerTransaction>> {
-        return repo.getTransactionsByAction(actionId)
     }
 
     override fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> {
