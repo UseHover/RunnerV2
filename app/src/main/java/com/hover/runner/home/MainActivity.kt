@@ -25,8 +25,6 @@ class MainActivity : AbstractNavigationActivity()  {
     private lateinit var binding: ActivityMainBinding
     val permission_acceptance_incomplete = "You did not allow all permissions"
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,7 +33,6 @@ class MainActivity : AbstractNavigationActivity()  {
         checkForPermissions()
         setContentView(binding.root)
         redirectIfRequired()
-        observeRunAction()
     }
 
     override fun onResume() {

@@ -18,7 +18,7 @@ class Action(val id: String, var title:String?,
              var country: String?, var network_name: String?,
              var steps: JSONArray?, var status: String?, var isSkipped: Boolean = false,
              var jsonArrayToString: String? = "") : TransactionStatus() {
-    private val skippedKey = "action_skip"
+
 
     fun getStatusColor() : Int{
         return getColor(status)
@@ -51,15 +51,18 @@ class Action(val id: String, var title:String?,
     }
 
     companion object {
-        fun isSkipped(skippedKey:String, actionId:String,  context: Context) : Boolean {
+        const val skippedKey = "action_skip"
+
+        private fun isSkipped(actionId:String, context: Context) : Boolean {
             val skippedList = SharedPrefUtils.getStringSet(skippedKey, context)
             return skippedList!!.contains(actionId)
         }
+
         fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context) : Action {
             return Action(
                 act.public_id, act.from_institution_name,
                 act.root_code, act.country_alpha2,
-                act.network_name, act.custom_steps, lastTransaction?.status, isSkipped("action_skip", act.public_id, context)
+                act.network_name, act.custom_steps, lastTransaction?.status, isSkipped(act.public_id, context)
             )
         }
     }

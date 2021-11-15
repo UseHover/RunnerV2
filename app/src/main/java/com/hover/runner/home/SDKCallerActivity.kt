@@ -1,5 +1,6 @@
 package com.hover.runner.home
 
+import android.os.Handler
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.hover.runner.R
@@ -9,6 +10,7 @@ import com.hover.runner.parser.viewmodel.ParserViewModel
 import com.hover.runner.settings.fragment.SettingsFragment
 import com.hover.runner.settings.viewmodel.SettingsViewModel
 import com.hover.runner.transactions.viewmodel.TransactionViewModel
+import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.api.HoverParameters
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -46,7 +48,11 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
                         runChainedActions()
                     }
                 }
-            chainedActionLauncher.launch(builder.buildIntent())
+            var throttle  = 0
+            if(lastRanPos>0) {
+                throttle = SharedPrefUtils.getDelay(this)
+            }
+            Handler().postDelayed({ chainedActionLauncher.launch(builder.buildIntent()) }, throttle.toLong())
         }
     }
 
