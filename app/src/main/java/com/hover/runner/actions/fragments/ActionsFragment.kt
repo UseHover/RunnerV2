@@ -19,19 +19,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hover.runner.R
 import com.hover.runner.actions.listeners.ActionClickListener
 import com.hover.runner.actions.adapters.ActionRecyclerAdapter
-import com.hover.runner.actions.listeners.setSafeOnClickListener
 import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FragmentActionsBinding
 import com.hover.runner.actions.navigation.ActionNavigationInterface
 import com.hover.runner.home.SDKCallerInterface
-import com.hover.runner.utils.NetworkUtil
-import com.hover.runner.utils.RunnerColor
-import com.hover.runner.utils.UIHelper
-import com.hover.runner.utils.Utils
+import com.hover.runner.utils.*
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
 import java.util.ArrayList
 
