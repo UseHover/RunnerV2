@@ -65,8 +65,6 @@ android {
 	}
 }
 
-
-
 dependencies {
 	implementation 'androidx.core:core-ktx:1.6.0'
 
@@ -117,7 +115,7 @@ dependencies {
 	//proImplementation "com.hover:android-sdk:$sdk_version"
 
 	debugImplementation 'com.android.volley:volley:1.2.1'
-	debugImplementation "androidx.work:work-runtime:2.7.0"
+	debugImplementation "androidx.work:work-runtime:2.6.0"
 	debugImplementation 'com.google.android.gms:play-services-analytics:17.0.1'
 	debugImplementation 'io.sentry:sentry-android:4.3.0'
 
