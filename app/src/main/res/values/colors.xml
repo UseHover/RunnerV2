@@ -15,5 +15,6 @@
 	<color name="colorPureWhite">#FFFFFF</color>
 	<color name="lineColor">#34383F</color>
 	<color name="runActionTextColor">#1e232a</color>
+	<color name="ic_launcher_background">#1E232A</color>
 
 </resources>
