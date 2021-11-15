@@ -9,6 +9,9 @@ plugins {
 android {
 	compileSdk 30
 
+	lintOptions {
+		abortOnError false
+	}
 	defaultConfig {
 		applicationId "com.hover.runner"
 		minSdk 19

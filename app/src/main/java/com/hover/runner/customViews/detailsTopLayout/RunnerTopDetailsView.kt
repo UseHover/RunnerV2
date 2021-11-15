@@ -67,12 +67,12 @@ class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) : TopDe
     }
 
      private fun setViewClicks(status: String, activity: Activity) {
-        descLink.setOnClickListener { v: View? ->
+        descLink.setOnClickListener {
            val navInterface = activity as ActionNavigationInterface
             navInterface.navWebView(resources.getString(getWebTitle(status)), resources.getString(getLink()) )
         }
 
-        titleText.setOnClickListener { v: View? -> activity.onBackPressed() }
+        titleText.setOnClickListener { activity.onBackPressed() }
 
     }
 

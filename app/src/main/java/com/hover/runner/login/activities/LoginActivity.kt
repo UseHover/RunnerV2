@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupForgotPassword() {
         UIHelper.underlineText(forgotPassword, getString(R.string.forgot_password))
-        forgotPassword.setOnClickListener { v: View? ->
+        forgotPassword.setOnClickListener {
             val intent = Intent(this, WebViewActivity::class.java)
             intent.putExtra("title", getString(R.string.forgot_password))
             intent.putExtra("url", getString(R.string.url_forgot_password))
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupEmailEdit() {
-        emailEdit.setOnClickListener { v: View? ->
+        emailEdit.setOnClickListener {
             undoErrorView(
                 emailEdit,
                 errorEmailText,
@@ -82,14 +82,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupPasswordEdit() {
-        passwordEdit.setOnClickListener { v: View? ->
+        passwordEdit.setOnClickListener {
             undoErrorView(
                 passwordEdit,
                 errorPasswordText,
                 passwordLabel
             )
         }
-        passwordEdit.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
+        passwordEdit.setOnEditorActionListener { _: TextView?, actionId: Int, event: KeyEvent? ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
                 callSignIn()
             }

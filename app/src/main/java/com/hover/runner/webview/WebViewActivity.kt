@@ -30,12 +30,13 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun setupTitle(binding: WebviewBinding) {
-        val title = Objects.requireNonNull(intent.extras)?.getString(TITLE)
+        val title = intent.extras?.getString(TITLE)
         val titleView = binding.webviewTitle
         titleView.text = title
-        titleView.setOnClickListener { v: View? -> finish() }
+        titleView.setOnClickListener { finish() }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun loadWeb(binding: WebviewBinding) {
         val url = intent.extras!!.getString(URL)
         val webView = binding.webView1
