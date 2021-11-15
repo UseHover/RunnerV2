@@ -18,8 +18,7 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
 
     //UCV means uncompleted variables
     val actionsWithUCV_LiveData: MutableLiveData<List<Action>> = MutableLiveData()
-
-    val actionsWithCompletedVariables : LiveData<List<Action>> = Transformations.switchMap(actionsWithUCV_LiveData, this::updateRunnableActions )
+    private val actionsWithCompletedVariables : LiveData<List<Action>> = Transformations.switchMap(actionsWithUCV_LiveData, this::updateRunnableActions )
 
     init {
         filterStatus.value = false
@@ -67,9 +66,9 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
         actionsWithUCV_LiveData.postValue(useCase.findActionsWithUncompletedVariables(actions))
     }
 
-    fun hasRunnableAction() : Boolean {
+    fun hasBadActions() : Boolean {
         val badActions : List<Action>? =  actionsWithUCV_LiveData.value
-        return badActions?.isEmpty() ?: true
+        return badActions?.isNotEmpty() ?: false
     }
 
     fun removeFromUCVList(action: Action) {

@@ -106,8 +106,13 @@ class ActionsFragment  : Fragment(),
 
     private fun setupTestAll() {
         testAllActionsText.setSafeOnClickListener {
-            if(actionViewModel.hasRunnableAction()) sdkCallerInterface.runChainedActions()
-            else UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
+            with(actionViewModel) {
+                when {
+                    hasBadActions() -> actionNavigationInterface.navUnCompletedVariableFragment()
+                    getRunnableActions().isNotEmpty() -> sdkCallerInterface.runChainedActions()
+                    else -> UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
+                }
+            }
         }
     }
 
