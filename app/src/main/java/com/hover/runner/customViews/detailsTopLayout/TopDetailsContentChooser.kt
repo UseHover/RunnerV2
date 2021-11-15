@@ -20,12 +20,12 @@ abstract  class TopDetailsContentChooser(context: Context, attributeSet: Attribu
     }
 
       fun getTitleTextColor(status: String): Int {
-         return if(status == TransactionStatus.NOT_YET_RUN) RunnerColor(context).WHITE
+         return if(TransactionStatus.hasTransaction(status)) RunnerColor(context).WHITE
          else RunnerColor(context).DARK
      }
 
       fun getTitleTextCompoundDrawable(status: String): Int {
-         return if(status == TransactionStatus.NOT_YET_RUN) R.drawable.ic_arrow_back_white_24dp
+         return if(TransactionStatus.hasTransaction(status)) R.drawable.ic_arrow_back_white_24dp
          else 0
      }
 

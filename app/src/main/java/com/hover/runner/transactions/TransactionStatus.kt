@@ -5,7 +5,15 @@ import com.hover.sdk.transactions.Transaction
 
 abstract class TransactionStatus {
     companion object {
-        const val NOT_YET_RUN = "NOT_YET_RUN"
+
+        fun hasTransaction(status: String) : Boolean {
+            return when(status)  {
+                Transaction.PENDING -> true
+                Transaction.FAILED -> true
+                Transaction.SUCCEEDED -> true
+                else -> false
+            }
+        }
 
         fun getColor(status: String?) : Int{
             return when(status) {
