@@ -15,6 +15,7 @@ import com.hover.runner.actions.models.ActionVariablesCache
 import com.hover.runner.actions.models.StreamlinedSteps
 import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.UncompletedVariableFragmentLayoutBinding
+import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import org.json.JSONArray
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -40,6 +41,7 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).RED)
         _binding = UncompletedVariableFragmentLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }

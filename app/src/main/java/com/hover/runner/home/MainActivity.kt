@@ -5,20 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.NavController
 import com.hover.runner.R
-import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
-import com.hover.runner.parser.viewmodel.ParserViewModel
-import com.hover.runner.settings.viewmodel.SettingsViewModel
-import com.hover.runner.transactions.viewmodel.TransactionViewModel
 import com.hover.runner.utils.PermissionsUtil
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AbstractNavigationActivity()  {
 

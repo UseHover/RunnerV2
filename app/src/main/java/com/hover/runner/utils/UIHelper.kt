@@ -70,14 +70,6 @@ class UIHelper {
         fun flashMessage(context: Context, message: String?) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
-
-        fun getActionIconDrawable(enum: ActionStatusEnum?): Int {
-            return when (enum) {
-                ActionStatusEnum.PENDING -> R.drawable.ic_warning_yellow_24dp
-                ActionStatusEnum.FAILED -> R.drawable.ic_error_red_24dp
-                else -> R.drawable.ic_check_circle_green_24dp
-            }
-        }
     }
 
 }
