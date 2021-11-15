@@ -85,7 +85,7 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     }
 
     fun getRunnableActions() : List<Action> {
-        return actionsWithCompletedVariables.value!!
+        return actionsWithCompletedVariables.value?: ArrayList()
     }
 
     private fun updateRunnableActions(badActions: List<Action>) : LiveData<List<Action>> {

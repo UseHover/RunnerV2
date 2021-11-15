@@ -26,7 +26,7 @@ class MainActivity : AbstractNavigationActivity()  {
         initHover()
         checkForPermissions()
         setContentView(binding.root)
-        redirectIfRequired()
+        //redirectIfRequired()
 
     }
 
