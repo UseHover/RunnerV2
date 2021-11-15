@@ -32,10 +32,6 @@
 		<activity android:name=".login.activities.LoginActivity" android:theme="@style/myHoverTheme" />
 		<activity android:name=".webview.WebViewActivity" android:theme="@style/myHoverTheme" />
 
-		<meta-data
-			android:name="com.hover.ApiKey"
-			android:value="986c2e2d1b1af0040b10ae8c8b206c37" />
-
 		<receiver
 			android:name=".transactions.TransactionReceiver"
 			android:enabled="true"
