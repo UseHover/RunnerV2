@@ -60,9 +60,9 @@ class Action(val id: String, var title:String?,
 
         fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context) : Action {
             return Action(
-                act.public_id, act.network_name,
-                act.root_code, act.country_alpha2,
-                act.network_name, act.custom_steps, lastTransaction?.status?: "", isSkipped(act.public_id, context)
+                act.id, act.name,
+                act.rootCode, act.country,
+                act.networkName, act.steps, lastTransaction?.status?: "", isSkipped(act.id, context)
             )
         }
     }

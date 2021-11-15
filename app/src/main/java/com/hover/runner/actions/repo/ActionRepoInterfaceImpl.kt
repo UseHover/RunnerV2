@@ -19,9 +19,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 
         val runnerActions = mutableListOf<Action>()
             hoverActions.forEachIndexed { _, act ->
-                val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-                Timber.i("Action d ${act.public_id}")
-                Timber.i("Action t ${act.network_name}")
+                val lastTransaction = transactionRepo.getLastTransaction(act.id)
                 runnerActions.add(Action.get(act, lastTransaction, context))
             }
         return runnerActions;
@@ -33,18 +31,18 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
         val hoverAction = actionRepo.getHoverAction(id)
 
         val parserString = Parser.listIdsToString(parsersList)
-        val streamlinedSteps = StreamlinedSteps.get(hoverAction.root_code, hoverAction.custom_steps)
+        val streamlinedSteps = StreamlinedSteps.get(hoverAction.rootCode, hoverAction.steps)
 
         val actionDetails = ActionDetails.init(transactionList)
         actionDetails.streamlinedSteps = streamlinedSteps
         actionDetails.parsers = parserString
-        actionDetails.operators = hoverAction.network_name
+        actionDetails.operators = hoverAction.networkName
         return actionDetails
     }
 
     override suspend fun getAction(id: String): Action {
         val act = actionRepo.getHoverAction(id)
-        val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
+        val lastTransaction = transactionRepo.getLastTransaction(act.id)
         return Action.get(act, lastTransaction, context)
     }
 
