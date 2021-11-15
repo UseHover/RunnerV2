@@ -24,21 +24,20 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel {
-        LoginViewModel(LoginUseCaseImpl(get()))
+        LoginViewModel(LoginUseCaseImpl(get())) }
 
-        val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl( get(), get(), get(), get()))
-        ActionViewModel(actionUseCaseImpl)
+    viewModel {val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl( get(), get(), get(), get()))
+        ActionViewModel(actionUseCaseImpl) }
 
-        val transactionUseCaseImpl = TransactionUseCaseImpl(TransactionRepoInterfaceImpl( get() ))
-        TransactionViewModel(transactionUseCaseImpl)
+    viewModel { val transactionUseCaseImpl = TransactionUseCaseImpl(TransactionRepoInterfaceImpl( get() ))
+        TransactionViewModel(transactionUseCaseImpl) }
 
-        val parserUseCaseImpl = ParserUseCaseImpl(ParserRepoInterfaceImpl(get(), get(), get()))
-        ParserViewModel(parserUseCaseImpl)
+    viewModel { val parserUseCaseImpl = ParserUseCaseImpl(ParserRepoInterfaceImpl(get(), get(), get()))
+        ParserViewModel(parserUseCaseImpl) }
 
-        val settingsUseCaseImpl = SettingsUseCaseImpl(SimRepoInterfaceImpl(get()))
-        SettingsViewModel(settingsUseCaseImpl)
+    viewModel {val settingsUseCaseImpl = SettingsUseCaseImpl(SimRepoInterfaceImpl(get()))
+        SettingsViewModel(settingsUseCaseImpl) }
     }
-}
 
 val dataModule = module(createdAtStart = true) {
     single { AppDatabase.getInstance(get()) }

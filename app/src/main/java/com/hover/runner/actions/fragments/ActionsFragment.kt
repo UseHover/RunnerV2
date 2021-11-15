@@ -48,8 +48,8 @@ class ActionsFragment  : Fragment(),
 
 
 
-    private val actionNavigationInterface = activity as ActionNavigationInterface
-    private val sdkCallerInterface = activity as SDKCallerInterface
+    private lateinit var actionNavigationInterface : ActionNavigationInterface
+    private lateinit var sdkCallerInterface : SDKCallerInterface
 
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -61,6 +61,9 @@ class ActionsFragment  : Fragment(),
         observeActionLoading()
         observeActions()
         setupTestAll()
+
+        actionNavigationInterface  = activity as ActionNavigationInterface
+        sdkCallerInterface = activity as SDKCallerInterface
 
         return binding.root
     }

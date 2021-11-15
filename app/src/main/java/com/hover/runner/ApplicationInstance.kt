@@ -5,11 +5,11 @@ import com.google.gson.GsonBuilder
 import com.hover.runner.di.appModule
 import com.hover.runner.di.dataModule
 import com.hover.runner.utils.fonts.FontReplacer
-import com.hover.runner.utils.fonts.Replacer
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import org.koin.core.context.GlobalContext.startKoin
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 class ApplicationInstance : Application() {
     override fun onCreate() {
@@ -17,7 +17,10 @@ class ApplicationInstance : Application() {
         initDI()
         setRetrofit()
         setupFonts()
+        setLogger()
     }
+
+    private fun setLogger() {if(BuildConfig.DEBUG) Timber.plant(Timber.DebugTree()) else Timber.uprootAll() }
 
     private fun setupFonts() {
         val replacer = FontReplacer.Build(applicationContext)
