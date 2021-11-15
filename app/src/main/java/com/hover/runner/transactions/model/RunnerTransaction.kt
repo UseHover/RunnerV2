@@ -1,4 +1,4 @@
-package com.hover.runner.transactions
+package com.hover.runner.transactions.model
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.hover.runner.R
-import com.hover.runner.actions.ActionStatusEnum
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
@@ -47,6 +46,9 @@ constructor(
     @ColumnInfo(name = "last_message_hit")
     var last_message_hit: String?,
 
+    @ColumnInfo(name = "matched_parsers")
+    var matched_parsers : String?
+
 
     ) {
     fun update(data: Intent) {
@@ -85,9 +87,10 @@ constructor(
                 val category = data.getStringExtra(TransactionContract.COLUMN_CATEGORY)
                 val initiated_at = data.getLongExtra(TransactionContract.COLUMN_REQUEST_TIMESTAMP, DateUtils.now())
                 val updated_at = data.getLongExtra(TransactionContract.COLUMN_UPDATE_TIMESTAMP, initiated_at)
+                val matched_parsers = data.getStringExtra(TransactionContract.COLUMN_MATCHED_PARSERS)
                 val last_message_hit = getLastMessageHit(Hover.getTransaction(uuid, context), context)
                 Timber.v("creating transaction with uuid: %s", uuid)
-                RunnerTransaction(-1, uuid,action_id, environment,status, category, initiated_at, updated_at, last_message_hit)
+                RunnerTransaction(-1, uuid,action_id, environment,status, category, initiated_at, updated_at, last_message_hit, matched_parsers)
             } else null
         }
 

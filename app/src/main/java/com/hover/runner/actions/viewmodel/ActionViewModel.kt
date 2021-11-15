@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hover.runner.actions.models.Action
 import com.hover.runner.actions.models.ActionDetails
-import com.hover.runner.actions.usecase.ActionUseCase
+import com.hover.runner.actions.viewmodel.usecase.ActionUseCase
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

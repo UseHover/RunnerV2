@@ -11,10 +11,11 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
 import com.hover.runner.actions.navigation.ActionNavigationInterface
+import com.hover.runner.parser.navigation.ParserNavigationInterface
 import com.hover.runner.transactions.navigation.TransactionNavigationInterface
 import com.hover.runner.webview.WebViewActivity
 
- abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigationInterface, TransactionNavigationInterface {
+abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigationInterface, TransactionNavigationInterface, ParserNavigationInterface {
     private lateinit var navController : NavController
 
     fun setupNavigation() {
@@ -43,8 +44,10 @@ import com.hover.runner.webview.WebViewActivity
         startActivity(i)
     }
 
-     override fun navParserFragment(parserId: Int) {
-         TODO("Not yet implemented")
+     override fun navParserDetailsFragment(parserId: Int) {
+         val bundle = Bundle()
+         bundle.putInt("parser_id", parserId)
+         navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
      }
 
      override fun navTransactionListFragment(filterByActionId: String) {

@@ -1,4 +1,4 @@
-package com.hover.runner.actions.usecase
+package com.hover.runner.actions.viewmodel.usecase
 
 import com.hover.runner.actions.models.Action
 import com.hover.runner.actions.models.ActionDetails

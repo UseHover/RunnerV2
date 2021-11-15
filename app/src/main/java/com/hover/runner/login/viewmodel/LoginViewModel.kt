@@ -3,7 +3,7 @@ package com.hover.runner.login.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hover.runner.login.usecase.LoginUseCase
+import com.hover.runner.login.viewmodel.usecase.LoginUseCase
 import com.hover.runner.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -21,8 +21,8 @@ import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
 import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
-import com.hover.runner.parser.Parser
-import com.hover.runner.parser.ParserClickListener
+import com.hover.runner.parser.model.Parser
+import com.hover.runner.parser.listeners.ParserClickListener
 import com.hover.runner.transactions.listeners.TransactionClickListener
 import com.hover.runner.transactions.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transactions.viewmodel.TransactionViewModel

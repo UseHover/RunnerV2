@@ -2,11 +2,9 @@ package com.hover.runner.actions.models
 
 import com.hover.runner.R
 import com.hover.runner.actions.ActionStatusEnum
-import com.hover.runner.transactions.RunnerTransaction
-import com.hover.runner.utils.RunnerColor
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
-import com.hover.sdk.transactions.TransactionContract
 import org.json.JSONArray
 
 class Action(var id: String?, var title:String?,
@@ -60,7 +58,7 @@ class Action(var id: String?, var title:String?,
             )
         }
 
-        private fun getStatus(string: String?) : ActionStatusEnum {
+        fun getStatus(string: String?) : ActionStatusEnum {
             return when(string) {
                 Transaction.PENDING -> ActionStatusEnum.PENDING
                 Transaction.FAILED -> ActionStatusEnum.FAILED

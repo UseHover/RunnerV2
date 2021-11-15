@@ -1,4 +1,4 @@
-package com.hover.runner.login.usecase
+package com.hover.runner.login.viewmodel.usecase
 
 import android.content.Context
 import com.hover.runner.R

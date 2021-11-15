@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.hover.runner.actions.listeners.ActionClickListener
-import com.hover.runner.actions.models.Action
 import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
 import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.TransactionDetailsFragmentBinding
-import com.hover.runner.parser.ParserClickListener
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.parser.listeners.ParserClickListener
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.viewmodel.TransactionViewModel
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper

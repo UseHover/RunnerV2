@@ -1,7 +1,7 @@
-package com.hover.runner.transactions.usecase
+package com.hover.runner.transactions.viewmodel.usecase
 
 import androidx.lifecycle.LiveData
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.repo.TransactionRepoInterface
 
 class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRepoInterface) : TransactionUseCase {

@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hover.runner.actions.models.Action
-import com.hover.runner.transactions.RunnerTransaction
-import com.hover.runner.transactions.usecase.TransactionUseCase
+import com.hover.runner.transactions.model.RunnerTransaction
+import com.hover.runner.transactions.viewmodel.usecase.TransactionUseCase
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

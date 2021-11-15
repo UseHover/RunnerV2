@@ -41,10 +41,19 @@
 
 	<!--Parsers -->
 
+	<fragment
+		android:id="@+id/navigation_parserDetails"
+		android:name="com.hover.runner.parser.fragment.ParserDetailsFragment"
+		android:label="@string/parser_details"
+		tools:layout="@layout/parsers_fragment">
+		<argument
+			android:name="parser_id"
+			app:argType="integer" />
+	</fragment>
 	<!--Settings -->
 	<fragment
 		android:id="@+id/navigation_settings"
-		android:name="com.hover.runner.settings.SettingsFragment"
+		android:name="com.hover.runner.settings.fragment.SettingsFragment"
 		android:label="@string/title_settings"
 		tools:layout="@layout/settings_fragment" />
 

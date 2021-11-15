@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.listeners.TransactionClickListener
+import com.hover.runner.utils.RunnerColor
 
 
 class TransactionRecyclerAdapter(private val transactionList: List<RunnerTransaction>, private val clickListener: TransactionClickListener) :
@@ -25,7 +26,7 @@ class TransactionRecyclerAdapter(private val transactionList: List<RunnerTransac
         holder.content.text = transaction.last_message_hit
         holder.date.setCompoundDrawablesWithIntrinsicBounds(0, 0, transaction.getStatusDrawable(), 0)
         holder.date.compoundDrawablePadding = 8
-        holder.date.setTextColor(transaction.getStatusColor())
+        holder.date.setTextColor(RunnerColor(holder.itemView.context).get(transaction.getStatusColor()))
         holder.itemView.setOnClickListener { clickListener.onTransactionItemClicked(transaction.uuid) }
     }
 

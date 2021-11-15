@@ -4,9 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import com.hover.runner.database.AppDatabase
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.RunnerTransactionDao
-import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.transactions.TransactionContract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +35,10 @@ class TransactionRepo(db: AppDatabase) {
         return transactionDao.transactionsByAction(actionId, limit)
     }
 
+   suspend fun getTransactionsByParser(parserId: Int) : List<RunnerTransaction> {
+        return transactionDao.transactionsByParser("%$parserId%")
+    }
+
     suspend fun getLastTransaction(actionId: String): RunnerTransaction? {
         return transactionDao.lastTransactionsByAction_Suspended(actionId)
     }
@@ -47,6 +50,7 @@ class TransactionRepo(db: AppDatabase) {
     private fun insertTransaction(transaction: RunnerTransaction) {
         transactionDao.insert(transaction)
     }
+
 
     fun insertOrUpdateTransaction(intent: Intent, context: Context) {
         AppDatabase.databaseWriteExecutor.execute {

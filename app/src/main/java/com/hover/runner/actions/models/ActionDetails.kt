@@ -1,6 +1,6 @@
 package com.hover.runner.actions.models
 
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.sdk.transactions.Transaction
 
 data class ActionDetails(

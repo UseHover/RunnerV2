@@ -24,7 +24,7 @@ class ActionRecyclerAdapter(private val actionList: List<Action>, private val cl
         val action: Action = actionList[position]
 
         UIHelper.underlineText(holder.actionIdText, action.id)
-        holder.actionIdText.setTextColor(action.getStatusColor())
+        holder.actionIdText.setTextColor(RunnerColor(holder.itemView.context).get(action.getStatusColor()))
         holder.actionTitleText.text = action.title
 
         holder.iconImage.setImageResource(action.getStatusDrawable())

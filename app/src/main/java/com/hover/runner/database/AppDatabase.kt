@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.RoomDatabase.JournalMode
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.RunnerTransactionDao
 import java.util.concurrent.Executors
 

@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupForgotPassword() {
-        UIHelper.setTextUnderline(forgotPassword, getString(R.string.forgot_password))
+        UIHelper.underlineText(forgotPassword, getString(R.string.forgot_password))
         forgotPassword.setOnClickListener { v: View? ->
             val intent = Intent(this, WebViewActivity::class.java)
             intent.putExtra("title", getString(R.string.forgot_password))

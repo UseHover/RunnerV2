@@ -1,7 +1,7 @@
 package com.hover.runner.transactions.repo
 
 import androidx.lifecycle.LiveData
-import com.hover.runner.transactions.RunnerTransaction
+import com.hover.runner.transactions.model.RunnerTransaction
 
 class TransactionRepoInterfaceImpl(private val repo: TransactionRepo) : TransactionRepoInterface {
     override suspend fun getAllTransactions(): List<RunnerTransaction> {

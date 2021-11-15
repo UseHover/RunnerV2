@@ -3,11 +3,9 @@ package com.hover.runner.actions.repo
 import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.models.Action
 import com.hover.runner.actions.models.StreamlinedSteps
-import com.hover.runner.parser.Parser
+import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.transactions.repo.TransactionRepo
-import com.hover.runner.utils.Utils
-import com.hover.sdk.transactions.Transaction
 
 class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
                               private val transactionRepo: TransactionRepo,
