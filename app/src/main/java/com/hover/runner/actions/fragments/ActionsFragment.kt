@@ -54,6 +54,12 @@ class ActionsFragment  : Fragment(),
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentActionsBinding.inflate(inflater, container, false)
+        initInterfaces()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViews()
         pullToRefresh.isRefreshing = false
         setupRecyclerView()
@@ -61,11 +67,10 @@ class ActionsFragment  : Fragment(),
         observeActionLoading()
         observeActions()
         setupTestAll()
-
+    }
+    private fun initInterfaces() {
         actionNavigationInterface  = activity as ActionNavigationInterface
         sdkCallerInterface = activity as SDKCallerInterface
-
-        return binding.root
     }
 
     override fun onResume() {

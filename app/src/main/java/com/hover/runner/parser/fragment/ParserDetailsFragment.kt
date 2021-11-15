@@ -35,10 +35,11 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
     private lateinit var transactionRecyclerView: RecyclerView
 
     private val viewModel : ParserViewModel by sharedViewModel()
-    private val parserNavigationInterface  = activity as ParserNavigationInterface
+    private lateinit var parserNavigationInterface : ParserNavigationInterface
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = ParsersFragmentBinding.inflate(inflater, container, false)
+        initInterfaces()
         return binding.root
     }
 
@@ -49,6 +50,9 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
         initViewModelData()
         observeParserInfo()
         observeTransactions()
+    }
+    private fun initInterfaces() {
+        parserNavigationInterface  = activity as ParserNavigationInterface
     }
 
     private fun initViews() {

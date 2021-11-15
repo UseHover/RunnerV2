@@ -10,8 +10,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.R
-import com.hover.runner.databinding.FragmentActionsBinding
 import com.hover.runner.databinding.FragmentTransactionsBinding
 import com.hover.runner.transactions.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transactions.listeners.TransactionClickListener
@@ -32,11 +30,16 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
     private lateinit var homeTransactionsRecyclerView: RecyclerView
     private lateinit var emptyStateView: RelativeLayout
 
-    private val transactionNavigationInterface  = activity as TransactionNavigationInterface
+    private lateinit var transactionNavigationInterface: TransactionNavigationInterface
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
+        initInterfaces()
         return binding.root
     }
 
@@ -54,6 +57,10 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
         UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
     }
 
+    private fun initInterfaces() {
+        transactionNavigationInterface = activity as TransactionNavigationInterface
+    }
+
     private fun initViews() {
         filterText = binding.transactionFilterId
         progressBar = binding.recyclerViewState.progressState1
@@ -63,27 +70,29 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
     }
 
     private fun setupRecyclerView() {
-        homeTransactionsRecyclerView.layoutManager = UIHelper.setMainLinearManagers(requireContext())
+        homeTransactionsRecyclerView.layoutManager =
+            UIHelper.setMainLinearManagers(requireContext())
         homeTransactionsRecyclerView.setHasFixedSize(false)
     }
+
     private fun initTransactions() {
         transactionViewModel.getAllTransactions()
     }
 
     private fun observeLoadingStatus() {
-        transactionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) {hasLoaded ->
+        transactionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
             if (hasLoaded) showRecyclerView() else showLoadingView()
         }
     }
 
     private fun observeTransactionsList() {
         transactionViewModel.transactionsLiveData.observe(viewLifecycleOwner) { transactions ->
-            if(transactions !=null) {
-                if(transactions.isEmpty()) {
+            if (transactions != null) {
+                if (transactions.isEmpty()) {
                     showEmptyView()
-                }
-                else {
-                    homeTransactionsRecyclerView.adapter = TransactionRecyclerAdapter(transactions, this)
+                } else {
+                    homeTransactionsRecyclerView.adapter =
+                        TransactionRecyclerAdapter(transactions, this)
                 }
             }
         }
@@ -96,6 +105,7 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
         emptyStateView.visibility = View.GONE
 
     }
+
     private fun showEmptyView() {
         homeTransactionsRecyclerView.visibility = View.GONE
         progressBar.visibility = View.GONE

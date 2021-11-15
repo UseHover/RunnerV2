@@ -61,11 +61,12 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     private lateinit var recentTransactionTextView : TextView
     private lateinit var viewAllTransactionsTextView : TextView
     private lateinit var transactionRecyclerView : RecyclerView
-    private val sdkCallerInterface =  activity as SDKCallerInterface
+    private lateinit var sdkCallerInterface : SDKCallerInterface
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = ActionDetailsFragmentBinding.inflate(inflater, container, false)
+        initInterfaces()
         return binding.root
     }
 
@@ -73,6 +74,9 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
         super.onViewCreated(view, savedInstanceState)
         initViews()
         viewAllTransactionsTextView.setOnClickListener{actionNavigationInterface.navTransactionListFragment(actionId)}
+    }
+    private fun initInterfaces() {
+        sdkCallerInterface =  activity as SDKCallerInterface
     }
     private fun initViews() {
         topLayout = binding.detailsTopLayout

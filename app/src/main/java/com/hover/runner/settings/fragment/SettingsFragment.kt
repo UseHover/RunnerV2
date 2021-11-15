@@ -56,13 +56,14 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
 
     private var isRefreshButtonIdle = false
 
-    private val settingsNavigationInterface  = activity as SettingsNavigationInterface
+    private lateinit var settingsNavigationInterface : SettingsNavigationInterface
     private val settingsViewModel : SettingsViewModel by sharedViewModel()
 
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = SettingsFragmentBinding.inflate(inflater, container, false)
+        initInterfaces()
         return binding.root
     }
 
@@ -84,6 +85,9 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
         packageNameText.text = Utils.getPackage(requireContext())
         apiKeyText.text = SharedPrefUtils.getApiKey(requireContext())
         signOutText.setOnClickListener{ showSignOutDialog() }
+    }
+    private fun initInterfaces() {
+        settingsNavigationInterface  = activity as SettingsNavigationInterface
     }
 
     private fun initViews() {
