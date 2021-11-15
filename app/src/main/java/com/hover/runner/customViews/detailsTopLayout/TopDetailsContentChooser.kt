@@ -15,7 +15,7 @@ abstract  class TopDetailsContentChooser(context: Context, attributeSet: Attribu
             Transaction.PENDING -> RunnerColor(context).YELLOW
             Transaction.FAILED -> RunnerColor(context).RED
             Transaction.SUCCEEDED -> RunnerColor(context).GREEN
-            else -> RunnerColor(context).DARK
+            else -> RunnerColor(context).SILVER
         }
     }
 
@@ -26,7 +26,7 @@ abstract  class TopDetailsContentChooser(context: Context, attributeSet: Attribu
 
       fun getTitleTextCompoundDrawable(status: String): Int {
          return if(TransactionStatus.hasTransaction(status)) R.drawable.ic_arrow_back_white_24dp
-         else 0
+         else R.drawable.ic_arrow_back_black_24dp
      }
 
       fun getSubTitleTextColor(status: String): Int {
@@ -38,7 +38,8 @@ abstract  class TopDetailsContentChooser(context: Context, attributeSet: Attribu
            when(status) {
                Transaction.PENDING -> R.string.pendingStatus_title
                Transaction.FAILED -> R.string.failedStatus_title
-               else -> R.string.successStatus_title
+               Transaction.SUCCEEDED -> R.string.successStatus_title
+               else -> R.string.unrunStatus_title
            }
        } else { // TRANSACTION DETAILS
           when (status) {
@@ -54,7 +55,8 @@ abstract  class TopDetailsContentChooser(context: Context, attributeSet: Attribu
             when(status) {
                 Transaction.PENDING -> R.string.pendingStatus_desc
                 Transaction.FAILED -> R.string.failedStatus_desc
-                else -> R.string.successStatus_title
+                Transaction.SUCCEEDED -> R.string.successStatus_title
+                else -> R.string.emptyString
             }
         }
         else when(status) { // TRANSACTION DETAILS

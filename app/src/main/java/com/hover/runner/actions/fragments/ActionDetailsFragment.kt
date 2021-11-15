@@ -29,6 +29,7 @@ import com.hover.runner.transactions.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transactions.viewmodel.TransactionViewModel
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.setSafeOnClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -44,9 +45,6 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     private var _binding: ActionDetailsFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val actionNavigationInterface = activity as ActionNavigationInterface
-    
-
     private lateinit var topLayout: RunnerTopDetailsView
     private lateinit var operatorsText: TextView
     private lateinit var stepsText: TextView
@@ -61,7 +59,9 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     private lateinit var recentTransactionTextView : TextView
     private lateinit var viewAllTransactionsTextView : TextView
     private lateinit var transactionRecyclerView : RecyclerView
+
     private lateinit var sdkCallerInterface : SDKCallerInterface
+    private lateinit var actionNavigationInterface: ActionNavigationInterface
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -77,6 +77,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     }
     private fun initInterfaces() {
         sdkCallerInterface =  activity as SDKCallerInterface
+        actionNavigationInterface = activity as ActionNavigationInterface
     }
     private fun initViews() {
         topLayout = binding.detailsTopLayout
@@ -111,14 +112,16 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     }
 
     private fun setupTestSingleAction(actionId : String) {
-        sdkCallerInterface.runAction(actionId)
+        testSingleActionText.setSafeOnClickListener {
+            sdkCallerInterface.runAction(actionId)
+        }
     }
 
     private fun setupTopDetailsLayout(action: Action) {
         UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).get(action.getStatusColor()) )
-        topLayout.setTitle(action.id, action.status!!)
-        topLayout.setSubTitle(action.title!!, action.status!!)
-        topLayout.setup(action.status!!, DetailScreenType.ACTION, requireActivity())
+        topLayout.setTitle(action.id, action.status)
+        topLayout.setSubTitle(action.title!!, action.status)
+        topLayout.setup(action.status, DetailScreenType.ACTION, requireActivity())
     }
 
     private fun observeActionDetails(action: Action) {

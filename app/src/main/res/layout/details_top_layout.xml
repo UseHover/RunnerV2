@@ -18,6 +18,7 @@ android:orientation="vertical">
 	android:textSize="@dimen/text22"
 	android:transitionName="action_title"
 	android:id="@+id/actionDetails_toolbarText"
+	android:visibility="visible"
 	app:drawableStartCompat="@drawable/ic_arrow_back_black_24dp" />
 
 <TextView

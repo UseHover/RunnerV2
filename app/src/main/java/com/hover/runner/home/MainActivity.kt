@@ -13,6 +13,7 @@ import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
+import timber.log.Timber
 
 class MainActivity : AbstractNavigationActivity()  {
 
@@ -62,6 +63,7 @@ class MainActivity : AbstractNavigationActivity()  {
 
     private fun isLoggedIn(): Boolean {
         with(SharedPrefUtils.getApiKey(this)) {
+            Timber.i("API key is: $this")
             return this != null && this.length > 5
         }
     }

@@ -16,7 +16,7 @@ import org.json.JSONArray
 class Action(val id: String, var title:String?,
              val rootCode: String,
              var country: String?, var network_name: String?,
-             var steps: JSONArray?, var status: String?, var isSkipped: Boolean = false,
+             var steps: JSONArray?, var status: String, var isSkipped: Boolean = false,
              var jsonArrayToString: String? = "") : TransactionStatus() {
 
 
@@ -60,9 +60,9 @@ class Action(val id: String, var title:String?,
 
         fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context) : Action {
             return Action(
-                act.public_id, act.from_institution_name,
+                act.public_id, act.network_name,
                 act.root_code, act.country_alpha2,
-                act.network_name, act.custom_steps, lastTransaction?.status, isSkipped(act.public_id, context)
+                act.network_name, act.custom_steps, lastTransaction?.status?: "", isSkipped(act.public_id, context)
             )
         }
     }

@@ -7,6 +7,7 @@ import com.hover.runner.actions.models.StreamlinedSteps
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.transactions.repo.TransactionRepo
+import timber.log.Timber
 
 class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
                               private val transactionRepo: TransactionRepo,
@@ -17,10 +18,12 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
         val hoverActions =  actionRepo.getAllActionsFromHover()
 
         val runnerActions = mutableListOf<Action>()
-        hoverActions.forEachIndexed { pos, act ->
-            val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-            runnerActions[pos] = Action.get(act, lastTransaction, context)
-        }
+            hoverActions.forEachIndexed { _, act ->
+                val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
+                Timber.i("Action d ${act.public_id}")
+                Timber.i("Action t ${act.network_name}")
+                runnerActions.add(Action.get(act, lastTransaction, context))
+            }
         return runnerActions;
     }
 

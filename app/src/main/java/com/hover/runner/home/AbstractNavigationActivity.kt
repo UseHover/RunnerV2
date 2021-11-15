@@ -3,6 +3,7 @@ package com.hover.runner.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -36,10 +37,10 @@ import com.hover.runner.webview.WebViewActivity
     }
 
     override fun navActionDetails(actionId: String, titleTextView: View) {
+        ViewCompat.setTransitionName(titleTextView, "action_title");
         val bundle = Bundle()
         bundle.putString("action_id", actionId)
-        val extras = FragmentNavigatorExtras(titleTextView to "action_title")
-        navController.navigate(R.id.navigation_actionDetails, bundle, null, extras)
+        navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
     }
 
     override fun navWebView(title: String, url: String) {
