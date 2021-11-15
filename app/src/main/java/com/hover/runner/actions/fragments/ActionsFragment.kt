@@ -19,9 +19,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hover.runner.R
 import com.hover.runner.actions.listeners.ActionClickListener
 import com.hover.runner.actions.adapters.ActionRecyclerAdapter
+import com.hover.runner.actions.listeners.setSafeOnClickListener
 import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FragmentActionsBinding
 import com.hover.runner.actions.navigation.ActionNavigationInterface
+import com.hover.runner.home.SDKCallerInterface
 import com.hover.runner.utils.NetworkUtil
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
@@ -29,6 +31,7 @@ import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.Exception
 import java.util.ArrayList
 
@@ -46,8 +49,12 @@ class ActionsFragment  : Fragment(),
     private lateinit var emptyStateView: RelativeLayout
     private lateinit var emptyTitle: TextView
     private lateinit var emptySubtitle:TextView
-    private lateinit var actionNavigationInterface: ActionNavigationInterface
+    private lateinit var testAllActionsText : TextView
 
+
+
+    private val actionNavigationInterface = activity as ActionNavigationInterface
+    private val sdkCallerInterface = activity as SDKCallerInterface
 
     private val binding get() = _binding!!
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -58,8 +65,8 @@ class ActionsFragment  : Fragment(),
         setupPullToRefresh()
         observeActionLoading()
         observeActions()
+        setupTestAll()
 
-        actionNavigationInterface = activity as ActionNavigationInterface
         return binding.root
     }
 
@@ -77,6 +84,7 @@ class ActionsFragment  : Fragment(),
 
         pullToRefresh = binding.pullToRefresh
         actionsRecyclerView = binding.recyclerView.recyclerViewId
+        testAllActionsText = binding.testAllActionsId
 
     }
 
@@ -98,6 +106,13 @@ class ActionsFragment  : Fragment(),
                     actionsRecyclerView.adapter = actionRecyclerAdapter
                 }
             }
+        }
+    }
+
+    private fun setupTestAll() {
+        testAllActionsText.setSafeOnClickListener {
+            if(actionViewModel.hasRunnableAction()) sdkCallerInterface.runChainedActions()
+            else UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
         }
     }
 

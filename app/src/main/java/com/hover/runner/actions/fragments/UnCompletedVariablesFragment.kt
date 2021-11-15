@@ -141,9 +141,11 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     override fun updateVariableCache(label: String, value: String) {
         timer.cancel()
         timer = Timer();
-        val delay: Long = 800
-        val task = object : TimerTask() {override fun run() { ActionVariablesCache.save(actionViewModel.getCurrentUCVAction().id, label, value, requireContext()) }}
-        timer.schedule(task, delay)
+        val actionId = actionViewModel.getCurrentUCVAction().id
+        val task = object : TimerTask() {override fun run() {
+            ActionVariablesCache.save(actionId, label, value, requireContext()) }
+        }
+        timer.schedule(task, ActionVariablesCache.THROTTLE)
     }
 
     override fun onDestroyView() {

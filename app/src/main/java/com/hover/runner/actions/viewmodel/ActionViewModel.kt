@@ -13,11 +13,13 @@ import kotlinx.coroutines.launch
 class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     lateinit var filterStatus: MutableLiveData<Boolean>
     lateinit var loadingStatusLiveData: MutableLiveData<Boolean>
-    lateinit var actions: MutableLiveData<List<Action>>
-    lateinit var actionDetailsLiveData: MutableLiveData<ActionDetails>
+    val actions: MutableLiveData<List<Action>> = MutableLiveData()
+    val actionDetailsLiveData: MutableLiveData<ActionDetails> = MutableLiveData()
 
     //UCV means uncompleted variables
     val actionsWithUCV_LiveData: MutableLiveData<List<Action>> = MutableLiveData()
+
+    val actionsWithCompletedVariables : LiveData<List<Action>> = Transformations.switchMap(actionsWithUCV_LiveData, this::updateRunnableActions )
 
     init {
         filterStatus.value = false
@@ -39,7 +41,6 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
             actionDetailsLiveData.postValue(useCase.getActionDetails(id))
         }
     }
-
 
     suspend fun getAction(id: String): Action {
         val deferredAction =
@@ -66,6 +67,11 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
         actionsWithUCV_LiveData.postValue(useCase.findActionsWithUncompletedVariables(actions))
     }
 
+    fun hasRunnableAction() : Boolean {
+        val badActions : List<Action>? =  actionsWithUCV_LiveData.value
+        return badActions?.isEmpty() ?: true
+    }
+
     fun removeFromUCVList(action: Action) {
         val actionList: List<Action>? = actionsWithUCV_LiveData.value
         actionList?.let { actionsWithUCV_LiveData.postValue( useCase.removeFromList(action, it) ) }
@@ -78,5 +84,15 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
         val actions = actionsWithUCV_LiveData.value
         return useCase.canFirstItemSave(actions!!)
     }
+
+    fun getRunnableActions() : List<Action> {
+        return actionsWithCompletedVariables.value!!
+    }
+
+    private fun updateRunnableActions(badActions: List<Action>) : LiveData<List<Action>> {
+        return if(badActions.isEmpty()) actions
+        else liveData { useCase.findRunnableActions(actions.value!!) }
+    }
+
 
 }

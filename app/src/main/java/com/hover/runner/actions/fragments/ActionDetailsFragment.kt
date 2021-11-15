@@ -21,6 +21,7 @@ import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
 import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
+import com.hover.runner.home.SDKCallerInterface
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.listeners.ParserClickListener
 import com.hover.runner.transactions.listeners.TransactionClickListener
@@ -60,6 +61,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     private lateinit var recentTransactionTextView : TextView
     private lateinit var viewAllTransactionsTextView : TextView
     private lateinit var transactionRecyclerView : RecyclerView
+    private val sdkCallerInterface =  activity as SDKCallerInterface
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -97,25 +99,28 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     private fun loadAction() {
         lifecycleScope.launch(Dispatchers.Main) {
             val action = actionViewModel.getAction(requireArguments().getString("action_id", ""))
-            actionId = action.id!!
+            actionId = action.id
             setupTopDetailsLayout(action)
             observeActionDetails(action)
-
+            setupTestSingleAction(actionId)
         }
     }
 
+    private fun setupTestSingleAction(actionId : String) {
+        sdkCallerInterface.runAction(actionId)
+    }
 
     private fun setupTopDetailsLayout(action: Action) {
         UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).get(action.getStatusColor()) )
-        topLayout.setTitle(action.id!!, action.status!!)
+        topLayout.setTitle(action.id, action.status!!)
         topLayout.setSubTitle(action.title!!, action.status!!)
         topLayout.setup(action.status!!, DetailScreenType.ACTION, requireActivity())
     }
 
     private fun observeActionDetails(action: Action) {
-        actionViewModel.getActionDetail(action.id!!)
+        actionViewModel.getActionDetail(action.id)
         setVariableEditList(action)
-        setTransactionsList(action.id!!)
+        setTransactionsList(action.id)
     }
 
     private fun setTransactionsList(actionId: String) {
@@ -151,7 +156,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     private fun setVariableEditRecyclerAdapter(action: Action, actionDetail: ActionDetails) {
         val variablesRecyclerView: RecyclerView =  binding.actionVariablesRecyclerView
         variablesRecyclerView.layoutManager = UIHelper.setMainLinearManagers(requireContext())
-        variablesRecyclerView.adapter = action.id?.let {
+        variablesRecyclerView.adapter = action.id.let {
             VariableRecyclerAdapter(
                 it, actionDetail.streamlinedSteps, this,
                 ActionVariablesCache.get(requireContext(),it).actionMap
@@ -184,9 +189,10 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     override fun updateVariableCache(label: String, value: String) {
         timer.cancel()
         timer = Timer();
-        val delay: Long = 800
-        val task = object : TimerTask() {override fun run() { ActionVariablesCache.save(actionId, label, value, requireContext()) }}
-        timer.schedule(task, delay)
+        val task = object : TimerTask() {override fun run() {
+            ActionVariablesCache.save(actionId, label, value, requireContext()) }
+        }
+        timer.schedule(task, ActionVariablesCache.THROTTLE)
     }
 
     override fun onParserItemClicked(id: String) {

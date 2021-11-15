@@ -37,6 +37,9 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUs
         return subList
     }
 
+    override fun findRunnableActions(actions: List<Action>): List<Action> =
+        actions.filter { (it.hasAllVariablesFilled(actionRepo.getContext()) && !it.isSkipped)}
+
     override fun removeFromList(action: Action, actionList: List<Action>) : List<Action> {
         return actionList.filterNot { it.id == action.id }
     }

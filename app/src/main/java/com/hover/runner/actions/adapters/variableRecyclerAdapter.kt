@@ -31,11 +31,9 @@ class VariableRecyclerAdapter(
         holder.view.tag = actionId + label
         holder.labelText.text = label
         holder.editText.hint = desc
-        if (initialData[label] != null) {
-            if (!Objects.requireNonNull(initialData[label])?.isEmpty()!!) holder.editText.setText(
-                initialData[label]
-            )
-        }
+
+        initialData[label]?.let { if (it.isNotEmpty()) holder.editText.setText(it) }.apply {  }
+
         holder.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

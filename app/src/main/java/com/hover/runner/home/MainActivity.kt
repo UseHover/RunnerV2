@@ -7,28 +7,35 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.NavController
 import com.hover.runner.R
+import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
+import com.hover.runner.parser.viewmodel.ParserViewModel
+import com.hover.runner.settings.viewmodel.SettingsViewModel
+import com.hover.runner.transactions.viewmodel.TransactionViewModel
 import com.hover.runner.utils.PermissionsUtil
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AbstractNavigationActivity() {
+class MainActivity : AbstractNavigationActivity()  {
 
     private lateinit var binding: ActivityMainBinding
     val permission_acceptance_incomplete = "You did not allow all permissions"
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         initHover()
         checkForPermissions()
         setContentView(binding.root)
         redirectIfRequired()
+        observeRunAction()
     }
 
     override fun onResume() {
@@ -56,12 +63,7 @@ class MainActivity : AbstractNavigationActivity() {
                     UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
                 }
             }
-
-        if (!PermissionsUtil.hasPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
-            )
-        ) {
+        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
             resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }

@@ -30,7 +30,7 @@ class ActionRecyclerAdapter(private val actionList: List<Action>, private val cl
         holder.iconImage.setImageResource(action.getStatusDrawable())
 
         holder.itemView.setOnClickListener { view->
-            action.id?.let { clickListener.onActionItemClick(action.id!!, view)}
+            action.id.let { clickListener.onActionItemClick(action.id, view)}
         }
     }
 

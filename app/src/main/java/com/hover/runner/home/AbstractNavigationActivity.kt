@@ -3,7 +3,6 @@ package com.hover.runner.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -15,7 +14,7 @@ import com.hover.runner.parser.navigation.ParserNavigationInterface
 import com.hover.runner.transactions.navigation.TransactionNavigationInterface
 import com.hover.runner.webview.WebViewActivity
 
-abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigationInterface, TransactionNavigationInterface, ParserNavigationInterface {
+abstract class AbstractNavigationActivity : SDKCallerActivity() , ActionNavigationInterface, TransactionNavigationInterface, ParserNavigationInterface {
     private lateinit var navController : NavController
 
     fun setupNavigation() {

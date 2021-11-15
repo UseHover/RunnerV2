@@ -11,6 +11,7 @@ interface ActionUseCase {
     suspend fun getActionDetails(id: String) : ActionDetails
     fun getFirst(actions: List<Action>) : Action
     fun findActionsWithUncompletedVariables(actions: List<Action>) : List<Action>
+    fun findRunnableActions(actions: List<Action>) : List<Action>
     fun removeFromList(action: Action, actionList: List<Action>) : List<Action>
     fun canFirstItemSave(actionList: List<Action>) : Boolean
 }

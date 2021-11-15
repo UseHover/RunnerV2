@@ -23,6 +23,8 @@ import com.hover.runner.databinding.SettingsFragmentBinding
 import com.hover.runner.settings.navigation.SettingsNavigationInterface
 import com.hover.runner.settings.viewmodel.SettingsViewModel
 import com.hover.runner.utils.SharedPrefUtils
+import com.hover.runner.utils.SharedPrefUtils.Companion.DELAY
+import com.hover.runner.utils.SharedPrefUtils.Companion.ENV
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
@@ -33,8 +35,6 @@ import java.lang.Exception
 import java.util.ArrayList
 
 class SettingsFragment: Fragment(), Hover.DownloadListener {
-    private val ENV = "hoverEnv"
-    private val DELAY = "delay"
     private val PROD_ENV : Int = 0
     private val DEBUG_ENV : Int = 1
     private val TEST_ENV : Int = 2
@@ -125,7 +125,7 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
 
 
     private fun setupEnvRadio() {
-        when(getCurrentEnv()) {
+        when(getCurrentEnv(requireContext())) {
             PROD_ENV -> radioGroup.check(R.id.mode_normal)
             DEBUG_ENV -> radioGroup.check(R.id.mode_debug)
             else -> radioGroup.check(R.id.mode_noSim)
@@ -182,7 +182,7 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
     }
 
 
-    private fun getCurrentEnv(): Int =SharedPrefUtils.getSavedInt(ENV, requireContext())
+
     private fun setEnv(mode: Int) = SharedPrefUtils.saveInt(ENV, mode, requireContext())
     private fun updateEnv(pos: Int) {
         when (pos) {
@@ -209,5 +209,8 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
 
     override fun onSuccess(p0: ArrayList<HoverAction>?) {
         isRefreshButtonIdle = false;
+    }
+    companion object {
+         fun getCurrentEnv(context: Context ): Int = SharedPrefUtils.getSavedInt(ENV, context)
     }
 }

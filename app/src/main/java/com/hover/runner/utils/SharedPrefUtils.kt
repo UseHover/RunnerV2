@@ -12,7 +12,7 @@ class SharedPrefUtils {
 
         private const val SHARED_PREFS = "_runner"
         private const val API_KEY_LABEL = "runner_apiKey"
-        private const val DELAY = "delay"
+        const val DELAY = "delay"
         private const val TOKEN = "token"
         private const val ORG = "org_id"
 

@@ -12,6 +12,7 @@ data class ActionVariablesCache(val actionMap: Map<String, String>) {
     }
 
     companion object {
+        const val THROTTLE : Long = 800
         private fun init(serializedData: String?): ActionVariablesCache? {
             val gson = Gson()
 
