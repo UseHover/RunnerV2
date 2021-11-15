@@ -26,7 +26,7 @@ class MainActivity : AbstractNavigationActivity()  {
         initHover()
         checkForPermissions()
         setContentView(binding.root)
-        //redirectIfRequired()
+        redirectIfRequired()
 
     }
 
@@ -44,7 +44,7 @@ class MainActivity : AbstractNavigationActivity()  {
     }
 
     private fun initHover() {
-        //Hover.initialize(this, SharedPrefUtils.getApiKey(this))
+        Hover.initialize(this, SharedPrefUtils.getApiKey(this))
         Hover.setBranding("Runner by Hover", R.drawable.ic_runner_logo, this)
     }
 

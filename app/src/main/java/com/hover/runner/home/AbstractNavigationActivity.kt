@@ -69,6 +69,5 @@ import com.hover.runner.webview.WebViewActivity
 
      override fun navLoginAndFinish() {
          startActivity(Intent(this, LoginActivity::class.java))
-         finishAffinity()
      }
  }
