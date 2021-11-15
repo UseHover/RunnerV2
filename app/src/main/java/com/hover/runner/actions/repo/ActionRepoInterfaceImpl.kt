@@ -1,5 +1,6 @@
 package com.hover.runner.actions.repo
 
+import android.content.Context
 import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.models.Action
 import com.hover.runner.actions.models.StreamlinedSteps
@@ -9,7 +10,8 @@ import com.hover.runner.transactions.repo.TransactionRepo
 
 class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
                               private val transactionRepo: TransactionRepo,
-                              private val parserRepo: ParserRepo) : ActionRepoInterface {
+                              private val parserRepo: ParserRepo,
+                              private val context: Context) : ActionRepoInterface {
 
     override suspend fun getAllActions(): List<Action> {
         val hoverActions =  actionRepo.getAllActionsFromHover()
@@ -17,7 +19,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
         val runnerActions = mutableListOf<Action>()
         hoverActions.forEachIndexed { pos, act ->
             val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-            runnerActions[pos] = Action.get(act, lastTransaction)
+            runnerActions[pos] = Action.get(act, lastTransaction, context)
         }
         return runnerActions;
     }
@@ -40,6 +42,10 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
     override suspend fun getAction(id: String): Action {
         val act = actionRepo.getHoverAction(id)
         val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-        return Action.get(act, lastTransaction)
+        return Action.get(act, lastTransaction, context)
+    }
+
+    override fun getContext(): Context {
+        return context
     }
 }

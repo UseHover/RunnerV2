@@ -85,7 +85,7 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
                 createdText.text = parser.created_date
                 senderText.text = parser.sender
                 regexText.text = parser.regex
-                statusText.text = parser.status
+                statusText.text = parser.category
                 statusText.setTextColor(RunnerColor(requireContext()).get(parser.getStatusColor()))
 
                 actionIdText.setOnClickListener { parserNavigationInterface.navActionDetails(parser.action_id!!, actionText) }

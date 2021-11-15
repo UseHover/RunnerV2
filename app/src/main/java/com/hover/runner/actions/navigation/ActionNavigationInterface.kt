@@ -9,4 +9,5 @@ interface ActionNavigationInterface {
     fun navParserDetailsFragment(parserId: Int)
     fun navTransactionDetails(uuid: String)
     fun navTransactionListFragment(filterByActionId: String)
+    fun navUnCompletedVariableFragment()
 }

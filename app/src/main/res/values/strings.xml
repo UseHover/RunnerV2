@@ -133,6 +133,8 @@
 	<string name="hint_choose_actions">Choose actions</string>
 	<string name="selected_range">Selected range</string>
 
+	<string name="act_missing_info_singular">action is missing information</string>
+	<string name="act_missing_info_pluarl">actions are missing information</string>
 	<string name="noRunnableAction">No runnable actions. Try refreshing</string>
 	<string name="validatingActions">Validating all actions, please wait…</string>
 	<string name="refreshed_successfully">Refreshed successfully</string>
@@ -157,6 +159,7 @@
 	<string name="no_actions_filter_result">0 Actions</string>
 	<string name="no_transactions_filter_result">0 Transactions</string>
 	<string name="next_label">Next</string>
+	<string name="save_continue">Save and continue</string>
 
 	<string name="api_url">https://www.usehover.com/api/</string>
 	<string name="hsdk_base_url" translatable="false">https://www.usehover.com/sdk/</string>

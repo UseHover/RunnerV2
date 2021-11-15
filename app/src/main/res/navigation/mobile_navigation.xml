@@ -22,6 +22,13 @@
 			app:argType="string" />
 	</fragment>
 
+	<fragment
+		android:id="@+id/navigation_uncompletedVariableFragment"
+		android:name="com.hover.runner.actions.fragments.UnCompletedVariablesFragment"
+		android:label="@string/uncompleted_variable_notice"
+		tools:layout="@layout/uncompleted_variable_fragment_layout">
+	</fragment>
+
 	<!--Transactions -->
 	<fragment
 		android:id="@+id/navigation_transactions"

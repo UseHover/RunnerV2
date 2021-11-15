@@ -54,7 +54,11 @@ abstract class AbstractNavigationActivity : AppCompatActivity() , ActionNavigati
          TODO("Not yet implemented")
      }
 
-     override fun navTransactionDetails(uuid: String) {
+    override fun navUnCompletedVariableFragment() {
+        navController.navigate(R.id.navigation_uncompletedVariableFragment)
+    }
+
+    override fun navTransactionDetails(uuid: String) {
          TODO("Not yet implemented")
      }
 
