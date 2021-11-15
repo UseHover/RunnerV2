@@ -15,9 +15,8 @@ class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel(
     fun observeTransaction(uuid: String) : LiveData<RunnerTransaction> = useCase.getTransaction(uuid)
     fun observeTransactionsByAction(actionId: String, limit: Int) : LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
 
-
-    lateinit var loadingStatusLiveData  : MutableLiveData<Boolean>
-    val transactionsLiveData = MutableLiveData<List<RunnerTransaction>>()
+    val loadingStatusLiveData  : MutableLiveData<Boolean> = MutableLiveData()
+    val transactionsLiveData : MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
 
     init {
         loadingStatusLiveData.value = false

@@ -11,8 +11,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
-    lateinit var filterStatus: MutableLiveData<Boolean>
-    lateinit var loadingStatusLiveData: MutableLiveData<Boolean>
+    private val filterStatus: MutableLiveData<Boolean> = MutableLiveData()
+    val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val actions: MutableLiveData<List<Action>> = MutableLiveData()
     val actionDetailsLiveData: MutableLiveData<ActionDetails> = MutableLiveData()
 
