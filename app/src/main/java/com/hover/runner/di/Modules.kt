@@ -11,6 +11,7 @@ import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.parser.repo.ParserRepoInterfaceImpl
 import com.hover.runner.parser.viewmodel.usecase.ParserUseCaseImpl
 import com.hover.runner.parser.viewmodel.ParserViewModel
+import com.hover.runner.settings.repo.SimRepo
 import com.hover.runner.settings.repo.SimRepoInterfaceImpl
 import com.hover.runner.settings.usecase.SettingsUseCaseImpl
 import com.hover.runner.settings.viewmodel.SettingsViewModel
@@ -35,7 +36,8 @@ val appModule = module {
     viewModel { val parserUseCaseImpl = ParserUseCaseImpl(ParserRepoInterfaceImpl(get(), get(), get()))
         ParserViewModel(parserUseCaseImpl) }
 
-    viewModel {val settingsUseCaseImpl = SettingsUseCaseImpl(SimRepoInterfaceImpl(get()))
+    viewModel {
+        val settingsUseCaseImpl = SettingsUseCaseImpl(SimRepoInterfaceImpl(get()))
         SettingsViewModel(settingsUseCaseImpl) }
     }
 
@@ -45,4 +47,5 @@ val dataModule = module(createdAtStart = true) {
     single { ActionRepo(get()) }
     single { TransactionRepo(get()) }
     single { ParserRepo(get()) }
+    single { SimRepo(get()) }
 }

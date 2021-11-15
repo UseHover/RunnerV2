@@ -71,6 +71,4 @@ import com.hover.runner.webview.WebViewActivity
          startActivity(Intent(this, LoginActivity::class.java))
          finishAffinity()
      }
-
-
  }
