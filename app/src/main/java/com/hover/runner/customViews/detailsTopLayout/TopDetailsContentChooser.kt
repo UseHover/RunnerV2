@@ -5,27 +5,27 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.hover.runner.R
-import com.hover.runner.actions.ActionStatusEnum
-import com.hover.runner.actions.models.Action
+import com.hover.runner.transactions.TransactionStatus
 import com.hover.runner.utils.RunnerColor
+import com.hover.sdk.transactions.Transaction
 
- abstract  class TopDetailsContentChooser(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet){
+abstract  class TopDetailsContentChooser(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet){
      fun getLayoutBackground(status: String) : Int {
        return when (status) {
-            "PENDING" -> RunnerColor(context).YELLOW
-            "FAILED" -> RunnerColor(context).RED
-            "SUCCEEDED" -> RunnerColor(context).GREEN
+            Transaction.PENDING -> RunnerColor(context).YELLOW
+            Transaction.FAILED -> RunnerColor(context).RED
+            Transaction.SUCCEEDED -> RunnerColor(context).GREEN
             else -> RunnerColor(context).DARK
         }
     }
 
       fun getTitleTextColor(status: String): Int {
-         return if(status == Action.statusToString(ActionStatusEnum.NOT_YET_RUN)) RunnerColor(context).WHITE
+         return if(status == TransactionStatus.NOT_YET_RUN) RunnerColor(context).WHITE
          else RunnerColor(context).DARK
      }
 
       fun getTitleTextCompoundDrawable(status: String): Int {
-         return if(status == Action.statusToString(ActionStatusEnum.NOT_YET_RUN)) R.drawable.ic_arrow_back_white_24dp
+         return if(status == TransactionStatus.NOT_YET_RUN) R.drawable.ic_arrow_back_white_24dp
          else 0
      }
 
@@ -36,14 +36,14 @@ import com.hover.runner.utils.RunnerColor
       fun getDescTitle(status: String, detailScreenType: DetailScreenType) : Int {
         return if(detailScreenType == DetailScreenType.ACTION) {
            when(status) {
-               "PENDING" -> R.string.pendingStatus_title
-               "FAILED" -> R.string.failedStatus_title
+               Transaction.PENDING -> R.string.pendingStatus_title
+               Transaction.FAILED -> R.string.failedStatus_title
                else -> R.string.successStatus_title
            }
        } else { // TRANSACTION DETAILS
           when (status) {
-               "PENDING" -> R.string.transaction_det_pending
-               "FAILED" -> R.string.transaction_det_failed
+               Transaction.PENDING -> R.string.transaction_det_pending
+               Transaction.FAILED -> R.string.transaction_det_failed
                 else -> R.string.transaction_det_success
            }
        }
@@ -52,34 +52,34 @@ import com.hover.runner.utils.RunnerColor
      fun getDescContent(status: String, detailScreenType: DetailScreenType) : Int {
         return if(detailScreenType == DetailScreenType.ACTION) {
             when(status) {
-                "PENDING" -> R.string.pendingStatus_desc
-                "FAILED" -> R.string.failedStatus_desc
+                Transaction.PENDING -> R.string.pendingStatus_desc
+                Transaction.FAILED -> R.string.failedStatus_desc
                 else -> R.string.successStatus_title
             }
         }
         else when(status) { // TRANSACTION DETAILS
-            "PENDING" -> R.string.pendingStatus_desc
-            "FAILED" -> R.string.failedStatus_desc
+            Transaction.PENDING -> R.string.pendingStatus_desc
+            Transaction.FAILED -> R.string.failedStatus_desc
             else -> R.string.successStatus_title
         }
     }
 
       fun getDescCompoundDrawable(status: String) : Int {
          return when(status) {
-             "PENDING" -> R.drawable.ic_warning_black_24dp
-             "FAILED" -> R.drawable.ic_error_black_24dp
+             Transaction.PENDING -> R.drawable.ic_warning_black_24dp
+             Transaction.FAILED -> R.drawable.ic_error_black_24dp
              else ->R.drawable.ic_check_circle_black_24dp
          }
      }
 
       fun getDescVisibility(status: String): Int {
-         return if(status == "SUCCEEDED") View.GONE else View.VISIBLE
+         return if(status == Transaction.SUCCEEDED) View.GONE else View.VISIBLE
      }
 
       fun getDescLinkLabel(status: String)  : Int {
             return when(status) {
-                "PENDING" -> R.string.pendingStatus_linkText
-                "FAILED" -> R.string.failedStatus_linkText
+                Transaction.PENDING -> R.string.pendingStatus_linkText
+                Transaction.FAILED -> R.string.failedStatus_linkText
                 else -> R.string.success_label
             }
     }
@@ -90,7 +90,7 @@ import com.hover.runner.utils.RunnerColor
 
      fun getWebTitle(status: String) : Int {
         return when(status) {
-            "PENDING" -> R.string.pending_transaction
+            Transaction.PENDING -> R.string.pending_transaction
             else-> R.string.failed_transaction
         }
     }

@@ -8,34 +8,18 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
-import com.hover.runner.R
-import com.hover.runner.actions.ActionStatusEnum
+import com.hover.runner.transactions.TransactionStatus
 import com.hover.runner.parser.listeners.ParserClickListener
 import com.hover.sdk.parsers.HoverParser
 import java.lang.StringBuilder
 
 data class Parser(
-    val type: String, val action_name: String,
-    val action_id: String, val regex: String,
-    val actionStatusEnum: ActionStatusEnum,
-    var category: String? = null, var created_date: String, var sender: String? = null) {
-
-    fun getStatusText() : Int {
-        return when(actionStatusEnum) {
-            ActionStatusEnum.SUCCEEDED ->  R.string.success_label
-            ActionStatusEnum.PENDING -> R.string.pending_label
-            ActionStatusEnum.FAILED -> R.string.failed_label
-            else -> R.string.not_yet_run
-        }
-    }
+    val type: String?, val action_name: String?,
+    val action_id: String?, val regex: String?,
+    var category: String?, var created_date: String?, var sender: String? = null) : TransactionStatus() {
 
     fun getStatusColor() : Int{
-        return when(actionStatusEnum) {
-            ActionStatusEnum.PENDING -> R.color.colorYellow
-            ActionStatusEnum.FAILED -> R.color.colorRed
-            ActionStatusEnum.SUCCEEDED -> R.color.colorGreen
-            else -> R.color.colorPrimaryDark
-        }
+        return getColor(category)
     }
 
     companion object {

@@ -107,9 +107,9 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
 
     private fun setupTopDetailsLayout(action: Action) {
         UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).get(action.getStatusColor()) )
-        topLayout.setTitle(action.id!!, action.statusToString())
-        topLayout.setSubTitle(action.title!!, action.statusToString())
-        topLayout.setup(action.statusToString(), DetailScreenType.ACTION, requireActivity())
+        topLayout.setTitle(action.id!!, action.status!!)
+        topLayout.setSubTitle(action.title!!, action.status!!)
+        topLayout.setup(action.status!!, DetailScreenType.ACTION, requireActivity())
     }
 
     private fun observeActionDetails(action: Action) {
@@ -190,7 +190,7 @@ class ActionDetailsFragment: Fragment(), ActionVariableEditListener, ParserClick
     }
 
     override fun onParserItemClicked(id: String) {
-        actionNavigationInterface.navParserFragment(Integer.valueOf(id))
+        actionNavigationInterface.navParserDetailsFragment(Integer.valueOf(id))
     }
 
     override fun onTransactionItemClicked(uuid: String) {

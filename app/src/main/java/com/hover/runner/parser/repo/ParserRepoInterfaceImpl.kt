@@ -1,6 +1,5 @@
 package com.hover.runner.parser.repo
 
-import com.hover.runner.actions.models.Action
 import com.hover.runner.actions.repo.ActionRepo
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.transactions.model.RunnerTransaction
@@ -18,7 +17,6 @@ class ParserRepoInterfaceImpl(private val parserRepo: ParserRepo,
             action.from_institution_name,
             action.public_id,
             p.regex,
-            Action.getStatus(p.status),
             p.status,
             "None",
             p.senderNumber

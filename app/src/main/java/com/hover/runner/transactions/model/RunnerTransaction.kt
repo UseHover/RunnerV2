@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.hover.runner.R
+import com.hover.runner.transactions.TransactionStatus
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
@@ -50,7 +50,7 @@ constructor(
     var matched_parsers : String?
 
 
-    ) {
+    ) : TransactionStatus() {
     fun update(data: Intent) {
         status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
     }
@@ -60,21 +60,11 @@ constructor(
     }
 
     fun getStatusDrawable() : Int {
-        return when (status) {
-            Transaction.PENDING -> R.drawable.ic_warning_yellow_24dp
-            Transaction.FAILED -> R.drawable.ic_error_red_24dp
-            Transaction.SUCCEEDED -> R.drawable.ic_check_circle_green_24dp
-            else -> 0
-        }
+        return getDrawable(status)
     }
 
     fun getStatusColor() : Int{
-        return when(status) {
-            Transaction.PENDING -> R.color.colorYellow
-            Transaction.FAILED -> R.color.colorRed
-            Transaction.SUCCEEDED -> R.color.colorGreen
-            else -> R.color.colorPrimaryDark
-        }
+        return getColor(status)
     }
 
     companion object {

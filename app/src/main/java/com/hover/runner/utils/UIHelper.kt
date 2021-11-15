@@ -2,12 +2,9 @@ package com.hover.runner.utils
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.text.SpannableString
-import android.text.method.LinkMovementMethod
-import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.view.WindowManager
@@ -16,7 +13,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.hover.runner.R
-import com.hover.runner.actions.ActionStatusEnum
 import timber.log.Timber
 
 class UIHelper {
