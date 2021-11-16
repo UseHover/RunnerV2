@@ -24,6 +24,15 @@ abstract class TransactionStatus {
             }
         }
 
+        fun getToolBarColor(status: String?) : Int{
+            return when(status) {
+                Transaction.PENDING -> R.color.colorYellow
+                Transaction.FAILED -> R.color.colorRed
+                Transaction.SUCCEEDED -> R.color.colorGreen
+                else -> R.color.colorSecondaryGrey
+            }
+        }
+
         fun getDrawable(status: String?) : Int {
             return when (status) {
                 Transaction.PENDING -> R.drawable.ic_warning_yellow_24dp

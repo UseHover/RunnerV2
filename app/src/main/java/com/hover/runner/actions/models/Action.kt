@@ -24,6 +24,10 @@ class Action(val id: String, var title:String?,
         return getColor(status)
     }
 
+    fun getLayoutColor() : Int{
+        return getToolBarColor(status)
+    }
+
     fun getStatusDrawable() : Int {
             return getDrawable(status)
     }
