@@ -19,7 +19,6 @@ import com.hover.runner.transactions.repo.TransactionRepo
 import com.hover.runner.transactions.repo.TransactionRepoInterfaceImpl
 import com.hover.runner.transactions.viewmodel.usecase.TransactionUseCaseImpl
 import com.hover.runner.transactions.viewmodel.TransactionViewModel
-import com.hover.sdk.database.HoverRoomDatabase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -43,7 +42,7 @@ val appModule = module {
 
 val dataModule = module(createdAtStart = true) {
     single { AppDatabase.getInstance(get()) }
-    single { HoverRoomDatabase.getInstance(get()) }
+    //single { HoverRoomDatabase.getInstance(get()) }
     single { ActionRepo(get()) }
     single { TransactionRepo(get()) }
     single { ParserRepo(get()) }

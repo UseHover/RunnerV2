@@ -1,12 +1,11 @@
 package com.hover.runner.settings.repo
 
-import androidx.lifecycle.LiveData
-import com.hover.sdk.database.HoverRoomDatabase
+import android.content.Context
+import com.hover.sdk.api.Hover
 import com.hover.sdk.sims.SimInfo
-import com.hover.sdk.sims.SimInfoDao
 
-class SimRepo(private val sdk: HoverRoomDatabase) {
+class SimRepo(private val context: Context) {
     suspend fun getPresentSims() : List<SimInfo> {
-        return sdk.simDao().present
+        return Hover.getPresentSims(context)
     }
 }

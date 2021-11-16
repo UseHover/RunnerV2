@@ -11,34 +11,33 @@ import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
 import com.hover.sdk.transactions.Transaction
-import com.hover.sdk.transactions.TransactionContract
 import org.json.JSONArray
 import org.json.JSONException
 import timber.log.Timber
 
 @Entity(tableName = "runner_transactions", indices = [Index(value = ["uuid"], unique = true)])
-data class RunnerTransaction
-constructor(
+data class RunnerTransaction(
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    @ColumnInfo(name = "id")
+    var id: Int?,
 
     @ColumnInfo(name = "uuid")
-    var uuid: String,
+    var uuid: String?,
 
     @ColumnInfo(name = "action_id")
-    var action_id: String,
+    var action_id: String?,
 
     @ColumnInfo(name = "environment", defaultValue = "0")
-    var environment: Int,
+    var environment: Int?,
 
     @ColumnInfo(name = "status", defaultValue = Transaction.PENDING)
-    var status: String,
+    var status: String?,
 
     @ColumnInfo(name = "category")
     var category: String?,
 
     @ColumnInfo(name = "initiated_at", defaultValue = "CURRENT_TIMESTAMP")
-    var initiated_at: Long,
+    var initiated_at: Long?,
 
     @ColumnInfo(name = "updated_at", defaultValue = "CURRENT_TIMESTAMP")
     var updated_at: Long,
@@ -48,15 +47,13 @@ constructor(
 
     @ColumnInfo(name = "matched_parsers")
     var matched_parsers : String?
-
-
     ) : TransactionStatus() {
     fun update(data: Intent) {
-        status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
+        status = data.getStringExtra(column_status)!!
     }
 
     fun getDate() : String? {
-        return DateUtils.formatDate(updated_at)
+        return DateUtils.formatDate(updated_at!!)
     }
 
     fun getStatusDrawable() : Int {
@@ -68,16 +65,25 @@ constructor(
     }
 
     companion object {
+        private const val uuid = "transaction_uuid";
+        private const val action_id = "action_id"
+        private const val environment = "environment"
+        private const val column_status = "status"
+        private const val column_category = "category"
+        private const val column_request_timestamp = "request_timestamp"
+        private const val column_update_timestamp = "update_timestamp"
+        private const val column_matched_parsers = "matched_parsers"
         fun init(data: Intent, context: Context) : RunnerTransaction? {
-            return if (data.hasExtra(TransactionContract.COLUMN_UUID) && data.getStringExtra(TransactionContract.COLUMN_UUID) != null) {
-                val uuid = data.getStringExtra(TransactionContract.COLUMN_UUID)!!
-                val action_id = data.getStringExtra(TransactionContract.COLUMN_ACTION_ID)!!
-                val environment = data.getIntExtra(TransactionContract.COLUMN_ENVIRONMENT, 0)
-                val status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
-                val category = data.getStringExtra(TransactionContract.COLUMN_CATEGORY)
-                val initiated_at = data.getLongExtra(TransactionContract.COLUMN_REQUEST_TIMESTAMP, DateUtils.now())
-                val updated_at = data.getLongExtra(TransactionContract.COLUMN_UPDATE_TIMESTAMP, initiated_at)
-                val matched_parsers = data.getStringExtra(TransactionContract.COLUMN_MATCHED_PARSERS)
+
+            return if (data.hasExtra(uuid) && data.getStringExtra(uuid) != null) {
+                val uuid = data.getStringExtra(uuid)!!
+                val action_id = data.getStringExtra(action_id)!!
+                val environment = data.getIntExtra(environment, 0)
+                val status = data.getStringExtra(column_status)!!
+                val category = data.getStringExtra(column_category)
+                val initiated_at = data.getLongExtra(column_request_timestamp, DateUtils.now())
+                val updated_at = data.getLongExtra(column_update_timestamp, initiated_at)
+                val matched_parsers = data.getStringExtra(column_matched_parsers)
                 val last_message_hit = getLastMessageHit(Hover.getTransaction(uuid, context), context)
                 Timber.v("creating transaction with uuid: %s", uuid)
                 RunnerTransaction(-1, uuid,action_id, environment,status, category, initiated_at, updated_at, last_message_hit, matched_parsers)
