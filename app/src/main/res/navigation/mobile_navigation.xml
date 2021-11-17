@@ -57,6 +57,7 @@
 			android:name="parser_id"
 			app:argType="integer" />
 	</fragment>
+
 	<!--Settings -->
 	<fragment
 		android:id="@+id/navigation_settings"

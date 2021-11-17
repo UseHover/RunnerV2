@@ -57,7 +57,7 @@ import com.hover.runner.webview.WebViewActivity
      }
 
      override fun navTransactionListFragment(filterByActionId: String) {
-         TODO("Not yet implemented")
+         TODO("Not yet implemented because filtering is yet to be done")
      }
 
     override fun navUnCompletedVariableFragment() {
@@ -65,7 +65,9 @@ import com.hover.runner.webview.WebViewActivity
     }
 
     override fun navTransactionDetails(uuid: String) {
-         TODO("Not yet implemented")
+        val bundle = Bundle()
+        bundle.putString("uuid", uuid)
+        navController.navigate(R.id.navigation_transactionDetails, bundle, null, null)
      }
 
      override fun navLoginAndFinish() {
