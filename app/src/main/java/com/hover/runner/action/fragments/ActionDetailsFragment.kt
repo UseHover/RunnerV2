@@ -68,9 +68,9 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = ActionDetailsFragmentBinding.inflate(inflater, container, false)
-        initInterfaces()
+        initNavigationInterface()
         return binding.root
     }
 
@@ -84,7 +84,7 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
         }
     }
 
-    private fun initInterfaces() {
+    private fun initNavigationInterface() {
         sdkCallerInterface = activity as SDKCallerInterface
         actionNavigationInterface = activity as ActionNavigationInterface
     }

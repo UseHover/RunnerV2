@@ -7,17 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.action.listeners.ActionClickListener
-import com.hover.runner.action.navigation.ActionNavigationInterface
 import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
 import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.TransactionDetailsFragmentBinding
 import com.hover.runner.parser.listeners.ParserClickListener
-import com.hover.runner.parser.navigation.ParserNavigationInterface
 import com.hover.runner.transaction.adapters.TransactionDetailsRecyclerAdapter
 import com.hover.runner.transaction.adapters.TransactionMessagesRecyclerAdapter
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.transaction.model.TransactionDetailsInfo
 import com.hover.runner.transaction.model.TransactionDetailsMessages
+import com.hover.runner.transaction.navigation.TransactionNavigationInterface
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
@@ -31,8 +30,7 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
 
     private lateinit var topLayout: RunnerTopDetailsView
 
-    private lateinit var actionNavigationInterface: ActionNavigationInterface
-    private lateinit var parserNavigationInterface: ParserNavigationInterface
+    private lateinit var transactionNavigationInterface: TransactionNavigationInterface
 
     private lateinit var aboutInfoRecyclerView: RecyclerView
     private lateinit var deviceInfoRecyclerView: RecyclerView
@@ -61,8 +59,7 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     }
 
     private fun initInterface() {
-        actionNavigationInterface = activity as ActionNavigationInterface
-        parserNavigationInterface = activity as ParserNavigationInterface
+        transactionNavigationInterface = activity as TransactionNavigationInterface
     }
 
     private fun initViews() {
@@ -160,10 +157,10 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     }
 
     override fun onActionItemClick(actionId: String, titleTextView: View) {
-        actionNavigationInterface.navActionDetails(actionId, titleTextView)
+       transactionNavigationInterface.navActionDetails(actionId, titleTextView)
     }
 
     override fun onParserItemClicked(id: String) {
-        parserNavigationInterface.navParserDetailsFragment(id.toInt())
+        transactionNavigationInterface.navParserDetailsFragment(id.toInt())
     }
 }

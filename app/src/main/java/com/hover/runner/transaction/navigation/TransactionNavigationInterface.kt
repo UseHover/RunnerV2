@@ -1,5 +1,9 @@
 package com.hover.runner.transaction.navigation
 
-interface TransactionNavigationInterface {
+import android.view.View
+
+interface  TransactionNavigationInterface {
     fun navTransactionDetails(uuid: String)
+    fun navActionDetails(actionId : String, titleTextView : View)
+    fun navParserDetailsFragment(parserId: Int)
 }

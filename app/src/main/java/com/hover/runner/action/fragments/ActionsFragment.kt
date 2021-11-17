@@ -56,7 +56,8 @@ class ActionsFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentActionsBinding.inflate(inflater, container, false)
-        initInterfaces()
+        initNavigationInterface()
+        initSDKCallerInterface()
         return binding.root
     }
 
@@ -71,8 +72,10 @@ class ActionsFragment : Fragment(),
         setupTestAll()
     }
 
-    private fun initInterfaces() {
+    private fun initNavigationInterface() {
         actionNavigationInterface = activity as ActionNavigationInterface
+    }
+    private fun initSDKCallerInterface() {
         sdkCallerInterface = activity as SDKCallerInterface
     }
 
