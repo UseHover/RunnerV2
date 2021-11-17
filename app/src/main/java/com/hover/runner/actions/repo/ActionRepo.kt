@@ -1,7 +1,5 @@
 package com.hover.runner.actions.repo
 
-import android.content.Context
-import com.hover.runner.database.AppDatabase
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.database.HoverRoomDatabase
 

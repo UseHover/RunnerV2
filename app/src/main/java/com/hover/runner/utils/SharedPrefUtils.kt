@@ -31,6 +31,7 @@ class SharedPrefUtils {
             editor.putString(key, value)
             editor.apply()
         }
+
         fun getSavedString(key: String?, c: Context): String? {
             return getSharedPrefs(c).getString(key, "")
         }
@@ -44,6 +45,7 @@ class SharedPrefUtils {
         fun getSavedInt(key: String?, c: Context): Int {
             return getSharedPrefs(c).getInt(key, 0)
         }
+
         fun saveIntoStringSet(key: String, newValue: String, c: Context) {
             val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
 
@@ -53,6 +55,7 @@ class SharedPrefUtils {
             editor.putStringSet(key, data)
             editor.apply()
         }
+
         fun removeFromStringSet(key: String, value: String, c: Context) {
             val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
             val data = getStringSet(key, c)
@@ -60,7 +63,8 @@ class SharedPrefUtils {
             editor.putStringSet(key, data)
             editor.apply()
         }
-        fun getStringSet(key: String, c: Context) : MutableSet<String>? {
+
+        fun getStringSet(key: String, c: Context): MutableSet<String>? {
             return getSharedPrefs(c).getStringSet(key, HashSet<String>())
         }
 

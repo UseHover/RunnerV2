@@ -20,7 +20,9 @@ class ApplicationInstance : Application() {
         setLogger()
     }
 
-    private fun setLogger() {if(BuildConfig.DEBUG) Timber.plant(Timber.DebugTree()) else Timber.uprootAll() }
+    private fun setLogger() {
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree()) else Timber.uprootAll()
+    }
 
     private fun setupFonts() {
         val replacer = FontReplacer.Build(applicationContext)
@@ -30,6 +32,7 @@ class ApplicationInstance : Application() {
         replacer.setThinFont("Gibson-Light.otf")
         replacer.applyFont()
     }
+
     private fun initDI() {
         startKoin {
             androidContext(this@ApplicationInstance)

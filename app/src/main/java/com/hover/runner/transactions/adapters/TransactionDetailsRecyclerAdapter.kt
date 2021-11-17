@@ -64,7 +64,7 @@ class TransactionDetailsRecyclerAdapter(
                 )
             }
             else holder.value.setOnClickListener { parserClickListener.onParserItemClicked(info.value) }
-        } else holder.value.setText(info.value)
+        } else holder.value.text = info.value
     }
 
     override fun getItemCount(): Int {

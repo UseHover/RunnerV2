@@ -15,7 +15,7 @@ import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
 import timber.log.Timber
 
-class MainActivity : AbstractNavigationActivity()  {
+class MainActivity : AbstractNavigationActivity() {
 
     private lateinit var binding: ActivityMainBinding
     val permission_acceptance_incomplete = "You did not allow all permissions"
@@ -56,7 +56,11 @@ class MainActivity : AbstractNavigationActivity()  {
                     UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
                 }
             }
-        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
+        if (!PermissionsUtil.hasPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
+            )
+        ) {
             resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }

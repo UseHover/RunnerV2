@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import com.hover.runner.database.AppDatabase
-import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.RunnerTransactionDao
+import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.sdk.transactions.TransactionContract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +35,7 @@ class TransactionRepo(db: AppDatabase) {
         return transactionDao.transactionsByAction(actionId, limit)
     }
 
-   suspend fun getTransactionsByParser(parserId: Int) : List<RunnerTransaction> {
+    suspend fun getTransactionsByParser(parserId: Int): List<RunnerTransaction> {
         return transactionDao.transactionsByParser("%$parserId%")
     }
 
@@ -56,10 +56,12 @@ class TransactionRepo(db: AppDatabase) {
         AppDatabase.databaseWriteExecutor.execute {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    var t : RunnerTransaction? = intent.getStringExtra(TransactionContract.COLUMN_UUID)?.let { getTransactionSuspended(it) }
+                    var t: RunnerTransaction? =
+                        intent.getStringExtra(TransactionContract.COLUMN_UUID)
+                            ?.let { getTransactionSuspended(it) }
                     if (t == null) {
                         t = RunnerTransaction.init(intent, context)
-                        t?.let{ insertTransaction(t!!)}
+                        t?.let { insertTransaction(t!!) }
                         t = getTransactionSuspended(t!!.uuid)
                     } else {
                         t.update(intent)
@@ -67,7 +69,7 @@ class TransactionRepo(db: AppDatabase) {
                     }
                     if (t != null) {
                         Timber.e("save t with uuid: %s", t.uuid)
-                    };
+                    }
                 } catch (e: Exception) {
                     Timber.e(e, "error")
                 }

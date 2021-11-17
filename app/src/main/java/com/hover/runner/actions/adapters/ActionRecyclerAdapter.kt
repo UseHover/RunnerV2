@@ -6,17 +6,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.utils.UIHelper
 import com.hover.runner.R
 import com.hover.runner.actions.listeners.ActionClickListener
 import com.hover.runner.actions.models.Action
 import com.hover.runner.utils.RunnerColor
+import com.hover.runner.utils.UIHelper
 
-class ActionRecyclerAdapter(private val actionList: List<Action>, private val clickListener: ActionClickListener) :
+class ActionRecyclerAdapter(
+    private val actionList: List<Action>,
+    private val clickListener: ActionClickListener
+) :
     RecyclerView.Adapter<ActionRecyclerAdapter.ActionListItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionListItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.action_list_items, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.action_list_items, parent, false)
         return ActionListItemViewHolder(view)
     }
 
@@ -29,8 +33,8 @@ class ActionRecyclerAdapter(private val actionList: List<Action>, private val cl
 
         holder.iconImage.setImageResource(action.getStatusDrawable())
 
-        holder.itemView.setOnClickListener { view->
-            action.id.let { clickListener.onActionItemClick(action.id, view)}
+        holder.itemView.setOnClickListener { view ->
+            action.id.let { clickListener.onActionItemClick(action.id, view) }
         }
     }
 

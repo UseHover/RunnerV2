@@ -22,22 +22,26 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
     private var _binding: ParsersFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var typeText : TextView
-    private lateinit var actionText : TextView
-    private lateinit var actionIdText : TextView
-    private lateinit var categoryText : TextView
-    private lateinit var statusText : TextView
-    private lateinit var createdText : TextView
-    private lateinit var senderText : TextView
-    private lateinit var regexText : TextView
-    private lateinit var toolBarText : TextView
-    private lateinit var recentTransText : TextView
+    private lateinit var typeText: TextView
+    private lateinit var actionText: TextView
+    private lateinit var actionIdText: TextView
+    private lateinit var categoryText: TextView
+    private lateinit var statusText: TextView
+    private lateinit var createdText: TextView
+    private lateinit var senderText: TextView
+    private lateinit var regexText: TextView
+    private lateinit var toolBarText: TextView
+    private lateinit var recentTransText: TextView
     private lateinit var transactionRecyclerView: RecyclerView
 
-    private val viewModel : ParserViewModel by sharedViewModel()
-    private lateinit var parserNavigationInterface : ParserNavigationInterface
+    private val viewModel: ParserViewModel by sharedViewModel()
+    private lateinit var parserNavigationInterface: ParserNavigationInterface
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = ParsersFragmentBinding.inflate(inflater, container, false)
         initInterfaces()
         return binding.root
@@ -51,29 +55,32 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
         observeParserInfo()
         observeTransactions()
     }
+
     private fun initInterfaces() {
-        parserNavigationInterface  = activity as ParserNavigationInterface
+        parserNavigationInterface = activity as ParserNavigationInterface
     }
 
     private fun initViews() {
-         typeText = binding.parserTypeContent
-         actionText = binding.parserActionContent
-         actionIdText = binding.parserActionIdContent
-         categoryText = binding.parserCategoryContent
-         statusText = binding.parserStatusContent
-         createdText = binding.parserCreatedAtContent
-         senderText = binding.parserSenderContent
-         regexText = binding.parserRegexContent
-         toolBarText = binding.parserDetailsToolbarText
-         recentTransText = binding.recentTransaId
-         transactionRecyclerView = binding.parserTransacRecyclerView
+        typeText = binding.parserTypeContent
+        actionText = binding.parserActionContent
+        actionIdText = binding.parserActionIdContent
+        categoryText = binding.parserCategoryContent
+        statusText = binding.parserStatusContent
+        createdText = binding.parserCreatedAtContent
+        senderText = binding.parserSenderContent
+        regexText = binding.parserRegexContent
+        toolBarText = binding.parserDetailsToolbarText
+        recentTransText = binding.recentTransaId
+        transactionRecyclerView = binding.parserTransacRecyclerView
     }
+
     private fun setupToolBar() {
-        toolBarText.setOnClickListener{activity?.onBackPressed()}
+        toolBarText.setOnClickListener { activity?.onBackPressed() }
         toolBarText.text = arguments?.get("parser_id").toString()
     }
+
     private fun initViewModelData() {
-        val parserId : Int = arguments?.getInt("parser_id", 0)!!
+        val parserId: Int = arguments?.getInt("parser_id", 0)!!
         viewModel.getParser(parserId)
         viewModel.getTransactions(parserId)
     }
@@ -92,19 +99,29 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
                 statusText.text = parser.category
                 statusText.setTextColor(RunnerColor(requireContext()).get(parser.getStatusColor()))
 
-                actionIdText.setOnClickListener { parserNavigationInterface.navActionDetails(parser.action_id!!, actionText) }
-                actionText.setOnClickListener { parserNavigationInterface.navActionDetails(parser.action_id!!, it) }
+                actionIdText.setOnClickListener {
+                    parserNavigationInterface.navActionDetails(
+                        parser.action_id!!,
+                        actionText
+                    )
+                }
+                actionText.setOnClickListener {
+                    parserNavigationInterface.navActionDetails(
+                        parser.action_id!!,
+                        it
+                    )
+                }
             }
         }
     }
+
     private fun observeTransactions() {
         transactionRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
         viewModel.transactionsLiveData.observe(viewLifecycleOwner) { transactions ->
-            if(transactions !=null) {
-                if(transactions.isEmpty()) {
+            if (transactions != null) {
+                if (transactions.isEmpty()) {
                     recentTransText.text = resources.getString(R.string.zero_transactions)
-                }
-                else {
+                } else {
                     recentTransText.text = resources.getString(R.string.recent_transactions)
                     transactionRecyclerView.adapter = TransactionRecyclerAdapter(transactions, this)
                 }

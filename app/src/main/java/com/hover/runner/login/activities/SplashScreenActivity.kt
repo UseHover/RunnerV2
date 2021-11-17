@@ -13,9 +13,9 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
-import com.hover.runner.home.MainActivity
 import com.hover.runner.R
 import com.hover.runner.databinding.SplashScreenLayoutBinding
+import com.hover.runner.home.MainActivity
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
 import com.hover.runner.utils.UIHelper
@@ -117,7 +117,7 @@ class SplashScreenActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 val data: Array<String> = result.data!!.getStringArrayExtra("login_data")!!
                 if (data.size == 2) {
-                    val email = data[0];
+                    val email = data[0]
                     val password = data[1]
                     loginViewModel.doLogin(email, password)
                 } else delayNavToLoginActivity()

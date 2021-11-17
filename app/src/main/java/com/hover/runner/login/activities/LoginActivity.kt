@@ -18,9 +18,6 @@ import com.hover.runner.utils.Resource
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.webview.WebViewActivity
-import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.actions.HoverActionDao
-import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -140,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun sendDataToPreviousActivity() {
         val returnIntent = Intent()
-        val result = arrayOf(emailEdit.text.toString(), passwordEdit.getText().toString())
+        val result = arrayOf(emailEdit.text.toString(), passwordEdit.text.toString())
         returnIntent.putExtra("login_data", result)
         setResult(RESULT_OK, returnIntent)
         finish()

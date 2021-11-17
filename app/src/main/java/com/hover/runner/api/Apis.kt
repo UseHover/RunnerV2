@@ -16,7 +16,8 @@ class Apis {
             val retrofitToken = retrofit.create(LoginEndpoint::class.java)
             val emailBody = RequestBody.create(MediaType.parse("text/plain"), email)
             val passwordBody = RequestBody.create(MediaType.parse("text/plain"), password)
-            val callerToken: Call<TokenModel> = retrofitToken.getTokenFromHover(emailBody, passwordBody)
+            val callerToken: Call<TokenModel> =
+                retrofitToken.getTokenFromHover(emailBody, passwordBody)
             val tokenModel = callerToken.execute()
             return try {
                 if (tokenModel.code() == 200 && tokenModel.body() != null) tokenModel.body() else null

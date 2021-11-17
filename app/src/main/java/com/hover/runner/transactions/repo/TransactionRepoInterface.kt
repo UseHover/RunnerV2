@@ -3,19 +3,18 @@ package com.hover.runner.transactions.repo
 import androidx.lifecycle.LiveData
 import com.hover.runner.actions.models.Action
 import com.hover.runner.transactions.model.RunnerTransaction
-import com.hover.runner.transactions.model.TransactionDetailsInfo
 import com.hover.sdk.sms.MessageLog
 import com.hover.sdk.transactions.Transaction
 
 interface TransactionRepoInterface {
-    fun getTransaction(uuid: String) : LiveData<RunnerTransaction>
-    fun getTransactionsByAction(actionId: String, limit: Int) : LiveData<List<RunnerTransaction>>
-    suspend fun getAllTransactions() : List<RunnerTransaction>
-    suspend fun getTransactionsByAction(actionId: String) : List<RunnerTransaction>
-    suspend fun getTransactionSuspended(uuid: String) : RunnerTransaction?
-    suspend fun getLastTransaction(actionId: String) : RunnerTransaction?
-    suspend fun getAction(actionId: String) : Action
-    suspend fun getDeviceId() : String
-    suspend fun getHoverTransaction(uuid: String) : Transaction
-    suspend fun getMessageLog(smsUUID: String) : MessageLog
+    fun getTransaction(uuid: String): LiveData<RunnerTransaction>
+    fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>>
+    suspend fun getAllTransactions(): List<RunnerTransaction>
+    suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction>
+    suspend fun getTransactionSuspended(uuid: String): RunnerTransaction?
+    suspend fun getLastTransaction(actionId: String): RunnerTransaction?
+    suspend fun getAction(actionId: String): Action
+    suspend fun getDeviceId(): String
+    suspend fun getHoverTransaction(uuid: String): Transaction
+    suspend fun getMessageLog(smsUUID: String): MessageLog
 }

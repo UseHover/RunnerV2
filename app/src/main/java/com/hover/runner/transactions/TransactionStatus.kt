@@ -6,8 +6,8 @@ import com.hover.sdk.transactions.Transaction
 abstract class TransactionStatus {
     companion object {
 
-        fun hasTransaction(status: String) : Boolean {
-            return when(status)  {
+        fun hasTransaction(status: String): Boolean {
+            return when (status) {
                 Transaction.PENDING -> true
                 Transaction.FAILED -> true
                 Transaction.SUCCEEDED -> true
@@ -15,8 +15,8 @@ abstract class TransactionStatus {
             }
         }
 
-        fun getColor(status: String?) : Int{
-            return when(status) {
+        fun getColor(status: String?): Int {
+            return when (status) {
                 Transaction.PENDING -> R.color.colorYellow
                 Transaction.FAILED -> R.color.colorRed
                 Transaction.SUCCEEDED -> R.color.colorGreen
@@ -24,8 +24,8 @@ abstract class TransactionStatus {
             }
         }
 
-        fun getToolBarColor(status: String?) : Int{
-            return when(status) {
+        fun getToolBarColor(status: String?): Int {
+            return when (status) {
                 Transaction.PENDING -> R.color.colorYellow
                 Transaction.FAILED -> R.color.colorRed
                 Transaction.SUCCEEDED -> R.color.colorGreen
@@ -33,7 +33,7 @@ abstract class TransactionStatus {
             }
         }
 
-        fun getDrawable(status: String?) : Int {
+        fun getDrawable(status: String?): Int {
             return when (status) {
                 Transaction.PENDING -> R.drawable.ic_warning_yellow_24dp
                 Transaction.FAILED -> R.drawable.ic_error_red_24dp

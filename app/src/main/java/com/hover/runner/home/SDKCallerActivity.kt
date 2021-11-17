@@ -15,28 +15,27 @@ import com.hover.sdk.api.HoverParameters
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
-    private val actionViewModel : ActionViewModel by viewModel()
-    private val transactionViewModel : TransactionViewModel by viewModel()
-    private val settingsViewModel : SettingsViewModel by viewModel()
-    private val parserViewModel : ParserViewModel by viewModel()
+    private val actionViewModel: ActionViewModel by viewModel()
+    private val transactionViewModel: TransactionViewModel by viewModel()
+    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val parserViewModel: ParserViewModel by viewModel()
 
-    private var lastRanPos = - 1
+    private var lastRanPos = -1
 
-    private fun initBuilder(actionId: String) : HoverParameters.Builder {
+    private fun initBuilder(actionId: String): HoverParameters.Builder {
         val actionExtras: Map<String, String> = ActionVariablesCache.get(this, actionId).actionMap
         val builder = HoverParameters.Builder(this)
         builder.request(actionId)
         builder.setEnvironment(SettingsFragment.getCurrentEnv(this))
         builder.style(R.style.myHoverTheme)
-        actionExtras.keys.forEach{builder.extra(it, actionExtras[it])}
+        actionExtras.keys.forEach { builder.extra(it, actionExtras[it]) }
         return builder
     }
 
     override fun runChainedActions() {
         lastRanPos += 1
         val actions = actionViewModel.getRunnableActions()
-        if(lastRanPos >= actions.size) return
-
+        if (lastRanPos >= actions.size) return
         else {
             val nextAction = actions[lastRanPos]
             val builder = initBuilder(nextAction.id)
@@ -48,11 +47,14 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
                         runChainedActions()
                     }
                 }
-            var throttle  = 0
-            if(lastRanPos>0) {
+            var throttle = 0
+            if (lastRanPos > 0) {
                 throttle = SharedPrefUtils.getDelay(this)
             }
-            Handler().postDelayed({ chainedActionLauncher.launch(builder.buildIntent()) }, throttle.toLong())
+            Handler().postDelayed(
+                { chainedActionLauncher.launch(builder.buildIntent()) },
+                throttle.toLong()
+            )
         }
     }
 

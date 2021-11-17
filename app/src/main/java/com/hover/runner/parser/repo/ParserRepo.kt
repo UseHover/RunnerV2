@@ -1,8 +1,6 @@
 package com.hover.runner.parser.repo
 
 import android.content.Context
-import com.hover.runner.database.AppDatabase
-import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.parsers.HoverParser
 
 class ParserRepo(private val context: Context) {

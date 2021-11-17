@@ -17,21 +17,20 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hover.runner.R
-import com.hover.runner.actions.listeners.ActionClickListener
 import com.hover.runner.actions.adapters.ActionRecyclerAdapter
+import com.hover.runner.actions.listeners.ActionClickListener
+import com.hover.runner.actions.navigation.ActionNavigationInterface
 import com.hover.runner.actions.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FragmentActionsBinding
-import com.hover.runner.actions.navigation.ActionNavigationInterface
 import com.hover.runner.home.SDKCallerInterface
 import com.hover.runner.utils.*
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.lang.Exception
-import java.util.ArrayList
+import java.util.*
 
-class ActionsFragment  : Fragment(),
-      Hover.DownloadListener, ActionClickListener {
+class ActionsFragment : Fragment(),
+    Hover.DownloadListener, ActionClickListener {
 
     private var _binding: FragmentActionsBinding? = null
     private val actionViewModel: ActionViewModel by sharedViewModel()
@@ -43,16 +42,19 @@ class ActionsFragment  : Fragment(),
     private lateinit var emptyInfoLayout: LinearLayout
     private lateinit var emptyStateView: RelativeLayout
     private lateinit var emptyTitle: TextView
-    private lateinit var emptySubtitle:TextView
-    private lateinit var testAllActionsText : TextView
+    private lateinit var emptySubtitle: TextView
+    private lateinit var testAllActionsText: TextView
 
 
-
-    private lateinit var actionNavigationInterface : ActionNavigationInterface
-    private lateinit var sdkCallerInterface : SDKCallerInterface
+    private lateinit var actionNavigationInterface: ActionNavigationInterface
+    private lateinit var sdkCallerInterface: SDKCallerInterface
 
     private val binding get() = _binding!!
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentActionsBinding.inflate(inflater, container, false)
         initInterfaces()
         return binding.root
@@ -68,8 +70,9 @@ class ActionsFragment  : Fragment(),
         observeActions()
         setupTestAll()
     }
+
     private fun initInterfaces() {
-        actionNavigationInterface  = activity as ActionNavigationInterface
+        actionNavigationInterface = activity as ActionNavigationInterface
         sdkCallerInterface = activity as SDKCallerInterface
     }
 
@@ -93,18 +96,17 @@ class ActionsFragment  : Fragment(),
 
     private fun observeActionLoading() {
         actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
-            if(hasLoaded)  showRecyclerView() else showLoadingView()
+            if (hasLoaded) showRecyclerView() else showLoadingView()
         }
     }
 
     private fun observeActions() {
         actionViewModel.getAllActions()
         actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
-            if(actions !=null) {
-                if(actions.isEmpty()) {
+            if (actions != null) {
+                if (actions.isEmpty()) {
                     showEmptyDataView()
-                }
-                else {
+                } else {
                     val actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
                     actionsRecyclerView.adapter = actionRecyclerAdapter
                 }
@@ -118,7 +120,10 @@ class ActionsFragment  : Fragment(),
                 when {
                     hasBadActions() -> actionNavigationInterface.navUnCompletedVariableFragment()
                     getRunnableActions().isNotEmpty() -> sdkCallerInterface.runChainedActions()
-                    else -> UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
+                    else -> UIHelper.flashMessage(
+                        requireContext(),
+                        resources.getString(R.string.noRunnableAction)
+                    )
                 }
             }
         }
@@ -160,6 +165,7 @@ class ActionsFragment  : Fragment(),
             else showNetworkError()
         }
     }
+
     private fun refreshActions() {
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
             actionUpdateReceiver,
@@ -186,7 +192,8 @@ class ActionsFragment  : Fragment(),
 
     private fun unregisterReceiver() {
         try {
-            LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(actionUpdateReceiver)
+            LocalBroadcastManager.getInstance(requireContext())
+                .unregisterReceiver(actionUpdateReceiver)
         } catch (ignored: Exception) {
         }
     }
@@ -204,7 +211,10 @@ class ActionsFragment  : Fragment(),
     override fun onSuccess(actionList: ArrayList<HoverAction>?) {
         pullToRefresh.isRefreshing = false
         actionViewModel.getAllActions()
-        UIHelper.flashMessage(requireContext(), resources.getString(R.string.refreshed_successfully))
+        UIHelper.flashMessage(
+            requireContext(),
+            resources.getString(R.string.refreshed_successfully)
+        )
     }
 
     override fun onActionItemClick(actionId: String, titleTextView: View) {

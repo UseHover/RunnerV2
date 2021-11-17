@@ -1,33 +1,35 @@
 package com.hover.runner.actions.repo
 
 import android.content.Context
-import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.models.Action
+import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.models.StreamlinedSteps
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.transactions.repo.TransactionRepo
 import timber.log.Timber
 
-class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
-                              private val transactionRepo: TransactionRepo,
-                              private val parserRepo: ParserRepo,
-                              private val context: Context) : ActionRepoInterface {
+class ActionRepoInterfaceImpl(
+    private val actionRepo: ActionRepo,
+    private val transactionRepo: TransactionRepo,
+    private val parserRepo: ParserRepo,
+    private val context: Context
+) : ActionRepoInterface {
 
     override suspend fun getAllActions(): List<Action> {
-        val hoverActions =  actionRepo.getAllActionsFromHover()
+        val hoverActions = actionRepo.getAllActionsFromHover()
 
         val runnerActions = mutableListOf<Action>()
-            hoverActions.forEachIndexed { _, act ->
-                val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-                Timber.i("Action d ${act.public_id}")
-                Timber.i("Action t ${act.network_name}")
-                runnerActions.add(Action.get(act, lastTransaction, context))
-            }
-        return runnerActions;
+        hoverActions.forEachIndexed { _, act ->
+            val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
+            Timber.i("Action d ${act.public_id}")
+            Timber.i("Action t ${act.network_name}")
+            runnerActions.add(Action.get(act, lastTransaction, context))
+        }
+        return runnerActions
     }
 
-    override suspend fun getActionDetailsById(id: String) : ActionDetails {
+    override suspend fun getActionDetailsById(id: String): ActionDetails {
         val transactionList = transactionRepo.getTransactionsByAction(id)
         val parsersList = parserRepo.getParsersByActionId(id)
         val hoverAction = actionRepo.getHoverAction(id)

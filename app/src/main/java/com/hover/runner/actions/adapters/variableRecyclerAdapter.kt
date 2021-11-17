@@ -11,17 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.actions.listeners.ActionVariableEditListener
 import com.hover.runner.actions.models.StreamlinedSteps
-import java.util.*
 
 
 class VariableRecyclerAdapter(
-    private val actionId: String, private var steps: StreamlinedSteps?,
-    private val editInterface: ActionVariableEditListener, private var initialData: Map<String, String?>)
-    : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
+    private val actionId: String,
+    private var steps: StreamlinedSteps?,
+    private val editInterface: ActionVariableEditListener,
+    private var initialData: Map<String, String?>
+) : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariableItemListView {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.variables_items, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.variables_items, parent, false)
         return VariableItemListView(view)
     }
 
@@ -32,7 +34,7 @@ class VariableRecyclerAdapter(
         holder.labelText.text = label
         holder.editText.hint = desc
 
-        initialData[label]?.let { if (it.isNotEmpty()) holder.editText.setText(it) }.apply {  }
+        initialData[label]?.let { if (it.isNotEmpty()) holder.editText.setText(it) }.apply { }
 
         holder.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}

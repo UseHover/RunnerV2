@@ -8,29 +8,30 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
-import com.hover.runner.transactions.TransactionStatus
 import com.hover.runner.parser.listeners.ParserClickListener
+import com.hover.runner.transactions.TransactionStatus
 import com.hover.sdk.parsers.HoverParser
-import java.lang.StringBuilder
 
 data class Parser(
     val type: String?, val action_name: String?,
     val action_id: String?, val regex: String?,
-    var category: String?, var created_date: String?, var sender: String? = null) : TransactionStatus() {
+    var category: String?, var created_date: String?, var sender: String? = null
+) : TransactionStatus() {
 
-    fun getStatusColor() : Int{
+    fun getStatusColor(): Int {
         return getColor(category)
     }
 
     companion object {
 
-        fun listIdsToString(parserList: List<HoverParser>) : String{
+        fun listIdsToString(parserList: List<HoverParser>): String {
             val parsers = StringBuilder()
             for (hoverParser in parserList) {
                 parsers.append(hoverParser.serverId).append(", ")
             }
             var parserString = ""
-            if (parsers.toString().isNotEmpty()) parserString =  parsers.toString().substring(0, parsers.length - 2)
+            if (parsers.toString().isNotEmpty()) parserString =
+                parsers.toString().substring(0, parsers.length - 2)
             return parserString
         }
 
@@ -52,7 +53,10 @@ data class Parser(
             tv.setText(ss, TextView.BufferType.SPANNABLE)
         }
 
-        private class MyClickableSpan(private val mText: String, private val clickListener: ParserClickListener) : ClickableSpan() {
+        private class MyClickableSpan(
+            private val mText: String,
+            private val clickListener: ParserClickListener
+        ) : ClickableSpan() {
             override fun onClick(widget: View) {
                 clickListener.onParserItemClicked(mText.replace(" ", "").trim { it <= ' ' })
             }

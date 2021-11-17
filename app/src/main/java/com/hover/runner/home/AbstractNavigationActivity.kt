@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
@@ -17,12 +16,12 @@ import com.hover.runner.settings.navigation.SettingsNavigationInterface
 import com.hover.runner.transactions.navigation.TransactionNavigationInterface
 import com.hover.runner.webview.WebViewActivity
 
- abstract class AbstractNavigationActivity : SDKCallerActivity() ,
+abstract class AbstractNavigationActivity : SDKCallerActivity(),
     ActionNavigationInterface,
     TransactionNavigationInterface,
     ParserNavigationInterface,
-    SettingsNavigationInterface{
-    private lateinit var navController : NavController
+    SettingsNavigationInterface {
+    private lateinit var navController: NavController
 
     fun setupNavigation() {
         val navView = findViewById<BottomNavigationView>(R.id.nav_view)
@@ -37,7 +36,7 @@ import com.hover.runner.webview.WebViewActivity
     }
 
     override fun navActionDetails(actionId: String, titleTextView: View) {
-        ViewCompat.setTransitionName(titleTextView, "action_title");
+        ViewCompat.setTransitionName(titleTextView, "action_title")
         val bundle = Bundle()
         bundle.putString("action_id", actionId)
         navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
@@ -50,15 +49,15 @@ import com.hover.runner.webview.WebViewActivity
         startActivity(i)
     }
 
-     override fun navParserDetailsFragment(parserId: Int) {
-         val bundle = Bundle()
-         bundle.putInt("parser_id", parserId)
-         navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
-     }
+    override fun navParserDetailsFragment(parserId: Int) {
+        val bundle = Bundle()
+        bundle.putInt("parser_id", parserId)
+        navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
+    }
 
-     override fun navTransactionListFragment(filterByActionId: String) {
-         TODO("Not yet implemented because filtering is yet to be done")
-     }
+    override fun navTransactionListFragment(filterByActionId: String) {
+        TODO("Not yet implemented because filtering is yet to be done")
+    }
 
     override fun navUnCompletedVariableFragment() {
         navController.navigate(R.id.navigation_uncompletedVariableFragment)
@@ -68,9 +67,9 @@ import com.hover.runner.webview.WebViewActivity
         val bundle = Bundle()
         bundle.putString("uuid", uuid)
         navController.navigate(R.id.navigation_transactionDetails, bundle, null, null)
-     }
+    }
 
-     override fun navLoginAndFinish() {
-         startActivity(Intent(this, LoginActivity::class.java))
-     }
- }
+    override fun navLoginAndFinish() {
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
+}

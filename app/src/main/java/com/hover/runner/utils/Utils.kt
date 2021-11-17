@@ -9,7 +9,6 @@ import android.telephony.TelephonyManager
 import com.hover.runner.R
 import org.json.JSONArray
 import org.json.JSONException
-import java.lang.NullPointerException
 import java.util.regex.Pattern
 
 class Utils {

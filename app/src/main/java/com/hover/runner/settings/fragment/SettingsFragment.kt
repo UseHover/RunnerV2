@@ -16,9 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
-import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
-import com.hover.runner.api.Apis
 import com.hover.runner.databinding.SettingsFragmentBinding
 import com.hover.runner.settings.navigation.SettingsNavigationInterface
 import com.hover.runner.settings.viewmodel.SettingsViewModel
@@ -29,39 +27,40 @@ import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
-import com.hover.sdk.sims.SimInfo
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.lang.Exception
-import java.util.ArrayList
+import java.util.*
 
-class SettingsFragment: Fragment(), Hover.DownloadListener {
-    private val PROD_ENV : Int = 0
-    private val DEBUG_ENV : Int = 1
-    private val TEST_ENV : Int = 2
+class SettingsFragment : Fragment(), Hover.DownloadListener {
+    private val PROD_ENV: Int = 0
+    private val DEBUG_ENV: Int = 1
+    private val TEST_ENV: Int = 2
 
     private var _binding: SettingsFragmentBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var radioGroup: RadioGroup
-    private lateinit var sim1NameText : TextView
-    private lateinit var sim2NameText : TextView
-    private lateinit var contactSupportText : TextView
-    private lateinit var refreshButton : Button
-    private lateinit var emailText : TextView
-    private lateinit var packageNameText : TextView
-    private lateinit var apiKeyText : TextView
-    private lateinit var delayInputEdit : EditText
-    private lateinit var signOutText : Button
+    private lateinit var sim1NameText: TextView
+    private lateinit var sim2NameText: TextView
+    private lateinit var contactSupportText: TextView
+    private lateinit var refreshButton: Button
+    private lateinit var emailText: TextView
+    private lateinit var packageNameText: TextView
+    private lateinit var apiKeyText: TextView
+    private lateinit var delayInputEdit: EditText
+    private lateinit var signOutText: Button
 
 
     private var isRefreshButtonIdle = false
 
-    private lateinit var settingsNavigationInterface : SettingsNavigationInterface
-    private val settingsViewModel : SettingsViewModel by sharedViewModel()
+    private lateinit var settingsNavigationInterface: SettingsNavigationInterface
+    private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = SettingsFragmentBinding.inflate(inflater, container, false)
         initInterfaces()
         return binding.root
@@ -80,14 +79,15 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
         linkify(contactSupportText)
         setupDelayEntry()
 
-        refreshButton.setOnClickListener{ v: View? -> confirmRefresh() }
+        refreshButton.setOnClickListener { v: View? -> confirmRefresh() }
         emailText.text = SharedPrefUtils.getEmail(requireContext())
         packageNameText.text = Utils.getPackage(requireContext())
         apiKeyText.text = SharedPrefUtils.getApiKey(requireContext())
-        signOutText.setOnClickListener{ showSignOutDialog() }
+        signOutText.setOnClickListener { showSignOutDialog() }
     }
+
     private fun initInterfaces() {
-        settingsNavigationInterface  = activity as SettingsNavigationInterface
+        settingsNavigationInterface = activity as SettingsNavigationInterface
     }
 
     private fun initViews() {
@@ -112,24 +112,24 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
     }
 
     private fun setupDelayEntry() {
-        delayInputEdit.setText(SharedPrefUtils.getDelay(requireContext()).toString() )
+        delayInputEdit.setText(SharedPrefUtils.getDelay(requireContext()).toString())
         delayInputEdit.addTextChangedListener(delayWatcher)
     }
 
     private fun observeSimNames() {
         settingsViewModel.getPresentSims()
-        settingsViewModel.presentSimsLiveData.observe(viewLifecycleOwner) {simNames->
-            if(simNames !=null) {
+        settingsViewModel.presentSimsLiveData.observe(viewLifecycleOwner) { simNames ->
+            if (simNames != null) {
                 val emptySimValue = resources.getString(R.string.no_sim_found)
-                if(simNames.isNotEmpty()) sim1NameText.text = simNames[0]
-                if(simNames.size > 1) sim2NameText.text = simNames[1]
+                if (simNames.isNotEmpty()) sim1NameText.text = simNames[0]
+                if (simNames.size > 1) sim2NameText.text = simNames[1]
             }
         }
     }
 
 
     private fun setupEnvRadio() {
-        when(getCurrentEnv(requireContext())) {
+        when (getCurrentEnv(requireContext())) {
             PROD_ENV -> radioGroup.check(R.id.mode_normal)
             DEBUG_ENV -> radioGroup.check(R.id.mode_debug)
             else -> radioGroup.check(R.id.mode_noSim)
@@ -144,12 +144,13 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle("App refresh")
             builder.setMessage("Refreshing your app data will delete all cached entries. Are you sure you want continue?")
-            builder.setPositiveButton("Refresh"
+            builder.setPositiveButton(
+                "Refresh"
             ) { dialog: DialogInterface?, _: Int ->
                 dialog?.dismiss()
                 dialog?.cancel()
                 refreshActions()
-             }
+            }
             builder.setNegativeButton("Cancel") { dialog: DialogInterface, which: Int ->
                 dialog.dismiss()
                 dialog.cancel()
@@ -161,7 +162,10 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
 
     private fun linkify(contactSupport: TextView) {
         //TODO: Method name is weird, needs to be changed to something better. Please go ahead to change if you've got a better idea.
-        val sp = HtmlCompat.fromHtml(getString(R.string.contactUs), HtmlCompat.FROM_HTML_OPTION_USE_CSS_COLORS)
+        val sp = HtmlCompat.fromHtml(
+            getString(R.string.contactUs),
+            HtmlCompat.FROM_HTML_OPTION_USE_CSS_COLORS
+        )
         contactSupport.text = sp
         contactSupport.movementMethod = LinkMovementMethod.getInstance()
     }
@@ -170,21 +174,24 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
         if (!isRefreshButtonIdle) {
             isRefreshButtonIdle = true
             Hover.updateActionConfigs(this, requireContext())
-            UIHelper.flashMessage(requireContext(), resources.getString(R.string.app_data_refreshed))
+            UIHelper.flashMessage(
+                requireContext(),
+                resources.getString(R.string.app_data_refreshed)
+            )
         }
     }
-    private fun showSignOutDialog() {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Sign out")
-            builder.setMessage("Are you sure you want to sign out of Runner app?")
-            builder.setPositiveButton("Yes") { _: DialogInterface?, _: Int -> signOut() }
-            builder.setNegativeButton("No") { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-                dialog.cancel()
-            }
-            builder.show()
-    }
 
+    private fun showSignOutDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Sign out")
+        builder.setMessage("Are you sure you want to sign out of Runner app?")
+        builder.setPositiveButton("Yes") { _: DialogInterface?, _: Int -> signOut() }
+        builder.setNegativeButton("No") { dialog: DialogInterface, _: Int ->
+            dialog.dismiss()
+            dialog.cancel()
+        }
+        builder.show()
+    }
 
 
     private fun setEnv(mode: Int) = SharedPrefUtils.saveInt(ENV, mode, requireContext())
@@ -195,6 +202,7 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
             R.id.mode_noSim -> setEnv(TEST_ENV)
         }
     }
+
     private fun setDelay(value: Int) {
         SharedPrefUtils.saveInt(DELAY, value, requireContext())
     }
@@ -202,20 +210,23 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
     private fun getDelay(): Int {
         return SharedPrefUtils.getSavedInt(DELAY, requireContext())
     }
+
     private fun signOut() {
         SharedPrefUtils.clearData(requireContext())
         settingsNavigationInterface.navLoginAndFinish()
     }
+
     override fun onError(reason: String?) {
         isRefreshButtonIdle = false
         UIHelper.flashMessage(requireContext(), reason)
     }
 
     override fun onSuccess(p0: ArrayList<HoverAction>?) {
-        isRefreshButtonIdle = false;
+        isRefreshButtonIdle = false
     }
+
     companion object {
-         fun getCurrentEnv(context: Context ): Int = SharedPrefUtils.getSavedInt(ENV, context)
+        fun getCurrentEnv(context: Context): Int = SharedPrefUtils.getSavedInt(ENV, context)
         fun envToString(env: Int): String {
             var string = ""
             string = when (env) {

@@ -13,7 +13,7 @@ data class ActionDetails(
     var streamlinedSteps: StreamlinedSteps? = null
 ) {
     companion object {
-        fun init(transactionList: List<RunnerTransaction>) : ActionDetails {
+        fun init(transactionList: List<RunnerTransaction>): ActionDetails {
             var totalTransaction = "0"
             var successNo = 0
             var pendingNo = 0
@@ -21,12 +21,19 @@ data class ActionDetails(
             if (transactionList.isNotEmpty()) {
                 totalTransaction = transactionList.size.toString()
                 transactionList.forEach {
-                    if(it.status == Transaction.SUCCEEDED) successNo += 1
+                    if (it.status == Transaction.SUCCEEDED) successNo += 1
                     else if (it.status == Transaction.PENDING) pendingNo += 1
-                    else failedNo +=1
+                    else failedNo += 1
                 }
             }
-            return ActionDetails(null, null, totalTransaction, successNo.toString(), pendingNo.toString(), failedNo.toString())
+            return ActionDetails(
+                null,
+                null,
+                totalTransaction,
+                successNo.toString(),
+                pendingNo.toString(),
+                failedNo.toString()
+            )
 
         }
     }

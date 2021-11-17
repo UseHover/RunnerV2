@@ -1,11 +1,10 @@
 package com.hover.runner.actions.viewmodel.usecase
 
-import android.content.Context
 import com.hover.runner.actions.models.Action
 import com.hover.runner.actions.models.ActionDetails
 import com.hover.runner.actions.repo.ActionRepoInterface
 
-class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUseCase {
+class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface) : ActionUseCase {
     override suspend fun loadAll(): List<Action> {
         return actionRepo.getAllActions()
     }
@@ -15,7 +14,7 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUs
     }
 
     override suspend fun getAction(id: String): Action {
-        return actionRepo.getAction(id);
+        return actionRepo.getAction(id)
     }
 
     override suspend fun getActionDetails(id: String): ActionDetails {
@@ -29,7 +28,7 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUs
     override fun findActionsWithUncompletedVariables(actions: List<Action>): List<Action> {
         val subList = mutableListOf<Action>()
         actions.forEach {
-            if (!it.hasAllVariablesFilled(actionRepo.getContext()) && !it.isSkipped ) {
+            if (!it.hasAllVariablesFilled(actionRepo.getContext()) && !it.isSkipped) {
                 it.jsonArrayToString = it.steps.toString()
                 subList.add(it)
             }
@@ -38,14 +37,14 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface)  : ActionUs
     }
 
     override fun findRunnableActions(actions: List<Action>): List<Action> =
-        actions.filter { (it.hasAllVariablesFilled(actionRepo.getContext()) && !it.isSkipped)}
+        actions.filter { (it.hasAllVariablesFilled(actionRepo.getContext()) && !it.isSkipped) }
 
-    override fun removeFromList(action: Action, actionList: List<Action>) : List<Action> {
+    override fun removeFromList(action: Action, actionList: List<Action>): List<Action> {
         return actionList.filterNot { it.id == action.id }
     }
 
     override fun canFirstItemSave(actionList: List<Action>): Boolean {
-        return if(actionList.isEmpty()) false
+        return if (actionList.isEmpty()) false
         else actionList[0].hasAllVariablesFilled(actionRepo.getContext())
     }
 

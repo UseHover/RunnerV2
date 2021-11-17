@@ -4,21 +4,19 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import com.google.android.gms.common.util.ArrayUtils
 import com.hover.runner.BuildConfig
-import com.hover.runner.actions.models.Action
 import com.hover.runner.settings.fragment.SettingsFragment
 import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.model.TransactionDetailsInfo
 import com.hover.runner.transactions.model.TransactionDetailsMessages
 import com.hover.runner.transactions.repo.TransactionRepoInterface
 import com.hover.runner.utils.Utils
-import com.hover.sdk.api.Hover
 import com.hover.sdk.sms.MessageLog
 import com.hover.sdk.transactions.Transaction
 import org.json.JSONException
-import java.lang.Exception
-import java.util.ArrayList
+import java.util.*
 
-class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRepoInterface) : TransactionUseCase {
+class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRepoInterface) :
+    TransactionUseCase {
     override suspend fun getAllTransactions(): List<RunnerTransaction> {
         return transactionRepoInterface.getAllTransactions()
     }
@@ -34,15 +32,22 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
     override suspend fun getAboutInfo(runnerTransaction: RunnerTransaction): List<TransactionDetailsInfo> {
         with(runnerTransaction) {
             val action = transactionRepoInterface.getAction(runnerTransaction.action_id)
-            val lastTransaction : RunnerTransaction? = transactionRepoInterface.getLastTransaction(runnerTransaction.action_id)
+            val lastTransaction: RunnerTransaction? =
+                transactionRepoInterface.getLastTransaction(runnerTransaction.action_id)
 
-            val detailsList  = mutableListOf<TransactionDetailsInfo>()
+            val detailsList = mutableListOf<TransactionDetailsInfo>()
             detailsList.add(TransactionDetailsInfo("Status", status, false))
             detailsList.add(TransactionDetailsInfo("Action", action.title!!, true))
             detailsList.add(TransactionDetailsInfo("ActionID", action.id, true))
             detailsList.add(TransactionDetailsInfo("Time", getDate()!!, false))
             detailsList.add(TransactionDetailsInfo("TransactionId", uuid, false))
-            detailsList.add(TransactionDetailsInfo("Result", lastTransaction!!.last_message_hit ?: "", false))
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "Result",
+                    lastTransaction!!.last_message_hit ?: "",
+                    false
+                )
+            )
             detailsList.add(TransactionDetailsInfo("Category", category!!, false))
             detailsList.add(TransactionDetailsInfo("Operator", action.network_name!!, false))
             return detailsList
@@ -57,14 +62,32 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
         val deviceId = transactionRepoInterface.getDeviceId()
 
         with(runnerTransaction) {
-            val detailsList  = mutableListOf<TransactionDetailsInfo>()
-            detailsList.add(TransactionDetailsInfo("Testing mode", SettingsFragment.envToString(environment), false))
+            val detailsList = mutableListOf<TransactionDetailsInfo>()
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "Testing mode",
+                    SettingsFragment.envToString(environment),
+                    false
+                )
+            )
             detailsList.add(TransactionDetailsInfo("Device ID", deviceId, false))
             detailsList.add(TransactionDetailsInfo("Brand", manufacturer, false))
             detailsList.add(TransactionDetailsInfo("Model", model, false))
             detailsList.add(TransactionDetailsInfo("Android ver.", "SDK $osVersionName", false))
-            detailsList.add(TransactionDetailsInfo("App ver. code", BuildConfig.VERSION_CODE.toString(), false))
-            detailsList.add(TransactionDetailsInfo("App ver. name", BuildConfig.VERSION_NAME, false))
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "App ver. code",
+                    BuildConfig.VERSION_CODE.toString(),
+                    false
+                )
+            )
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "App ver. name",
+                    BuildConfig.VERSION_NAME,
+                    false
+                )
+            )
             return detailsList
         }
     }
@@ -73,9 +96,27 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
         with(runnerTransaction) {
             val hoverTransaction = transactionRepoInterface.getHoverTransaction(uuid)
             val detailsList = mutableListOf<TransactionDetailsInfo>()
-            detailsList.add(TransactionDetailsInfo("Input extras", hoverTransaction.input_extras.toString(), false))
-            detailsList.add(TransactionDetailsInfo("Matched parsers", runnerTransaction.matched_parsers ?: "", true))
-            detailsList.add(TransactionDetailsInfo("Parsed variables", hoverTransaction.parsed_variables.toString(), false))
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "Input extras",
+                    hoverTransaction.input_extras.toString(),
+                    false
+                )
+            )
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "Matched parsers",
+                    runnerTransaction.matched_parsers ?: "",
+                    true
+                )
+            )
+            detailsList.add(
+                TransactionDetailsInfo(
+                    "Parsed variables",
+                    hoverTransaction.parsed_variables.toString(),
+                    false
+                )
+            )
             return detailsList
         }
     }
@@ -83,19 +124,23 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
     override suspend fun getMessagesInfo(runnerTransaction: RunnerTransaction): List<TransactionDetailsMessages> {
         val action = transactionRepoInterface.getAction(runnerTransaction.action_id)
         val hoverTransaction = transactionRepoInterface.getHoverTransaction(runnerTransaction.uuid)
-        val arrayOfStringArray = getMessages(action.rootCode, getSMSMessages(hoverTransaction), hoverTransaction)
+        val arrayOfStringArray =
+            getMessages(action.rootCode, getSMSMessages(hoverTransaction), hoverTransaction)
 
         return getMessagesModel(arrayOfStringArray)
     }
 
-    override fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> {
+    override fun getTransactionsByAction(
+        actionId: String,
+        limit: Int
+    ): LiveData<List<RunnerTransaction>> {
         return transactionRepoInterface.getTransactionsByAction(actionId, limit)
     }
 
-    private suspend fun getSMSMessages(transaction : Transaction) : List<MessageLog> {
+    private suspend fun getSMSMessages(transaction: Transaction): List<MessageLog> {
         val smsMessages: MutableList<MessageLog> = ArrayList()
         try {
-            val smsUUIDS = Utils.convertNormalJSONArrayToStringArray(transaction .smsHits)
+            val smsUUIDS = Utils.convertNormalJSONArrayToStringArray(transaction.smsHits)
             for (uuid in smsUUIDS!!) {
                 val log: MessageLog = transactionRepoInterface.getMessageLog(uuid!!)
                 smsMessages.add(log)
@@ -105,7 +150,12 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
         }
         return smsMessages
     }
-    private fun getMessages(rootCodeString: String, smsMessages:List<MessageLog>, transaction: Transaction) : Array<Array<String?>?> {
+
+    private fun getMessages(
+        rootCodeString: String,
+        smsMessages: List<MessageLog>,
+        transaction: Transaction
+    ): Array<Array<String?>?> {
         val smsSenderList = arrayOfNulls<String>(smsMessages.size)
         val smsContentList = arrayOfNulls<String>(smsMessages.size)
         for (i in smsMessages.indices) {
@@ -135,11 +185,12 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
         return arrayOf(enteredValues, ussdMessages)
     }
 
-    private fun getMessagesModel(result : Array<Array<String?>?>) : List<TransactionDetailsMessages> {
+    private fun getMessagesModel(result: Array<Array<String?>?>): List<TransactionDetailsMessages> {
         val enteredValues = result[0]!!
         val ussdMessages = result[1]!!
         val largestSize = Math.max(enteredValues.size, ussdMessages.size)
-        val messagesModels: ArrayList<TransactionDetailsMessages> = ArrayList<TransactionDetailsMessages>()
+        val messagesModels: ArrayList<TransactionDetailsMessages> =
+            ArrayList<TransactionDetailsMessages>()
 
         //Put in a try and catch to prevent crashing when USSD session reports incorrectly.
         try {

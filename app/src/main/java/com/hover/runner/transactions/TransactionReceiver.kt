@@ -10,13 +10,16 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class TransactionReceiver : BroadcastReceiver(), KoinComponent{
+class TransactionReceiver : BroadcastReceiver(), KoinComponent {
     private val repo: TransactionRepo by inject()
 
     override fun onReceive(context: Context?, intent: Intent?) {
         intent?.let {
             CoroutineScope(Dispatchers.IO).launch {
-                if(context!=null) repo.insertOrUpdateTransaction(intent, context.applicationContext)
+                if (context != null) repo.insertOrUpdateTransaction(
+                    intent,
+                    context.applicationContext
+                )
             }
         }
     }

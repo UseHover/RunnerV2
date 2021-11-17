@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.runner.transactions.RunnerTransactionDao
+import com.hover.runner.transactions.model.RunnerTransaction
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
@@ -14,8 +15,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun runnerTransactionDao(): RunnerTransactionDao
 
     companion object {
-        val NUMBER_OF_THREADS = 8
-        val databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS)
+        private const val NUMBER_OF_THREADS = 8
+        val databaseWriteExecutor: ExecutorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS)
 
         @Volatile
         var INSTANCE: AppDatabase? = null

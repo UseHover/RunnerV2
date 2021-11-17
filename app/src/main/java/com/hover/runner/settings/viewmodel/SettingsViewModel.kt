@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val useCase: SettingsUseCase) : ViewModel() {
-    val presentSimsLiveData : MutableLiveData<List<String>> = MutableLiveData()
+    val presentSimsLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
     fun getPresentSims() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -9,7 +9,6 @@ import com.hover.runner.databinding.WebviewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 class WebViewActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")

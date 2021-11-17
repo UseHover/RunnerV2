@@ -182,10 +182,10 @@ class DateUtils {
         fun getDate(expectedWeek: Int) = getDate(null, expectedWeek)
         fun getDate(expectedDay: Int?, expectedWeek: Int): Date {
             val cacheCalendar: Calendar = Calendar.getInstance()
-            cacheCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, expectedWeek);
+            cacheCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, expectedWeek)
             expectedDay?.let { cacheCalendar.set(Calendar.DAY_OF_WEEK, it) }
-            cacheCalendar.set(Calendar.MONTH, currentMonth());
-            cacheCalendar.set(Calendar.YEAR, currentYear());
+            cacheCalendar.set(Calendar.MONTH, currentMonth())
+            cacheCalendar.set(Calendar.YEAR, currentYear())
             return cacheCalendar.time
         }
 
@@ -198,8 +198,8 @@ class DateUtils {
 
         fun beginningOfTheMonth(): Date {
             val cacheCalendar: Calendar = Calendar.getInstance()
-            cacheCalendar.set(Calendar.MONTH, currentMonth());
-            cacheCalendar.set(Calendar.YEAR, currentYear());
+            cacheCalendar.set(Calendar.MONTH, currentMonth())
+            cacheCalendar.set(Calendar.YEAR, currentYear())
             cacheCalendar.set(Calendar.DAY_OF_MONTH, 1)
             return cacheCalendar.time
         }
@@ -209,8 +209,8 @@ class DateUtils {
             c.add(Calendar.MONTH, -2)
             val month: Int = c[Calendar.MONTH] + 1
 
-            c.set(Calendar.MONTH, month + 1);
-            c.set(Calendar.YEAR, c[Calendar.YEAR]);
+            c.set(Calendar.MONTH, month + 1)
+            c.set(Calendar.YEAR, c[Calendar.YEAR])
             c.set(Calendar.DAY_OF_MONTH, 1)
             return c.time
         }

@@ -1,19 +1,23 @@
 package com.hover.runner.transactions.adapters
 
-import com.hover.runner.transactions.model.TransactionDetailsMessages
-import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.transactions.adapters.TransactionMessagesRecyclerAdapter.TransactionMessageViewHolder
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import com.hover.runner.R
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.hover.runner.R
+import com.hover.runner.transactions.adapters.TransactionMessagesRecyclerAdapter.TransactionMessageViewHolder
+import com.hover.runner.transactions.model.TransactionDetailsMessages
 
 class TransactionMessagesRecyclerAdapter(private val messagesModelArrayList: List<TransactionDetailsMessages>) :
     RecyclerView.Adapter<TransactionMessageViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionMessageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.transaction_messages_items, parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TransactionMessageViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.transaction_messages_items, parent, false)
         return TransactionMessageViewHolder(view)
     }
 
@@ -23,10 +27,8 @@ class TransactionMessagesRecyclerAdapter(private val messagesModelArrayList: Lis
             if (enteredValue == "(pin)") {
                 holder.enteredValueText.text = "...."
                 holder.enteredValueText.textSize = 60f
-            }
-            else holder.enteredValueText.text = enteredValue
-        }
-        else holder.enteredValueText.visibility = View.GONE
+            } else holder.enteredValueText.text = enteredValue
+        } else holder.enteredValueText.visibility = View.GONE
 
         holder.messageContentText.text = messageContent
     }
