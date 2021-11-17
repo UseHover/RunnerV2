@@ -10,11 +10,13 @@ import com.hover.runner.transactions.TransactionStatus
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
+import com.hover.sdk.sms.MessageLog
 import com.hover.sdk.transactions.Transaction
 import com.hover.sdk.transactions.TransactionContract
 import org.json.JSONArray
 import org.json.JSONException
 import timber.log.Timber
+import java.util.ArrayList
 
 @Entity(tableName = "runner_transactions", indices = [Index(value = ["uuid"], unique = true)])
 data class RunnerTransaction
@@ -66,6 +68,8 @@ constructor(
     fun getStatusColor() : Int{
         return getColor(status)
     }
+
+
 
     companion object {
         fun init(data: Intent, context: Context) : RunnerTransaction? {

@@ -216,5 +216,14 @@ class SettingsFragment: Fragment(), Hover.DownloadListener {
     }
     companion object {
          fun getCurrentEnv(context: Context ): Int = SharedPrefUtils.getSavedInt(ENV, context)
+        fun envToString(env: Int): String {
+            var string = ""
+            string = when (env) {
+                0 -> "Normal"
+                1 -> "Debug"
+                else -> "No-SIM"
+            }
+            return string
+        }
     }
 }
