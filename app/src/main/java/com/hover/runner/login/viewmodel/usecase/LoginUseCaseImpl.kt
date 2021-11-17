@@ -3,7 +3,7 @@ package com.hover.runner.login.viewmodel.usecase
 import android.content.Context
 import com.hover.runner.R
 import com.hover.runner.api.Apis
-import com.hover.runner.login.endpoint.TokenModel
+import com.hover.runner.login.endpoint.Token
 import com.hover.runner.utils.NetworkUtil
 import com.hover.runner.utils.Resource
 import com.hover.runner.utils.SharedPrefUtils
@@ -12,7 +12,7 @@ import timber.log.Timber
 
 class LoginUseCaseImpl(private val context: Context) : LoginUseCase {
     override suspend fun login(email: String, password: String): Resource<Int> {
-        val token: TokenModel? = Apis.login(email, password)
+        val token: Token? = Apis.login(email, password)
         return if (token != null) {
             Timber.i("Login is successful")
             cacheToken(token)
@@ -31,7 +31,7 @@ class LoginUseCaseImpl(private val context: Context) : LoginUseCase {
         else return Resource.Success(0)
     }
 
-    private fun cacheToken(token: TokenModel) {
+    private fun cacheToken(token: Token) {
         Timber.i("cacheOrg is ${token.orgId}")
         Timber.i("cacheToken is ${token.auth_token}")
         Timber.i("cacheAPIKey is ${token.apiKey}")

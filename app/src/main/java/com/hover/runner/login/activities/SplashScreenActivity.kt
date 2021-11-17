@@ -68,18 +68,10 @@ class SplashScreenActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             loginProgress.visibility = View.GONE
             val imageView2 = findViewById<ImageView>(R.id.iv1)
-            val sharedElement1 = Pair<View, String>(
-                imageView,
-                Objects.requireNonNull(ViewCompat.getTransitionName(imageView))
-            )
-            val sharedElement2 = Pair<View, String>(
-                imageView2,
-                Objects.requireNonNull(ViewCompat.getTransitionName(imageView2))
-            )
+            val sharedElement1 = Pair<View, String>(imageView, ViewCompat.getTransitionName(imageView))
+            val sharedElement2 = Pair<View, String>(imageView2, ViewCompat.getTransitionName(imageView2))
             val activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this,
-                sharedElement1,
-                sharedElement2
+                this, sharedElement1, sharedElement2
             )
             loginProcessLauncher.launch(intent, activityOptionsCompat)
         } else loginProcessLauncher.launch(intent)

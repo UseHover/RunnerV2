@@ -12,5 +12,5 @@ interface LoginEndpoint {
     fun getTokenFromHover(
         @Part("email") email: RequestBody?,
         @Part("password") password: RequestBody?
-    ): Call<TokenModel>
+    ): Call<Token>
 }
