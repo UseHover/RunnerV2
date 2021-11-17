@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.viewmodel.usecase.ParserUseCase
-import com.hover.runner.transactions.model.RunnerTransaction
+import com.hover.runner.transaction.model.RunnerTransaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

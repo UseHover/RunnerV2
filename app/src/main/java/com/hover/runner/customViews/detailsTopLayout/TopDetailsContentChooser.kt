@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.hover.runner.R
-import com.hover.runner.transactions.TransactionStatus
+import com.hover.runner.transaction.TransactionStatus
 import com.hover.runner.utils.RunnerColor
 import com.hover.sdk.transactions.Transaction
 

@@ -7,7 +7,7 @@
 		android:background="@color/colorPrimaryDark"
 		android:layout_marginBottom="55dp"
 		xmlns:tools="http://schemas.android.com/tools"
-		tools:context=".actions.fragments.ActionsFragment"
+		tools:context=".action.fragments.ActionsFragment"
 		xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout

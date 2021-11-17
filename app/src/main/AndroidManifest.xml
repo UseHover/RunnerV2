@@ -33,7 +33,7 @@
 		<activity android:name=".webview.WebViewActivity" android:theme="@style/myHoverTheme" />
 
 		<receiver
-			android:name=".transactions.TransactionReceiver"
+			android:name=".transaction.TransactionReceiver"
 			android:enabled="true"
 			android:exported="false">
 			<intent-filter>

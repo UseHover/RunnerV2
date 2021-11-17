@@ -8,13 +8,13 @@
 	<!--Actions -->
 	<fragment
 		android:id="@+id/navigation_actions"
-		android:name="com.hover.runner.actions.fragments.ActionsFragment"
+		android:name="com.hover.runner.action.fragments.ActionsFragment"
 		android:label="@string/title_actions"
 		tools:layout="@layout/fragment_actions" />
 
 	<fragment
 		android:id="@+id/navigation_actionDetails"
-		android:name="com.hover.runner.actions.fragments.ActionDetailsFragment"
+		android:name="com.hover.runner.action.fragments.ActionDetailsFragment"
 		android:label="@string/action_details"
 		tools:layout="@layout/action_details_fragment">
 		<argument
@@ -24,7 +24,7 @@
 
 	<fragment
 		android:id="@+id/navigation_uncompletedVariableFragment"
-		android:name="com.hover.runner.actions.fragments.UnCompletedVariablesFragment"
+		android:name="com.hover.runner.action.fragments.UnCompletedVariablesFragment"
 		android:label="@string/uncompleted_variable_notice"
 		tools:layout="@layout/uncompleted_variable_fragment_layout">
 	</fragment>
@@ -32,13 +32,13 @@
 	<!--Transactions -->
 	<fragment
 		android:id="@+id/navigation_transactions"
-		android:name="com.hover.runner.transactions.fragments.TransactionListFragment"
+		android:name="com.hover.runner.transaction.fragments.TransactionListFragment"
 		android:label="@string/title_transactions"
 		tools:layout="@layout/fragment_transactions" />
 
 	<fragment
 		android:id="@+id/navigation_transactionDetails"
-		android:name="com.hover.runner.transactions.fragments.TransactionDetailsFragment"
+		android:name="com.hover.runner.transaction.fragments.TransactionDetailsFragment"
 		android:label="@string/transaction_details"
 		tools:layout="@layout/transaction_details_fragment">
 		<argument

@@ -1,7 +1,7 @@
 package com.hover.runner.parser.viewmodel.usecase
 
 import com.hover.runner.parser.model.Parser
-import com.hover.runner.transactions.model.RunnerTransaction
+import com.hover.runner.transaction.model.RunnerTransaction
 
 interface ParserUseCase {
     suspend fun getParser(id: Int): Parser

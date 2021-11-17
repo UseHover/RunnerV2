@@ -11,8 +11,8 @@ import com.hover.runner.R
 import com.hover.runner.databinding.ParsersFragmentBinding
 import com.hover.runner.parser.navigation.ParserNavigationInterface
 import com.hover.runner.parser.viewmodel.ParserViewModel
-import com.hover.runner.transactions.adapters.TransactionRecyclerAdapter
-import com.hover.runner.transactions.listeners.TransactionClickListener
+import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
+import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

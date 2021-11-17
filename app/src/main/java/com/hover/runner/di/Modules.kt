@@ -1,9 +1,9 @@
 package com.hover.runner.di
 
-import com.hover.runner.actions.repo.ActionRepo
-import com.hover.runner.actions.repo.ActionRepoInterfaceImpl
-import com.hover.runner.actions.viewmodel.ActionViewModel
-import com.hover.runner.actions.viewmodel.usecase.ActionUseCaseImpl
+import com.hover.runner.action.repo.ActionRepo
+import com.hover.runner.action.repo.ActionRepoInterfaceImpl
+import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.action.viewmodel.usecase.ActionUseCaseImpl
 import com.hover.runner.database.AppDatabase
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
@@ -15,10 +15,10 @@ import com.hover.runner.settings.repo.SimRepo
 import com.hover.runner.settings.repo.SimRepoInterfaceImpl
 import com.hover.runner.settings.viewmodel.usecase.SettingsUseCaseImpl
 import com.hover.runner.settings.viewmodel.SettingsViewModel
-import com.hover.runner.transactions.repo.TransactionRepo
-import com.hover.runner.transactions.repo.TransactionRepoInterfaceImpl
-import com.hover.runner.transactions.viewmodel.TransactionViewModel
-import com.hover.runner.transactions.viewmodel.usecase.TransactionUseCaseImpl
+import com.hover.runner.transaction.repo.TransactionRepo
+import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
+import com.hover.runner.transaction.viewmodel.TransactionViewModel
+import com.hover.runner.transaction.viewmodel.usecase.TransactionUseCaseImpl
 import com.hover.sdk.database.HoverRoomDatabase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

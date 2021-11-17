@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.hover.runner.transactions.repo.RunnerTransactionDao
-import com.hover.runner.transactions.model.RunnerTransaction
+import com.hover.runner.transaction.repo.RunnerTransactionDao
+import com.hover.runner.transaction.model.RunnerTransaction
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

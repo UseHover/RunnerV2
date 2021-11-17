@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.hover.runner.actions.navigation.ActionNavigationInterface
+import com.hover.runner.action.navigation.ActionNavigationInterface
 import com.hover.runner.databinding.DetailsTopLayoutBinding
 import com.hover.runner.utils.UIHelper
 

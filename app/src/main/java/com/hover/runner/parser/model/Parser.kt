@@ -9,7 +9,7 @@ import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
 import com.hover.runner.parser.listeners.ParserClickListener
-import com.hover.runner.transactions.TransactionStatus
+import com.hover.runner.transaction.TransactionStatus
 import com.hover.sdk.parsers.HoverParser
 
 data class Parser(

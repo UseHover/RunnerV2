@@ -4,12 +4,12 @@ import android.os.Handler
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.hover.runner.R
-import com.hover.runner.actions.models.ActionVariablesCache
-import com.hover.runner.actions.viewmodel.ActionViewModel
+import com.hover.runner.action.models.ActionVariablesCache
+import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.parser.viewmodel.ParserViewModel
 import com.hover.runner.settings.fragment.SettingsFragment
 import com.hover.runner.settings.viewmodel.SettingsViewModel
-import com.hover.runner.transactions.viewmodel.TransactionViewModel
+import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.api.HoverParameters
 import org.koin.androidx.viewmodel.ext.android.viewModel

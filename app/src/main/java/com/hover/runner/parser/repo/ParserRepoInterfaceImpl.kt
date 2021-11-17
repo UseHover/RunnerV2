@@ -1,9 +1,9 @@
 package com.hover.runner.parser.repo
 
-import com.hover.runner.actions.repo.ActionRepo
+import com.hover.runner.action.repo.ActionRepo
 import com.hover.runner.parser.model.Parser
-import com.hover.runner.transactions.model.RunnerTransaction
-import com.hover.runner.transactions.repo.TransactionRepo
+import com.hover.runner.transaction.model.RunnerTransaction
+import com.hover.runner.transaction.repo.TransactionRepo
 
 class ParserRepoInterfaceImpl(
     private val parserRepo: ParserRepo,
