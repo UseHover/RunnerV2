@@ -1,10 +1,9 @@
 package com.hover.runner.settings.repo
 
+import com.hover.sdk.sims.SimInfo
+
 class SimRepoInterfaceImpl(private val simRepo: SimRepo) : SimRepoInterface {
-    override suspend fun getPresentSimNames(): List<String> {
-        val simInfo = simRepo.getPresentSims()
-        val result = mutableListOf<String>()
-        simInfo.forEach { result += it.operatorName }
-        return result
+    override suspend fun getPresentSims(): List<SimInfo> {
+        return simRepo.getPresentSims()
     }
 }
