@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import com.hover.runner.database.AppDatabase
-import com.hover.runner.transactions.RunnerTransactionDao
 import com.hover.runner.transactions.model.RunnerTransaction
 import com.hover.sdk.transactions.TransactionContract
 import kotlinx.coroutines.CoroutineScope

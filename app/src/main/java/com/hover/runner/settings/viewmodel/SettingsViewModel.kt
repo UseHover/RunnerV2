@@ -3,7 +3,7 @@ package com.hover.runner.settings.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hover.runner.settings.usecase.SettingsUseCase
+import com.hover.runner.settings.viewmodel.usecase.SettingsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

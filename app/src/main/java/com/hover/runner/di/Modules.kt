@@ -13,7 +13,7 @@ import com.hover.runner.parser.viewmodel.ParserViewModel
 import com.hover.runner.parser.viewmodel.usecase.ParserUseCaseImpl
 import com.hover.runner.settings.repo.SimRepo
 import com.hover.runner.settings.repo.SimRepoInterfaceImpl
-import com.hover.runner.settings.usecase.SettingsUseCaseImpl
+import com.hover.runner.settings.viewmodel.usecase.SettingsUseCaseImpl
 import com.hover.runner.settings.viewmodel.SettingsViewModel
 import com.hover.runner.transactions.repo.TransactionRepo
 import com.hover.runner.transactions.repo.TransactionRepoInterfaceImpl

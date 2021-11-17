@@ -1,4 +1,4 @@
-package com.hover.runner.settings.usecase
+package com.hover.runner.settings.viewmodel.usecase
 
 import com.hover.runner.settings.repo.SimRepoInterface
 

@@ -1,4 +1,4 @@
-package com.hover.runner.transactions
+package com.hover.runner.transactions.repo
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
