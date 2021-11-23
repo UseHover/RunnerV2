@@ -24,13 +24,11 @@ class MainActivity : AbstractNavigationActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
         initHover()
-        checkForPermissions()
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         redirectIfRequired()
-
+        checkForPermissions()
     }
 
     override fun onResume() {
