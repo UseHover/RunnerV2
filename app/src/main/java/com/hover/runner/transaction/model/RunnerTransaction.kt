@@ -2,6 +2,7 @@ package com.hover.runner.transaction.model
 
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -15,12 +16,12 @@ import com.hover.sdk.transactions.TransactionContract
 import org.json.JSONArray
 import org.json.JSONException
 import timber.log.Timber
+import kotlin.random.Random
 
 @Entity(tableName = "runner_transactions", indices = [Index(value = ["uuid"], unique = true)])
 data class RunnerTransaction
 constructor(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int,
+
 
     @ColumnInfo(name = "uuid")
     var uuid: String,
@@ -47,10 +48,16 @@ constructor(
     var last_message_hit: String?,
 
     @ColumnInfo(name = "matched_parsers")
-    var matched_parsers: String?
+    var matched_parsers: String?,
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @JvmField
+    var id: Int = 0
 
 
 ) : TransactionStatus() {
+
     fun update(data: Intent) {
         status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
     }
@@ -69,6 +76,7 @@ constructor(
 
 
     companion object {
+
         fun init(data: Intent, context: Context): RunnerTransaction? {
             return if (data.hasExtra(TransactionContract.COLUMN_UUID) && data.getStringExtra(
                     TransactionContract.COLUMN_UUID
@@ -89,7 +97,6 @@ constructor(
                     getLastMessageHit(Hover.getTransaction(uuid, context), context)
                 Timber.v("creating transaction with uuid: %s", uuid)
                 RunnerTransaction(
-                    -1,
                     uuid,
                     action_id,
                     environment,

@@ -55,19 +55,19 @@ class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel(
 
     fun observeAboutInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
         return liveData {
-            viewModelScope.async { return@async useCase.getAboutInfo(transaction) }.await()
+            viewModelScope.async(Dispatchers.Main) { return@async useCase.getAboutInfo(transaction) }.await()
         }
     }
 
     fun observeDebugInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
         return liveData {
-            viewModelScope.async { return@async useCase.getDebugInfo(transaction) }.await()
+            viewModelScope.async(Dispatchers.Main) { return@async useCase.getDebugInfo(transaction) }.await()
         }
     }
 
     fun observeTransactionMessages(transaction: RunnerTransaction): LiveData<List<TransactionDetailsMessages>> {
         return liveData {
-            viewModelScope.async { return@async useCase.getMessagesInfo(transaction) }.await()
+            viewModelScope.async(Dispatchers.Main) { return@async useCase.getMessagesInfo(transaction) }.await()
         }
     }
 

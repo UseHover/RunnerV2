@@ -21,6 +21,7 @@ import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickListener {
     private var _binding: TransactionDetailsFragmentBinding? = null
@@ -104,8 +105,11 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     }
 
     private fun observeAboutInfo(transaction: RunnerTransaction) {
+        Timber.i("requested to observing about info")
         transactionViewModel.observeAboutInfo(transaction).observe(viewLifecycleOwner) { info ->
-            info?.let { setAboutInfoAdapter(it) }
+            info?.let {
+                Timber.i("observing about info")
+                setAboutInfoAdapter(it) }
         }
     }
 
