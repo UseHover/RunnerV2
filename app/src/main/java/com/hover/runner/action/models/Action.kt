@@ -43,7 +43,7 @@ class Action(
             if (!TextUtils.isEmpty(value.replace(" ", ""))) filledSize += 1
         }
 
-        if (!BuildConfig.FLAVOR.contains("pro")) filledSize = filledSize + 0
+        if (!BuildConfig.FLAVOR.contains("pro")) filledSize += 1
         Log.d("VAR_SIZE", "expected size: $expectedVariableSize, while filled size is: $filledSize")
         return expectedVariableSize == filledSize
     }

@@ -56,6 +56,9 @@
 		<argument
 			android:name="parser_id"
 			app:argType="integer" />
+		<argument
+			android:name="action_id"
+			app:argType="string" />
 	</fragment>
 
 	<!--Settings -->

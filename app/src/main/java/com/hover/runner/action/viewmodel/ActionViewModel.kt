@@ -8,6 +8,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     private val filterStatus: MutableLiveData<Boolean> = MutableLiveData()
@@ -17,14 +18,14 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
 
     //UCV means uncompleted variables
     val actionsWithUCV_LiveData: MutableLiveData<List<Action>> = MutableLiveData()
-    private val actionsWithCompletedVariables: LiveData<List<Action>> =
+    val actionsWithCompletedVariables: LiveData<List<Action>> =
         Transformations.switchMap(actionsWithUCV_LiveData, this::updateRunnableActions)
 
     init {
         filterStatus.value = false
         loadingStatusLiveData.value = false
-        Transformations.map(actions, this::updateUCVList)
     }
+
 
     fun getAllActions() {
         loadingStatusLiveData.postValue(false)
@@ -42,6 +43,7 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     }
 
     suspend fun getAction(id: String): Action {
+
         val deferredAction =
             viewModelScope.async(Dispatchers.IO) { return@async useCase.getAction(id) }
         return deferredAction.await()
@@ -59,10 +61,12 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
         viewModelScope.launch(Dispatchers.Main) {
             actions.postValue(deferredActions.await())
             loadingStatusLiveData.postValue(true)
+            actions.value?.let  {updateUCVList(it) }
         }
     }
 
     private fun updateUCVList(actions: List<Action>) {
+        Timber.i("ucv list triggered")
         actionsWithUCV_LiveData.postValue(useCase.findActionsWithUncompletedVariables(actions))
     }
 
@@ -73,7 +77,10 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
 
     fun removeFromUCVList(action: Action) {
         val actionList: List<Action>? = actionsWithUCV_LiveData.value
-        actionList?.let { actionsWithUCV_LiveData.postValue(useCase.removeFromList(action, it)) }
+        actionList?.let {
+            Timber.i("remove from ucv list triggered")
+            actionsWithUCV_LiveData.postValue(useCase.removeFromList(action, it))
+        }
     }
 
     fun getCurrentUCVAction(): Action {

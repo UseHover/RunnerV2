@@ -23,6 +23,7 @@ import com.hover.runner.utils.*
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 import java.util.*
 
 class ActionsFragment : Fragment(),
@@ -68,6 +69,7 @@ class ActionsFragment : Fragment(),
         observeActions()
         setupTestAll()
     }
+
 
     private fun initNavigationInterface() {
         actionNavigationInterface = activity as ActionNavigationInterface

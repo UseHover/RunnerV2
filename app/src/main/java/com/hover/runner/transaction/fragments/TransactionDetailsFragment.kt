@@ -37,6 +37,11 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     private lateinit var debugInfoRecyclerView: RecyclerView
     private lateinit var messagesInfoRecyclerView: RecyclerView
 
+    private lateinit var aboutInfoAdapter : TransactionDetailsRecyclerAdapter
+    private lateinit var deviceInfoAdapter : TransactionDetailsRecyclerAdapter
+    private lateinit var debugInfoAdapter : TransactionDetailsRecyclerAdapter
+    private lateinit var messagesInfoAdapter:  TransactionMessagesRecyclerAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -124,31 +129,23 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     }
 
     private fun setAboutInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-        if (aboutInfoRecyclerView.adapter == null) {
-            aboutInfoRecyclerView.adapter =
-                TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this, true)
-        }
+            aboutInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this, true)
+            aboutInfoRecyclerView.adapter = aboutInfoAdapter
     }
 
     private fun setDeviceInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-        if (deviceInfoRecyclerView.adapter == null) {
-            deviceInfoRecyclerView.adapter =
-                TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
-        }
+        deviceInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
+        deviceInfoRecyclerView.adapter = deviceInfoAdapter
     }
 
     private fun setDebugInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-        if (debugInfoRecyclerView.adapter == null) {
-            debugInfoRecyclerView.adapter =
-                TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
-        }
+        debugInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
+        debugInfoRecyclerView.adapter =debugInfoAdapter
     }
 
     private fun setMessagesAdapter(transactionDetailsMessages: List<TransactionDetailsMessages>) {
-        if (messagesInfoRecyclerView.adapter == null) {
-            messagesInfoRecyclerView.adapter =
-                TransactionMessagesRecyclerAdapter(transactionDetailsMessages)
-        }
+        messagesInfoAdapter = TransactionMessagesRecyclerAdapter(transactionDetailsMessages)
+        messagesInfoRecyclerView.adapter = messagesInfoAdapter
     }
 
     override fun onDestroyView() {
@@ -161,6 +158,6 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     }
 
     override fun onParserItemClicked(id: String) {
-        transactionNavigationInterface.navParserDetailsFragment(id.toInt())
+        transactionNavigationInterface.navParserDetailsFragment(aboutInfoAdapter.getActionId(),  id.toInt())
     }
 }

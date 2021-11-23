@@ -5,5 +5,5 @@ import android.view.View
 interface ParserNavigationInterface {
     fun navActionDetails(actionId: String, titleTextView: View)
     fun navTransactionDetails(uuid: String)
-    fun navParserDetailsFragment(parserId: Int)
+    fun navParserDetailsFragment(actionId: String, parserId: Int)
 }

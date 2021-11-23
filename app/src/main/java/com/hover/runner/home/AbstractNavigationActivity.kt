@@ -49,10 +49,11 @@ abstract class AbstractNavigationActivity : SDKCallerActivity(),
         startActivity(i)
     }
 
-    override fun navParserDetailsFragment(parserId: Int) {
+    override fun navParserDetailsFragment(actionId: String, parserId: Int) {
         val bundle = Bundle()
         bundle.putInt("parser_id", parserId)
-        navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
+        bundle.putString("action_id", actionId)
+        navController.navigate(R.id.navigation_parserDetails, bundle, null, null)
     }
 
     override fun navTransactionListFragment(filterByActionId: String) {

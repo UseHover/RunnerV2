@@ -231,7 +231,7 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
     }
 
     override fun onParserItemClicked(id: String) {
-        actionNavigationInterface.navParserDetailsFragment(Integer.valueOf(id))
+        actionNavigationInterface.navParserDetailsFragment(actionId, Integer.valueOf(id))
     }
 
     override fun onTransactionItemClicked(uuid: String) {

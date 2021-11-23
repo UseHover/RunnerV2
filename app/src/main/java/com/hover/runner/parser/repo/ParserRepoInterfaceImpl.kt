@@ -11,13 +11,13 @@ class ParserRepoInterfaceImpl(
     private val transactionRepo: TransactionRepo
 ) : ParserRepoInterface {
 
-    override suspend fun getParser(id: Int): Parser {
-        val p = parserRepo.getParser(id)!!
-        // val action = actionRepo.getHoverAction(p.actionId)
+    override suspend fun getParser(actionId: String, parserId: Int): Parser {
+        val p = parserRepo.getParser(actionId, parserId)!!
+        val action = actionRepo.getHoverAction(p.actionId)
         return Parser(
-            " action.transport_type",
-            "action.network_name",
-            "action.public_id",
+             action.transport_type,
+            action.name,
+            action.public_id,
             p.regex,
             p.status,
             "None",

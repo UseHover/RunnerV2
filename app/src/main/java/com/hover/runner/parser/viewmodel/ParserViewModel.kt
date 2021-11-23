@@ -13,9 +13,9 @@ class ParserViewModel(private val useCase: ParserUseCase) : ViewModel() {
     val parserLiveData: MutableLiveData<Parser> = MutableLiveData()
     val transactionsLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
 
-    fun getParser(id: Int) {
+    fun getParser(actionId: String, parserId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            parserLiveData.postValue(useCase.getParser(id))
+            parserLiveData.postValue(useCase.getParser(actionId, parserId))
         }
     }
 

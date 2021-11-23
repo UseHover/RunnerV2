@@ -8,7 +8,7 @@ class ParserRepo(private val context: Context) {
         return HoverParser.loadUSSDForAction(actionId, context)
     }
 
-    suspend fun getParser(id: Int): HoverParser? {
-        return HoverParser.load(IntArray(id), context).first()
+    suspend fun getParser(actionId: String, parserId: Int): HoverParser? {
+        return HoverParser.loadUSSDForAction(actionId, context).find{ it.serverId == parserId }
     }
 }

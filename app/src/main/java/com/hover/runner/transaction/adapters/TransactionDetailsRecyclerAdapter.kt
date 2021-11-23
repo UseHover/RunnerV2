@@ -32,7 +32,9 @@ class TransactionDetailsRecyclerAdapter(
                 if (it.label == "Action") actionName = it.value
             }
         }
-
+    }
+    fun getActionId() :String{
+        return actionId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TDViewHolder {

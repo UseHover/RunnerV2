@@ -81,7 +81,9 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
 
     private fun initViewModelData() {
         val parserId: Int = arguments?.getInt("parser_id", 0)!!
-        viewModel.getParser(parserId)
+        val actionId : String = arguments?.getString("action_id", "")!!
+
+        viewModel.getParser(actionId, parserId)
         viewModel.getTransactions(parserId)
     }
 
