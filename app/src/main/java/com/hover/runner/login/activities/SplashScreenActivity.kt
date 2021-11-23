@@ -14,18 +14,22 @@ import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import com.hover.runner.R
+import com.hover.runner.action.utils.UpdateHoverActions
 import com.hover.runner.databinding.SplashScreenLayoutBinding
 import com.hover.runner.home.MainActivity
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
+import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
+import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.api.Hover
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class SplashScreenActivity : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity(), Hover.DownloadListener {
     private lateinit var loginProgress: ProgressBar
     private lateinit var imageView: ImageView
     private val loginViewModel: LoginViewModel by viewModel()
@@ -85,6 +89,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     loginProgress.visibility = View.VISIBLE
                 }
                 is Resource.Success -> {
+                //    downloadHoverActions()
                     startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
                 }
@@ -103,6 +108,11 @@ class SplashScreenActivity : AppCompatActivity() {
         })
 
     }
+    private fun downloadHoverActions() {
+        Hover.initialize(this, SharedPrefUtils.getApiKey(this))
+        val hoverUpdateHoverActions = UpdateHoverActions(this, this)
+        hoverUpdateHoverActions.init()
+    }
 
     private val loginProcessLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -115,6 +125,14 @@ class SplashScreenActivity : AppCompatActivity() {
                 } else delayNavToLoginActivity()
             }
         }
+
+    override fun onError(p0: String?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSuccess(p0: ArrayList<HoverAction>?) {
+        TODO("Not yet implemented")
+    }
 
 
 }

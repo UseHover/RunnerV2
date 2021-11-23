@@ -1,9 +1,5 @@
 package com.hover.runner.action.fragments
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +9,10 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hover.runner.R
+import com.hover.runner.action.utils.UpdateHoverActions
 import com.hover.runner.action.adapters.ActionRecyclerAdapter
 import com.hover.runner.action.listeners.ActionClickListener
 import com.hover.runner.action.navigation.ActionNavigationInterface
@@ -64,6 +60,7 @@ class ActionsFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        showLoadingView()
         pullToRefresh.isRefreshing = false
         setupRecyclerView()
         setupPullToRefresh()
@@ -113,7 +110,7 @@ class ActionsFragment : Fragment(),
                     val actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
                     actionsRecyclerView.adapter = actionRecyclerAdapter
                 }
-            }
+            } else showLoadingView()
         }
     }
 
@@ -135,6 +132,7 @@ class ActionsFragment : Fragment(),
     private fun showLoadingView() {
         actionsRecyclerView.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
+
         emptyInfoLayout.visibility = View.GONE
         emptyStateView.visibility = View.GONE
     }
@@ -170,11 +168,8 @@ class ActionsFragment : Fragment(),
     }
 
     private fun refreshActions() {
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
-            actionUpdateReceiver,
-            IntentFilter(Utils.getPackage(requireContext()).toString() + ".ACTIONS_DOWNLOADED")
-        )
-        Hover.updateActionConfigs(this, requireContext())
+        val updateHoverActions = UpdateHoverActions(this, requireContext())
+        updateHoverActions.init()
     }
 
     private fun showNetworkError() {
@@ -184,21 +179,6 @@ class ActionsFragment : Fragment(),
             if (activity != null) requireActivity().currentFocus else null,
             requireContext().getString(R.string.NO_NETWORK)
         )
-    }
-
-    var actionUpdateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            unregisterReceiver()
-            pullToRefresh.isRefreshing = false
-        }
-    }
-
-    private fun unregisterReceiver() {
-        try {
-            LocalBroadcastManager.getInstance(requireContext())
-                .unregisterReceiver(actionUpdateReceiver)
-        } catch (ignored: Exception) {
-        }
     }
 
     override fun onDestroyView() {
@@ -214,10 +194,7 @@ class ActionsFragment : Fragment(),
     override fun onSuccess(actionList: ArrayList<HoverAction>?) {
         pullToRefresh.isRefreshing = false
         actionViewModel.getAllActions()
-        UIHelper.flashMessage(
-            requireContext(),
-            resources.getString(R.string.refreshed_successfully)
-        )
+        UIHelper.flashMessage(requireContext(), resources.getString(R.string.refreshed_successfully))
     }
 
     override fun onActionItemClick(actionId: String, titleTextView: View) {

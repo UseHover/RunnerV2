@@ -36,12 +36,12 @@ class LoginUseCaseImpl(private val context: Context) : LoginUseCase {
         Timber.i("cacheToken is ${token.auth_token}")
         Timber.i("cacheAPIKey is ${token.apiKey}")
 
-        //SharedPrefUtils.saveOrgId(801733, context)
-        //SharedPrefUtils.saveToken(token.auth_token, context)
-        //SharedPrefUtils.saveApiKey("cd8c5a3a29a52f534f5befad8779fcc0", context)
-
-        SharedPrefUtils.saveOrgId(token.orgId, context)
+        SharedPrefUtils.saveOrgId(801733, context)
         SharedPrefUtils.saveToken(token.auth_token, context)
-        SharedPrefUtils.saveApiKey(token.apiKey, context)
+        SharedPrefUtils.saveApiKey("cd8c5a3a29a52f534f5befad8779fcc0", context)
+
+//        SharedPrefUtils.saveOrgId(token.orgId, context)
+  //      SharedPrefUtils.saveToken(token.auth_token, context)
+    //    SharedPrefUtils.saveApiKey(token.apiKey, context)
     }
 }

@@ -67,7 +67,7 @@ class Action(
         fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context): Action {
             return Action(
                 act.public_id,
-                act.network_name,
+                act.name,
                 act.root_code,
                 act.country_alpha2,
                 act.network_name,

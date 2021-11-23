@@ -170,7 +170,10 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
             if (actionDetail != null) {
                 setDetailTexts(actionDetail)
                 if (actionDetail.streamlinedSteps?.stepVariableLabel!!.isEmpty()) setVariableEditsVisibiltyGone()
-                else setVariableEditRecyclerAdapter(action, actionDetail)
+                else {
+                    makeVariableEditsVisible()
+                    setVariableEditRecyclerAdapter(action, actionDetail)
+                }
             }
         }
     }
@@ -191,6 +194,12 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
         binding.variableLabelGroup2.visibility = GONE
         binding.variableLabelGroup3.visibility = GONE
     }
+    private fun makeVariableEditsVisible() {
+        binding.variableLabelGroup1.visibility = VISIBLE
+        binding.variableLabelGroup2.visibility = VISIBLE
+        binding.variableLabelGroup3.visibility = VISIBLE
+    }
+
 
     private fun setDetailTexts(actionDetail: ActionDetails) {
         operatorsText.text = actionDetail.operators

@@ -106,7 +106,7 @@ dependencies {
 	implementation 'com.google.firebase:firebase-crashlytics:18.2.4'
 
 	//Hover
-	def sdk_version = "2.0.0-alpha0.0.1"
+	def sdk_version = "2.0.0-alpha0.0.2"
 	implementation "com.hover:android-sdk:$sdk_version"
 
 	//debugImplementation "com.hover:android-sdk:$sdk_version"

@@ -141,8 +141,7 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
 
     private fun setVariableListAdapter(action: Action) {
         try {
-            val streamlinedSteps =
-                StreamlinedSteps.get(action.rootCode, JSONArray(action.jsonArrayToString))
+            val streamlinedSteps = StreamlinedSteps.get(action.rootCode, JSONArray(action.jsonArrayToString))
             val variables = ActionVariablesCache.get(requireContext(), action.id).actionMap
             val adapter = VariableRecyclerAdapter(action.id, streamlinedSteps, this, variables)
             variablesRecyclerView.adapter = adapter
