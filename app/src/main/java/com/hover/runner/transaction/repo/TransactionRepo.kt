@@ -61,10 +61,9 @@ class TransactionRepo(db: AppDatabase) {
                         Timber.i("save receiver triggered to create new transa")
                         t = RunnerTransaction.init(intent, context)
                         insertTransaction(t!!)
-                        t = getTransactionSuspended(t.uuid)
                     } else {
                         Timber.i("save receiver triggered to update")
-                        t.update(intent)
+                        t.update(intent, context)
                         updateTransaction(t)
                     }
                 } catch (e: Exception) {

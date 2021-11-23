@@ -13,13 +13,15 @@ import kotlinx.coroutines.launch
 class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel() {
 
     fun observeTransaction(uuid: String): LiveData<RunnerTransaction> = useCase.getTransaction(uuid)
-    fun observeTransactionsByAction(
-        actionId: String,
-        limit: Int
-    ): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
+    fun observeTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
 
     val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val transactionsLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
+
+    val aboutInfoMutableLiveData : MutableLiveData<List<TransactionDetailsInfo>> = MutableLiveData()
+    val deviceInfoMutableLiveData : MutableLiveData<List<TransactionDetailsInfo>> = MutableLiveData()
+    val debugInfoMutableLiveData : MutableLiveData<List<TransactionDetailsInfo>> = MutableLiveData()
+    val messagesInfoLiveData : MutableLiveData<List<TransactionDetailsMessages>> = MutableLiveData()
 
     init {
         loadingStatusLiveData.value = false
@@ -47,27 +49,27 @@ class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel(
         }
     }
 
-    fun observeDeviceInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
-        return liveData {
-            viewModelScope.async { return@async useCase.getDeviceInfo(transaction) }.await()
+    fun loadDeviceInfo(transaction: RunnerTransaction){
+        viewModelScope.launch(Dispatchers.IO) {
+            deviceInfoMutableLiveData.postValue(useCase.getDeviceInfo(transaction))
         }
     }
 
-    fun observeAboutInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
-        return liveData {
-            viewModelScope.async(Dispatchers.Main) { return@async useCase.getAboutInfo(transaction) }.await()
+    fun loadAboutInfo(transaction: RunnerTransaction){
+        viewModelScope.launch(Dispatchers.IO) {
+            aboutInfoMutableLiveData.postValue(useCase.getAboutInfo(transaction))
         }
     }
 
-    fun observeDebugInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
-        return liveData {
-            viewModelScope.async(Dispatchers.Main) { return@async useCase.getDebugInfo(transaction) }.await()
+    fun loadDebugInfo(transaction: RunnerTransaction) {
+        viewModelScope.launch(Dispatchers.IO) {
+            debugInfoMutableLiveData.postValue(useCase.getDebugInfo(transaction))
         }
     }
 
-    fun observeTransactionMessages(transaction: RunnerTransaction): LiveData<List<TransactionDetailsMessages>> {
-        return liveData {
-            viewModelScope.async(Dispatchers.Main) { return@async useCase.getMessagesInfo(transaction) }.await()
+    fun loadTransactionMessages(transaction: RunnerTransaction) {
+        viewModelScope.launch(Dispatchers.IO) {
+            messagesInfoLiveData.postValue(useCase.getMessagesInfo(transaction))
         }
     }
 

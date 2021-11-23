@@ -42,13 +42,7 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
                 add(TransactionDetailsInfo("ActionID", action.id, true))
                 add(TransactionDetailsInfo("Time", getDate() ?: "", false))
                 add(TransactionDetailsInfo("TransactionId", uuid, false))
-                add(
-                        TransactionDetailsInfo(
-                            "Result",
-                            lastTransaction!!.last_message_hit ?: "",
-                            false
-                        )
-                    )
+                add(TransactionDetailsInfo("Result", lastTransaction!!.last_message_hit!!, false))
                 add(TransactionDetailsInfo("Category", category ?: "", false))
                 add(TransactionDetailsInfo("Operator", action.network_name ?: "", false))
             }
@@ -65,31 +59,13 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 
         with(runnerTransaction) {
             val detailsList = mutableListOf<TransactionDetailsInfo>()
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "Testing mode",
-                    SettingsFragment.envToString(environment),
-                    false
-                )
-            )
+            detailsList.add(TransactionDetailsInfo("Testing mode", SettingsFragment.envToString(environment), false))
             detailsList.add(TransactionDetailsInfo("Device ID", deviceId, false))
             detailsList.add(TransactionDetailsInfo("Brand", manufacturer, false))
             detailsList.add(TransactionDetailsInfo("Model", model, false))
             detailsList.add(TransactionDetailsInfo("Android ver.", "SDK $osVersionName", false))
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "App ver. code",
-                    BuildConfig.VERSION_CODE.toString(),
-                    false
-                )
-            )
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "App ver. name",
-                    BuildConfig.VERSION_NAME,
-                    false
-                )
-            )
+            detailsList.add(TransactionDetailsInfo("App ver. code", BuildConfig.VERSION_CODE.toString(), false))
+            detailsList.add(TransactionDetailsInfo("App ver. name", BuildConfig.VERSION_NAME, false))
             return detailsList
         }
     }

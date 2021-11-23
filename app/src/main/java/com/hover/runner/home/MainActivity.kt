@@ -27,8 +27,8 @@ class MainActivity : AbstractNavigationActivity() {
         initHover()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        redirectIfRequired()
         checkForPermissions()
+        redirectIfRequired()
     }
 
     override fun onResume() {
@@ -57,12 +57,8 @@ class MainActivity : AbstractNavigationActivity() {
                     UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
                 }
             }
-        if (!PermissionsUtil.hasPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
-            )
-        ) {
-            resultLauncher.launch(Intent(this, PermissionActivity::class.java))
+        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
+            if(isLoggedIn())  resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }
 

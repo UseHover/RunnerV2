@@ -133,6 +133,7 @@
 	<string name="contactUs"><![CDATA[Don’t see the correct SIM?<br/> Try removing it and re-inserting it. If that doesn\’t work, <a href="mailto:support@usehover.com">contact support.</a>]]></string>
 	<string name="hint_choose_actions">Choose actions</string>
 	<string name="selected_range">Selected range</string>
+	<string name="no_parser_matched">Session did not end with an expected response</string>
 
 	<string name="act_missing_info_singular">action is missing information</string>
 	<string name="act_missing_info_pluarl">actions are missing information</string>

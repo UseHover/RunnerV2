@@ -71,7 +71,7 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     private fun initViews() {
         topLayout = binding.transactionDetailsTopLayoutId
         aboutInfoRecyclerView = binding.transacAboutInfoRecyclerView
-        deviceInfoRecyclerView = binding.transacDebugInfoRecyclerView
+        deviceInfoRecyclerView = binding.transacDevicesRecyclerView
         debugInfoRecyclerView = binding.transacDebugInfoRecyclerView
         messagesInfoRecyclerView = binding.transacMessagesRecyclerView
     }
@@ -106,7 +106,8 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
 
     private fun observeAboutInfo(transaction: RunnerTransaction) {
         Timber.i("requested to observing about info")
-        transactionViewModel.observeAboutInfo(transaction).observe(viewLifecycleOwner) { info ->
+        transactionViewModel.loadAboutInfo(transaction)
+        transactionViewModel.aboutInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
             info?.let {
                 Timber.i("observing about info")
                 setAboutInfoAdapter(it) }
@@ -114,20 +115,22 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     }
 
     private fun observeDeviceInfo(transaction: RunnerTransaction) {
-        transactionViewModel.observeDeviceInfo(transaction).observe(viewLifecycleOwner) { info ->
+        transactionViewModel.loadDeviceInfo(transaction)
+        transactionViewModel.deviceInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
             info?.let { setDeviceInfoAdapter(it) }
         }
     }
 
     private fun observeDebugInfo(transaction: RunnerTransaction) {
-        transactionViewModel.observeDebugInfo(transaction).observe(viewLifecycleOwner) { info ->
+        transactionViewModel.loadDebugInfo(transaction)
+        transactionViewModel.debugInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
             info?.let { setDebugInfoAdapter(it) }
         }
     }
 
     private fun observeTransactionMessages(transaction: RunnerTransaction) {
-        transactionViewModel.observeTransactionMessages(transaction)
-            .observe(viewLifecycleOwner) { messages ->
+        transactionViewModel.loadTransactionMessages(transaction)
+        transactionViewModel.messagesInfoLiveData.observe(viewLifecycleOwner) { messages ->
                 messages?.let { setMessagesAdapter(it) }
             }
     }
@@ -140,11 +143,13 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
     private fun setDeviceInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
         deviceInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
         deviceInfoRecyclerView.adapter = deviceInfoAdapter
+        deviceInfoRecyclerView.visibility = View.VISIBLE
     }
 
     private fun setDebugInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
         debugInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
-        debugInfoRecyclerView.adapter =debugInfoAdapter
+        debugInfoRecyclerView.adapter = debugInfoAdapter
+        debugInfoRecyclerView.visibility = View.VISIBLE
     }
 
     private fun setMessagesAdapter(transactionDetailsMessages: List<TransactionDetailsMessages>) {

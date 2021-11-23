@@ -7,6 +7,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.hover.runner.R
 import com.hover.runner.transaction.TransactionStatus
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
@@ -58,8 +59,11 @@ constructor(
 
 ) : TransactionStatus() {
 
-    fun update(data: Intent) {
+    fun update(data: Intent, context: Context) {
         status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
+        matched_parsers = data.getStringExtra(TransactionContract.COLUMN_MATCHED_PARSERS)
+        updated_at = data.getLongExtra(TransactionContract.COLUMN_UPDATE_TIMESTAMP, DateUtils.now())
+        last_message_hit = getLastMessageHit(Hover.getTransaction(uuid, context), context)
     }
 
     fun getDate(): String? {
@@ -78,24 +82,18 @@ constructor(
     companion object {
 
         fun init(data: Intent, context: Context): RunnerTransaction? {
-            return if (data.hasExtra(TransactionContract.COLUMN_UUID) && data.getStringExtra(
-                    TransactionContract.COLUMN_UUID
-                ) != null
-            ) {
+            return if (data.hasExtra(TransactionContract.COLUMN_UUID) && data.getStringExtra(TransactionContract.COLUMN_UUID) != null) {
                 val uuid = data.getStringExtra(TransactionContract.COLUMN_UUID)!!
                 val action_id = data.getStringExtra(TransactionContract.COLUMN_ACTION_ID)!!
                 val environment = data.getIntExtra(TransactionContract.COLUMN_ENVIRONMENT, 0)
                 val status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
                 val category = data.getStringExtra(TransactionContract.COLUMN_CATEGORY)
-                val initiated_at =
-                    data.getLongExtra(TransactionContract.COLUMN_REQUEST_TIMESTAMP, DateUtils.now())
-                val updated_at =
-                    data.getLongExtra(TransactionContract.COLUMN_UPDATE_TIMESTAMP, initiated_at)
-                val matched_parsers =
-                    data.getStringExtra(TransactionContract.COLUMN_MATCHED_PARSERS)
-                val last_message_hit =
-                    getLastMessageHit(Hover.getTransaction(uuid, context), context)
+                val initiated_at = data.getLongExtra(TransactionContract.COLUMN_REQUEST_TIMESTAMP, DateUtils.now())
+                val updated_at = data.getLongExtra(TransactionContract.COLUMN_UPDATE_TIMESTAMP, initiated_at)
+                val matched_parsers = data.getStringExtra(TransactionContract.COLUMN_MATCHED_PARSERS)
+                val last_message_hit = getLastMessageHit(Hover.getTransaction(uuid, context), context)
                 Timber.v("creating transaction with uuid: %s", uuid)
+
                 RunnerTransaction(
                     uuid,
                     action_id,
@@ -112,15 +110,14 @@ constructor(
 
 
         private fun getLastMessageHit(transaction: Transaction, context: Context): String? {
-            var lastUSSDMessage: String? = "empty"
+            var lastUSSDMessage: String? = context.getString(R.string.no_parser_matched)
             val smsMessage: String? = lastSMSMessage(transaction.smsHits, context)
             if (smsMessage != null) {
                 lastUSSDMessage = smsMessage
             } else {
                 try {
-                    lastUSSDMessage =
-                        transaction.ussdMessages.getString(transaction.ussdMessages.length() - 1)
-                } catch (ignored: JSONException) {
+                    lastUSSDMessage = transaction.ussdMessages.getString(transaction.ussdMessages.length() - 1)
+                } catch (jsonE: JSONException) {
                 }
             }
             return lastUSSDMessage
