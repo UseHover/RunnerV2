@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.hover.runner.utils.SharedPrefUtils
 import java.util.*
+import kotlin.collections.HashMap
 
 data class ActionVariablesCache(val actionMap: Map<String, String>) {
     fun serialize(): String {
@@ -24,14 +25,13 @@ data class ActionVariablesCache(val actionMap: Map<String, String>) {
         }
 
         fun save(actionId: String, label: String, value: String, c: Context) {
-            val map = HashMap<String, String>()
+            val map = get(c, actionId).actionMap as MutableMap
             map[label] = value.trim { it <= ' ' }
             SharedPrefUtils.saveString(actionId, ActionVariablesCache(map).serialize(), c)
         }
 
         fun get(c: Context, actionId: String): ActionVariablesCache {
-            return init(SharedPrefUtils.getSavedString(actionId, c))
-                ?: ActionVariablesCache(HashMap<String, String>())
+            return init(SharedPrefUtils.getSavedString(actionId, c)) ?: ActionVariablesCache(HashMap())
         }
     }
 }

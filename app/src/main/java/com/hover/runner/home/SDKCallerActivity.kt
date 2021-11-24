@@ -28,16 +28,6 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
         super.onCreate(savedInstanceState)
         observeActionViewModel()
     }
-    private fun observeActionViewModel() {
-        Timber.i("listening to some action view models")
-        //Necessary to observe these liveData so transformations can work
-        actionViewModel.actionsWithUCV_LiveData.observe(this) {
-            Timber.i("listening to actions with UC variables")
-        }
-        actionViewModel.actionsWithCompletedVariables.observe(this) {
-            Timber.i("listening to actions with completed variables")
-        }
-    }
 
     private fun initBuilder(actionId: String): HoverParameters.Builder {
         val actionExtras: Map<String, String> = ActionVariablesCache.get(this, actionId).actionMap
@@ -82,6 +72,28 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
 
     override fun runAction(actionId: String) {
         startActivity(initBuilder(actionId).buildIntent())
+    }
+
+    private fun observeActionViewModel() {
+        //Necessary to observe these liveData for transformations to work
+        actionViewModel.actionsWithUCV_LiveData.observe(this) {
+            Timber.i("listening to actions with UC variables ${it.size}")
+        }
+        actionViewModel.actionsWithCompletedVariables.observe(this) {
+            Timber.i("listening to actions with completed variables ${it.size}")
+        }
+        actionViewModel.loadingStatusLiveData.observe(this) {
+            Timber.i("listening to loading status $it")
+        }
+        actionViewModel.actions.observe(this) {
+            Timber.i("listening to actions ${it.size}")
+        }
+        actionViewModel.badActionMediatorLiveData.observe(this) {
+            Timber.i("listing to bad actions : ${it.size}")
+        }
+        actionViewModel.goodActionMediatorLiveData.observe(this) {
+            Timber.i("listing to good actions : ${it.size}")
+        }
     }
 
 }

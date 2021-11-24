@@ -102,10 +102,8 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     private fun setDetailsText(currentAction: Action, listSize: Int) {
         toolBarText.text = currentAction.id
         subtoolBarText.text = currentAction.title
-        descTitleText.text =
-            String.format(Locale.ENGLISH, "%d %s", listSize, getDescriptionSuffix(listSize))
-        descContentText.text =
-            String.format(Locale.getDefault(), "Action %d of %s", listSize, initialUncompletedSize)
+        descTitleText.text = String.format(Locale.ENGLISH, "%d %s", listSize, getDescriptionSuffix(listSize))
+        descContentText.text = String.format(Locale.getDefault(), "%d actions left ", listSize)
         UIHelper.underlineText(
             nextSaveText,
             if (listSize == 1) getString(R.string.save_text) else getString(R.string.save_continue)

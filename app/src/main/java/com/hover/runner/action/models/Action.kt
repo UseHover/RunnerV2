@@ -11,7 +11,7 @@ import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
 import org.json.JSONArray
 
-class Action(
+data class Action(
     val id: String, var title: String?,
     val rootCode: String,
     var country: String?, var network_name: String?,

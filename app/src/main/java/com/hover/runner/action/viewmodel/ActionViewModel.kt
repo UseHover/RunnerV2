@@ -16,14 +16,20 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     val actions: MutableLiveData<List<Action>> = MutableLiveData()
     val actionDetailsLiveData: MutableLiveData<ActionDetails> = MutableLiveData()
 
+    val badActionMediatorLiveData : MediatorLiveData<List<Action>> = MediatorLiveData()
+    val goodActionMediatorLiveData : MediatorLiveData<List<Action>> = MediatorLiveData()
+
     //UCV means uncompleted variables
     val actionsWithUCV_LiveData: MutableLiveData<List<Action>> = MutableLiveData()
-    val actionsWithCompletedVariables: LiveData<List<Action>> =
-        Transformations.switchMap(actionsWithUCV_LiveData, this::updateRunnableActions)
+    val actionsWithCompletedVariables: MutableLiveData<List<Action>> = MutableLiveData()
 
     init {
         filterStatus.value = false
         loadingStatusLiveData.value = false
+
+        badActionMediatorLiveData.addSource(actions, this::updateUCVList)
+        goodActionMediatorLiveData.addSource(actionsWithUCV_LiveData, this::updateRunnableActions)
+
     }
 
 
@@ -43,9 +49,7 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
     }
 
     suspend fun getAction(id: String): Action {
-
-        val deferredAction =
-            viewModelScope.async(Dispatchers.IO) { return@async useCase.getAction(id) }
+        val deferredAction = viewModelScope.async(Dispatchers.IO) { return@async useCase.getAction(id) }
         return deferredAction.await()
     }
 
@@ -97,9 +101,11 @@ class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
         return actionsWithCompletedVariables.value ?: ArrayList()
     }
 
-    private fun updateRunnableActions(badActions: List<Action>): LiveData<List<Action>> {
-        return if (badActions.isEmpty()) actions
-        else liveData { useCase.findRunnableActions(actions.value!!) }
+    private fun updateRunnableActions(badActions: List<Action>) {
+        val actionList : List<Action> =  if (badActions.isEmpty()) actions.value!!
+        else  useCase.findRunnableActions(actions.value!!)
+        actionsWithCompletedVariables.postValue(actionList)
+
     }
 
 

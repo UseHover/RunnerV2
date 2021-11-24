@@ -42,7 +42,7 @@ class ActionsFragment : Fragment(),
     private lateinit var emptySubtitle: TextView
     private lateinit var testAllActionsText: TextView
 
-
+    private var actionRecyclerAdapter : ActionRecyclerAdapter? = null
     private lateinit var actionNavigationInterface: ActionNavigationInterface
     private lateinit var sdkCallerInterface: SDKCallerInterface
 
@@ -69,6 +69,7 @@ class ActionsFragment : Fragment(),
         observeActions()
         setupTestAll()
     }
+
 
 
     private fun initNavigationInterface() {
@@ -109,8 +110,15 @@ class ActionsFragment : Fragment(),
                 if (actions.isEmpty()) {
                     showEmptyDataView()
                 } else {
-                    val actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
-                    actionsRecyclerView.adapter = actionRecyclerAdapter
+                    fun setAdapter() {
+                        actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
+                        actionsRecyclerView.adapter = actionRecyclerAdapter
+                    }
+                    when {
+                        actionRecyclerAdapter == null -> setAdapter()
+                        actionRecyclerAdapter!!.currentList != actions -> setAdapter()
+                    }
+
                 }
             } else showLoadingView()
         }
