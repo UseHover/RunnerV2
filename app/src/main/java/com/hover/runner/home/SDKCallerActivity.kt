@@ -1,9 +1,12 @@
 package com.hover.runner.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.hover.runner.R
 import com.hover.runner.action.models.ActionVariablesCache
 import com.hover.runner.action.viewmodel.ActionViewModel
@@ -13,6 +16,9 @@ import com.hover.runner.settings.viewmodel.SettingsViewModel
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.api.HoverParameters
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -24,9 +30,49 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
 
     private var lastRanPos = -1
 
+    private lateinit var chainedActionLauncher : ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observeActionViewModel()
+        initChainedLauncher()
+    }
+
+
+    override fun runChainedActions() {
+        try{
+            lastRanPos += 1
+            val actions = actionViewModel.getRunnableActions()
+            if (lastRanPos >= actions.size) return
+
+            else {
+                val nextAction = actions[lastRanPos]
+                val builder = initBuilder(nextAction.id)
+                if (lastRanPos != actions.size - 1) builder.finalMsgDisplayTime(0)
+
+                lifecycleScope.launch (Dispatchers.Main){
+                    delay(getThrottle(lastRanPos).toLong())
+                    chainedActionLauncher.launch(builder.buildIntent())
+                }
+            }
+        }catch (e: IllegalStateException) {
+            Timber.e(e)
+        }
+
+    }
+
+    override fun runAction(actionId: String) {
+        startActivity(initBuilder(actionId).buildIntent())
+    }
+
+    private fun initChainedLauncher() {
+        chainedActionLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                runChainedActions()
+        }
+    }
+
+    private fun getThrottle(lastRanPosition: Int) : Int {
+        return if (lastRanPos > 0)  SharedPrefUtils.getDelay(this) else 0
     }
 
     private fun initBuilder(actionId: String): HoverParameters.Builder {
@@ -37,41 +83,6 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
         builder.style(R.style.myHoverTheme)
         actionExtras.keys.forEach { builder.extra(it, actionExtras[it]) }
         return builder
-    }
-
-    override fun runChainedActions() {
-        try{
-            lastRanPos += 1
-            val actions = actionViewModel.getRunnableActions()
-            if (lastRanPos >= actions.size) return
-            else {
-                val nextAction = actions[lastRanPos]
-                val builder = initBuilder(nextAction.id)
-                if (lastRanPos != actions.size - 1) builder.finalMsgDisplayTime(0)
-
-                val chainedActionLauncher =
-                    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                        if (result.resultCode == RESULT_OK) {
-                            runChainedActions()
-                        }
-                    }
-                var throttle = 0
-                if (lastRanPos > 0) {
-                    throttle = SharedPrefUtils.getDelay(this)
-                }
-                Handler().postDelayed(
-                    { chainedActionLauncher.launch(builder.buildIntent()) },
-                    throttle.toLong()
-                )
-            }
-        }catch (e: IllegalStateException) {
-            Timber.e(e)
-        }
-
-    }
-
-    override fun runAction(actionId: String) {
-        startActivity(initBuilder(actionId).buildIntent())
     }
 
     private fun observeActionViewModel() {
