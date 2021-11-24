@@ -286,16 +286,22 @@
 
 
     </androidx.core.widget.NestedScrollView>
-    <TextView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="60dp">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:layout_marginBottom="60dp"
+            android:background="?selectableItemBackground"
             android:textAlignment="center"
-            android:paddingVertical="10dp"
+            android:paddingVertical="15dp"
             android:textStyle="bold"
             android:textSize="@dimen/text_17"
             android:textColor="@color/runActionTextColor"
             android:id="@+id/testSingle_id"
             android:text="@string/test_single_action"/>
+    </FrameLayout>
+
 </LinearLayout>

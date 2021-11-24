@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical">
 
@@ -24,7 +25,7 @@
 				android:contentDescription="@string/simon_content_desc"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/hoverlogo_svg"
+				app:srcCompat="@drawable/hoverlogo_svg"
 				android:transitionName="@string/login_image_transition_2"
 				android:layout_centerInParent="true"
 				/>
@@ -143,6 +144,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="19dp"
 				android:textColor="@color/colorHoverWhite"
+				android:background="?selectableItemBackground"
 				android:textStyle="bold"
 				android:textSize="@dimen/text_17"
 				android:id="@+id/forgotPassword_text"

@@ -35,7 +35,9 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     private lateinit var descTitleText: TextView
     private lateinit var descContentText: TextView
     private lateinit var nextSaveText: TextView
-    private lateinit var skipText: TextView
+    private lateinit var skipTextMember1: TextView
+    private lateinit var skipTextMember2: TextView
+    private lateinit var skipTextMember3: TextView
     private lateinit var variablesRecyclerView: RecyclerView
 
 
@@ -65,13 +67,15 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
         descTitleText = binding.uVariableStatusTitle
         descContentText = binding.uVariableStatusDesc
         nextSaveText = binding.nextSaveTextId
-        skipText = binding.skipId
+        skipTextMember1 = binding.skipIdMember1
+        skipTextMember2 = binding.skipIdMember2
+        skipTextMember3 = binding.skipIdMember3
         variablesRecyclerView = binding.actionVariablesRecyclerView
         variablesRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
     }
 
     private fun underlineSkipText() {
-        UIHelper.underlineText(skipText, resources.getString(R.string.skip_text))
+        UIHelper.underlineText(skipTextMember2, resources.getString(R.string.skip_text))
     }
 
     private fun setToolBarClick() {
@@ -128,13 +132,16 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     }
 
     private fun setupSkipText() {
-        skipText.setOnClickListener {
+        fun skip() {
             with(actionViewModel) {
                 val action = getCurrentUCVAction()
                 action.saveAsSkipped(requireContext())
                 removeFromUCVList(action)
             }
         }
+        skipTextMember1.setOnClickListener {skip()}
+        skipTextMember2.setOnClickListener{skip()}
+        skipTextMember3.setOnClickListener{skip()}
     }
 
     private fun setVariableListAdapter(action: Action) {

@@ -56,11 +56,7 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
     private val settingsViewModel: SettingsViewModel by sharedViewModel()
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = SettingsFragmentBinding.inflate(inflater, container, false)
         initInterfaces()
         return binding.root
@@ -174,10 +170,7 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
         if (!isRefreshButtonIdle) {
             isRefreshButtonIdle = true
             Hover.updateActionConfigs(this, requireContext())
-            UIHelper.flashMessage(
-                requireContext(),
-                resources.getString(R.string.app_data_refreshed)
-            )
+            UIHelper.flashMessage(requireContext(), resources.getString(R.string.app_data_refreshed))
         }
     }
 

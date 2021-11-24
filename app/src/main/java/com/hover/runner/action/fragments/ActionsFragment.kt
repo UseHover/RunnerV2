@@ -47,6 +47,7 @@ class ActionsFragment : Fragment(),
     private lateinit var sdkCallerInterface: SDKCallerInterface
 
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -69,8 +70,6 @@ class ActionsFragment : Fragment(),
         observeActions()
         setupTestAll()
     }
-
-
 
     private fun initNavigationInterface() {
         actionNavigationInterface = activity as ActionNavigationInterface

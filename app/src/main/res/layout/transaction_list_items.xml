@@ -3,6 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:background="?selectableItemBackground"
         android:orientation="vertical"
         >
     <TextView
@@ -20,14 +22,13 @@
             android:id="@+id/transaction_content_id"
             android:layout_marginEnd="32dp"
             android:paddingHorizontal="@dimen/margin16"
+            android:layout_marginBottom="16dp"
             android:textSize="@dimen/text_17"/>
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:id="@+id/divider"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:background="@color/lineColor"/>
 
 </LinearLayout>
