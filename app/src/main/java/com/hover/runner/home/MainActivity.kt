@@ -36,7 +36,6 @@ class MainActivity : AbstractNavigationActivity() {
         setupNavigation()
     }
 
-
     private fun redirectIfRequired() {
         if (!isLoggedIn()) {
             startActivity(Intent(this, SplashScreenActivity::class.java))
@@ -57,11 +56,7 @@ class MainActivity : AbstractNavigationActivity() {
                     UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
                 }
             }
-        if (!PermissionsUtil.hasPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE)
-            )
-        ) {
+        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
             resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }

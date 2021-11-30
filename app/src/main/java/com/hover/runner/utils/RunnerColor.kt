@@ -10,6 +10,7 @@ open class RunnerColor(val context: Context) {
     val DARK = context.resources.getColor(R.color.colorPrimaryDark)
     val WHITE = context.resources.getColor(R.color.colorHoverWhite)
     val SILVER = context.resources.getColor(R.color.colorSecondaryGrey)
+    val GRAY = context.resources.getColor(R.color.colorMainGrey)
 
     fun get(intRes: Int): Int = context.resources.getColor(intRes)
 }

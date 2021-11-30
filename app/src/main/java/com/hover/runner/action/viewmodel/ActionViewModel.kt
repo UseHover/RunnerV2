@@ -4,13 +4,15 @@ import androidx.lifecycle.*
 import com.hover.runner.action.models.Action
 import com.hover.runner.action.models.ActionDetails
 import com.hover.runner.action.viewmodel.usecase.ActionUseCase
+import com.hover.runner.filter_actions.abstractViewModel.AbstractFilterActionViewModel
+import com.hover.runner.filter_actions.abstractViewModel.usecase.ActionFilterUseCase
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class ActionViewModel(private val useCase: ActionUseCase) : ViewModel() {
+class ActionViewModel(private val useCase: ActionUseCase, filterUseCase: ActionFilterUseCase) : AbstractFilterActionViewModel(filterUseCase) {
     private val filterStatus: MutableLiveData<Boolean> = MutableLiveData()
     val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val actions: MutableLiveData<List<Action>> = MutableLiveData()
