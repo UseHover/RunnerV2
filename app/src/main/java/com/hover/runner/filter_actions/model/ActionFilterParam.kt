@@ -32,6 +32,10 @@ data class ActionFilterParam(
         else String.format(Locale.getDefault(), "From %s - %s", "<account creation>", DateUtils.formatDateV3(Date().time))
     }
 
+    fun getActionIdOrRootCode() : String {
+        return if(actionId.isNotEmpty()) actionId else actionRootCode
+    }
+
     fun getActionIdsAsString() : String {
         return Utils.toString(actionIdList)
     }

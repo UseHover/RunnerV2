@@ -165,7 +165,7 @@ class FilterActionsFragment : BaseFragment() {
 
     private fun updateFilterEntryData(param: ActionFilterParam) {
         with(param) {
-            searchActionEditText.setText(getActionIdsAsString())
+            searchActionEditText.setText(getActionIdOrRootCode())
             countryEntryTextView.text = getCountryListAsString()
             categoryEntryTextView.text = getCategoryListAsString()
             networkEntryTextView.text = getNetworkNamesAsString()
