@@ -39,8 +39,7 @@
                         android:layout_weight="1"
                         android:drawablePadding="8dp"
                         android:id="@+id/actionFilterBackId"
-                        android:drawableStart="@drawable/ic_arrow_back_white_24dp"
-                        />
+                        app:drawableStartCompat="@drawable/ic_arrow_back_white_24dp" />
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -59,7 +58,7 @@
             <ProgressBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/filter_progressBar"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
@@ -67,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/entry_filter_view"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:orientation="vertical">
 
 

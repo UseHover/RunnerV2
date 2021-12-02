@@ -53,9 +53,11 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
     }
 
     private fun setupSaveFilterClick() {
-        val selectedCategories = categoryListAdapter.getCheckedItems()
-        saveTextView.setOnClickListener { actionViewModel.filter_UpdateCategoryList(selectedCategories) }
-        navigateBack()
+        saveTextView.setOnClickListener {
+            val selectedCategories = categoryListAdapter.getCheckedItems()
+            actionViewModel.filter_UpdateCategoryList(selectedCategories)
+            navigateBack()
+        }
     }
 
     private fun setupRecyclerView() {

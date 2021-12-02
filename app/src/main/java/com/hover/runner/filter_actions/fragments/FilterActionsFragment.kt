@@ -201,7 +201,7 @@ class FilterActionsFragment : BaseFragment() {
 
     private fun pickDateRange() {
         with(datePicker()) {
-            show(parentFragmentManager, toString())
+            show(this@FilterActionsFragment.parentFragmentManager, toString())
         }
     }
     private fun datePicker() : MaterialDatePicker<Pair<Long, Long>> {
@@ -222,7 +222,7 @@ class FilterActionsFragment : BaseFragment() {
             val throttle: Long = 1500
             timer.schedule(object : TimerTask() {
                 override fun run() {
-                    actionViewModel.filter_byActionSearch(s.toString())
+                    if(s.isNotEmpty()) actionViewModel.filter_byActionSearch(s.toString())
                 }
             }, throttle)
         }

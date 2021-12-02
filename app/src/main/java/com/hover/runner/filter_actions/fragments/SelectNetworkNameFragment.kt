@@ -44,8 +44,9 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
         initViews()
         titleTextView.setOnClickListener { navigateBack() }
         setupRecyclerViews()
-        setupSaveFilterClick()
         observeNetworkLists()
+
+        setupSaveFilterClick()
     }
 
     private fun initViews() {
@@ -65,12 +66,14 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
     }
 
     private fun setupSaveFilterClick() {
-        val selectedNetworksWithinCountry = networksInPresentSimCountryListAdapter.getCheckedItems()
-        val selectedNetworksOutsideCountry = networksOutsidePresentSimCountryListAdapter.getCheckedItems()
+        saveTextView.setOnClickListener {
+            val selectedNetworksWithinCountry = networksInPresentSimCountryListAdapter.getCheckedItems()
+            val selectedNetworksOutsideCountry = networksOutsidePresentSimCountryListAdapter.getCheckedItems()
+            val totalList : List<String> = selectedNetworksWithinCountry + selectedNetworksOutsideCountry
 
-        val totalList : List<String> = selectedNetworksWithinCountry + selectedNetworksOutsideCountry
-        saveTextView.setOnClickListener {actionViewModel.filter_UpdateNetworkNameList(totalList)}
-        navigateBack()
+            actionViewModel.filter_UpdateNetworkNameList(totalList)
+            navigateBack()
+        }
     }
 
     private fun observeNetworkLists() {

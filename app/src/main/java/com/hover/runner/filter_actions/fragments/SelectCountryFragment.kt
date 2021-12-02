@@ -55,9 +55,11 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
         countryRecyclerView.setHasFixedSize(true)
     }
     private fun setupSaveFilterClick() {
-        val selectedCountries = countryListAdapter.getCheckedItems()
-        saveTextView.setOnClickListener {actionViewModel.filter_UpdateCountryNameList(selectedCountries)}
-        navigateBack()
+        saveTextView.setOnClickListener {
+            val selectedCountries = countryListAdapter.getCheckedItems()
+            actionViewModel.filter_UpdateCountryNameList(selectedCountries)
+            navigateBack()
+        }
     }
 
     private fun observeCountryList()  {
