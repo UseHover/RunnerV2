@@ -137,7 +137,7 @@ class FilterActionsFragment : BaseFragment() {
     }
     private fun observeFilterLoadingStatus() {
         actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
-            if(hasLoaded) {
+            if(!hasLoaded) {
                 with(showActionsTextView) {
                     isClickable = false
                     setBackgroundColor(resources.getColor(R.color.colorPrimary))
