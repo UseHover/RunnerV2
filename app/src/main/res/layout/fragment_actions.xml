@@ -67,16 +67,22 @@
 
 		</LinearLayout>
 	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-	<TextView
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="45dp"
+		android:background="@color/colorPrimary">
+		<TextView
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:background="@color/colorPrimary"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:background="?selectableItemBackground"
 			android:textAlignment="center"
-			android:paddingVertical="10dp"
 			android:textStyle="bold"
 			android:textColor="@color/runActionTextColor"
 			android:textSize="@dimen/text_17"
 			android:id="@+id/testAllActions_id"
 			android:text="@string/testAllActions"/>
+	</FrameLayout>
+
 
 </LinearLayout>

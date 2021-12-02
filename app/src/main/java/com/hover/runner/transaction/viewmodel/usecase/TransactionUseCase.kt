@@ -10,6 +10,7 @@ interface TransactionUseCase {
     suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction>
     fun getTransaction(uuid: String): LiveData<RunnerTransaction>
     fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>>
+    suspend fun getDistinctTransactionCategories() : List<String>
 
     suspend fun getAboutInfo(runnerTransaction: RunnerTransaction): List<TransactionDetailsInfo>
     suspend fun getDeviceInfo(runnerTransaction: RunnerTransaction): List<TransactionDetailsInfo>

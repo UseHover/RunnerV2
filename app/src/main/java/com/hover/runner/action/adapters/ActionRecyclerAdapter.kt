@@ -5,29 +5,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.action.listeners.ActionClickListener
 import com.hover.runner.action.models.Action
 import com.hover.runner.utils.RunnerColor
-import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.TextViewUtils.Companion.underline
 
-class ActionRecyclerAdapter(
+internal class ActionRecyclerAdapter(
     private val actionList: List<Action>,
     private val clickListener: ActionClickListener
-) :
-    RecyclerView.Adapter<ActionRecyclerAdapter.ActionListItemViewHolder>() {
+) : ListAdapter<Action, ActionRecyclerAdapter.ActionListItemViewHolder>(ActionDiffCallback()) {
+
+
+    inner class ActionListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var actionIdText: TextView = itemView.findViewById(R.id.actionIdText_Id)
+        var actionTitleText: TextView = itemView.findViewById(R.id.actionTitle_Id)
+        var iconImage: ImageView = itemView.findViewById(R.id.actionIconStatus)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionListItemViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.action_list_items, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.action_list_items, parent, false)
         return ActionListItemViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ActionListItemViewHolder, position: Int) {
         val action: Action = actionList[position]
 
-        UIHelper.underlineText(holder.actionIdText, action.id)
+        holder.actionIdText.underline(action.id)
         holder.actionIdText.setTextColor(RunnerColor(holder.itemView.context).get(action.getStatusColor()))
         holder.actionTitleText.text = action.title
 
@@ -50,9 +57,15 @@ class ActionRecyclerAdapter(
         return actionList.size
     }
 
-    class ActionListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var actionIdText: TextView = itemView.findViewById(R.id.actionIdText_Id)
-        var actionTitleText: TextView = itemView.findViewById(R.id.actionTitle_Id)
-        var iconImage: ImageView = itemView.findViewById(R.id.actionIconStatus)
+}
+
+private class ActionDiffCallback : DiffUtil.ItemCallback<Action>() {
+    override fun areItemsTheSame(oldItem: Action, newItem: Action): Boolean {
+        return oldItem.id == newItem.id
     }
+
+    override fun areContentsTheSame(oldItem: Action, newItem: Action): Boolean {
+        return oldItem == newItem
+    }
+
 }

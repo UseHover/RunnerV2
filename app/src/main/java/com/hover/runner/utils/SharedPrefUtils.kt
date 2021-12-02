@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import com.hover.runner.R
 import com.hover.sdk.api.HoverParameters
+import timber.log.Timber
 
 class SharedPrefUtils {
     companion object {
@@ -51,8 +52,10 @@ class SharedPrefUtils {
 
             val data = getStringSet(key, c)
             data?.add(newValue)
+            data?.forEach { Timber.i("old skipped items: $it") }
 
             editor.putStringSet(key, data)
+            data?.forEach { Timber.i("new skipped items: $it") }
             editor.apply()
         }
 

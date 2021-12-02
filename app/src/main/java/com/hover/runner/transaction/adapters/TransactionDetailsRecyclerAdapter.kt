@@ -12,7 +12,7 @@ import com.hover.runner.parser.listeners.ParserClickListener
 import com.hover.runner.transaction.TransactionStatus
 import com.hover.runner.transaction.model.TransactionDetailsInfo
 import com.hover.runner.utils.RunnerColor
-import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.TextViewUtils.Companion.underline
 
 
 class TransactionDetailsRecyclerAdapter(
@@ -46,6 +46,7 @@ class TransactionDetailsRecyclerAdapter(
     override fun onBindViewHolder(holder: TDViewHolder, position: Int) {
         val info: TransactionDetailsInfo = infoList[position]
         holder.label.text = info.label
+        holder.value.text = info.value
 
         if (info.label == "Status") {
             holder.value.setTextColor(
@@ -58,7 +59,7 @@ class TransactionDetailsRecyclerAdapter(
         }
 
         if (info.clickable) {
-            UIHelper.underlineText(holder.value, info.value)
+            holder.value.underline()
             if (info.label.contains("Action")) holder.value.setOnClickListener {
                 actionClickListener.onActionItemClick(
                     actionId,
@@ -66,7 +67,7 @@ class TransactionDetailsRecyclerAdapter(
                 )
             }
             else holder.value.setOnClickListener { parserClickListener.onParserItemClicked(info.value) }
-        } else holder.value.text = info.value
+        }
     }
 
     override fun getItemCount(): Int {

@@ -9,7 +9,7 @@ import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
 import timber.log.Timber
 
-class UpdateHoverActions(private val listener: Hover.DownloadListener, private val context: Context) {
+internal class UpdateHoverActions(private val listener: Hover.DownloadListener, private val context: Context) {
 
         fun init() {
             LocalBroadcastManager.getInstance(context).registerReceiver(

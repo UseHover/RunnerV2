@@ -15,15 +15,17 @@ import com.hover.runner.R
 import com.hover.runner.action.utils.UpdateHoverActions
 import com.hover.runner.action.adapters.ActionRecyclerAdapter
 import com.hover.runner.action.listeners.ActionClickListener
+import com.hover.runner.action.models.Action
 import com.hover.runner.action.navigation.ActionNavigationInterface
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FragmentActionsBinding
 import com.hover.runner.home.SDKCallerInterface
 import com.hover.runner.utils.*
+import com.hover.runner.utils.TextViewUtils.Companion.underline
+import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 import java.util.*
 
 class ActionsFragment : Fragment(),
@@ -41,14 +43,15 @@ class ActionsFragment : Fragment(),
     private lateinit var emptyTitle: TextView
     private lateinit var emptySubtitle: TextView
     private lateinit var testAllActionsText: TextView
+    private lateinit var filterTextView : TextView
 
-
+    private var actionRecyclerAdapter : ActionRecyclerAdapter? = null
     private lateinit var actionNavigationInterface: ActionNavigationInterface
     private lateinit var sdkCallerInterface: SDKCallerInterface
 
     private val binding get() = _binding!!
-    override fun onCreateView(
-        inflater: LayoutInflater,
+
+    override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -68,8 +71,8 @@ class ActionsFragment : Fragment(),
         observeActionLoading()
         observeActions()
         setupTestAll()
+        handleFilterText()
     }
-
 
     private fun initNavigationInterface() {
         actionNavigationInterface = activity as ActionNavigationInterface
@@ -93,7 +96,14 @@ class ActionsFragment : Fragment(),
         pullToRefresh = binding.pullToRefresh
         actionsRecyclerView = binding.recyclerView.recyclerViewId
         testAllActionsText = binding.testAllActionsId
+        filterTextView = binding.actionFilterId
 
+
+    }
+
+    private fun handleFilterText() {
+        filterTextView.underline()
+        filterTextView.setOnClickListener { actionNavigationInterface.navActionFilterFragment() }
     }
 
     private fun observeActionLoading() {
@@ -102,17 +112,48 @@ class ActionsFragment : Fragment(),
         }
     }
 
+    private fun updateFilterTextStyle(currentActionListSize: Int) {
+        val initialActionListSize : Int = actionViewModel.filter_actionsTotal()
+        val isFilterOn : Boolean = currentActionListSize < initialActionListSize
+
+        if(isFilterOn) setTextStyle_FilterIsOn()
+        else setTextStyle_FilterIsOff()
+    }
+    private fun setTextStyle_FilterIsOn() {
+        with(filterTextView) {
+            setTextColor(resources.getColor(R.color.colorPrimary))
+            setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dot_purple_24dp, 0, 0, 0)
+            setCompoundDrawablePadding(8)
+        }
+    }
+    private fun setTextStyle_FilterIsOff() {
+        with(filterTextView) {
+            setTextColor(resources.getColor(R.color.colorHoverWhite))
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+    }
+
     private fun observeActions() {
         actionViewModel.getAllActions()
         actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
             if (actions != null) {
-                if (actions.isEmpty()) {
-                    showEmptyDataView()
-                } else {
-                    val actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
-                    actionsRecyclerView.adapter = actionRecyclerAdapter
-                }
-            } else showLoadingView()
+                updateFilterTextStyle(actions.size)
+
+                if (actions.isEmpty()) showEmptyDataView()
+                else setActionListAdapter(actions)
+            }
+            else showLoadingView()
+        }
+    }
+
+    private fun setActionListAdapter(actions : List<Action>) {
+        fun setAdapter() {
+            actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
+            actionsRecyclerView.adapter = actionRecyclerAdapter
+        }
+        when {
+            actionRecyclerAdapter == null -> setAdapter()
+            actionRecyclerAdapter!!.currentList != actions -> setAdapter()
         }
     }
 
@@ -158,7 +199,7 @@ class ActionsFragment : Fragment(),
 
 
     private fun setupRecyclerView() {
-        actionsRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
+        actionsRecyclerView.setLayoutManagerToLinear()
         actionsRecyclerView.setHasFixedSize(true)
     }
 

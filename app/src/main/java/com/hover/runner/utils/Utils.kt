@@ -19,6 +19,15 @@ class Utils {
             return patterns.matcher(string).matches()
         }
 
+        fun toString(stringList: List<String>) : String {
+            var result = ""
+            stringList.forEach {
+                result += ", $it"
+            }
+            result.replaceFirst("," ,"")
+            return result
+        }
+
         fun validatePassword(string: String?): Boolean {
             return if (string == null) false else string.length < 40 && string.length > 4 && !string.contains(
                 " "

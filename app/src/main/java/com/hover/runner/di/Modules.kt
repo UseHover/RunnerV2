@@ -11,10 +11,10 @@ import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.parser.repo.ParserRepoInterfaceImpl
 import com.hover.runner.parser.viewmodel.ParserViewModel
 import com.hover.runner.parser.viewmodel.usecase.ParserUseCaseImpl
-import com.hover.runner.settings.repo.SimRepo
-import com.hover.runner.settings.repo.SimRepoInterfaceImpl
-import com.hover.runner.settings.viewmodel.usecase.SettingsUseCaseImpl
-import com.hover.runner.settings.viewmodel.SettingsViewModel
+import com.hover.runner.sim.repo.SimRepo
+import com.hover.runner.sim.repo.SimRepoInterfaceImpl
+import com.hover.runner.sim.viewmodel.SimViewModel
+import com.hover.runner.sim.viewmodel.usecase.SimUseCaseImpl
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
@@ -29,12 +29,6 @@ val appModule = module {
     }
 
     viewModel {
-        val actionUseCaseImpl =
-            ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
-        ActionViewModel(actionUseCaseImpl)
-    }
-
-    viewModel {
         val transactionUseCaseImpl = TransactionUseCaseImpl(TransactionRepoInterfaceImpl(get(), get(), get()))
         TransactionViewModel(transactionUseCaseImpl)
     }
@@ -45,8 +39,14 @@ val appModule = module {
     }
 
     viewModel {
-        val settingsUseCaseImpl = SettingsUseCaseImpl(SimRepoInterfaceImpl(get()))
-        SettingsViewModel(settingsUseCaseImpl)
+        val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
+        val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
+        ActionViewModel(actionUseCaseImpl, simUseCaseImpl)
+    }
+
+    viewModel {
+        val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
+        SimViewModel(simUseCaseImpl)
     }
 }
 

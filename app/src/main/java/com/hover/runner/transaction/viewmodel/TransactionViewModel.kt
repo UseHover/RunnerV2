@@ -13,30 +13,36 @@ import kotlinx.coroutines.launch
 class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel() {
 
     fun observeTransaction(uuid: String): LiveData<RunnerTransaction> = useCase.getTransaction(uuid)
-    fun observeTransactionsByAction(
-        actionId: String,
-        limit: Int
-    ): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
+    fun observeTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
 
     val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val transactionsLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
 
+    val aboutInfoMutableLiveData : MutableLiveData<List<TransactionDetailsInfo>> = MutableLiveData()
+    val deviceInfoMutableLiveData : MutableLiveData<List<TransactionDetailsInfo>> = MutableLiveData()
+    val debugInfoMutableLiveData : MutableLiveData<List<TransactionDetailsInfo>> = MutableLiveData()
+    val messagesInfoLiveData : MutableLiveData<List<TransactionDetailsMessages>> = MutableLiveData()
+
+    val distinctCategoryMutableLiveData : MutableLiveData<List<String>> = MutableLiveData()
+
     init {
         loadingStatusLiveData.value = false
+
+    }
+
+    fun loadDistinctCategories() {
+        viewModelScope.launch(Dispatchers.IO) { distinctCategoryMutableLiveData.postValue(useCase.getDistinctTransactionCategories()) }
     }
 
     fun getAllTransactions() {
         loadingStatusLiveData.value = false
-        val deferredTransactions =
-            viewModelScope.async(Dispatchers.IO) { return@async useCase.getAllTransactions() }
+        val deferredTransactions = viewModelScope.async(Dispatchers.IO) { return@async useCase.getAllTransactions() }
         load(deferredTransactions)
     }
 
     fun getTransactionsByAction(actionId: String) {
         loadingStatusLiveData.value = false
-        val deferredTransactions = viewModelScope.async(Dispatchers.IO) {
-            return@async useCase.getTransactionsByAction(actionId)
-        }
+        val deferredTransactions = viewModelScope.async(Dispatchers.IO) { return@async useCase.getTransactionsByAction(actionId) }
         load(deferredTransactions)
     }
 
@@ -47,28 +53,20 @@ class TransactionViewModel(private val useCase: TransactionUseCase) : ViewModel(
         }
     }
 
-    fun observeDeviceInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
-        return liveData {
-            viewModelScope.async { return@async useCase.getDeviceInfo(transaction) }.await()
-        }
+    fun loadDeviceInfo(transaction: RunnerTransaction){
+        viewModelScope.launch(Dispatchers.IO) { deviceInfoMutableLiveData.postValue(useCase.getDeviceInfo(transaction)) }
     }
 
-    fun observeAboutInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
-        return liveData {
-            viewModelScope.async { return@async useCase.getAboutInfo(transaction) }.await()
-        }
+    fun loadAboutInfo(transaction: RunnerTransaction){
+        viewModelScope.launch(Dispatchers.IO) { aboutInfoMutableLiveData.postValue(useCase.getAboutInfo(transaction)) }
     }
 
-    fun observeDebugInfo(transaction: RunnerTransaction): LiveData<List<TransactionDetailsInfo>> {
-        return liveData {
-            viewModelScope.async { return@async useCase.getDebugInfo(transaction) }.await()
-        }
+    fun loadDebugInfo(transaction: RunnerTransaction) {
+        viewModelScope.launch(Dispatchers.IO) { debugInfoMutableLiveData.postValue(useCase.getDebugInfo(transaction)) }
     }
 
-    fun observeTransactionMessages(transaction: RunnerTransaction): LiveData<List<TransactionDetailsMessages>> {
-        return liveData {
-            viewModelScope.async { return@async useCase.getMessagesInfo(transaction) }.await()
-        }
+    fun loadTransactionMessages(transaction: RunnerTransaction) {
+        viewModelScope.launch(Dispatchers.IO) { messagesInfoLiveData.postValue(useCase.getMessagesInfo(transaction)) }
     }
 
 

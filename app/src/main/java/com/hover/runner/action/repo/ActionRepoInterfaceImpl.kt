@@ -4,6 +4,7 @@ import android.content.Context
 import com.hover.runner.action.models.Action
 import com.hover.runner.action.models.ActionDetails
 import com.hover.runner.action.models.StreamlinedSteps
+import com.hover.runner.filter_actions.model.ActionFilterParam
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.transaction.repo.TransactionRepo
@@ -22,8 +23,6 @@ class ActionRepoInterfaceImpl(
         val runnerActions = mutableListOf<Action>()
         hoverActions.forEachIndexed { _, act ->
             val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-            Timber.i("Action d ${act.public_id}")
-            Timber.i("Action t ${act.network_name}")
             runnerActions.add(Action.get(act, lastTransaction, context))
         }
         return runnerActions
@@ -49,6 +48,23 @@ class ActionRepoInterfaceImpl(
         val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
         return Action.get(act, lastTransaction, context)
     }
+
+    override suspend fun getAllActionCountryCodes(): List<String> {
+        return actionRepo.getAllActionsCountryCodes()
+    }
+
+    override suspend fun getNetworkNames(countryCodes: List<String>): List<String> {
+        return actionRepo.getNetworkNamesByCountryCodes(countryCodes)
+    }
+
+    override suspend fun getAllNetworkNames(): List<String> {
+        return actionRepo.getAllNetworkNames()
+    }
+
+    override suspend fun filter(actionFilterParam: ActionFilterParam): List<Action> {
+        TODO("Not yet implemented")
+    }
+
 
     override fun getContext(): Context {
         return context

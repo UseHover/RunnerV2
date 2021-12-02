@@ -25,11 +25,14 @@ interface RunnerTransactionDao {
     @Query("SELECT * FROM runner_transactions ORDER BY initiated_at DESC")
     suspend fun allTransactions(): List<RunnerTransaction>
 
+    @Query("SELECT category FROM runner_transactions ORDER BY initiated_at DESC")
+    suspend fun allCategories(): List<String>
+
     @Query("SELECT * FROM runner_transactions WHERE uuid = :uuid LIMIT 1")
     fun getTransaction(uuid: String): LiveData<RunnerTransaction>
 
     @Query("SELECT * FROM runner_transactions WHERE uuid = :uuid LIMIT 1")
-    suspend fun getTransaction_Suspended(uuid: String): RunnerTransaction?
+    suspend fun getTransaction_Suspended(uuid: String?): RunnerTransaction?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(transaction: RunnerTransaction?)

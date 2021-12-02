@@ -1,97 +1,114 @@
 package com.hover.runner.filter_actions.abstractViewModel
 
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.hover.runner.action.models.Action
-import com.hover.runner.filter_actions.abstractViewModel.usecase.ActionFilterUseCase
-import com.hover.runner.filter_actions.models.ActionFilterParams
+import com.hover.runner.filter_actions.model.ActionFilterParam
+import com.hover.runner.sim.viewmodel.SimViewModel
+import com.hover.runner.sim.viewmodel.usecase.SimUseCase
 import com.hover.sdk.transactions.Transaction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-abstract class AbstractFilterActionViewModel(private val filterUseCase: ActionFilterUseCase) : ViewModel() {
-    val actionFilterParamsMutableLiveData : MutableLiveData<ActionFilterParams> = MutableLiveData()
+abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewModel(simUseCase) {
+    val actionFilterParamMutableLiveData : MutableLiveData<ActionFilterParam> = MutableLiveData()
 
-    val actionFilterParamMediatorLiveData : MediatorLiveData<ActionFilterParams> = MediatorLiveData()
-    private val filteredActionsMutableLiveData : MutableLiveData<List<Action>> = MutableLiveData()
+    val filteredActionsMutableLiveData : MutableLiveData<List<Action>> = MutableLiveData()
+    val filter_getParam : ActionFilterParam = actionFilterParamMutableLiveData.value!!
+
     init {
-        actionFilterParamsMutableLiveData.value = ActionFilterParams.getDefault()
+        actionFilterParamMutableLiveData.value = ActionFilterParam.getDefault()
     }
 
-    private fun getActionFilter() : ActionFilterParams {
-        return actionFilterParamsMutableLiveData.value!!
+    private fun getActionFilterParam() : ActionFilterParam {
+        return actionFilterParamMutableLiveData.value!!
     }
 
-    fun runFilter(actionFilterParams: ActionFilterParams) {
-        viewModelScope.launch(Dispatchers.Main) {
-            filteredActionsMutableLiveData.postValue(filterUseCase.filterActions(actionFilterParams))
+    fun filter_actionsTotal() : Int {
+        return with (filteredActionsMutableLiveData) { if (value == null) 0 else value!!.size }
+    }
+
+    fun filter_getActions() : List<Action> {
+        return with (filteredActionsMutableLiveData) {
+            if(value == null) ArrayList()
+            else value!!
         }
     }
 
-    fun filter_UpdateActionIds(actionIds : List<String>) {
-        val actionFilter = getActionFilter()
-        actionFilter.actionIdList = actionIds
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+    fun filter_reset() {
+        actionFilterParamMutableLiveData.postValue(ActionFilterParam.getDefault())
+        filteredActionsMutableLiveData.postValue(ArrayList())
     }
 
-    fun filter_UpdateCountryCodeList(countryCodes: List<String>) {
-        val actionFilter = getActionFilter()
-        actionFilter.countryCodeList = countryCodes
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+    fun filter_byActionSearch(value: String) {
+        val filterParam = getActionFilterParam()
+        filterParam.actionId = if(isARootCode(value)) "" else value
+        filterParam.actionRootCode = if(isARootCode(value)) value else ""
+        actionFilterParamMutableLiveData.postValue(filterParam)
+    }
+
+    fun filter_UpdateActionIds(actionIds : List<String>) {
+        val filterParam = getActionFilterParam()
+        filterParam.actionIdList = actionIds
+        actionFilterParamMutableLiveData.postValue(filterParam)
+    }
+
+    fun filter_UpdateCountryNameList(countryNames: List<String>) {
+        val filterParam = getActionFilterParam()
+        filterParam.countryNameList = countryNames
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
 
     fun filter_UpdateNetworkNameList(networkNames: List<String>) {
-        val actionFilter = getActionFilter()
-        actionFilter.networkNameList = networkNames
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        filterParam.networkNameList = networkNames
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
 
     fun filter_UpdateCategoryList(catogories: List<String>) {
-        val actionFilter = getActionFilter()
-        actionFilter.categoryList = catogories
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        filterParam.categoryList = catogories
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
 
     fun filter_UpdateDateRange(start: Long, end: Long) {
-        val actionFilter = getActionFilter()
-        actionFilter.startDate = start
-        actionFilter.endDate = end
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        filterParam.startDate = start
+        filterParam.endDate = end
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
 
     fun filter_IncludeSucceededTransactions(shouldInclude: Boolean) {
-        val actionFilter = getActionFilter()
-        if(shouldInclude) actionFilter.transactionSuccessful = Transaction.SUCCEEDED
-        else actionFilter.transactionSuccessful = ""
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        if(shouldInclude) filterParam.transactionSuccessful = Transaction.SUCCEEDED
+        else filterParam.transactionSuccessful = ""
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
     fun filter_IncludePendingTransactions(shouldInclude: Boolean) {
-        val actionFilter = getActionFilter()
-        if(shouldInclude) actionFilter.transactionPending = Transaction.PENDING
-        else actionFilter.transactionPending = ""
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        if(shouldInclude) filterParam.transactionPending = Transaction.PENDING
+        else filterParam.transactionPending = ""
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
     fun filter_IncludeFailedTransactions(shouldInclude: Boolean) {
-        val actionFilter = getActionFilter()
-        if(shouldInclude) actionFilter.transactionFailed = Transaction.FAILED
-        else actionFilter.transactionFailed = ""
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        if(shouldInclude) filterParam.transactionFailed = Transaction.FAILED
+        else filterParam.transactionFailed = ""
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
     fun filter_IncludeActionsWithNoTransaction(shouldInclude: Boolean) {
-        val actionFilter = getActionFilter()
-        actionFilter.hasNoTransaction = shouldInclude
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        filterParam.hasNoTransaction = shouldInclude
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
     fun filter_IncludeActionsWithParsers(shouldInclude: Boolean) {
-        val actionFilter = getActionFilter()
-        actionFilter.hasParser = shouldInclude
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        filterParam.hasParser = shouldInclude
+        actionFilterParamMutableLiveData.postValue(filterParam)
     }
     fun filter_ShowOnlyActionsWithSimPresent(shouldShow: Boolean) {
-        val actionFilter = getActionFilter()
-        actionFilter.onlyWithSimPresent = shouldShow
-        actionFilterParamsMutableLiveData.postValue(actionFilter)
+        val filterParam = getActionFilterParam()
+        filterParam.onlyWithSimPresent = shouldShow
+        actionFilterParamMutableLiveData.postValue(filterParam)
+    }
+    private fun isARootCode(value: String) : Boolean {
+        return value.first().toString() =="*" && value.last().toString() == "#"
     }
 }

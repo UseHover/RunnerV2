@@ -1,4 +1,4 @@
-package com.hover.runner.settings.repo
+package com.hover.runner.sim.repo
 
 import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.sims.SimInfo

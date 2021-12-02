@@ -29,6 +29,11 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
         return transactionRepoInterface.getTransaction(uuid)
     }
 
+    override suspend fun getDistinctTransactionCategories(): List<String> {
+        return transactionRepoInterface.getAllCategories().distinct()
+    }
+
+
     override suspend fun getAboutInfo(runnerTransaction: RunnerTransaction): List<TransactionDetailsInfo> {
         with(runnerTransaction) {
             val action = transactionRepoInterface.getAction(runnerTransaction.action_id)
@@ -36,20 +41,16 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
                 transactionRepoInterface.getLastTransaction(runnerTransaction.action_id)
 
             val detailsList = mutableListOf<TransactionDetailsInfo>()
-            detailsList.add(TransactionDetailsInfo("Status", status, false))
-            detailsList.add(TransactionDetailsInfo("Action", action.title!!, true))
-            detailsList.add(TransactionDetailsInfo("ActionID", action.id, true))
-            detailsList.add(TransactionDetailsInfo("Time", getDate()!!, false))
-            detailsList.add(TransactionDetailsInfo("TransactionId", uuid, false))
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "Result",
-                    lastTransaction!!.last_message_hit ?: "",
-                    false
-                )
-            )
-            detailsList.add(TransactionDetailsInfo("Category", category!!, false))
-            detailsList.add(TransactionDetailsInfo("Operator", action.network_name!!, false))
+            with(detailsList) {
+                add(TransactionDetailsInfo("Status", status, false))
+                add(TransactionDetailsInfo("Action", action.title ?: "", true))
+                add(TransactionDetailsInfo("ActionID", action.id, true))
+                add(TransactionDetailsInfo("Time", getDate() ?: "", false))
+                add(TransactionDetailsInfo("TransactionId", uuid, false))
+                add(TransactionDetailsInfo("Result", lastTransaction!!.last_message_hit!!, false))
+                add(TransactionDetailsInfo("Category", category ?: "", false))
+                add(TransactionDetailsInfo("Operator", action.network_name ?: "", false))
+            }
             return detailsList
 
         }
@@ -63,31 +64,13 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 
         with(runnerTransaction) {
             val detailsList = mutableListOf<TransactionDetailsInfo>()
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "Testing mode",
-                    SettingsFragment.envToString(environment),
-                    false
-                )
-            )
+            detailsList.add(TransactionDetailsInfo("Testing mode", SettingsFragment.envToString(environment), false))
             detailsList.add(TransactionDetailsInfo("Device ID", deviceId, false))
             detailsList.add(TransactionDetailsInfo("Brand", manufacturer, false))
             detailsList.add(TransactionDetailsInfo("Model", model, false))
             detailsList.add(TransactionDetailsInfo("Android ver.", "SDK $osVersionName", false))
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "App ver. code",
-                    BuildConfig.VERSION_CODE.toString(),
-                    false
-                )
-            )
-            detailsList.add(
-                TransactionDetailsInfo(
-                    "App ver. name",
-                    BuildConfig.VERSION_NAME,
-                    false
-                )
-            )
+            detailsList.add(TransactionDetailsInfo("App ver. code", BuildConfig.VERSION_CODE.toString(), false))
+            detailsList.add(TransactionDetailsInfo("App ver. name", BuildConfig.VERSION_NAME, false))
             return detailsList
         }
     }
@@ -113,7 +96,7 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
             detailsList.add(
                 TransactionDetailsInfo(
                     "Parsed variables",
-                    hoverTransaction.parsed_variables.toString(),
+                     hoverTransaction.parsed_variables?.let {it.toString()} ?: "",
                     false
                 )
             )

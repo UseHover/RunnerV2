@@ -1,21 +1,29 @@
 package com.hover.runner.filter_actions.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.fragment.app.Fragment
+import androidx.core.util.Pair
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.hover.runner.R
 import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.ActionFilterFragmentBinding
+import com.hover.runner.filter_actions.model.ActionFilterParam
 import com.hover.runner.filter_actions.navigation.FilterActionNavigationInterface
-import com.hover.runner.utils.RunnerColor
-import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.TextViewUtils.Companion.activateView
+import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
+import com.hover.runner.utils.TextViewUtils.Companion.underline
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
-class FilterActionsFragment : Fragment() {
+class FilterActionsFragment : BaseFragment() {
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var resetTextView: TextView
     private  lateinit var countryEntryTextView: TextView
@@ -34,7 +42,6 @@ class FilterActionsFragment : Fragment() {
     private lateinit var showActionsTextView : TextView
 
     private var timer = Timer()
-    private var resetActivated = false
     private val actionViewModel: ActionViewModel by sharedViewModel()
 
     private lateinit var filterActionNavigationInterface : FilterActionNavigationInterface
@@ -53,12 +60,16 @@ class FilterActionsFragment : Fragment() {
         initViews()
         setupToolBarViews()
         setupFilterSelections()
-
+        setupResetFilter()
+        observeFilterParameters()
+        setupShowFilteredActions()
+        observeFilterActions()
     }
 
     private fun initNavigationInterface() {
         filterActionNavigationInterface = activity as FilterActionNavigationInterface
     }
+
     private fun initViews(){
         toolBarTextView = binding.actionFilterBackId
         filterLayout = binding.entryFilterView
@@ -79,18 +90,100 @@ class FilterActionsFragment : Fragment() {
     }
     private fun setupToolBarViews() {
         toolBarTextView.setOnClickListener { navigateBack() }
-        showActionsTextView.setOnClickListener { navigateBack() }
-        UIHelper.underlineText(resetTextView, "Reset")
+        resetTextView.underline()
+    }
+    private fun setupShowFilteredActions() {
+        showActionsTextView.setOnClickListener {
+            val filteredActions = actionViewModel.filter_getActions()
+            actionViewModel.updateActionsLiveData(filteredActions)
+            navigateBack()
+        }
     }
     private fun setupFilterSelections() {
-        setupFilterEntries()
-        setupCheckboxClicks()
-    }
-    private fun setupFilterEntries() {
-
+        setupFilterEntryBoxSelections()
+        setupCheckboxSelections()
     }
 
-    private fun setupCheckboxClicks() {
+    private fun observeFilterParameters() {
+     actionViewModel.actionFilterParamMutableLiveData.observe(viewLifecycleOwner) {
+         updateFilterEntryData(it)
+         updateFilterCheckboxes(it)
+     }
+    }
+
+    private fun observeFilterActions() {
+        observeFilterData()
+        observeFilterLoadingStatus()
+    }
+    private fun observeFilterData() {
+        actionViewModel.filteredActionsMutableLiveData.observe(viewLifecycleOwner) { actions ->
+            if (actions != null) {
+                with(showActionsTextView) {
+                    if (actions.isNotEmpty()) {
+                        isClickable = true
+                        setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                        val suffixAction = if (actions.size == 1) "action " else  "action"
+                        text = String.format(Locale.getDefault(), "Show %d %s", actions.size, suffixAction)
+                    }
+                    else {
+                    isClickable = false
+                    setBackgroundColor(resources.getColor(R.color.colorMainGrey))
+                    text = resources.getString(R.string.no_actions_filter_result)
+                }
+            }
+        }
+        }
+    }
+    private fun observeFilterLoadingStatus() {
+        actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
+            if(hasLoaded) {
+                with(showActionsTextView) {
+                    isClickable = false
+                    setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                    text = resources.getString(R.string.loadingText)
+                }
+            }
+        }
+    }
+
+    private fun setupResetFilter() {
+        handleResetTextClick()
+        observeForResetTextView()
+    }
+
+    private fun handleResetTextClick() {
+        actionViewModel.getAllActions()
+        actionViewModel.filter_reset()
+    }
+    private fun observeForResetTextView() {
+        actionViewModel.actionsParentTotalLiveData.observe(viewLifecycleOwner) {
+            if(actionViewModel.filter_actionsTotal() < it) activateReset()
+            else deactivateReset()
+        }
+    }
+
+    private fun updateFilterEntryData(param: ActionFilterParam) {
+        with(param) {
+            searchActionEditText.setText(getActionIdsAsString())
+            countryEntryTextView.text = getCountryListAsString()
+            categoryEntryTextView.text = getCategoryListAsString()
+            networkEntryTextView.text = getNetworkNamesAsString()
+            datePickerTextView.text = getDateRangeValue(requireContext())
+        }
+    }
+
+    private fun updateFilterCheckboxes(param: ActionFilterParam) {
+        with(param) {
+            successCheckBox.isChecked = isTransactionSuccessfulIncluded()
+            pendingCheckBox.isChecked = isTransactionPendingIncluded()
+            failureCheckBox.isChecked = isTransactionFailedIncluded()
+            noTransactionCheckBox.isChecked = hasNoTransaction
+            hasParserCheckBox.isChecked = hasParser
+            onlyWithSimPresentCheckBox.isChecked = onlyWithSimPresent
+        }
+    }
+
+    private fun setupCheckboxSelections() {
         successCheckBox.setOnCheckedChangeListener { _, checked: Boolean -> actionViewModel.filter_IncludeSucceededTransactions(checked) }
         pendingCheckBox.setOnCheckedChangeListener{_, checked-> actionViewModel.filter_IncludePendingTransactions(checked) }
         failureCheckBox.setOnCheckedChangeListener{_, checked-> actionViewModel.filter_IncludeFailedTransactions(checked) }
@@ -98,20 +191,51 @@ class FilterActionsFragment : Fragment() {
         hasParserCheckBox.setOnCheckedChangeListener{ _, checked -> actionViewModel.filter_IncludeActionsWithParsers(checked) }
         onlyWithSimPresentCheckBox.setOnCheckedChangeListener{_, checked -> actionViewModel.filter_ShowOnlyActionsWithSimPresent(checked) }
     }
-
-    private fun navigateBack() {
-        requireActivity().finish()
+    private fun setupFilterEntryBoxSelections() {
+        searchActionEditText.addTextChangedListener(searchActionEditTextWatcher)
+        countryEntryTextView.setOnClickListener{ filterActionNavigationInterface.navigateToFilterByCountriesFragment() }
+        categoryEntryTextView.setOnClickListener { filterActionNavigationInterface.navigateToFilterByActionCategoriesFragment() }
+        networkEntryTextView.setOnClickListener{ filterActionNavigationInterface.navigateToFilterByNetworksFragment() }
+        datePickerTextView.setOnClickListener{ pickDateRange() }
     }
 
+    private fun pickDateRange() {
+        with(datePicker()) {
+            show(parentFragmentManager, toString())
+        }
+    }
+    private fun datePicker() : MaterialDatePicker<Pair<Long, Long>> {
+        val builder = MaterialDatePicker.Builder.dateRangePicker()
+        val constraintsBuilder = CalendarConstraints.Builder()
+        builder.setCalendarConstraints(constraintsBuilder.build())
+
+        val picker = builder.setTitleText(resources.getString(R.string.selected_range)).build()
+        picker.addOnPositiveButtonClickListener { selection: Pair<Long, Long>? ->
+           selection?.let {actionViewModel.filter_UpdateDateRange(it.first, it.second)}
+        }
+        return picker
+    }
+    private val searchActionEditTextWatcher = object : TextWatcher {
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            timer.cancel()
+            timer = Timer()
+            val throttle: Long = 1500
+            timer.schedule(object : TimerTask() {
+                override fun run() {
+                    actionViewModel.filter_byActionSearch(s.toString())
+                }
+            }, throttle)
+        }
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun afterTextChanged(s: Editable) {}
+    }
 
     private fun deactivateReset() {
-        resetTextView.setTextColor(RunnerColor(requireContext()).GRAY)
-        resetActivated = false
+        resetTextView.deactivateView()
     }
 
     private fun activateReset() {
-        resetTextView.setTextColor(RunnerColor(requireContext()).WHITE)
-        resetActivated = true
+        resetTextView.activateView()
     }
 
     override fun onDestroyView() {

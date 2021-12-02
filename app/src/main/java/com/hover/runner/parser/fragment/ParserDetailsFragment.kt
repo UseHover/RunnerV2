@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
+import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.ParsersFragmentBinding
 import com.hover.runner.parser.navigation.ParserNavigationInterface
 import com.hover.runner.parser.viewmodel.ParserViewModel
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.utils.RunnerColor
-import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.TextViewUtils.Companion.underline
+import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ParserDetailsFragment : Fragment(), TransactionClickListener {
+class ParserDetailsFragment : BaseFragment(), TransactionClickListener {
 
     private var _binding: ParsersFragmentBinding? = null
     private val binding get() = _binding!!
@@ -75,7 +76,7 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
     }
 
     private fun setupToolBar() {
-        toolBarText.setOnClickListener { activity?.onBackPressed() }
+        toolBarText.setOnClickListener { navigateBack() }
         toolBarText.text = arguments?.get("parser_id").toString()
     }
 
@@ -90,8 +91,9 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
     private fun observeParserInfo() {
         viewModel.parserLiveData.observe(viewLifecycleOwner) { parser ->
             if (parser != null) {
-                UIHelper.underlineText(actionText, parser.action_name)
-                UIHelper.underlineText(actionIdText, parser.action_id)
+
+                actionText.underline(parser.action_name)
+                actionIdText.underline(parser.action_id)
 
                 typeText.text = parser.type
                 categoryText.text = parser.category
@@ -101,24 +103,14 @@ class ParserDetailsFragment : Fragment(), TransactionClickListener {
                 statusText.text = parser.category
                 statusText.setTextColor(RunnerColor(requireContext()).get(parser.getStatusColor()))
 
-                actionIdText.setOnClickListener {
-                    parserNavigationInterface.navActionDetails(
-                        parser.action_id!!,
-                        actionText
-                    )
-                }
-                actionText.setOnClickListener {
-                    parserNavigationInterface.navActionDetails(
-                        parser.action_id!!,
-                        it
-                    )
-                }
+                actionIdText.setOnClickListener { parserNavigationInterface.navActionDetails(parser.action_id!!, actionText) }
+                actionText.setOnClickListener { parserNavigationInterface.navActionDetails(parser.action_id!!, it) }
             }
         }
     }
 
     private fun observeTransactions() {
-        transactionRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
+        transactionRecyclerView.setLayoutManagerToLinear()
         viewModel.transactionsLiveData.observe(viewLifecycleOwner) { transactions ->
             if (transactions != null) {
                 if (transactions.isEmpty()) {

@@ -16,6 +16,7 @@ android:orientation="vertical">
 	android:drawablePadding="@dimen/margin16"
 	android:textColor="@color/colorPrimaryDark"
 	android:textSize="@dimen/text22"
+	android:background="?selectableItemBackground"
 	android:transitionName="action_title"
 	android:id="@+id/actionDetails_toolbarText"
 	android:visibility="visible"

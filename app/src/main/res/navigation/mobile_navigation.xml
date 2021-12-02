@@ -29,6 +29,32 @@
 		tools:layout="@layout/uncompleted_variable_fragment_layout">
 	</fragment>
 
+	<!--Action Filters -->
+
+	<fragment
+		android:id="@+id/navigation_actionFilter"
+		android:name="com.hover.runner.filter_actions.fragments.FilterActionsFragment"
+		android:label="@string/title_filter"
+		tools:layout="@layout/action_filter_fragment" />
+
+	<fragment
+		android:id="@+id/navigation_actionFilter_selectByCategory"
+		android:name="com.hover.runner.filter_actions.fragments.SelectCategoryFragment"
+		android:label="@string/title_filter"
+		tools:layout="@layout/filter_by_categories" />
+
+	<fragment
+		android:id="@+id/navigation_actionFilter_selectByCountry"
+		android:name="com.hover.runner.filter_actions.fragments.SelectCountryFragment"
+		android:label="@string/title_filter"
+		tools:layout="@layout/filter_by_country" />
+
+	<fragment
+		android:id="@+id/navigation_actionFilter_selectByNetworkNames"
+		android:name="com.hover.runner.filter_actions.fragments.SelectNetworkNameFragment"
+		android:label="@string/title_filter"
+		tools:layout="@layout/filter_by_network_name" />
+
 	<!--Transactions -->
 	<fragment
 		android:id="@+id/navigation_transactions"
@@ -60,6 +86,7 @@
 			android:name="action_id"
 			app:argType="string" />
 	</fragment>
+
 
 	<!--Settings -->
 	<fragment

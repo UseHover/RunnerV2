@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.action.adapters.VariableRecyclerAdapter
@@ -14,14 +13,17 @@ import com.hover.runner.action.models.Action
 import com.hover.runner.action.models.ActionVariablesCache
 import com.hover.runner.action.models.StreamlinedSteps
 import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.UncompletedVariableFragmentLayoutBinding
 import com.hover.runner.utils.RunnerColor
+import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.json.JSONArray
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
-class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
+class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener {
     private var _binding: UncompletedVariableFragmentLayoutBinding? = null
     private val binding get() = _binding!!
 
@@ -35,7 +37,9 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     private lateinit var descTitleText: TextView
     private lateinit var descContentText: TextView
     private lateinit var nextSaveText: TextView
-    private lateinit var skipText: TextView
+    private lateinit var skipTextMember1: TextView
+    private lateinit var skipTextMember2: TextView
+    private lateinit var skipTextMember3: TextView
     private lateinit var variablesRecyclerView: RecyclerView
 
 
@@ -65,27 +69,24 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
         descTitleText = binding.uVariableStatusTitle
         descContentText = binding.uVariableStatusDesc
         nextSaveText = binding.nextSaveTextId
-        skipText = binding.skipId
+        skipTextMember1 = binding.skipIdMember1
+        skipTextMember2 = binding.skipIdMember2
+        skipTextMember3 = binding.skipIdMember3
         variablesRecyclerView = binding.actionVariablesRecyclerView
-        variablesRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
+        variablesRecyclerView.setLayoutManagerToLinear()
     }
 
     private fun underlineSkipText() {
-        UIHelper.underlineText(skipText, resources.getString(R.string.skip_text))
+        skipTextMember2.underline(resources.getString(R.string.skip_text))
     }
 
     private fun setToolBarClick() {
-        toolBarText.setOnClickListener { navBack() }
+        toolBarText.setOnClickListener { navigateBack() }
     }
-
-    private fun navBack() {
-        requireActivity().onBackPressed()
-    }
-
 
     private fun observePositionedAction() {
         actionViewModel.actionsWithUCV_LiveData.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) navBack()
+            if (it.isEmpty()) navigateBack()
             else {
                 if (initialUncompletedSize == 0) initialUncompletedSize = it.size
                 val currentAction = it[0]
@@ -102,14 +103,9 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     private fun setDetailsText(currentAction: Action, listSize: Int) {
         toolBarText.text = currentAction.id
         subtoolBarText.text = currentAction.title
-        descTitleText.text =
-            String.format(Locale.ENGLISH, "%d %s", listSize, getDescriptionSuffix(listSize))
-        descContentText.text =
-            String.format(Locale.getDefault(), "Action %d of %s", listSize, initialUncompletedSize)
-        UIHelper.underlineText(
-            nextSaveText,
-            if (listSize == 1) getString(R.string.save_text) else getString(R.string.save_continue)
-        )
+        descTitleText.text = String.format(Locale.ENGLISH, "%d %s", listSize, getDescriptionSuffix(listSize))
+        descContentText.text = String.format(Locale.getDefault(), "%d actions left ", listSize)
+        nextSaveText.underline(if (listSize == 1) getString(R.string.save_text) else getString(R.string.save_continue))
     }
 
     private fun setupSaveContinue() {
@@ -130,13 +126,16 @@ class UnCompletedVariablesFragment : Fragment(), ActionVariableEditListener {
     }
 
     private fun setupSkipText() {
-        skipText.setOnClickListener {
+        fun skip() {
             with(actionViewModel) {
                 val action = getCurrentUCVAction()
                 action.saveAsSkipped(requireContext())
                 removeFromUCVList(action)
             }
         }
+        skipTextMember1.setOnClickListener {skip()}
+        skipTextMember2.setOnClickListener{skip()}
+        skipTextMember3.setOnClickListener{skip()}
     }
 
     private fun setVariableListAdapter(action: Action) {

@@ -13,7 +13,7 @@ import com.hover.runner.action.listeners.ActionVariableEditListener
 import com.hover.runner.action.models.StreamlinedSteps
 
 
-class VariableRecyclerAdapter(
+internal class VariableRecyclerAdapter(
     private val actionId: String,
     private var steps: StreamlinedSteps?,
     private val editInterface: ActionVariableEditListener,

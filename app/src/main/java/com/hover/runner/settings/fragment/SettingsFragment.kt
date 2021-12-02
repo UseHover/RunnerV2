@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment
 import com.hover.runner.R
 import com.hover.runner.databinding.SettingsFragmentBinding
 import com.hover.runner.settings.navigation.SettingsNavigationInterface
-import com.hover.runner.settings.viewmodel.SettingsViewModel
+import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.SharedPrefUtils.Companion.DELAY
 import com.hover.runner.utils.SharedPrefUtils.Companion.ENV
@@ -53,14 +53,10 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
     private var isRefreshButtonIdle = false
 
     private lateinit var settingsNavigationInterface: SettingsNavigationInterface
-    private val settingsViewModel: SettingsViewModel by sharedViewModel()
+    private val simViewModel: SimViewModel by sharedViewModel()
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = SettingsFragmentBinding.inflate(inflater, container, false)
         initInterfaces()
         return binding.root
@@ -117,11 +113,11 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
     }
 
     private fun observeSimNames() {
-        settingsViewModel.getPresentSims()
-        settingsViewModel.presentSimsLiveData.observe(viewLifecycleOwner) { simNames ->
+        simViewModel.getPresentSims()
+        simViewModel.presentSimsLiveData.observe(viewLifecycleOwner) { simNames ->
             if (simNames != null) {
                 val emptySimValue = resources.getString(R.string.no_sim_found)
-                if (simNames.isNotEmpty()) sim1NameText.text = simNames[0]
+                 sim1NameText.text = if (simNames.isNotEmpty()) simNames[0] else emptySimValue
                 if (simNames.size > 1) sim2NameText.text = simNames[1]
             }
         }
@@ -174,10 +170,7 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
         if (!isRefreshButtonIdle) {
             isRefreshButtonIdle = true
             Hover.updateActionConfigs(this, requireContext())
-            UIHelper.flashMessage(
-                requireContext(),
-                resources.getString(R.string.app_data_refreshed)
-            )
+            UIHelper.flashMessage(requireContext(), resources.getString(R.string.app_data_refreshed))
         }
     }
 

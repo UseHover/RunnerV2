@@ -9,4 +9,5 @@ interface ActionNavigationInterface {
     fun navTransactionDetails(uuid: String)
     fun navTransactionListFragment(filterByActionId: String)
     fun navUnCompletedVariableFragment()
+    fun navActionFilterFragment()
 }

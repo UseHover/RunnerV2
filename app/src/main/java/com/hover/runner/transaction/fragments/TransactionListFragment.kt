@@ -17,6 +17,7 @@ import com.hover.runner.transaction.navigation.TransactionNavigationInterface
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class TransactionListFragment : Fragment(), TransactionClickListener {
@@ -70,8 +71,7 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
     }
 
     private fun setupRecyclerView() {
-        homeTransactionsRecyclerView.layoutManager =
-            UIHelper.setMainLinearManagers(requireContext())
+        homeTransactionsRecyclerView.setLayoutManagerToLinear()
         homeTransactionsRecyclerView.setHasFixedSize(false)
     }
 

@@ -7,7 +7,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
@@ -18,6 +17,7 @@ import com.hover.runner.action.models.ActionDetails
 import com.hover.runner.action.models.ActionVariablesCache
 import com.hover.runner.action.navigation.ActionNavigationInterface
 import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
 import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
@@ -29,13 +29,14 @@ import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.runner.utils.setSafeOnClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
-class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClickListener,
+class ActionDetailsFragment : BaseFragment(), ActionVariableEditListener, ParserClickListener,
     TransactionClickListener {
     private var timer = Timer()
     private val maxTransactionListSize = 10
@@ -145,7 +146,7 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
 
     private fun setTransactionsList(actionId: String) {
         transactionRecyclerView = binding.actionTransacRecyclerView
-        transactionRecyclerView.layoutManager = UIHelper.setMainLinearManagers(context)
+        transactionRecyclerView.setLayoutManagerToLinear()
 
         transactionViewModel.observeTransactionsByAction(actionId, (maxTransactionListSize + 1))
             .observe(viewLifecycleOwner) { transactions ->
@@ -180,7 +181,7 @@ class ActionDetailsFragment : Fragment(), ActionVariableEditListener, ParserClic
 
     private fun setVariableEditRecyclerAdapter(action: Action, actionDetail: ActionDetails) {
         val variablesRecyclerView: RecyclerView = binding.actionVariablesRecyclerView
-        variablesRecyclerView.layoutManager = UIHelper.setMainLinearManagers(requireContext())
+        variablesRecyclerView.setLayoutManagerToLinear()
         variablesRecyclerView.adapter = action.id.let {
             VariableRecyclerAdapter(
                 it, actionDetail.streamlinedSteps, this,

@@ -16,6 +16,7 @@ import com.hover.runner.databinding.LoginActivity2Binding
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
 import com.hover.runner.utils.SharedPrefUtils
+import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.webview.WebViewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupForgotPassword() {
-        UIHelper.underlineText(forgotPassword, getString(R.string.forgot_password))
+        forgotPassword.underline()
         forgotPassword.setOnClickListener {
             val intent = Intent(this, WebViewActivity::class.java)
             intent.putExtra("title", getString(R.string.forgot_password))

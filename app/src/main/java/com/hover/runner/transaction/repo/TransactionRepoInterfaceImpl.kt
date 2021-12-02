@@ -23,6 +23,10 @@ class TransactionRepoInterfaceImpl(
         return repo.getTransactionsByAction(actionId)
     }
 
+    override suspend fun getAllCategories(): List<String> {
+       return repo.getCategories()
+    }
+
     override fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
         return repo.getTransaction(uuid)
     }

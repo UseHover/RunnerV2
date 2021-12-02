@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.hover.runner.action.navigation.ActionNavigationInterface
 import com.hover.runner.databinding.DetailsTopLayoutBinding
-import com.hover.runner.utils.UIHelper
+import com.hover.runner.utils.TextViewUtils.Companion.underline
 
 enum class DetailScreenType {
     ACTION, TRANSACTION
@@ -60,7 +60,7 @@ class RunnerTopDetailsView(context: Context, attributeSet: AttributeSet) :
         descTitle.compoundDrawablePadding = 32
 
         descContent.setText(getDescContent(status, detailsScreenType))
-        UIHelper.underlineText(descLink, resources.getString(getDescLinkLabel(status)))
+        descLink.underline(resources.getString(getDescLinkLabel(status)))
     }
 
     private fun setDescriptionVisibility(status: String) {

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import com.hover.runner.R
-import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
 import com.hover.runner.utils.PermissionsUtil
@@ -14,7 +13,6 @@ import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : AbstractNavigationActivity() {
@@ -27,8 +25,8 @@ class MainActivity : AbstractNavigationActivity() {
         initHover()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        redirectIfRequired()
         checkForPermissions()
+        redirectIfRequired()
     }
 
     override fun onResume() {
@@ -57,7 +55,7 @@ class MainActivity : AbstractNavigationActivity() {
                 }
             }
         if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
-            resultLauncher.launch(Intent(this, PermissionActivity::class.java))
+            if(isLoggedIn())  resultLauncher.launch(Intent(this, PermissionActivity::class.java))
         }
     }
 

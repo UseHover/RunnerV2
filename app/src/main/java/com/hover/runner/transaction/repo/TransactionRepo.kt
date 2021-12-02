@@ -26,7 +26,10 @@ class TransactionRepo(db: AppDatabase) {
         return transactionDao.getTransaction(uuid)
     }
 
-    suspend fun getTransactionSuspended(uuid: String): RunnerTransaction? {
+    suspend fun getCategories() : List<String> {
+        return transactionDao.allCategories()
+    }
+    suspend fun getTransactionSuspended(uuid: String?): RunnerTransaction? {
         return transactionDao.getTransaction_Suspended(uuid)
     }
 
@@ -52,25 +55,23 @@ class TransactionRepo(db: AppDatabase) {
 
 
     fun insertOrUpdateTransaction(intent: Intent, context: Context) {
+        Timber.i("save receiver triggered")
         AppDatabase.databaseWriteExecutor.execute {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    var t: RunnerTransaction? =
-                        intent.getStringExtra(TransactionContract.COLUMN_UUID)
-                            ?.let { getTransactionSuspended(it) }
+                    var t: RunnerTransaction? =  getTransactionSuspended(intent.getStringExtra(TransactionContract.COLUMN_UUID))
                     if (t == null) {
+                        Timber.i("save receiver triggered to create new transa")
                         t = RunnerTransaction.init(intent, context)
-                        t?.let { insertTransaction(t!!) }
-                        t = getTransactionSuspended(t!!.uuid)
+                        insertTransaction(t!!)
                     } else {
-                        t.update(intent)
+                        Timber.i("save receiver triggered to update")
+                        t.update(intent, context)
                         updateTransaction(t)
-                    }
-                    if (t != null) {
-                        Timber.e("save t with uuid: %s", t.uuid)
                     }
                 } catch (e: Exception) {
                     Timber.e(e, "error")
+                    Timber.i("save receiver triggered has error: "+e.message)
                 }
             }
         }
