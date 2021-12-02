@@ -64,9 +64,11 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
         actionViewModel.loadDistinctCountries()
         actionViewModel.countryListMutableLiveData.observe(viewLifecycleOwner) { allCountries ->
             if(allCountries !=null) {
-                val filterParam : ActionFilterParam = actionViewModel.filter_getParam
-                val checkBoxItems = CheckBoxItem.toList(allCountries, filterParam.countryNameList)
-                setCountryListAdapter(checkBoxItems)
+                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
+                if(filterParam !=null) {
+                    val checkBoxItems = CheckBoxItem.toList(allCountries, filterParam.countryNameList)
+                    setCountryListAdapter(checkBoxItems)
+                }
             }
         }
     }

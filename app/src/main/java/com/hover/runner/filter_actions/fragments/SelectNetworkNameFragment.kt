@@ -81,9 +81,12 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
     private fun observeNetworksInPresentSimCountry()  {
         actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
             if(allNetworks !=null) {
-                val filterParam : ActionFilterParam = actionViewModel.filter_getParam
-                val checkBoxItems = CheckBoxItem.toList(allNetworks, filterParam.networkNameList)
-                setInPresentSimCountryListAdapter(checkBoxItems)
+                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
+                if(filterParam !=null) {
+                    val checkBoxItems =
+                        CheckBoxItem.toList(allNetworks, filterParam.networkNameList)
+                       setInPresentSimCountryListAdapter(checkBoxItems)
+                }
             }
         }
     }
@@ -91,13 +94,14 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
     private fun observeNetworkOutsidePresentSimCountry()  {
         actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
             if(allNetworks !=null) {
-                val filterParam : ActionFilterParam = actionViewModel.filter_getParam
-                val checkBoxItems = CheckBoxItem.toList(allNetworks, filterParam.networkNameList)
-
-                setOutsidePresentSimCountryListAdapter(checkBoxItems)
-
-                setOtherCountryVisibility(View.VISIBLE)
-                networksInOtherCountriesTextView.text = MessageFormat.format("+ {0} in other countries", allNetworks.size)
+                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
+                if(filterParam !=null) {
+                    val checkBoxItems =
+                        CheckBoxItem.toList(allNetworks, filterParam.networkNameList)
+                        setOutsidePresentSimCountryListAdapter(checkBoxItems)
+                        setOtherCountryVisibility(View.VISIBLE)
+                        networksInOtherCountriesTextView.text = MessageFormat.format("+ {0} in other countries", allNetworks.size)
+                }
             }
             else {
                 setOtherCountryVisibility(View.GONE)

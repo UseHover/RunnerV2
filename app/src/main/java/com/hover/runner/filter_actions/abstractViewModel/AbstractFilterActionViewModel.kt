@@ -11,7 +11,7 @@ abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewMo
     val actionFilterParamMutableLiveData : MutableLiveData<ActionFilterParam> = MutableLiveData()
 
     val filteredActionsMutableLiveData : MutableLiveData<List<Action>> = MutableLiveData()
-    val filter_getParam : ActionFilterParam = actionFilterParamMutableLiveData.value!!
+    val filter_getParam : ActionFilterParam? = actionFilterParamMutableLiveData.value
 
     init {
         actionFilterParamMutableLiveData.value = ActionFilterParam.getDefault()
