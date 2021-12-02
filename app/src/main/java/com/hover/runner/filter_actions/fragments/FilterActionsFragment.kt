@@ -20,6 +20,7 @@ import com.hover.runner.filter_actions.navigation.FilterActionNavigationInterfac
 import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
 import com.hover.runner.utils.TextViewUtils.Companion.underline
+import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
@@ -147,7 +148,7 @@ class FilterActionsFragment : BaseFragment() {
     }
 
     private fun setupResetFilter() {
-        handleResetTextClick()
+        resetTextView.setOnClickListener{ handleResetTextClick() }
         observeForResetTextView()
     }
 
@@ -157,7 +158,7 @@ class FilterActionsFragment : BaseFragment() {
     }
     private fun observeForResetTextView() {
         actionViewModel.actionsParentTotalLiveData.observe(viewLifecycleOwner) {
-            if(actionViewModel.filter_actionsTotal() < it) activateReset()
+            if(actionViewModel.filter_actionsTotal() !=0 && actionViewModel.filter_actionsTotal() < it) activateReset()
             else deactivateReset()
         }
     }
