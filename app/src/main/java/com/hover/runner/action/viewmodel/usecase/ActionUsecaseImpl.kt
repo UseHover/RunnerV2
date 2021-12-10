@@ -25,11 +25,9 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface) : ActionUse
 
 	override suspend fun getDistinctCountries(): List<String> {
 		val countryNameList = mutableListOf<String>()
-		val distinctCountryCodes = actionRepo.getAllActionCountryCodes().distinct()
-		distinctCountryCodes.forEach { code ->
+		actionRepo.getAllActionCountryCodes().forEach { code ->
 			countryNameList.add(Locale("", code).displayCountry)
 		}
-
 		return countryNameList
 	}
 
