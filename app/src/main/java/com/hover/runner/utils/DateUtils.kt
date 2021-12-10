@@ -7,9 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class DateUtils {
-
-	companion object {
+object DateUtils {
 		fun formatDate(timestamp: Long): String? {
 			val pattern = "HH:mm:ss (z) MMM dd, yyyy"
 			val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
@@ -239,6 +237,4 @@ class DateUtils {
 				else -> "December"
 			}
 		}
-
-	}
 }

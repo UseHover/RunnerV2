@@ -8,8 +8,7 @@ import com.hover.runner.R
 import com.hover.sdk.api.HoverParameters
 import timber.log.Timber
 
-class SharedPrefUtils {
-	companion object {
+object SharedPrefUtils {
 
 		private const val SHARED_PREFS = "_runner"
 		private const val API_KEY_LABEL = "runner_apiKey"
@@ -135,5 +134,3 @@ class SharedPrefUtils {
 			if (Build.VERSION.SDK_INT >= 19) (c.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).clearApplicationUserData()
 		}
 	}
-
-}

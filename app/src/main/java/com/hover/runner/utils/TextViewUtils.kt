@@ -7,8 +7,7 @@ import android.widget.TextView
 import com.hover.runner.R
 import timber.log.Timber
 
-class TextViewUtils {
-	companion object {
+object TextViewUtils {
 
 		fun TextView.activateView() {
 			this.setTextColor(RunnerColor(this.context).WHITE)
@@ -60,5 +59,3 @@ class TextViewUtils {
 			setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 		}
 	}
-
-}
