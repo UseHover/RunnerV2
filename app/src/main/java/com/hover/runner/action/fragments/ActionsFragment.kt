@@ -11,11 +11,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
 import com.hover.runner.action.adapters.ActionRecyclerAdapter
 import com.hover.runner.action.listeners.ActionClickListener
 import com.hover.runner.action.models.Action
 import com.hover.runner.action.navigation.ActionNavigationInterface
+import com.hover.runner.action.repo.ActionIdsInANetworkRepo
 import com.hover.runner.action.utils.UpdateHoverActions
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FragmentActionsBinding
@@ -30,6 +32,9 @@ import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.runner.utils.setSafeOnClickListener
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
@@ -124,11 +129,21 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionClickListener 
 		else filterTextView.styleAsFilterOff()
 	}
 
+	private fun updateActionIdsInNetworkIfRequired(actions: List<Action>) {
+		if(!ApplicationInstance.cacheForActionIdsInNetworkRepoIsAvailable) {
+			GlobalScope.launch(Dispatchers.IO) {
+				ActionIdsInANetworkRepo.cache(actions, requireContext())
+			}
+			ApplicationInstance.cacheForActionIdsInNetworkRepoIsAvailable = true
+		}
+	}
+
 	private fun observeActions() {
 		actionViewModel.getAllActions()
 		actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
 			if (actions != null) {
 				updateFilterTextStyle(actions.size)
+				updateActionIdsInNetworkIfRequired(actions)
 
 				if (actions.isEmpty()) showEmptyDataView()
 				else setActionListAdapter(actions)
@@ -200,6 +215,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionClickListener 
 	}
 
 	private fun refreshActions() {
+		ApplicationInstance.cacheForActionIdsInNetworkRepoIsAvailable = false
 		val updateHoverActions = UpdateHoverActions(this, requireContext())
 		updateHoverActions.init()
 	}

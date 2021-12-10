@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import timber.log.Timber
+import java.util.*
 
 internal class CheckboxItemAdapter(private val checkBoxItems: List<CheckBoxItem>,
                                    private val checkBoxStatus: CheckBoxListStatus,
@@ -45,12 +46,14 @@ internal class CheckboxItemAdapter(private val checkBoxItems: List<CheckBoxItem>
 			if(isChecked) checkedTitles.add(item.title)
 			else checkedTitles.remove(item.title)
 		 }
-		else setItemColorToGray(holder)
+		else setItemInActive(holder)
 
 	}
 
-	private fun setItemColorToGray(holder: CheckBoxViewHolder) {
+	private fun setItemInActive(holder: CheckBoxViewHolder) {
 		holder.checkBox.setTint(Color.GRAY)
+		holder.checkBox.setTextColor(Color.GRAY)
+		holder.checkBox.isClickable = false
 	}
 
 	private fun AppCompatCheckBox.setTint(tintColor: Int) {
@@ -61,8 +64,12 @@ internal class CheckboxItemAdapter(private val checkBoxItems: List<CheckBoxItem>
 	}
 
 	private fun setTitle(checkbox: AppCompatCheckBox, value: String) {
-		checkbox.text = value
-		if (value.length < 3) checkbox.isAllCaps = true
+		fun isCountryCode() = value.length == 2
+		if (isCountryCode()) {
+			checkbox.isAllCaps = true
+			checkbox.text = Locale("EN", value).displayCountry
+		}
+		else checkbox.text = value
 	}
 
 	private fun setSubTitle(textView: TextView, value: String) {

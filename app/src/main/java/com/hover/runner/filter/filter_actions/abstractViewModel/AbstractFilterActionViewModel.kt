@@ -48,9 +48,9 @@ abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewMo
 		actionFilterParametersMutableLiveData.postValue(filterParam)
 	}
 
-	fun filter_UpdateCountryNameList(countryNames: List<String>) {
+	fun filter_UpdateCountryCodeList(countryCodes: List<String>) {
 		val filterParam = getActionFilterParam()
-		filterParam.countryNameList = countryNames
+		filterParam.countryCodeList = countryCodes
 		actionFilterParametersMutableLiveData.postValue(filterParam)
 	}
 

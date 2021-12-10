@@ -8,7 +8,7 @@ import kotlin.collections.ArrayList
 
 data class TransactionFilterParameters(
 	var actionIdList: List<String> = ArrayList(),
-	var countryNameList: List<String> = ArrayList(),
+	var countryCodeList: List<String> = ArrayList(),
 	var networkNameList: List<String> = ArrayList(),
 	var startDate: Long = 0,
 	var endDate: Long = 0,
@@ -36,7 +36,7 @@ data class TransactionFilterParameters(
 	}
 
 	fun getCountryListAsString(): String {
-		return Utils.toString(countryNameList)
+		return Utils.toString(countryCodeList)
 	}
 
 	fun getNetworkNamesAsString(): String {

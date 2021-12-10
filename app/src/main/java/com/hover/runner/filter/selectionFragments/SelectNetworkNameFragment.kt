@@ -115,22 +115,21 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 	private fun observeNetworksInPresentSimCountry() {
 		actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
 			if (allNetworks != null) {
-				val checkBoxItems =
-					CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
+				val checkBoxItems = CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
 				setInPresentSimCountryListAdapter(checkBoxItems)
 			}
 		}
 	}
 
 	private fun observeNetworkOutsidePresentSimCountry() {
-		actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
+		actionViewModel.networksOutsidePresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
 			if (allNetworks != null) {
-				val checkBoxItems =
-					CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
+				val remainingNetworks = allNetworks - actionViewModel.getNetworksInCountries()
+				val checkBoxItems = CheckBoxItem.toList(remainingNetworks, getAlreadySelectedNetworkNames())
+
 				setOutsidePresentSimCountryListAdapter(checkBoxItems)
 				setOtherCountryVisibility(View.VISIBLE)
-				networksInOtherCountriesTextView.text =
-					MessageFormat.format("+ {0} in other countries", allNetworks.size)
+				networksInOtherCountriesTextView.text = MessageFormat.format("+ {0} in other countries", remainingNetworks.size)
 			}
 			else {
 				setOtherCountryVisibility(View.GONE)
@@ -140,7 +139,7 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 
 	private fun setOtherCountryVisibility(visibility: Int) {
 		networksInOtherCountriesTextView.visibility = visibility
-		networksInPresentSimCountryRecyclerView.visibility = visibility
+		networksOutsidePresentSimCountryRecyclerView.visibility = visibility
 	}
 
 	private fun setInPresentSimCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
@@ -149,9 +148,8 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 	}
 
 	private fun setOutsidePresentSimCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
-		networksOutsidePresentSimCountryListAdapter = CheckboxItemAdapter(checkBoxItems, this)
-		networksOutsidePresentSimCountryRecyclerView.adapter =
-			networksOutsidePresentSimCountryListAdapter
+		networksOutsidePresentSimCountryListAdapter = CheckboxItemAdapter(checkBoxItems, this, false)
+		networksOutsidePresentSimCountryRecyclerView.adapter = networksOutsidePresentSimCountryListAdapter
 	}
 
 	override fun onDestroyView() {

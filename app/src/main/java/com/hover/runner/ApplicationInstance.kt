@@ -42,6 +42,7 @@ class ApplicationInstance : Application() {
 
 	companion object {
 		lateinit var retrofit: Retrofit
+		var cacheForActionIdsInNetworkRepoIsAvailable = false
 	}
 
 	private fun setRetrofit() {

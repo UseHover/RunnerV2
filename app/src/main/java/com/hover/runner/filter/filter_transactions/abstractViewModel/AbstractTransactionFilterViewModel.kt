@@ -44,9 +44,9 @@ abstract class AbstractTransactionFilterViewModel : ViewModel() {
 		transactionFilterParametersMutableLiveData.postValue(filterParam)
 	}
 
-	fun filter_UpdateCountryNameList(countryNames: List<String>) {
+	fun filter_UpdateCountryCodeList(countryCodes: List<String>) {
 		val filterParam = getTransactionFilterParam()
-		filterParam.countryNameList = countryNames
+		filterParam.countryCodeList = countryCodes
 		transactionFilterParametersMutableLiveData.postValue(filterParam)
 	}
 

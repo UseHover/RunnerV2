@@ -80,10 +80,8 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 	}
 
 	private fun setFilterDataToAppropriateViewModel(selectedCountries: List<String>) {
-		if (filterEnum.isForActions()) actionViewModel.filter_UpdateCountryNameList(
-			selectedCountries)
-		else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateCountryNameList(
-			selectedCountries)
+		if (filterEnum.isForActions()) actionViewModel.filter_UpdateCountryCodeList(selectedCountries)
+		else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateCountryCodeList(selectedCountries)
 	}
 
 	private fun observeCountryList() {

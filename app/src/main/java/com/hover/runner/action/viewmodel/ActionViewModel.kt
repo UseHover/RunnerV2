@@ -89,6 +89,10 @@ class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase
 		}
 	}
 
+	fun getNetworksInCountries() : List<String> {
+		return networksInPresentSimCountryNamesLiveData.value ?: emptyList()
+	}
+
 	private fun loadNetworksOutsideCountry(networksWithinCountry: List<String>) {
 		val allNetworkNames: List<String> = allNetworksLiveData.value!!
 		val outsideCountry = allNetworkNames - networksWithinCountry.toSet()

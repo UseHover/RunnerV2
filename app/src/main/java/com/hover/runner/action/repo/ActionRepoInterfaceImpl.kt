@@ -8,6 +8,7 @@ import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.transaction.repo.TransactionRepo
+import com.hover.sdk.actions.HoverAction
 
 class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
                               private val transactionRepo: TransactionRepo,
@@ -16,13 +17,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 
 	override suspend fun getAllActions(): List<Action> {
 		val hoverActions = actionRepo.getAllActionsFromHover()
-
-		val runnerActions = mutableListOf<Action>()
-		hoverActions.forEachIndexed { _, act ->
-			val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-			runnerActions.add(Action.get(act, lastTransaction, context))
-		}
-		return runnerActions
+		return convertToRunnerActions(hoverActions)
 	}
 
 	override suspend fun getActionDetailsById(id: String): ActionDetails {
@@ -51,16 +46,46 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 	}
 
 	override suspend fun getNetworkNames(countryCodes: List<String>): List<String> {
-		return actionRepo.getNetworkNamesByCountryCodes(countryCodes)
+		return explodeNetworkNameList(actionRepo.getNetworkNamesByCountryCodes(countryCodes))
 	}
 
 	override suspend fun getAllNetworkNames(): List<String> {
-		return actionRepo.getAllNetworkNames()
+		return explodeNetworkNameList(actionRepo.getAllNetworkNames())
 	}
 
-	//TODO: Dont forget to fix this
+	private fun explodeNetworkNameList(rawNetworkNames : List<String>) : List<String>{
+		val explodedNetworkNames = mutableListOf<String>()
+		rawNetworkNames.forEach {
+			val joinedNetworkNames = it.split(",")
+			joinedNetworkNames.forEach { each-> explodedNetworkNames.add(each) }
+		}
+		return explodedNetworkNames
+	}
+
 	override suspend fun filter(actionFilterParameters: ActionFilterParameters): List<Action> {
-		return ArrayList()
+		return with(actionFilterParameters) {
+			val totalActionIdsToFilter = (actionIdList + getActionIdsInNetwork(networkNameList)).distinct()
+			actionIdList = totalActionIdsToFilter
+			convertToRunnerActions(actionRepo.filterHoverAction("%{$actionId}%", "%{$actionRootCode}%", actionIdList, countryCodeList))
+		}
+	}
+	private fun getActionIdsInNetwork(networkNames: List<String>) : List<String> {
+		val actionIdsInNetwork  = mutableListOf<String>()
+		networkNames.forEach {networkName->
+			val ids = ActionIdsInANetworkRepo.getIds(networkName, getContext())
+			actionIdsInNetwork.addAll(ids)
+		}
+		return actionIdsInNetwork
+	}
+
+
+	private suspend fun convertToRunnerActions(hoverActions: List<HoverAction>) : List<Action>{
+		val runnerActions = mutableListOf<Action>()
+		hoverActions.forEachIndexed { _, act ->
+			val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
+			runnerActions.add(Action.get(act, lastTransaction, context))
+		}
+		return runnerActions
 	}
 
 

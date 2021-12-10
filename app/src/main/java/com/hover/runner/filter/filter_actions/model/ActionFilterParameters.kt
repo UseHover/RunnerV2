@@ -9,7 +9,7 @@ import kotlin.collections.ArrayList
 data class ActionFilterParameters(var actionId: String = "",
                                   var actionRootCode: String = "",
                                   var actionIdList: List<String> = ArrayList(),
-                                  var countryNameList: List<String> = ArrayList(),
+                                  var countryCodeList: List<String> = ArrayList(),
                                   var networkNameList: List<String> = ArrayList(),
                                   var categoryList: List<String> = ArrayList(),
                                   var startDate: Long = 0,
@@ -45,7 +45,7 @@ data class ActionFilterParameters(var actionId: String = "",
 	}
 
 	fun getCountryListAsString(): String {
-		return Utils.toString(countryNameList)
+		return Utils.toString(countryCodeList)
 	}
 
 	fun getNetworkNamesAsString(): String {
