@@ -1,4 +1,4 @@
-package com.hover.runner.filter_actions.fragments
+package com.hover.runner.filter.selectionFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.databinding.FilterByNetworkNameBinding
-import com.hover.runner.filter_actions.adapters.CheckboxItemAdapter
-import com.hover.runner.filter_actions.model.ActionFilterParam
-import com.hover.runner.filter_actions.model.CheckBoxItem
+import com.hover.runner.filter.enumValue.FilterForEnum
+import com.hover.runner.filter.checkbox.CheckboxItemAdapter
+import com.hover.runner.filter.checkbox.CheckBoxItem
+import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
@@ -33,9 +34,13 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
     private lateinit var networksOutsidePresentSimCountryListAdapter : CheckboxItemAdapter
 
     private val actionViewModel : ActionViewModel by sharedViewModel()
+    private val transactionViewModel : TransactionViewModel by sharedViewModel()
+
+    private var filterEnum : FilterForEnum = FilterForEnum.ACTIONS
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FilterByNetworkNameBinding.inflate(inflater, container, false)
+        updateFilterFor()
         return binding.root
     }
 
@@ -45,10 +50,17 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
         titleTextView.setOnClickListener { navigateBack() }
         setupRecyclerViews()
         observeNetworkLists()
-
         setupSaveFilterClick()
     }
 
+    private fun updateFilterFor() {
+        arguments?.let {
+            val filterForInt = it.getInt("filterfor", 0)
+            if(filterForInt == 1) {
+                filterEnum = FilterForEnum.TRANSACTIONS
+            }
+        }
+    }
     private fun initViews() {
         titleTextView = binding. networksTitle
         saveTextView = binding.filterSaveId
@@ -67,13 +79,17 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 
     private fun setupSaveFilterClick() {
         saveTextView.setOnClickListener {
-            val selectedNetworksWithinCountry = networksInPresentSimCountryListAdapter.getCheckedItems()
-            val selectedNetworksOutsideCountry = networksOutsidePresentSimCountryListAdapter.getCheckedItems()
+            val selectedNetworksWithinCountry = networksInPresentSimCountryListAdapter.getCheckedItemTitles()
+            val selectedNetworksOutsideCountry = networksOutsidePresentSimCountryListAdapter.getCheckedItemTitles()
             val totalList : List<String> = selectedNetworksWithinCountry + selectedNetworksOutsideCountry
 
-            actionViewModel.filter_UpdateNetworkNameList(totalList)
+            setFilterDataToAppropriateViewModel(totalList)
             navigateBack()
         }
+    }
+    private fun setFilterDataToAppropriateViewModel(totalList : List<String>) {
+        if(filterEnum.isForActions()) actionViewModel.filter_UpdateNetworkNameList(totalList)
+        else if (filterEnum.isForTransactions())  transactionViewModel.filter_UpdateNetworkNameList(totalList)
     }
 
     private fun observeNetworkLists() {
@@ -81,15 +97,16 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
         observeNetworksInPresentSimCountry()
         observeNetworkOutsidePresentSimCountry()
     }
+
+    private fun getAlreadySelectedNetworkNames() : List<String> {
+       return if(filterEnum.isForActions()) actionViewModel.filter_getParameters!!.networkNameList
+       else transactionViewModel.filter_getParameters!!.networkNameList
+    }
     private fun observeNetworksInPresentSimCountry()  {
         actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
             if(allNetworks !=null) {
-                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
-                if(filterParam !=null) {
-                    val checkBoxItems =
-                        CheckBoxItem.toList(allNetworks, filterParam.networkNameList)
+                    val checkBoxItems = CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
                        setInPresentSimCountryListAdapter(checkBoxItems)
-                }
             }
         }
     }
@@ -97,14 +114,10 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
     private fun observeNetworkOutsidePresentSimCountry()  {
         actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
             if(allNetworks !=null) {
-                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
-                if(filterParam !=null) {
-                    val checkBoxItems =
-                        CheckBoxItem.toList(allNetworks, filterParam.networkNameList)
+                    val checkBoxItems = CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
                         setOutsidePresentSimCountryListAdapter(checkBoxItems)
                         setOtherCountryVisibility(View.VISIBLE)
                         networksInOtherCountriesTextView.text = MessageFormat.format("+ {0} in other countries", allNetworks.size)
-                }
             }
             else {
                 setOtherCountryVisibility(View.GONE)

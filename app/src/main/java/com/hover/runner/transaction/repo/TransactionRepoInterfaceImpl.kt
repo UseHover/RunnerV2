@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.hover.runner.action.models.Action
 import com.hover.runner.action.repo.ActionRepo
+import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
@@ -21,6 +22,10 @@ class TransactionRepoInterfaceImpl(
 
     override suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction> {
         return repo.getTransactionsByAction(actionId)
+    }
+
+    override suspend fun filter(transactionFilterParameters: TransactionFilterParameters): List<RunnerTransaction> {
+        return repo.filterTransactions(transactionFilterParameters)
     }
 
     override suspend fun getAllCategories(): List<String> {

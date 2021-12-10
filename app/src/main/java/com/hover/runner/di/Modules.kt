@@ -24,37 +24,39 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel {
-        LoginViewModel(LoginUseCaseImpl(get()))
-    }
+	viewModel {
+		LoginViewModel(LoginUseCaseImpl(get()))
+	}
 
-    viewModel {
-        val transactionUseCaseImpl = TransactionUseCaseImpl(TransactionRepoInterfaceImpl(get(), get(), get()))
-        TransactionViewModel(transactionUseCaseImpl)
-    }
+	viewModel {
+		val transactionUseCaseImpl =
+			TransactionUseCaseImpl(TransactionRepoInterfaceImpl(get(), get(), get()))
+		TransactionViewModel(transactionUseCaseImpl)
+	}
 
-    viewModel {
-        val parserUseCaseImpl = ParserUseCaseImpl(ParserRepoInterfaceImpl(get(), get(), get()))
-        ParserViewModel(parserUseCaseImpl)
-    }
+	viewModel {
+		val parserUseCaseImpl = ParserUseCaseImpl(ParserRepoInterfaceImpl(get(), get(), get()))
+		ParserViewModel(parserUseCaseImpl)
+	}
 
-    viewModel {
-        val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
-        val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
-        ActionViewModel(actionUseCaseImpl, simUseCaseImpl)
-    }
+	viewModel {
+		val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
+		val actionUseCaseImpl =
+			ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
+		ActionViewModel(actionUseCaseImpl, simUseCaseImpl)
+	}
 
-    viewModel {
-        val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
-        SimViewModel(simUseCaseImpl)
-    }
+	viewModel {
+		val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
+		SimViewModel(simUseCaseImpl)
+	}
 }
 
 val dataModule = module(createdAtStart = true) {
-    single { AppDatabase.getInstance(get()) }
-    single { HoverRoomDatabase.getInstance(get()) }
-    single { ActionRepo(get()) }
-    single { TransactionRepo(get()) }
-    single { ParserRepo(get()) }
-    single { SimRepo(get()) }
+	single { AppDatabase.getInstance(get()) }
+	single { HoverRoomDatabase.getInstance(get()) }
+	single { ActionRepo(get()) }
+	single { TransactionRepo(get()) }
+	single { ParserRepo(get()) }
+	single { SimRepo(get()) }
 }

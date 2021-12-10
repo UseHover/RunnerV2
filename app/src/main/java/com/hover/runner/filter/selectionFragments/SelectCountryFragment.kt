@@ -1,4 +1,4 @@
-package com.hover.runner.filter_actions.fragments
+package com.hover.runner.filter.selectionFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FilterByCountryBinding
-import com.hover.runner.filter_actions.adapters.CheckboxItemAdapter
-import com.hover.runner.filter_actions.model.ActionFilterParam
-import com.hover.runner.filter_actions.model.CheckBoxItem
+import com.hover.runner.filter.enumValue.FilterForEnum
+import com.hover.runner.filter.checkbox.CheckboxItemAdapter
+import com.hover.runner.filter.checkbox.CheckBoxItem
+import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
@@ -21,17 +22,20 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
     private var _binding: FilterByCountryBinding? = null
     private val binding get() = _binding!!
 
-    private var anItemWasSelected = false
+    private var anItemHasBeenSelected = false
 
     private lateinit var titleTextView : TextView
     private lateinit var saveTextView : TextView
     private lateinit var countryRecyclerView : RecyclerView
     private lateinit var countryListAdapter : CheckboxItemAdapter
+    private var filterEnum : FilterForEnum = FilterForEnum.ACTIONS
 
     private val actionViewModel : ActionViewModel by sharedViewModel()
+    private val transactionViewModel : TransactionViewModel by sharedViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FilterByCountryBinding.inflate(inflater, container, false)
+        updateFilterFor()
         return binding.root
     }
 
@@ -42,6 +46,14 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
         setupRecyclerView()
         setupSaveFilterClick()
         observeCountryList()
+    }
+    private fun updateFilterFor() {
+        arguments?.let {
+            val filterForInt = it.getInt("filterfor", 0)
+            if(filterForInt == 1) {
+                filterEnum = FilterForEnum.TRANSACTIONS
+            }
+        }
     }
 
     private fun initViews() {
@@ -56,24 +68,31 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
     }
     private fun setupSaveFilterClick() {
         saveTextView.setOnClickListener {
-            val selectedCountries = countryListAdapter.getCheckedItems()
-            actionViewModel.filter_UpdateCountryNameList(selectedCountries)
+            val selectedCountries = countryListAdapter.getCheckedItemTitles()
+            setFilterDataToAppropriateViewModel(selectedCountries)
             navigateBack()
         }
+    }
+    private fun setFilterDataToAppropriateViewModel(selectedCountries : List<String>) {
+        if(filterEnum.isForActions()) actionViewModel.filter_UpdateCountryNameList(selectedCountries)
+        else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateCountryNameList(selectedCountries)
     }
 
     private fun observeCountryList()  {
         actionViewModel.loadDistinctCountries()
         actionViewModel.countryListMutableLiveData.observe(viewLifecycleOwner) { allCountries ->
             if(allCountries !=null) {
-                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
-                if(filterParam !=null) {
-                    val checkBoxItems = CheckBoxItem.toList(allCountries, filterParam.countryNameList)
-                    setCountryListAdapter(checkBoxItems)
-                }
+                val checkBoxItems = CheckBoxItem.toList(allCountries, getAlreadyCheckedCountries())
+                setCountryListAdapter(checkBoxItems)
             }
         }
     }
+
+    private fun getAlreadyCheckedCountries() : List<String> {
+        return if(filterEnum.isForActions()) return actionViewModel.filter_getParameters!!.networkNameList
+        else transactionViewModel.filter_getParameters!!.networkNameList
+    }
+
     private fun setCountryListAdapter(checkBoxItems : List<CheckBoxItem>) {
         countryListAdapter = CheckboxItemAdapter(checkBoxItems, this)
         countryRecyclerView.adapter = countryListAdapter
@@ -85,8 +104,8 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
     }
 
     override fun anItemSelected() {
-        if(!anItemWasSelected) {
-            anItemWasSelected = true
+        if(!anItemHasBeenSelected) {
+            anItemHasBeenSelected = true
             saveTextView.activateView()
         }
     }

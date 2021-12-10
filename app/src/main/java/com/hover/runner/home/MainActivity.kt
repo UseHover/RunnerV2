@@ -17,53 +17,55 @@ import timber.log.Timber
 
 class MainActivity : AbstractNavigationActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    val permission_acceptance_incomplete = "You did not allow all permissions"
+	private lateinit var binding: ActivityMainBinding
+	val permission_acceptance_incomplete = "You did not allow all permissions"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initHover()
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        checkForPermissions()
-        redirectIfRequired()
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		initHover()
+		binding = ActivityMainBinding.inflate(layoutInflater)
+		setContentView(binding.root)
+		checkForPermissions()
+		redirectIfRequired()
+	}
 
-    override fun onResume() {
-        super.onResume()
-        setupNavigation()
-    }
+	override fun onResume() {
+		super.onResume()
+		setupNavigation()
+	}
 
-    private fun redirectIfRequired() {
-        if (!isLoggedIn()) {
-            startActivity(Intent(this, SplashScreenActivity::class.java))
-            finish()
-            return
-        }
-    }
+	private fun redirectIfRequired() {
+		if (!isLoggedIn()) {
+			startActivity(Intent(this, SplashScreenActivity::class.java))
+			finish()
+			return
+		}
+	}
 
-    private fun initHover() {
-        Hover.initialize(this, SharedPrefUtils.getApiKey(this))
-        Hover.setBranding("Runner by Hover", R.drawable.ic_runner_logo, this)
-    }
+	private fun initHover() {
+		Hover.initialize(this, SharedPrefUtils.getApiKey(this))
+		Hover.setBranding("Runner by Hover", R.drawable.ic_runner_logo, this)
+	}
 
-    private fun checkForPermissions() {
-        val resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode != Activity.RESULT_OK) {
-                    UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
-                }
-            }
-        if (!PermissionsUtil.hasPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
-            if(isLoggedIn())  resultLauncher.launch(Intent(this, PermissionActivity::class.java))
-        }
-    }
+	private fun checkForPermissions() {
+		val resultLauncher =
+			registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+				if (result.resultCode != Activity.RESULT_OK) {
+					UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
+				}
+			}
+		if (!PermissionsUtil.hasPermissions(this,
+		                                    arrayOf(Manifest.permission.READ_PHONE_STATE,
+		                                            Manifest.permission.CALL_PHONE))) {
+			if (isLoggedIn()) resultLauncher.launch(Intent(this, PermissionActivity::class.java))
+		}
+	}
 
-    private fun isLoggedIn(): Boolean {
-        with(SharedPrefUtils.getApiKey(this)) {
-            Timber.i("API key is: $this")
-            return this != null && this.length > 5
-        }
-    }
+	private fun isLoggedIn(): Boolean {
+		with(SharedPrefUtils.getApiKey(this)) {
+			Timber.i("API key is: $this")
+			return this != null && this.length > 5
+		}
+	}
 
 }

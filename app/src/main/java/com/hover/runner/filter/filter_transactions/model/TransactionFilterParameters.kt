@@ -1,4 +1,4 @@
-package com.hover.runner.filter_actions.model
+package com.hover.runner.filter.filter_transactions.model
 
 import android.content.Context
 import com.hover.runner.utils.DateUtils
@@ -6,23 +6,16 @@ import com.hover.runner.utils.Utils
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class ActionFilterParam(
-    var actionId: String = "",
-    var actionRootCode: String = "",
+data class TransactionFilterParameters(
     var actionIdList : List<String> = ArrayList(),
     var countryNameList :  List<String> = ArrayList(),
     var networkNameList : List<String> = ArrayList(),
-    var categoryList : List<String> = ArrayList(),
     var startDate : Long = 0,
     var endDate : Long = 0,
-    var transactionSuccessful : String  = "",
-    var transactionPending : String = "",
-    var transactionFailed : String = "",
-    var hasNoTransaction : Boolean = false,
-    var hasParser : Boolean = false,
-    var onlyWithSimPresent : Boolean = false
+    var successful : String  = "",
+    var pending : String = "",
+    var failed : String = "",
 ) {
-
     fun isDefault() : Boolean {
         return this == getDefault()
     }
@@ -31,41 +24,28 @@ data class ActionFilterParam(
         return if(endDate > 0) String.format(Locale.getDefault(), "%s - %s", DateUtils.formatDateV2(startDate), DateUtils.formatDateV3(endDate))
         else String.format(Locale.getDefault(), "From %s - %s", "<account creation>", DateUtils.formatDateV3(Date().time))
     }
-
-    fun getActionIdOrRootCode() : String {
-        return if(actionId.isNotEmpty()) actionId else actionRootCode
-    }
-
     fun getActionIdsAsString() : String {
         return Utils.toString(actionIdList)
     }
-
     fun getCountryListAsString() : String {
         return Utils.toString(countryNameList)
     }
-
     fun getNetworkNamesAsString() : String {
         return Utils.toString(networkNameList)
     }
-
-    fun getCategoryListAsString() : String {
-        return Utils.toString(categoryList)
-    }
-
     fun isTransactionSuccessfulIncluded() : Boolean {
-        return transactionSuccessful.isNotEmpty()
+        return successful.isNotEmpty()
     }
     fun isTransactionPendingIncluded() : Boolean{
-        return transactionPending.isNotEmpty()
+        return pending.isNotEmpty()
     }
     fun isTransactionFailedIncluded() : Boolean {
-        return transactionFailed.isNotEmpty()
+        return failed.isNotEmpty()
     }
-
-
     companion object {
-        fun getDefault() : ActionFilterParam {
-            return ActionFilterParam()
+        fun getDefault() : TransactionFilterParameters {
+            return TransactionFilterParameters()
         }
     }
+
 }

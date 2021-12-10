@@ -8,18 +8,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 open class SimViewModel(private val useCase: SimUseCase) : ViewModel() {
-    val presentSimsLiveData: MutableLiveData<List<String>> = MutableLiveData()
-    val presentSimCountryCodes_MutableLiveData : MutableLiveData<List<String>> = MutableLiveData()
+	val presentSimsLiveData: MutableLiveData<List<String>> = MutableLiveData()
+	val presentSimCountryCodes_MutableLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
-    fun getPresentSims() {
-        viewModelScope.launch(Dispatchers.IO) {
-            presentSimsLiveData.postValue(useCase.getPresentSimNames())
-        }
-    }
+	fun getPresentSims() {
+		viewModelScope.launch(Dispatchers.IO) {
+			presentSimsLiveData.postValue(useCase.getPresentSimNames())
+		}
+	}
 
-    fun getSimCountries() {
-        viewModelScope.launch(Dispatchers.IO) {
-            presentSimCountryCodes_MutableLiveData.postValue(useCase.getSimCountryCodes())
-        }
-    }
+	fun getSimCountries() {
+		viewModelScope.launch(Dispatchers.IO) {
+			presentSimCountryCodes_MutableLiveData.postValue(useCase.getSimCountryCodes())
+		}
+	}
 }

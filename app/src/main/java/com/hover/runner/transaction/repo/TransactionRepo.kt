@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import com.hover.runner.database.AppDatabase
+import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.sdk.transactions.TransactionContract
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,11 @@ class TransactionRepo(db: AppDatabase) {
 
     fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
         return transactionDao.getTransaction(uuid)
+    }
+
+    // TODO : Change to filter by dao, current method call is just for testing
+    suspend fun filterTransactions(transactionFilterParameters: TransactionFilterParameters) : List<RunnerTransaction> {
+        return transactionDao.allTransactions()
     }
 
     suspend fun getCategories() : List<String> {

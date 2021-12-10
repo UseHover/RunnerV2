@@ -11,71 +11,71 @@ import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
 import org.json.JSONArray
 
-data class Action(
-    val id: String, var title: String?,
-    val rootCode: String,
-    var country: String?, var network_name: String?,
-    var steps: JSONArray?, var status: String, var isSkipped: Boolean = false,
-    var jsonArrayToString: String? = ""
-) : TransactionStatus() {
+data class Action(val id: String,
+                  var title: String,
+                  val rootCode: String,
+                  var country: String?,
+                  var network_name: String?,
+                  var steps: JSONArray?,
+                  var status: String,
+                  var isSkipped: Boolean = false,
+                  var jsonArrayToString: String? = "") : TransactionStatus() {
 
 
-    fun getStatusColor(): Int {
-        return getColor(status)
-    }
+	fun getStatusColor(): Int {
+		return getColor(status)
+	}
 
-    fun getLayoutColor(): Int {
-        return getToolBarColor(status)
-    }
+	fun getLayoutColor(): Int {
+		return getToolBarColor(status)
+	}
 
-    fun getStatusDrawable(): Int {
-        return getDrawable(status)
-    }
+	fun getStatusDrawable(): Int {
+		return getDrawable(status)
+	}
 
-    @SuppressLint("LogNotTimber")
-    fun hasAllVariablesFilled(c: Context): Boolean {
-        val expectedVariableSize: Int =
-            StreamlinedSteps.get(rootCode, steps!!).stepVariableLabel.size
-        val variables: Map<String, String> = ActionVariablesCache.get(c, id).actionMap
+	@SuppressLint("LogNotTimber")
+	fun hasAllVariablesFilled(c: Context): Boolean {
+		val expectedVariableSize: Int =
+			StreamlinedSteps.get(rootCode, steps!!).stepVariableLabel.size
+		val variables: Map<String, String> = ActionVariablesCache.get(c, id).actionMap
 
-        var filledSize = 0
-        for (value in variables.values) {
-            if (!TextUtils.isEmpty(value.replace(" ", ""))) filledSize += 1
-        }
+		var filledSize = 0
+		for (value in variables.values) {
+			if (!TextUtils.isEmpty(value.replace(" ", ""))) filledSize += 1
+		}
 
-        if (!BuildConfig.FLAVOR.contains("pro")) filledSize += 1
-        Log.d("VAR_SIZE", "expected size: $expectedVariableSize, while filled size is: $filledSize")
-        return expectedVariableSize == filledSize
-    }
+		if (!BuildConfig.FLAVOR.contains("pro")) filledSize += 1
+		Log.d("VAR_SIZE", "expected size: $expectedVariableSize, while filled size is: $filledSize")
+		return expectedVariableSize == filledSize
+	}
 
-    fun saveAsSkipped(context: Context) {
-        SharedPrefUtils.saveIntoStringSet(skippedKey, id, context)
-    }
+	fun saveAsSkipped(context: Context) {
+		SharedPrefUtils.saveIntoStringSet(skippedKey, id, context)
+	}
 
-    fun removeFromSkipped(context: Context) {
-        SharedPrefUtils.removeFromStringSet(skippedKey, id, context)
-    }
+	fun removeFromSkipped(context: Context) {
+		SharedPrefUtils.removeFromStringSet(skippedKey, id, context)
+	}
 
-    companion object {
-        const val skippedKey = "action_skip"
+	companion object {
+		const val skippedKey = "action_skip"
 
-        private fun isSkipped(actionId: String, context: Context): Boolean {
-            val skippedList = SharedPrefUtils.getStringSet(skippedKey, context)
-            return skippedList!!.contains(actionId)
-        }
+		private fun isSkipped(actionId: String, context: Context): Boolean {
+			val skippedList = SharedPrefUtils.getStringSet(skippedKey, context)
+			return skippedList!!.contains(actionId)
+		}
 
-        fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context): Action {
-            return Action(
-                act.public_id,
-                act.name,
-                act.root_code,
-                act.country_alpha2,
-                act.network_name,
-                act.custom_steps,
-                lastTransaction?.status ?: "",
-                isSkipped(act.public_id, context)
-            )
-        }
-    }
+		fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context): Action {
+			return Action(act.public_id,
+			              act.name,
+			              act.root_code,
+			              act.country_alpha2,
+			              act.network_name,
+			              act.custom_steps,
+			              lastTransaction?.status ?: "",
+			              isSkipped(act.public_id, context))
+		}
+	}
 }
 

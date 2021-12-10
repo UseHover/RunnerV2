@@ -1,4 +1,4 @@
-package com.hover.runner.filter_actions.fragments
+package com.hover.runner.filter.selectionFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FilterByCategoriesBinding
-import com.hover.runner.filter_actions.adapters.CheckboxItemAdapter
-import com.hover.runner.filter_actions.model.ActionFilterParam
-import com.hover.runner.filter_actions.model.CheckBoxItem
+import com.hover.runner.filter.checkbox.CheckboxItemAdapter
+import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
+import com.hover.runner.filter.checkbox.CheckBoxItem
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
@@ -54,7 +54,9 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
 
     private fun setupSaveFilterClick() {
         saveTextView.setOnClickListener {
-            val selectedCategories = categoryListAdapter.getCheckedItems()
+            val selectedCategories = categoryListAdapter.getCheckedItemTitles()
+
+
             actionViewModel.filter_UpdateCategoryList(selectedCategories)
             navigateBack()
         }
@@ -69,9 +71,9 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
         transactionViewModel.loadDistinctCategories()
         transactionViewModel.distinctCategoryMutableLiveData.observe(viewLifecycleOwner) { allCategories->
             if(allCategories!=null) {
-                val filterParam : ActionFilterParam? = actionViewModel.filter_getParam
-                if(filterParam !=null) {
-                    val checkBoxItems = CheckBoxItem.toList(allCategories, filterParam.categoryList)
+                val filterParameters : ActionFilterParameters? = actionViewModel.filter_getParameters
+                if(filterParameters !=null) {
+                    val checkBoxItems = CheckBoxItem.toList(allCategories, filterParameters.categoryList)
                     setCategoryListAdapter(checkBoxItems)
                 }
             }

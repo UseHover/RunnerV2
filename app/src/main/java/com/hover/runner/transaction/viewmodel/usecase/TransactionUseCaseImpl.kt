@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import com.google.android.gms.common.util.ArrayUtils
 import com.hover.runner.BuildConfig
+import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.settings.fragment.SettingsFragment
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.transaction.model.TransactionDetailsInfo
@@ -23,6 +24,10 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 
     override suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction> {
         return transactionRepoInterface.getTransactionsByAction(actionId)
+    }
+
+    override suspend fun filter(transactionFilterParameters: TransactionFilterParameters): List<RunnerTransaction> {
+        return transactionRepoInterface.filter(transactionFilterParameters)
     }
 
     override fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
