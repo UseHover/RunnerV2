@@ -7,45 +7,58 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 data class TransactionFilterParameters(
-    var actionIdList : List<String> = ArrayList(),
-    var countryNameList :  List<String> = ArrayList(),
-    var networkNameList : List<String> = ArrayList(),
-    var startDate : Long = 0,
-    var endDate : Long = 0,
-    var successful : String  = "",
-    var pending : String = "",
-    var failed : String = "",
+	var actionIdList: List<String> = ArrayList(),
+	var countryNameList: List<String> = ArrayList(),
+	var networkNameList: List<String> = ArrayList(),
+	var startDate: Long = 0,
+	var endDate: Long = 0,
+	var successful: String = "",
+	var pending: String = "",
+	var failed: String = "",
 ) {
-    fun isDefault() : Boolean {
-        return this == getDefault()
-    }
+	fun isDefault(): Boolean {
+		return this == getDefault()
+	}
 
-    fun getDateRangeValue(context: Context) : String {
-        return if(endDate > 0) String.format(Locale.getDefault(), "%s - %s", DateUtils.formatDateV2(startDate), DateUtils.formatDateV3(endDate))
-        else String.format(Locale.getDefault(), "From %s - %s", "<account creation>", DateUtils.formatDateV3(Date().time))
-    }
-    fun getActionIdsAsString() : String {
-        return Utils.toString(actionIdList)
-    }
-    fun getCountryListAsString() : String {
-        return Utils.toString(countryNameList)
-    }
-    fun getNetworkNamesAsString() : String {
-        return Utils.toString(networkNameList)
-    }
-    fun isTransactionSuccessfulIncluded() : Boolean {
-        return successful.isNotEmpty()
-    }
-    fun isTransactionPendingIncluded() : Boolean{
-        return pending.isNotEmpty()
-    }
-    fun isTransactionFailedIncluded() : Boolean {
-        return failed.isNotEmpty()
-    }
-    companion object {
-        fun getDefault() : TransactionFilterParameters {
-            return TransactionFilterParameters()
-        }
-    }
+	fun getDateRangeValue(context: Context): String {
+		return if (endDate > 0) String.format(Locale.getDefault(),
+		                                      "%s - %s",
+		                                      DateUtils.formatDateV2(startDate),
+		                                      DateUtils.formatDateV3(endDate))
+		else String.format(Locale.getDefault(),
+		                   "From %s - %s",
+		                   "<account creation>",
+		                   DateUtils.formatDateV3(Date().time))
+	}
+
+	fun getActionIdsAsString(): String {
+		return Utils.toString(actionIdList)
+	}
+
+	fun getCountryListAsString(): String {
+		return Utils.toString(countryNameList)
+	}
+
+	fun getNetworkNamesAsString(): String {
+		return Utils.toString(networkNameList)
+	}
+
+	fun isTransactionSuccessfulIncluded(): Boolean {
+		return successful.isNotEmpty()
+	}
+
+	fun isTransactionPendingIncluded(): Boolean {
+		return pending.isNotEmpty()
+	}
+
+	fun isTransactionFailedIncluded(): Boolean {
+		return failed.isNotEmpty()
+	}
+
+	companion object {
+		fun getDefault(): TransactionFilterParameters {
+			return TransactionFilterParameters()
+		}
+	}
 
 }

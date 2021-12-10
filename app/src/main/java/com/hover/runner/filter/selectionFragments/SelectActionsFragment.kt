@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FilterByActionsBinding
-import com.hover.runner.filter.checkbox.CheckboxItemAdapter
 import com.hover.runner.filter.checkbox.CheckBoxItem
+import com.hover.runner.filter.checkbox.CheckboxItemAdapter
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.TextViewUtils.Companion.activateView

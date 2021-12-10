@@ -25,7 +25,7 @@ public class ReplacerImpl implements Replacer {
 	}
 
 	@Override
-	public void setBoldFont(String boldFontAsset) {
+	public  void setBoldFont(String boldFontAsset) {
 		FontReplacer.boldFont = Typeface.createFromAsset(context.getAssets(), boldFontAsset);
 	}
 

@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager
 import com.hover.runner.R
 import org.json.JSONArray
 import org.json.JSONException
+import timber.log.Timber
 import java.util.regex.Pattern
 
 class Utils {
@@ -30,7 +31,7 @@ class Utils {
 
 		fun validatePassword(string: String?): Boolean {
 			return if (string == null) false
-			else string.length < 40 && string.length > 4 && !string.contains(" ")
+			else string.length in 5..39 && !string.contains(" ")
 		}
 
 		fun getPackage(c: Context): String? {
@@ -62,8 +63,7 @@ class Utils {
 						try {
 							id =
 								(c.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).deviceId
-						} catch (ignored: Exception) {
-						}
+						} catch (e: Exception) { Timber.e(e)}
 					}
 					if (id == null) {
 						id =
@@ -71,8 +71,7 @@ class Utils {
 					}
 					return id
 				}
-			} catch (ignored: SecurityException) {
-			}
+			} catch (e: SecurityException) { Timber.e(e)}
 			return c.getString(R.string.hsdk_unknown_device_id)
 		}
 	}

@@ -1,5 +1,5 @@
 package com.hover.runner.transaction.listeners
 
 interface TransactionClickListener {
-    fun onTransactionItemClicked(uuid: String)
+	fun onTransactionItemClicked(uuid: String)
 }

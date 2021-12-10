@@ -29,10 +29,8 @@ abstract class AbstractNavigationActivity : SDKCallerActivity(), ActionNavigatio
 		navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 		NavigationUI.setupWithNavController(navView, navController)
 
-		if (intent.extras != null) {
-			if (intent.extras!!.getString("navigate") != null) {
-				navController.navigate(R.id.navigation_transactions)
-			}
+		if (intent.extras != null && intent.extras!!.getString("navigate") != null) {
+			navController.navigate(R.id.navigation_transactions)
 		}
 	}
 

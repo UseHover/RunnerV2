@@ -25,149 +25,148 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
 class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickListener {
-    private var _binding: TransactionDetailsFragmentBinding? = null
-    private val binding get() = _binding!!
+	private var _binding: TransactionDetailsFragmentBinding? = null
+	private val binding get() = _binding!!
 
-    private val transactionViewModel: TransactionViewModel by sharedViewModel()
+	private val transactionViewModel: TransactionViewModel by sharedViewModel()
 
-    private lateinit var topLayout: RunnerTopDetailsView
+	private lateinit var topLayout: RunnerTopDetailsView
 
-    private lateinit var transactionNavigationInterface: TransactionNavigationInterface
+	private lateinit var transactionNavigationInterface: TransactionNavigationInterface
 
-    private lateinit var aboutInfoRecyclerView: RecyclerView
-    private lateinit var deviceInfoRecyclerView: RecyclerView
-    private lateinit var debugInfoRecyclerView: RecyclerView
-    private lateinit var messagesInfoRecyclerView: RecyclerView
+	private lateinit var aboutInfoRecyclerView: RecyclerView
+	private lateinit var deviceInfoRecyclerView: RecyclerView
+	private lateinit var debugInfoRecyclerView: RecyclerView
+	private lateinit var messagesInfoRecyclerView: RecyclerView
 
-    private lateinit var aboutInfoAdapter : TransactionDetailsRecyclerAdapter
-    private lateinit var deviceInfoAdapter : TransactionDetailsRecyclerAdapter
-    private lateinit var debugInfoAdapter : TransactionDetailsRecyclerAdapter
-    private lateinit var messagesInfoAdapter:  TransactionMessagesRecyclerAdapter
+	private lateinit var aboutInfoAdapter: TransactionDetailsRecyclerAdapter
+	private lateinit var deviceInfoAdapter: TransactionDetailsRecyclerAdapter
+	private lateinit var debugInfoAdapter: TransactionDetailsRecyclerAdapter
+	private lateinit var messagesInfoAdapter: TransactionMessagesRecyclerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = TransactionDetailsFragmentBinding.inflate(inflater, container, false)
-        initInterface()
-        return binding.root
-    }
+	override fun onCreateView(inflater: LayoutInflater,
+	                          container: ViewGroup?,
+	                          savedInstanceState: Bundle?): View {
+		_binding = TransactionDetailsFragmentBinding.inflate(inflater, container, false)
+		initInterface()
+		return binding.root
+	}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViews()
-        initRecyclerViewsLayoutManager()
-    }
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		initViews()
+		initRecyclerViewsLayoutManager()
+	}
 
-    override fun onResume() {
-        super.onResume()
-        loadTransaction()
-    }
+	override fun onResume() {
+		super.onResume()
+		loadTransaction()
+	}
 
-    private fun initInterface() {
-        transactionNavigationInterface = activity as TransactionNavigationInterface
-    }
+	private fun initInterface() {
+		transactionNavigationInterface = activity as TransactionNavigationInterface
+	}
 
-    private fun initViews() {
-        topLayout = binding.transactionDetailsTopLayoutId
-        aboutInfoRecyclerView = binding.transacAboutInfoRecyclerView
-        deviceInfoRecyclerView = binding.transacDevicesRecyclerView
-        debugInfoRecyclerView = binding.transacDebugInfoRecyclerView
-        messagesInfoRecyclerView = binding.transacMessagesRecyclerView
-    }
+	private fun initViews() {
+		topLayout = binding.transactionDetailsTopLayoutId
+		aboutInfoRecyclerView = binding.transacAboutInfoRecyclerView
+		deviceInfoRecyclerView = binding.transacDevicesRecyclerView
+		debugInfoRecyclerView = binding.transacDebugInfoRecyclerView
+		messagesInfoRecyclerView = binding.transacMessagesRecyclerView
+	}
 
-    private fun initRecyclerViewsLayoutManager() {
-        aboutInfoRecyclerView.setLayoutManagerToLinear()
-        deviceInfoRecyclerView.setLayoutManagerToLinear()
-        debugInfoRecyclerView.setLayoutManagerToLinear()
-        messagesInfoRecyclerView.setLayoutManagerToLinear()
-    }
+	private fun initRecyclerViewsLayoutManager() {
+		aboutInfoRecyclerView.setLayoutManagerToLinear()
+		deviceInfoRecyclerView.setLayoutManagerToLinear()
+		debugInfoRecyclerView.setLayoutManagerToLinear()
+		messagesInfoRecyclerView.setLayoutManagerToLinear()
+	}
 
-    private fun loadTransaction() {
-        transactionViewModel.observeTransaction(arguments?.getString("uuid")!!)
-            .observe(viewLifecycleOwner) {
-                setupTopDetailsLayout(it)
-                observeAboutInfo(it)
-                observeDeviceInfo(it)
-                observeDebugInfo(it)
-                observeTransactionMessages(it)
-            }
-    }
+	private fun loadTransaction() {
+		transactionViewModel.observeTransaction(arguments?.getString("uuid")!!)
+			.observe(viewLifecycleOwner) {
+				setupTopDetailsLayout(it)
+				observeAboutInfo(it)
+				observeDeviceInfo(it)
+				observeDebugInfo(it)
+				observeTransactionMessages(it)
+			}
+	}
 
-    private fun setupTopDetailsLayout(transaction: RunnerTransaction) {
-        UIHelper.changeStatusBarColor(
-            requireActivity(),
-            RunnerColor(requireContext()).get(transaction.getStatusColor())
-        )
-        topLayout.setTitle(transaction.getDate()!!, transaction.status)
-        topLayout.setSubTitle(transaction.uuid, transaction.status)
-        topLayout.setup(transaction.status, DetailScreenType.TRANSACTION, requireActivity())
-    }
+	private fun setupTopDetailsLayout(transaction: RunnerTransaction) {
+		UIHelper.changeStatusBarColor(requireActivity(),
+		                              RunnerColor(requireContext()).get(transaction.getStatusColor()))
+		topLayout.setTitle(transaction.getDate()!!, transaction.status)
+		topLayout.setSubTitle(transaction.uuid, transaction.status)
+		topLayout.setup(transaction.status, DetailScreenType.TRANSACTION, requireActivity())
+	}
 
-    private fun observeAboutInfo(transaction: RunnerTransaction) {
-        Timber.i("requested to observing about info")
-        transactionViewModel.loadAboutInfo(transaction)
-        transactionViewModel.aboutInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
-            info?.let {
-                Timber.i("observing about info")
-                setAboutInfoAdapter(it) }
-        }
-    }
+	private fun observeAboutInfo(transaction: RunnerTransaction) {
+		Timber.i("requested to observing about info")
+		transactionViewModel.loadAboutInfo(transaction)
+		transactionViewModel.aboutInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
+			info?.let {
+				Timber.i("observing about info")
+				setAboutInfoAdapter(it)
+			}
+		}
+	}
 
-    private fun observeDeviceInfo(transaction: RunnerTransaction) {
-        transactionViewModel.loadDeviceInfo(transaction)
-        transactionViewModel.deviceInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
-            info?.let { setDeviceInfoAdapter(it) }
-        }
-    }
+	private fun observeDeviceInfo(transaction: RunnerTransaction) {
+		transactionViewModel.loadDeviceInfo(transaction)
+		transactionViewModel.deviceInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
+			info?.let { setDeviceInfoAdapter(it) }
+		}
+	}
 
-    private fun observeDebugInfo(transaction: RunnerTransaction) {
-        transactionViewModel.loadDebugInfo(transaction)
-        transactionViewModel.debugInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
-            info?.let { setDebugInfoAdapter(it) }
-        }
-    }
+	private fun observeDebugInfo(transaction: RunnerTransaction) {
+		transactionViewModel.loadDebugInfo(transaction)
+		transactionViewModel.debugInfoMutableLiveData.observe(viewLifecycleOwner) { info ->
+			info?.let { setDebugInfoAdapter(it) }
+		}
+	}
 
-    private fun observeTransactionMessages(transaction: RunnerTransaction) {
-        transactionViewModel.loadTransactionMessages(transaction)
-        transactionViewModel.messagesInfoLiveData.observe(viewLifecycleOwner) { messages ->
-                messages?.let { setMessagesAdapter(it) }
-            }
-    }
+	private fun observeTransactionMessages(transaction: RunnerTransaction) {
+		transactionViewModel.loadTransactionMessages(transaction)
+		transactionViewModel.messagesInfoLiveData.observe(viewLifecycleOwner) { messages ->
+			messages?.let { setMessagesAdapter(it) }
+		}
+	}
 
-    private fun setAboutInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-            aboutInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this, true)
-            aboutInfoRecyclerView.adapter = aboutInfoAdapter
-    }
+	private fun setAboutInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
+		aboutInfoAdapter =
+			TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this, true)
+		aboutInfoRecyclerView.adapter = aboutInfoAdapter
+	}
 
-    private fun setDeviceInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-        deviceInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
-        deviceInfoRecyclerView.adapter = deviceInfoAdapter
-        deviceInfoRecyclerView.visibility = View.VISIBLE
-    }
+	private fun setDeviceInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
+		deviceInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
+		deviceInfoRecyclerView.adapter = deviceInfoAdapter
+		deviceInfoRecyclerView.visibility = View.VISIBLE
+	}
 
-    private fun setDebugInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-        debugInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
-        debugInfoRecyclerView.adapter = debugInfoAdapter
-        debugInfoRecyclerView.visibility = View.VISIBLE
-    }
+	private fun setDebugInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
+		debugInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
+		debugInfoRecyclerView.adapter = debugInfoAdapter
+		debugInfoRecyclerView.visibility = View.VISIBLE
+	}
 
-    private fun setMessagesAdapter(transactionDetailsMessages: List<TransactionDetailsMessages>) {
-        messagesInfoAdapter = TransactionMessagesRecyclerAdapter(transactionDetailsMessages)
-        messagesInfoRecyclerView.adapter = messagesInfoAdapter
-    }
+	private fun setMessagesAdapter(transactionDetailsMessages: List<TransactionDetailsMessages>) {
+		messagesInfoAdapter = TransactionMessagesRecyclerAdapter(transactionDetailsMessages)
+		messagesInfoRecyclerView.adapter = messagesInfoAdapter
+	}
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
 
-    override fun onActionItemClick(actionId: String, titleTextView: View) {
-       transactionNavigationInterface.navActionDetails(actionId, titleTextView)
-    }
+	override fun onActionItemClick(actionId: String, titleTextView: View) {
+		transactionNavigationInterface.navActionDetails(actionId, titleTextView)
+	}
 
-    override fun onParserItemClicked(id: String) {
-        transactionNavigationInterface.navParserDetailsFragment(aboutInfoAdapter.getActionId(),  id.toInt())
-    }
+	override fun onParserItemClicked(id: String) {
+		transactionNavigationInterface.navParserDetailsFragment(aboutInfoAdapter.getActionId(),
+		                                                        id.toInt())
+	}
 }

@@ -27,8 +27,7 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface) : ActionUse
 		val countryNameList = mutableListOf<String>()
 		val distinctCountryCodes = actionRepo.getAllActionCountryCodes().distinct()
 		distinctCountryCodes.forEach { code ->
-			countryNameList.add(Locale("",
-			                           code).displayCountry)
+			countryNameList.add(Locale("", code).displayCountry)
 		}
 
 		return countryNameList

@@ -48,7 +48,7 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
 				if (lastRanPos != actions.size - 1) builder.finalMsgDisplayTime(0)
 
 				lifecycleScope.launch(Dispatchers.Main) {
-					delay(getThrottle(lastRanPos).toLong())
+					delay(getThrottle().toLong())
 					chainedActionLauncher.launch(builder.buildIntent())
 				}
 			}
@@ -69,7 +69,7 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
 			}
 	}
 
-	private fun getThrottle(lastRanPosition: Int): Int {
+	private fun getThrottle(): Int {
 		return if (lastRanPos > 0) SharedPrefUtils.getDelay(this) else 0
 	}
 

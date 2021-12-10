@@ -14,12 +14,10 @@ import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import com.hover.runner.R
-import com.hover.runner.action.utils.UpdateHoverActions
 import com.hover.runner.databinding.SplashScreenLayoutBinding
 import com.hover.runner.home.MainActivity
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
-import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
@@ -105,12 +103,6 @@ class SplashScreenActivity : AppCompatActivity(), Hover.DownloadListener {
 			}
 		})
 
-	}
-
-	private fun downloadHoverActions() {
-		Hover.initialize(this, SharedPrefUtils.getApiKey(this))
-		val hoverUpdateHoverActions = UpdateHoverActions(this, this)
-		hoverUpdateHoverActions.init()
 	}
 
 	private val loginProcessLauncher =

@@ -10,19 +10,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ParserViewModel(private val useCase: ParserUseCase) : ViewModel() {
-    val parserLiveData: MutableLiveData<Parser> = MutableLiveData()
-    val transactionsLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
+	val parserLiveData: MutableLiveData<Parser> = MutableLiveData()
+	val transactionsLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
 
-    fun getParser(actionId: String, parserId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            parserLiveData.postValue(useCase.getParser(actionId, parserId))
-        }
-    }
+	fun getParser(actionId: String, parserId: Int) {
+		viewModelScope.launch(Dispatchers.IO) {
+			parserLiveData.postValue(useCase.getParser(actionId, parserId))
+		}
+	}
 
-    fun getTransactions(parserId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            transactionsLiveData.postValue(useCase.getTransactions(parserId))
-        }
-    }
+	fun getTransactions(parserId: Int) {
+		viewModelScope.launch(Dispatchers.IO) {
+			transactionsLiveData.postValue(useCase.getTransactions(parserId))
+		}
+	}
 
 }

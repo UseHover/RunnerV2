@@ -38,9 +38,9 @@ data class StreamlinedSteps(val fullUSSDCodeStep: String,
 					}
 				}
 			} //Taking substring of root code to remove the last #. E.g *737# to become *737
-			val readableStep = (if (rootCode.isNotEmpty()) rootCode.substring(0,
-			                                                                  rootCode.length - 1)
-			else "") + stepSuffix + "#"
+			val readableStep =
+				(if (rootCode.isNotEmpty()) rootCode.substring(0, rootCode.length - 1)
+				else "") + stepSuffix + "#"
 			return StreamlinedSteps(readableStep, stepsVariableLabels, stepsVariableDesc)
 		}
 	}

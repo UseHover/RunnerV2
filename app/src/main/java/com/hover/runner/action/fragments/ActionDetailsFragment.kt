@@ -232,8 +232,8 @@ class ActionDetailsFragment : BaseFragment(), ActionVariableEditListener, Parser
 		actionNavigationInterface.navTransactionDetails(uuid)
 	}
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+	}
 }

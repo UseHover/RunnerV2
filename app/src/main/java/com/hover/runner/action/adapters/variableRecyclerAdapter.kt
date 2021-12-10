@@ -36,8 +36,13 @@ internal class VariableRecyclerAdapter(private val actionId: String,
 		initialData[label]?.let { if (it.isNotEmpty()) holder.editText.setText(it) }.apply { }
 
 		holder.editText.addTextChangedListener(object : TextWatcher {
-			override fun afterTextChanged(s: Editable) {}
-			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+			override fun afterTextChanged(s: Editable) {} //No changes needed, but required to implement the method
+			override fun beforeTextChanged(s: CharSequence,
+			                               start: Int,
+			                               count: Int,
+			                               after: Int) {
+			} //No changes needed, but required to implement the method
+
 			override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 				editInterface.updateVariableCache(label!!, s.toString())
 			}
