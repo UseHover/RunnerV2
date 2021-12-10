@@ -80,7 +80,7 @@
 		tools:layout="@layout/filter_by_country">
 		<argument
 			android:name="filterfor"
-			app:argType="interger" />
+			app:argType="integer" />
 	</fragment>
 
 	<fragment
@@ -90,7 +90,7 @@
 		tools:layout="@layout/filter_by_network_name">
 		<argument
 			android:name="filterfor"
-			app:argType="interger" />
+			app:argType="integer" />
 	</fragment>
 
 	<!--Parsers -->
