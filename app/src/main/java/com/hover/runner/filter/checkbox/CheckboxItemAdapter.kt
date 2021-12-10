@@ -13,11 +13,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
+import timber.log.Timber
 
 internal class CheckboxItemAdapter(private val checkBoxItems: List<CheckBoxItem>,
                                    private val checkBoxStatus: CheckBoxListStatus,
                                    private val isActive: Boolean = true) :
 	ListAdapter<CheckBoxItem, CheckboxItemAdapter.CheckBoxViewHolder>(CheckBoxItemDiffCallback()) {
+
+	private val checkedTitles = mutableListOf<String>()
+
+	fun getCheckedItemTitles(): List<String> {
+		return checkedTitles
+	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckBoxViewHolder {
 		val view = LayoutInflater.from(parent.context)
@@ -33,25 +40,13 @@ internal class CheckboxItemAdapter(private val checkBoxItems: List<CheckBoxItem>
 		setSubTitle(holder.subtitleTextView, item.subTitle)
 
 
-		if (isActive) holder.checkBox.setOnCheckedChangeListener { _, _ -> checkBoxStatus.anItemSelected() }
+		if (isActive) holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
+			checkBoxStatus.anItemSelected()
+			if(isChecked) checkedTitles.add(item.title)
+			else checkedTitles.remove(item.title)
+		 }
 		else setItemColorToGray(holder)
 
-	}
-
-	fun getCheckedItemTitles(): List<String> {
-		val items = mutableListOf<String>()
-		this.currentList.forEach {
-			if (it.isChecked) items.add(it.title)
-		}
-		return items
-	}
-
-	fun getCheckedItemSubtitles(): List<String> {
-		val items = mutableListOf<String>()
-		this.currentList.forEach {
-			if (it.isChecked && it.subTitle.isNotEmpty()) items.add(it.subTitle)
-		}
-		return items
 	}
 
 	private fun setItemColorToGray(holder: CheckBoxViewHolder) {

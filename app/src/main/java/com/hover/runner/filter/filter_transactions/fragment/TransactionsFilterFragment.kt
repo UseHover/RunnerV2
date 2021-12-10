@@ -47,7 +47,7 @@ class TransactionsFilterFragment : BaseFragment() {
 
 	override fun onCreateView(inflater: LayoutInflater,
 	                          container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View? {
+	                          savedInstanceState: Bundle?): View {
 		_binding = TransactionFilterFragmentBinding.inflate(inflater, container, false)
 		initNavigationInterface()
 		return binding.root
@@ -120,12 +120,8 @@ class TransactionsFilterFragment : BaseFragment() {
 					if (transactions.isNotEmpty()) {
 						isClickable = true
 						setBackgroundColor(resources.getColor(R.color.colorPrimary))
-						val suffixAction =
-							if (transactions.size == 1) "transactions " else "transaction"
-						text = String.format(Locale.getDefault(),
-						                     "Show %d %s",
-						                     transactions.size,
-						                     suffixAction)
+						val suffixAction = if (transactions.size == 1) "transactions " else "transaction"
+						text = String.format(Locale.getDefault(), "Show %d %s", transactions.size, suffixAction)
 					}
 					else {
 						isClickable = false
@@ -201,18 +197,14 @@ class TransactionsFilterFragment : BaseFragment() {
 
 	private fun setupFilterEntryBoxSelections() {
 		actionEntryTextView.setOnClickListener { filterTransactionNavigationInterface.navigateToSelectActionsFragment() }
-		countryEntryTextView.setOnClickListener {
-			filterTransactionNavigationInterface.navigateToSelectCountriesFragment(FilterForEnum.TRANSACTIONS)
-		}
-		networkEntryTextView.setOnClickListener {
-			filterTransactionNavigationInterface.navigateToSelectNetworksFragment(FilterForEnum.TRANSACTIONS)
-		}
+		countryEntryTextView.setOnClickListener { filterTransactionNavigationInterface.navigateToSelectCountriesFragment(FilterForEnum.TRANSACTIONS) }
+		networkEntryTextView.setOnClickListener { filterTransactionNavigationInterface.navigateToSelectNetworksFragment(FilterForEnum.TRANSACTIONS) }
 		datePickerTextView.setOnClickListener { pickDateRange() }
 	}
 
 	private fun pickDateRange() {
 		with(datePicker()) {
-			show(this.parentFragmentManager, toString())
+			show(this@TransactionsFilterFragment.parentFragmentManager, toString())
 		}
 	}
 

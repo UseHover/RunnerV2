@@ -23,9 +23,9 @@ class Utils {
 		fun toString(stringList: List<String>): String {
 			var result = ""
 			stringList.forEach {
-				result += ", $it"
+				if(result.isEmpty()) result += it
+				else result += ", $it"
 			}
-			result.replaceFirst(",", "")
 			return result
 		}
 

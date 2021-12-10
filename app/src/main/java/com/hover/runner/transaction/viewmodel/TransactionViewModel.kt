@@ -35,6 +35,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase) :
 
 	init {
 		loadingStatusLiveData.value = false
+		transactionsParentTotalLiveData.value = 0
 		filterParameters_toFind_FilteredTransactions_MediatorLiveData.addSource(
 			transactionFilterParametersMutableLiveData,
 			this::runFilter)

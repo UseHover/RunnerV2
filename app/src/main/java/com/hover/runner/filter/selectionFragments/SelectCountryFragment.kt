@@ -97,8 +97,8 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 	}
 
 	private fun getAlreadyCheckedCountries(): List<String> {
-		return if (filterEnum.isForActions()) return actionViewModel.filter_getParameters!!.networkNameList
-		else transactionViewModel.filter_getParameters!!.networkNameList
+		return if (filterEnum.isForActions())  actionViewModel.getActionFilterParam().networkNameList
+		else transactionViewModel.getTransactionFilterParam().networkNameList
 	}
 
 	private fun setCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {

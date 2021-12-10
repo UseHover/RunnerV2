@@ -258,12 +258,7 @@ class ActionsFilterFragment : BaseFragment() {
 			}, throttle)
 		}
 
-		override fun beforeTextChanged(s: CharSequence,
-		                               start: Int,
-		                               count: Int,
-		                               after: Int) {
-		} //No code needed here, but required to implement the method
-
+		override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {} //No code needed here, but required to implement the method
 		override fun afterTextChanged(s: Editable) {} //No code needed here, but required to implement the method
 	}
 

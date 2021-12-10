@@ -5,20 +5,19 @@ import androidx.lifecycle.ViewModel
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.sdk.transactions.Transaction
+import timber.log.Timber
 
 abstract class AbstractTransactionFilterViewModel : ViewModel() {
 	val transactionFilterParametersMutableLiveData: MutableLiveData<TransactionFilterParameters> =
 		MutableLiveData()
 	val filteredTransactionsMutableLiveData: MutableLiveData<List<RunnerTransaction>> =
 		MutableLiveData()
-	val filter_getParameters: TransactionFilterParameters? =
-		transactionFilterParametersMutableLiveData.value
 
 	init {
 		transactionFilterParametersMutableLiveData.value = TransactionFilterParameters.getDefault()
 	}
 
-	private fun getTransactionFilterParam(): TransactionFilterParameters {
+	fun getTransactionFilterParam(): TransactionFilterParameters {
 		return transactionFilterParametersMutableLiveData.value!!
 	}
 
@@ -39,6 +38,7 @@ abstract class AbstractTransactionFilterViewModel : ViewModel() {
 	}
 
 	fun filter_UpdateActionIds(actionIds: List<String>) {
+		Timber.i("updated ids size is {${actionIds.size}}")
 		val filterParam = getTransactionFilterParam()
 		filterParam.actionIdList = actionIds
 		transactionFilterParametersMutableLiveData.postValue(filterParam)

@@ -8,17 +8,14 @@ import com.hover.runner.sim.viewmodel.usecase.SimUseCase
 import com.hover.sdk.transactions.Transaction
 
 abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewModel(simUseCase) {
-	val actionFilterParametersMutableLiveData: MutableLiveData<ActionFilterParameters> =
-		MutableLiveData()
-
+	val actionFilterParametersMutableLiveData: MutableLiveData<ActionFilterParameters> = MutableLiveData()
 	val filteredActionsMutableLiveData: MutableLiveData<List<Action>> = MutableLiveData()
-	val filter_getParameters: ActionFilterParameters? = actionFilterParametersMutableLiveData.value
 
 	init {
 		actionFilterParametersMutableLiveData.value = ActionFilterParameters.getDefault()
 	}
 
-	private fun getActionFilterParam(): ActionFilterParameters {
+	fun getActionFilterParam(): ActionFilterParameters {
 		return actionFilterParametersMutableLiveData.value!!
 	}
 

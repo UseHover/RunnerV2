@@ -74,12 +74,9 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
 		transactionViewModel.loadDistinctCategories()
 		transactionViewModel.distinctCategoryMutableLiveData.observe(viewLifecycleOwner) { allCategories ->
 			if (allCategories != null) {
-				val filterParameters: ActionFilterParameters? = actionViewModel.filter_getParameters
-				if (filterParameters != null) {
-					val checkBoxItems =
-						CheckBoxItem.toList(allCategories, filterParameters.categoryList)
-					setCategoryListAdapter(checkBoxItems)
-				}
+				val filterParameters: ActionFilterParameters = actionViewModel.getActionFilterParam()
+				val checkBoxItems = CheckBoxItem.toList(allCategories, filterParameters.categoryList)
+				setCategoryListAdapter(checkBoxItems)
 			}
 		}
 	}

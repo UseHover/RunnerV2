@@ -14,7 +14,9 @@ import com.hover.runner.filter.checkbox.CheckboxItemAdapter
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.TextViewUtils.Companion.activateView
+import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
 	private var _binding: FilterByActionsBinding? = null
@@ -22,8 +24,8 @@ class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 
 	private var anItemHasBeenSelected = false
 
-	private val actionViewModel: ActionViewModel by sharedViewModel()
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
+	private val actionViewModel: ActionViewModel by sharedViewModel()
 
 	private lateinit var saveTextView: TextView
 	private lateinit var menuTitleTextView: TextView
@@ -48,7 +50,9 @@ class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 
 	private fun setupSaveFilterClick() {
 		saveTextView.setOnClickListener {
-			val selectedActions = actionsRecyclerAdapter.getCheckedItemSubtitles()
+			val selectedActions = actionsRecyclerAdapter.getCheckedItemTitles()
+			Timber.i("action subtitles list size is {${selectedActions.size}}")
+			Timber.i("action subtitles list size otherway is {${actionsRecyclerAdapter.itemCount}}")
 			transactionViewModel.filter_UpdateActionIds(selectedActions)
 			navigateBack()
 		}
@@ -56,8 +60,9 @@ class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 
 	private fun initViews() {
 		saveTextView = binding.filterSaveId
-		actionsRecyclerView = binding.filterRecyclerView
 		menuTitleTextView = binding.filterByActionTitle
+		actionsRecyclerView = binding.filterRecyclerView
+		actionsRecyclerView.setLayoutManagerToLinear()
 	}
 
 	private fun setupMenuTitleClick() {
@@ -68,10 +73,12 @@ class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 		actionViewModel.getAllActions()
 		actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
 			if (actions != null) {
-				val transactionFilterParameters: TransactionFilterParameters =
-					transactionViewModel.filter_getParameters!!
-				val checkBoxItems =
-					CheckBoxItem.toListByActions(actions, transactionFilterParameters.actionIdList)
+				var transactionFilterParameters: TransactionFilterParameters? = transactionViewModel.getTransactionFilterParam()
+				if(transactionFilterParameters == null) {
+					transactionFilterParameters = TransactionFilterParameters.getDefault()
+				}
+
+				val checkBoxItems = CheckBoxItem.toListByActions(actions, transactionFilterParameters.actionIdList)
 				setCountryListAdapter(checkBoxItems)
 			}
 		}

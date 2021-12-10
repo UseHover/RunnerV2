@@ -21,7 +21,7 @@ data class CheckBoxItem(val title: String, var isChecked: Boolean, var subTitle:
 			val checkBoxItems = mutableListOf<CheckBoxItem>()
 			allActions.forEach {
 				val isChecked = actionsIdInFilter.contains(it.id)
-				checkBoxItems.add(CheckBoxItem(it.title, isChecked, it.id))
+				checkBoxItems.add(CheckBoxItem(it.id, isChecked, it.title))
 			}
 			return checkBoxItems
 		}
