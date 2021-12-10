@@ -21,8 +21,8 @@ import com.hover.runner.databinding.SettingsFragmentBinding
 import com.hover.runner.settings.navigation.SettingsNavigationInterface
 import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.utils.SharedPrefUtils
-import com.hover.runner.utils.SharedPrefUtils.Companion.DELAY
-import com.hover.runner.utils.SharedPrefUtils.Companion.ENV
+import com.hover.runner.utils.SharedPrefUtils.DELAY
+import com.hover.runner.utils.SharedPrefUtils.ENV
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction

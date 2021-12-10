@@ -136,7 +136,7 @@ class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase
 				filteredActionsMutableLiveData.postValue(actionList)
 				loadingStatusLiveData.postValue(true)
 			}
-		}
+		}else filter_reset()
 	}
 
 	private fun load(deferredActions: Deferred<List<Action>>) {

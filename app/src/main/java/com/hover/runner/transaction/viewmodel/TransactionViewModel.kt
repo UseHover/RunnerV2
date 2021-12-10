@@ -67,6 +67,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase) :
 	private fun runFilter(transactionFilterParameters: TransactionFilterParameters) {
 		if (!transactionFilterParameters.isDefault()) {
 			loadingStatusLiveData.postValue(false)
+
 			val deferredActions = viewModelScope.async(Dispatchers.IO) {
 				return@async useCase.filter(transactionFilterParameters)
 			}
@@ -76,8 +77,9 @@ class TransactionViewModel(private val useCase: TransactionUseCase) :
 				filteredTransactionsMutableLiveData.postValue(transactionList)
 				loadingStatusLiveData.postValue(true)
 			}
-		}
+		} else filter_reset()
 	}
+
 
 	fun getTransactionsByAction(actionId: String) {
 		loadingStatusLiveData.value = false

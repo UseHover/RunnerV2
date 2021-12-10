@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 
-object UIHelper {
+class UIHelper {
+	companion object {
 		private val INITIAL_ITEMS_FETCH = 30
 
 		fun RecyclerView.setLayoutManagerToLinear() {
@@ -39,3 +40,5 @@ object UIHelper {
 			Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 		}
 	}
+
+}
