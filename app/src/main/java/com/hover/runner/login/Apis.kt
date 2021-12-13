@@ -1,4 +1,4 @@
-package com.hover.runner.api
+package com.hover.runner.login
 
 import com.hover.runner.ApplicationInstance
 import com.hover.runner.login.endpoint.LoginEndpoint
@@ -19,6 +19,7 @@ class Apis {
 			val callerToken: Call<Token> = retrofitToken.getTokenFromHover(emailBody, passwordBody)
 			val tokenModel = callerToken.execute()
 			return try {
+				Timber.e(tokenModel.body().toString())
 				if (tokenModel.code() == 200 && tokenModel.body() != null) tokenModel.body() else null
 			} catch (e: IOException) {
 				Timber.e(e)

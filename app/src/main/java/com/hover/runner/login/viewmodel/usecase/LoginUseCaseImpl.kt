@@ -2,7 +2,7 @@ package com.hover.runner.login.viewmodel.usecase
 
 import android.content.Context
 import com.hover.runner.R
-import com.hover.runner.api.Apis
+import com.hover.runner.login.Apis
 import com.hover.runner.login.endpoint.Token
 import com.hover.runner.utils.NetworkUtil
 import com.hover.runner.utils.Resource
@@ -33,16 +33,12 @@ class LoginUseCaseImpl(private val context: Context) : LoginUseCase {
 	}
 
 	private fun cacheToken(token: Token) {
-		Timber.i("cacheOrg is ${token.orgId}")
-		Timber.i("cacheToken is ${token.auth_token}")
-		Timber.i("cacheAPIKey is ${token.apiKey}")
+		Timber.e("cacheOrg is %s", token.org_id)
+		Timber.e("cacheToken is %s", token.auth_token)
+		Timber.e("cacheAPIKey is %s", token.api_key)
 
-		SharedPrefUtils.saveOrgId(801733, context)
+		SharedPrefUtils.saveOrgId(token.org_id, context)
 		SharedPrefUtils.saveToken(token.auth_token, context)
-		SharedPrefUtils.saveApiKey("cd8c5a3a29a52f534f5befad8779fcc0", context)
-
-		//    SharedPrefUtils.saveOrgId(token.orgId, context)
-		//  SharedPrefUtils.saveToken(token.auth_token, context)
-		//SharedPrefUtils.saveApiKey(token.apiKey, context)
+		SharedPrefUtils.saveApiKey(token.api_key, context)
 	}
 }
