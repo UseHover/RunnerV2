@@ -67,7 +67,7 @@ data class Action(val id: String,
 			return skippedList!!.contains(actionId)
 		}
 
-		fun get(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context): Action {
+		fun getList(act: HoverAction, lastTransaction: RunnerTransaction?, context: Context): Action {
 			return Action(act.public_id,
 			              act.name,
 			              act.root_code,
@@ -78,11 +78,11 @@ data class Action(val id: String,
 			              isSkipped(act.public_id, context))
 		}
 
-		suspend fun get(hoverActions: List<HoverAction>, transactionRepo: TransactionRepo, context: Context) : List<Action>{
+		suspend fun getList(hoverActions: List<HoverAction>, transactionRepo: TransactionRepo, context: Context) : List<Action>{
 			val runnerActions = mutableListOf<Action>()
 			hoverActions.forEachIndexed { _, act ->
 				val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-				runnerActions.add(get(act, lastTransaction, context))
+				runnerActions.add(getList(act, lastTransaction, context))
 			}
 			return runnerActions
 		}

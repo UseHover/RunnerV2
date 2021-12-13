@@ -18,7 +18,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 
 	override suspend fun getAllActions(): List<Action> {
 		val hoverActions = actionRepo.getAllHoverActions()
-		return Action.get(hoverActions, transactionRepo, context)
+		return Action.getList(hoverActions, transactionRepo, context)
 	}
 
 	override suspend fun getActionDetailsById(id: String): ActionDetails {
@@ -39,7 +39,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 	override suspend fun getAction(id: String): Action {
 		val act = actionRepo.getHoverAction(id)
 		val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-		return Action.get(act, lastTransaction, context)
+		return Action.getList(act, lastTransaction, context)
 	}
 
 	override suspend fun getAllActionCountryCodes(): List<String> {

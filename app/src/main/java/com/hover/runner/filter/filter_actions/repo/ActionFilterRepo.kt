@@ -25,7 +25,7 @@ class ActionFilterRepo(private val actionRepo: ActionRepo,
 			val step4 = filterThroughPresentSim(step3, this)
 
 			val toHoverActions = actionRepo.getHoverActions(step4)
-			return Action.get(toHoverActions, transactionRepo, context)
+			return Action.getList(toHoverActions, transactionRepo, context)
 		}
 	}
 	private suspend fun filterThroughActions(allIds: Array<String>,params: ActionFilterParameters) : Array<String> {
