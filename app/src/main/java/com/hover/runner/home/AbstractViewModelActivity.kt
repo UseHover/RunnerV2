@@ -54,7 +54,7 @@ abstract class AbstractViewModelActivity : AbstractNavigationActivity() {
 		actionViewModel.allNetworks_toLoad_countryCodes_MediatorLiveData.observe(this) {
 			Timber.i("listing : ${it.size}")
 		}
-		actionViewModel.countryCodes_toFind_ItsNetworks_MediatorLiveData.observe(this) {
+		actionViewModel.countryCodes_toFind_networksWithinCountry_MediatorLiveData.observe(this) {
 			Timber.i("listing  : ${it.size}")
 		}
 		actionViewModel.networksWithinCountry_toFind_networksOutsideCountry_MediatorLiveData.observe(

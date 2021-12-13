@@ -42,7 +42,7 @@ class ActionViewModel(private val useCase: ActionUseCase, filterUseCase: ActionF
 
 	val allNetworks_toLoad_countryCodes_MediatorLiveData: MediatorLiveData<List<String>> =
 		MediatorLiveData()
-	val countryCodes_toFind_ItsNetworks_MediatorLiveData: MediatorLiveData<List<SimInfo>> =
+	val countryCodes_toFind_networksWithinCountry_MediatorLiveData: MediatorLiveData<List<SimInfo>> =
 		MediatorLiveData()
 	val networksWithinCountry_toFind_networksOutsideCountry_MediatorLiveData: MediatorLiveData<List<String>> =
 		MediatorLiveData()
@@ -69,7 +69,7 @@ class ActionViewModel(private val useCase: ActionUseCase, filterUseCase: ActionF
 
 		allNetworks_toLoad_countryCodes_MediatorLiveData.addSource(allNetworksLiveData,
 		                                                           this::loadSimCountries)
-		countryCodes_toFind_ItsNetworks_MediatorLiveData.addSource(
+		countryCodes_toFind_networksWithinCountry_MediatorLiveData.addSource(
 			presentSimCountryCodes_MutableLiveData,
 			this::loadNetworksInCountry)
 		networksWithinCountry_toFind_networksOutsideCountry_MediatorLiveData.addSource(
