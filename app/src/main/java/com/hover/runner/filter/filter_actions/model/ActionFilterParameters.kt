@@ -17,7 +17,7 @@ data class ActionFilterParameters(var actionId: String = "",
                                   var transactionSuccessful: String = "",
                                   var transactionPending: String = "",
                                   var transactionFailed: String = "",
-                                  var hasNoTransaction: Boolean = false,
+                                  var includeActionsWithNoTransaction: Boolean = false,
                                   var hasParser: Boolean = false,
                                   var onlyWithSimPresent: Boolean = false) {
 
@@ -42,6 +42,10 @@ data class ActionFilterParameters(var actionId: String = "",
 
 	fun getActionIdsAsString(): String {
 		return Utils.toString(actionIdList)
+	}
+
+	fun shouldFilterByTransactionStatus() : Boolean{
+		return transactionSuccessful.isNotEmpty() || transactionPending.isNotEmpty() || transactionFailed.isNotEmpty()
 	}
 
 	fun getCountryListAsString(): String {

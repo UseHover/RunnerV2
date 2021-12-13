@@ -114,6 +114,7 @@ class ActionsFilterFragment : BaseFragment() {
 		actionViewModel.actionFilterParametersMutableLiveData.observe(viewLifecycleOwner) {
 			updateFilterEntryData(it)
 			updateFilterCheckboxes(it)
+			updateResetTextView(it.isDefault())
 		}
 	}
 
@@ -146,7 +147,7 @@ class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun observeFilterLoadingStatus() {
-		actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
+		actionViewModel.filterHasLoadedLiveData.observe(viewLifecycleOwner) { hasLoaded ->
 			if (!hasLoaded) {
 				with(showActionsTextView) {
 					isClickable = false
@@ -159,7 +160,6 @@ class ActionsFilterFragment : BaseFragment() {
 
 	private fun setupResetFilter() {
 		resetTextView.setOnClickListener { handleResetTextClick() }
-		observeForResetTextView()
 	}
 
 	private fun handleResetTextClick() {
@@ -167,11 +167,9 @@ class ActionsFilterFragment : BaseFragment() {
 		actionViewModel.filter_reset()
 	}
 
-	private fun observeForResetTextView() {
-		actionViewModel.actionsParentTotalLiveData.observe(viewLifecycleOwner) {
-			if (actionViewModel.filter_actionsTotal() != 0 && actionViewModel.filter_actionsTotal() < it) activateReset()
-			else deactivateReset()
-		}
+	private fun updateResetTextView(isInDefault: Boolean) {
+		if (isInDefault) deactivateReset()
+		else activateReset()
 	}
 
 	private fun updateFilterEntryData(parameters: ActionFilterParameters) {
@@ -189,7 +187,7 @@ class ActionsFilterFragment : BaseFragment() {
 			successCheckBox.isChecked = isTransactionSuccessfulIncluded()
 			pendingCheckBox.isChecked = isTransactionPendingIncluded()
 			failureCheckBox.isChecked = isTransactionFailedIncluded()
-			noTransactionCheckBox.isChecked = hasNoTransaction
+			noTransactionCheckBox.isChecked = includeActionsWithNoTransaction
 			hasParserCheckBox.isChecked = hasParser
 			onlyWithSimPresentCheckBox.isChecked = onlyWithSimPresent
 		}

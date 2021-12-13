@@ -39,7 +39,7 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 		_binding = FilterByCountryBinding.inflate(inflater, container, false)
 		updateFilterFor()
 		return binding.root
-	}
+	} 
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)

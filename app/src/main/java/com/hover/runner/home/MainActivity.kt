@@ -15,7 +15,7 @@ import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
 import timber.log.Timber
 
-class MainActivity : AbstractNavigationActivity() {
+class MainActivity : AbstractViewModelActivity() {
 
 	private lateinit var binding: ActivityMainBinding
 	val permission_acceptance_incomplete = "You did not allow all permissions"

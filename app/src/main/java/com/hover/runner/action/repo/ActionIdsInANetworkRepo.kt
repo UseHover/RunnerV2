@@ -21,7 +21,13 @@ object ActionIdsInANetworkRepo {
 	}
 
 	fun getIds(networkName: String, context: Context) : Array<String>{
-		val ids = SharedPrefUtils.getStringSet(networkName, context)
-		return ids?.toTypedArray() ?: emptyArray()
+		return loadAllIds(networkName, context).toTypedArray()
 	}
+
+	private fun loadAllIds(networkName: String, context: Context) : Set<String>{
+		val ids = SharedPrefUtils.getStringSet(networkName, context)
+		return ids?: emptySet()
+	}
+
+
 }

@@ -6,7 +6,6 @@ import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 
 interface ActionUseCase {
 	suspend fun loadAll(): List<Action>
-	suspend fun filter(actionFilterParameters: ActionFilterParameters): List<Action>
 	suspend fun getAction(id: String): Action
 	suspend fun getActionDetails(id: String): ActionDetails
 	suspend fun getDistinctCountries(): List<String>

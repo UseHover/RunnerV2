@@ -16,7 +16,7 @@
 	<string name="search">Search</string>
 	<string name="search_hint">Search for actionID or root code</string>
 	<string name="search_hint_transaction">Search transaction id, or session text</string>
-	<string name="date_range">Date range</string>
+	<string name="date_range">Test period (Date range)</string>
 	<string name="countries">Countries</string>
 	<string name="countries_hint">Select countries</string>
 	<string name="network">Networks</string>

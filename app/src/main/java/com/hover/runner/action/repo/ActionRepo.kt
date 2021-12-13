@@ -1,11 +1,12 @@
 package com.hover.runner.action.repo
 
+import com.hover.runner.action.models.Action
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
 
 class ActionRepo(private val sdkDB: HoverRoomDatabase) {
-	suspend fun getAllActionsFromHover(): List<HoverAction> {
+	suspend fun getAllHoverActions(): List<HoverAction> {
 		return sdkDB.actionDao().all
 	}
 
@@ -17,17 +18,6 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.actionDao().allCountryCodes
 	}
 
-	suspend fun filterHoverAction(actionId: String, actionRootCode: String,
-	                              actionIdList: List<String>, countryCodes: List<String>) : List<HoverAction> {
-
-		val filteredActionIds = sdkDB.actionDao().filterIds(actionId,
-		                                                    actionRootCode,
-		                                                    actionIdList.toTypedArray(),
-		                                                    countryCodes.toTypedArray())
-		Timber.i("filter result size is {${filteredActionIds.size}}")
-		return sdkDB.actionDao().getActions(filteredActionIds.toTypedArray())
-	}
-
 	suspend fun getNetworkNamesByCountryCodes(countryCodes: List<String>): List<String> {
 		return sdkDB.actionDao().getNetworkNamesByCountryCodes(countryCodes.toTypedArray())
 	}
@@ -36,8 +26,22 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.actionDao().allNetworkNames
 	}
 
-	private fun emptyToNull(values : Array<String>) : Array<String>?{
-		return if(values.isEmpty()) null
-		else values
+	suspend fun getHoverActions(ids: Array<String>) : List<HoverAction>{
+		return sdkDB.actionDao().getActions(ids)
+	}
+	suspend fun  getAllHoverActionIds() : Array<String>{
+		return sdkDB.actionDao().allActionIds
+	}
+	suspend fun filterByActionId(subList:Array<String>, actionId: String) : Array<String> {
+		return sdkDB.actionDao().filterByActionId(subList, actionId)
+	}
+	suspend fun filterByRootCode(subList: Array<String>, actionRootCode: String) : Array<String> {
+		return sdkDB.actionDao().filterByRootCode(subList, actionRootCode)
+	}
+	suspend fun filterByActionIds(subList: Array<String>, actionIdList: List<String>) : Array<String> {
+		return sdkDB.actionDao().filterByActionIdList(subList, actionIdList.toTypedArray())
+	}
+	suspend fun filterByCountries(subList: Array<String>, countryCodes: List<String>) : Array<String> {
+		return sdkDB.actionDao().filterByCountry(subList, countryCodes.toTypedArray())
 	}
 }

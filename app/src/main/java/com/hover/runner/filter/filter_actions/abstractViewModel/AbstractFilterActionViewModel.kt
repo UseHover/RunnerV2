@@ -1,26 +1,31 @@
 package com.hover.runner.filter.filter_actions.abstractViewModel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.hover.runner.action.models.Action
+import com.hover.runner.filter.filter_actions.abstractViewModel.usecase.ActionFilterUseCase
 import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.sim.viewmodel.usecase.SimUseCase
 import com.hover.sdk.transactions.Transaction
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewModel(simUseCase) {
+abstract class AbstractFilterActionViewModel(private val filterUseCase: ActionFilterUseCase,
+                                             simUseCase: SimUseCase) : SimViewModel(simUseCase) {
+
 	val actionFilterParametersMutableLiveData: MutableLiveData<ActionFilterParameters> = MutableLiveData()
 	val filteredActionsMutableLiveData: MutableLiveData<List<Action>> = MutableLiveData()
+	val filterHasLoadedLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
 	init {
 		actionFilterParametersMutableLiveData.value = ActionFilterParameters.getDefault()
+		filterHasLoadedLiveData.value = true
 	}
 
 	fun getActionFilterParam(): ActionFilterParameters {
 		return actionFilterParametersMutableLiveData.value!!
-	}
-
-	fun filter_actionsTotal(): Int {
-		return with(filteredActionsMutableLiveData) { if (value == null) 0 else value!!.size }
 	}
 
 	fun filter_getActions(): List<Action> {
@@ -28,6 +33,21 @@ abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewMo
 			if (value == null) ArrayList()
 			else value!!
 		}
+	}
+
+	fun runFilter(actionFilterParameters: ActionFilterParameters) {
+		if (!actionFilterParameters.isDefault()) {
+			filterHasLoadedLiveData.postValue(false)
+			val deferredActions = viewModelScope.async(Dispatchers.IO) {
+				return@async filterUseCase.filter(actionFilterParameters)
+			}
+
+			viewModelScope.launch(Dispatchers.Main) {
+				val actionList = deferredActions.await()
+				filteredActionsMutableLiveData.postValue(actionList)
+				filterHasLoadedLiveData.postValue(true)
+			}
+		}else filter_reset()
 	}
 
 	fun filter_reset() {
@@ -96,7 +116,7 @@ abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewMo
 
 	fun filter_IncludeActionsWithNoTransaction(shouldInclude: Boolean) {
 		val filterParam = getActionFilterParam()
-		filterParam.hasNoTransaction = shouldInclude
+		filterParam.includeActionsWithNoTransaction = shouldInclude
 		actionFilterParametersMutableLiveData.postValue(filterParam)
 	}
 

@@ -5,24 +5,22 @@ import com.hover.runner.action.models.Action
 import com.hover.runner.action.models.ActionDetails
 import com.hover.runner.action.viewmodel.usecase.ActionUseCase
 import com.hover.runner.filter.filter_actions.abstractViewModel.AbstractFilterActionViewModel
+import com.hover.runner.filter.filter_actions.abstractViewModel.usecase.ActionFilterUseCase
 import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 import com.hover.runner.sim.viewmodel.usecase.SimUseCase
 import com.hover.sdk.sims.SimInfo
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
-class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase) :
-	AbstractFilterActionViewModel(simUseCase) {
+class ActionViewModel(private val useCase: ActionUseCase, filterUseCase: ActionFilterUseCase, simUseCase: SimUseCase) :
+	AbstractFilterActionViewModel(filterUseCase, simUseCase) {
 
 	//MutableLiveData
 	private val filterStatus: MutableLiveData<Boolean> = MutableLiveData()
 	val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
 	val actions: MutableLiveData<List<Action>> = MutableLiveData()
 	val actionDetailsLiveData: MutableLiveData<ActionDetails> = MutableLiveData()
-	val actionsParentTotalLiveData: MutableLiveData<Int> = MutableLiveData()
+	val highestActionsCountLiveData: MutableLiveData<Int> = MutableLiveData()
 	val countryListMutableLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
 	private val allNetworksLiveData: MutableLiveData<List<String>> = MutableLiveData()
@@ -49,10 +47,14 @@ class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase
 	val networksWithinCountry_toFind_networksOutsideCountry_MediatorLiveData: MediatorLiveData<List<String>> =
 		MediatorLiveData()
 
+	// Others
+	val actionsReloadAttemptMax = 5
+	var actionsReloadAttemptCounter = 0
+
 	init {
 		filterStatus.value = false
 		loadingStatusLiveData.value = false
-		actionsParentTotalLiveData.value = 0
+		highestActionsCountLiveData.value = 0
 		setupMediators()
 	}
 
@@ -89,6 +91,9 @@ class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase
 		}
 	}
 
+	fun getHighestActionsCount() : Int {
+		return highestActionsCountLiveData.value!!
+	}
 	fun getNetworksInCountries() : List<String> {
 		return networksInPresentSimCountryNamesLiveData.value ?: emptyList()
 	}
@@ -108,8 +113,7 @@ class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase
 		val loadedActions = viewModelScope.async(Dispatchers.IO) {
 			return@async useCase.loadAll()
 		}
-
-		load(loadedActions)
+		loadAllDeferredActions(loadedActions)
 	}
 
 	fun getActionDetail(id: String) {
@@ -128,34 +132,30 @@ class ActionViewModel(private val useCase: ActionUseCase, simUseCase: SimUseCase
 		actions.postValue(newActions)
 	}
 
-	private fun runFilter(actionFilterParameters: ActionFilterParameters) {
-		if (!actionFilterParameters.isDefault()) {
-			loadingStatusLiveData.postValue(false)
-			val deferredActions = viewModelScope.async(Dispatchers.IO) {
-				return@async useCase.filter(actionFilterParameters)
-			}
 
-			viewModelScope.launch(Dispatchers.Main) {
-				val actionList = deferredActions.await()
-				filteredActionsMutableLiveData.postValue(actionList)
-				loadingStatusLiveData.postValue(true)
-			}
-		}else filter_reset()
-	}
-
-	private fun load(deferredActions: Deferred<List<Action>>) {
+	private fun loadAllDeferredActions(deferredActions: Deferred<List<Action>>) {
 		viewModelScope.launch(Dispatchers.Main) {
 			val actionList = deferredActions.await()
-			actions.postValue(actionList)
-			loadingStatusLiveData.postValue(true)
-			updateParentActionsTotal(actionList.size)
+			if(actionList.isEmpty()) attemptAllActionsReload()
+			else {
+				actions.postValue(actionList)
+				loadingStatusLiveData.postValue(true)
+				updateParentActionsTotal(actionList.size)
+			}
+		}
+	}
+	private suspend fun attemptAllActionsReload() {
+		if(actionsReloadAttemptCounter <= actionsReloadAttemptMax) {
+			actionsReloadAttemptCounter += 1
+			delay(2000)
+			getAllActions()
 		}
 	}
 
 	private fun updateParentActionsTotal(newActionListSize: Int) {
-		val currentTotalActionsSize: Int = actionsParentTotalLiveData.value!!
+		val currentTotalActionsSize: Int = highestActionsCountLiveData.value!!
 		if (newActionListSize > currentTotalActionsSize) {
-			actionsParentTotalLiveData.postValue(newActionListSize)
+			highestActionsCountLiveData.postValue(newActionListSize)
 		}
 	}
 

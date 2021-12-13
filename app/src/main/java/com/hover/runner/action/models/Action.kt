@@ -7,6 +7,7 @@ import android.util.Log
 import com.hover.runner.BuildConfig
 import com.hover.runner.transaction.TransactionStatus
 import com.hover.runner.transaction.model.RunnerTransaction
+import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
 import org.json.JSONArray
@@ -75,6 +76,15 @@ data class Action(val id: String,
 			              act.custom_steps,
 			              lastTransaction?.status ?: "",
 			              isSkipped(act.public_id, context))
+		}
+
+		suspend fun get(hoverActions: List<HoverAction>, transactionRepo: TransactionRepo, context: Context) : List<Action>{
+			val runnerActions = mutableListOf<Action>()
+			hoverActions.forEachIndexed { _, act ->
+				val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
+				runnerActions.add(get(act, lastTransaction, context))
+			}
+			return runnerActions
 		}
 	}
 }

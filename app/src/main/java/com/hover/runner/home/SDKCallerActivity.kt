@@ -23,17 +23,11 @@ import timber.log.Timber
 
 abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
 	private val actionViewModel: ActionViewModel by viewModel()
-	private val transactionViewModel: TransactionViewModel by viewModel()
-	private val simViewModel: SimViewModel by viewModel()
-	private val parserViewModel: ParserViewModel by viewModel()
-
 	private var lastRanPos = -1
-
 	private lateinit var chainedActionLauncher: ActivityResultLauncher<Intent>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		observeLiveData()
 		initChainedLauncher()
 	}
 
@@ -83,55 +77,6 @@ abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
 		return builder
 	}
 
-	private fun observeLiveData() {
-		observeActionViewModel()
-		observeActionMediators()
-		observeTransactionMediators()
-	}
 
-	private fun observeActionViewModel() { //Necessary to observe these liveData for transformations to work
-		actionViewModel.actionsWithUCV_LiveData.observe(this) {
-			Timber.i("listening to actions with UC variables ${it.size}")
-		}
-		actionViewModel.actionsWithCompletedVariables.observe(this) {
-			Timber.i("listening to actions with completed variables ${it.size}")
-		}
-		actionViewModel.loadingStatusLiveData.observe(this) {
-			Timber.i("listening to loading status $it")
-		}
-		actionViewModel.actions.observe(this) {
-			Timber.i("listening to actions ${it.size}")
-		}
-	}
-
-	private fun observeActionMediators() {
-		actionViewModel.allActions_toFind_BadActions_MediatorLiveData.observe(this) {
-			Timber.i("listing to bad actions : ${it.size}")
-		}
-		actionViewModel.badActions_toFind_GoodActions_MediatorLiveData.observe(this) {
-			Timber.i("listing to good actions : ${it.size}")
-		}
-		actionViewModel.filterParameters_toFind_FilteredActions_MediatorLiveData.observe(this) {
-			Timber.i("listening to fitering data : ${it.actionIdList}")
-		}
-		actionViewModel.allNetworks_toLoad_countryCodes_MediatorLiveData.observe(this) {
-			Timber.i("listing : ${it.size}")
-		}
-		actionViewModel.countryCodes_toFind_ItsNetworks_MediatorLiveData.observe(this) {
-			Timber.i("listing  : ${it.size}")
-		}
-		actionViewModel.networksWithinCountry_toFind_networksOutsideCountry_MediatorLiveData.observe(
-			this) {
-			Timber.i("listing : ${it.size}")
-		}
-	}
-
-	private fun observeTransactionMediators() {
-		transactionViewModel.filterParameters_toFind_FilteredTransactions_MediatorLiveData.observe(
-			this) { param ->
-			param?.let { Timber.i("listing : ${it.actionIdList}") }
-
-		}
-	}
 
 }

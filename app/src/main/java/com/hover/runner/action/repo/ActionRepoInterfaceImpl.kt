@@ -7,6 +7,7 @@ import com.hover.runner.action.models.StreamlinedSteps
 import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 import com.hover.runner.parser.model.Parser
 import com.hover.runner.parser.repo.ParserRepo
+import com.hover.runner.sim.repo.SimRepo
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.sdk.actions.HoverAction
 
@@ -16,8 +17,8 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
                               private val context: Context) : ActionRepoInterface {
 
 	override suspend fun getAllActions(): List<Action> {
-		val hoverActions = actionRepo.getAllActionsFromHover()
-		return convertToRunnerActions(hoverActions)
+		val hoverActions = actionRepo.getAllHoverActions()
+		return Action.get(hoverActions, transactionRepo, context)
 	}
 
 	override suspend fun getActionDetailsById(id: String): ActionDetails {
@@ -60,32 +61,6 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 			joinedNetworkNames.forEach { each-> explodedNetworkNames.add(each) }
 		}
 		return explodedNetworkNames
-	}
-
-	override suspend fun filter(actionFilterParameters: ActionFilterParameters): List<Action> {
-		return with(actionFilterParameters) {
-			val totalActionIdsToFilter = (actionIdList + getActionIdsInNetwork(networkNameList)).distinct()
-			actionIdList = totalActionIdsToFilter
-			convertToRunnerActions(actionRepo.filterHoverAction("%{$actionId}%", "%{$actionRootCode}%", actionIdList, countryCodeList))
-		}
-	}
-	private fun getActionIdsInNetwork(networkNames: List<String>) : List<String> {
-		val actionIdsInNetwork  = mutableListOf<String>()
-		networkNames.forEach {networkName->
-			val ids = ActionIdsInANetworkRepo.getIds(networkName, getContext())
-			actionIdsInNetwork.addAll(ids)
-		}
-		return actionIdsInNetwork
-	}
-
-
-	private suspend fun convertToRunnerActions(hoverActions: List<HoverAction>) : List<Action>{
-		val runnerActions = mutableListOf<Action>()
-		hoverActions.forEachIndexed { _, act ->
-			val lastTransaction = transactionRepo.getLastTransaction(act.public_id)
-			runnerActions.add(Action.get(act, lastTransaction, context))
-		}
-		return runnerActions
 	}
 
 

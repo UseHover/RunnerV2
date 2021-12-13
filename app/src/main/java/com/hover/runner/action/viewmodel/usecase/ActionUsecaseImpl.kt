@@ -11,10 +11,6 @@ class ActionUseCaseImpl(private val actionRepo: ActionRepoInterface) : ActionUse
 		return actionRepo.getAllActions()
 	}
 
-	override suspend fun filter(actionFilterParameters: ActionFilterParameters): List<Action> {
-		return actionRepo.filter(actionFilterParameters)
-	}
-
 	override suspend fun getAction(id: String): Action {
 		return actionRepo.getAction(id)
 	}

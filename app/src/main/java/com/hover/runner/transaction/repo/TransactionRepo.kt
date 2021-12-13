@@ -3,6 +3,7 @@ package com.hover.runner.transaction.repo
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
+import androidx.room.Query
 import com.hover.runner.database.AppDatabase
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
@@ -60,7 +61,6 @@ class TransactionRepo(db: AppDatabase) {
 		transactionDao.insert(transaction)
 	}
 
-
 	fun insertOrUpdateTransaction(intent: Intent, context: Context) {
 		Timber.i("save receiver triggered")
 		AppDatabase.databaseWriteExecutor.execute {
@@ -84,6 +84,29 @@ class TransactionRepo(db: AppDatabase) {
 				}
 			}
 		}
+	}
+
+	suspend fun getActionIdsByDateRange(actionIdSubList:Array<String>, startDate : Long, endDate: Long): Array<String> {
+		return transactionDao.getActionIdsByDateRange(actionIdSubList, startDate, endDate)
+	}
+
+	suspend fun getActionIdsByCategories(actionIdSubList:Array<String>, categories: Array<String>): Array<String> {
+		return transactionDao.getActionIdsByCategories(actionIdSubList, categories)
+	}
+
+	suspend fun getActionIdsByTransactionSuccessful(actionIdSubList:Array<String>): Array<String> {
+		return transactionDao.getActionIdsByTransactionSuccessful(actionIdSubList)
+	}
+
+	suspend fun getActionIdsByTransactionPending(actionIdSubList:Array<String>): Array<String> {
+		return transactionDao.getActionIdsByTransactionPending(actionIdSubList)
+	}
+	suspend fun getActionIdsByTransactionFailed(actionIdSubList:Array<String>): Array<String> {
+		return transactionDao.getActionIdsByTransactionFailed(actionIdSubList)
+	}
+
+	suspend fun getActionIdsWithTransactions(): List<String> {
+		return transactionDao.getActionIdsWithTransactions()
 	}
 
 }

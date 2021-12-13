@@ -12,6 +12,5 @@ interface ActionRepoInterface {
 	suspend fun getAllActionCountryCodes(): List<String>
 	suspend fun getNetworkNames(countryCodes: List<String>): List<String>
 	suspend fun getAllNetworkNames(): List<String>
-	suspend fun filter(actionFilterParameters: ActionFilterParameters): List<Action>
 	fun getContext(): Context
 }

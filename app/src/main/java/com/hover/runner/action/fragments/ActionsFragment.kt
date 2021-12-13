@@ -76,7 +76,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionClickListener 
 		pullToRefresh.isRefreshing = false
 		setupRecyclerView()
 		setupPullToRefresh()
-		observeActionLoading()
+		observeLoadingStatus()
 		observeActions()
 		setupTestAll()
 		handleFilterText()
@@ -115,14 +115,14 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionClickListener 
 		filterTextView.setOnClickListener { actionNavigationInterface.navActionFilterFragment() }
 	}
 
-	private fun observeActionLoading() {
+	private fun observeLoadingStatus() {
 		actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
 			if (hasLoaded) showRecyclerView() else showLoadingView()
 		}
 	}
 
 	private fun updateFilterTextStyle(currentActionListSize: Int) {
-		val initialActionListSize: Int = actionViewModel.filter_actionsTotal()
+		val initialActionListSize: Int = actionViewModel.getHighestActionsCount()
 		val isFilterOn: Boolean = currentActionListSize < initialActionListSize
 
 		if (isFilterOn) filterTextView.styleAsFilterOn()
@@ -139,7 +139,6 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionClickListener 
 	}
 
 	private fun observeActions() {
-		actionViewModel.getAllActions()
 		actionViewModel.actions.observe(viewLifecycleOwner) { actions ->
 			if (actions != null) {
 				updateFilterTextStyle(actions.size)

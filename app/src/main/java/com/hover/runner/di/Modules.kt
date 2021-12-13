@@ -5,6 +5,8 @@ import com.hover.runner.action.repo.ActionRepoInterfaceImpl
 import com.hover.runner.action.viewmodel.ActionViewModel
 import com.hover.runner.action.viewmodel.usecase.ActionUseCaseImpl
 import com.hover.runner.database.AppDatabase
+import com.hover.runner.filter.filter_actions.abstractViewModel.usecase.ActionFilterUseCaseImpl
+import com.hover.runner.filter.filter_actions.repo.ActionFilterRepo
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
 import com.hover.runner.parser.repo.ParserRepo
@@ -40,10 +42,11 @@ val appModule = module {
 	}
 
 	viewModel {
+		val filterUseCaseImpl = ActionFilterUseCaseImpl(ActionFilterRepo(get(), get(), get(), get(), get()))
 		val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
-		val actionUseCaseImpl =
-			ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
-		ActionViewModel(actionUseCaseImpl, simUseCaseImpl)
+
+		val actionUseCaseImpl = ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
+		ActionViewModel(actionUseCaseImpl, filterUseCaseImpl, simUseCaseImpl)
 	}
 
 	viewModel {
