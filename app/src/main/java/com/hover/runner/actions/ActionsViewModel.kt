@@ -64,5 +64,4 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 		}
 		return filterMap
 	}
-
 }

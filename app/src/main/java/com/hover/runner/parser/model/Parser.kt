@@ -8,8 +8,8 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
+import com.hover.runner.customViews.detailsTopLayout.StatusUiTranslator
 import com.hover.runner.parser.listeners.ParserClickListener
-import com.hover.runner.transaction.StatusUIHelper
 import com.hover.sdk.parsers.HoverParser
 
 data class Parser(val type: String?,
@@ -18,7 +18,7 @@ data class Parser(val type: String?,
                   val regex: String?,
                   var category: String?,
                   var created_date: String?,
-                  var sender: String? = null) : StatusUIHelper {
+                  var sender: String? = null) : StatusUiTranslator {
 
 	fun getStatusColor(): Int {
 		return getColor(category)

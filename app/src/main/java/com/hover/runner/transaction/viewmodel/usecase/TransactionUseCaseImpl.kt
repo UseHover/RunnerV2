@@ -54,7 +54,7 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 				add(TransactionDetailsInfo("TransactionId", uuid, false))
 				add(TransactionDetailsInfo("Result", lastTransaction!!.last_message_hit!!, false))
 				add(TransactionDetailsInfo("Category", category ?: "", false))
-				add(TransactionDetailsInfo("Operator", action.network_name ?: "", false))
+//				add(TransactionDetailsInfo("Operator", action.network_name ?: "", false))
 			}
 			return detailsList
 

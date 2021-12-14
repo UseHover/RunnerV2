@@ -12,8 +12,7 @@ import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.utils.RunnerColor
 
 
-class TransactionRecyclerAdapter(private val transactionList: List<RunnerTransaction>,
-                                 private val clickListener: TransactionClickListener) :
+class TransactionRecyclerAdapter(private val transactionList: List<RunnerTransaction>, private val clickListener: TransactionClickListener) :
 	RecyclerView.Adapter<TransactionRecyclerAdapter.TransactionListItemView>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionListItemView {
@@ -26,10 +25,10 @@ class TransactionRecyclerAdapter(private val transactionList: List<RunnerTransac
 		val transaction = transactionList[position]
 		holder.date.text = transaction.getDate()
 		holder.content.text = transaction.last_message_hit
-		holder.date.setCompoundDrawablesWithIntrinsicBounds(0,
-		                                                    0,
-		                                                    transaction.getStatusDrawable(),
-		                                                    0)
+//		holder.date.setCompoundDrawablesWithIntrinsicBounds(0,
+//		                                                    0,
+//		                                                    transaction.getDrawable(),
+//		                                                    0)
 		holder.date.compoundDrawablePadding = 8
 		holder.date.setTextColor(RunnerColor(holder.itemView.context).get(transaction.getStatusColor()))
 		holder.itemView.setOnClickListener { clickListener.onTransactionItemClicked(transaction.uuid) }

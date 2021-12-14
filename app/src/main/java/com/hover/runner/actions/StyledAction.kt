@@ -1,31 +1,32 @@
 package com.hover.runner.actions
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.text.TextUtils
-import android.util.Log
-import com.hover.runner.BuildConfig
-import com.hover.runner.transaction.StatusUIHelper
-import com.hover.runner.transaction.model.RunnerTransaction
-import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.transactions.Transaction
 import org.json.JSONArray
 
-class StyledAction(val action: HoverAction) : HoverAction(), StatusUIHelper {
+class StyledAction(val action: HoverAction) {
 
+	lateinit var status: String
 	var steps: JSONArray? = null
 
+	val name: String
+		get() = action.name
 
-	fun getStatusColor(): Int {
-		return getColor(status)
+	val public_id: String
+		get() = action.public_id
+
+	val root_code: String
+		get() = action.root_code
+
+	fun hasTransaction(status: String): Boolean {
+		return when (status) {
+			Transaction.PENDING -> true
+			Transaction.FAILED -> true
+			Transaction.SUCCEEDED -> true
+			else -> false
+		}
 	}
 
-	fun getLayoutColor(): Int {
-		return getToolBarColor(status)
-	}
 
-	fun getStatusDrawable(): Int {
-		return getDrawable(status)
-	}
 }
 

@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
-import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
+import com.hover.runner.customViews.detailsTopLayout.DetailsHeaderView
 import com.hover.runner.databinding.TransactionDetailsFragmentBinding
 import com.hover.runner.parser.listeners.ParserClickListener
 import com.hover.runner.transaction.adapters.TransactionDetailsRecyclerAdapter
@@ -29,7 +28,7 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
 
-	private lateinit var topLayout: RunnerTopDetailsView
+	private lateinit var topLayoutHeader: DetailsHeaderView
 
 	private lateinit var transactionNavigationInterface: TransactionNavigationInterface
 
@@ -67,7 +66,7 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	}
 
 	private fun initViews() {
-		topLayout = binding.transactionDetailsTopLayoutId
+		topLayoutHeader = binding.transactionDetailsTopLayoutId
 		aboutInfoRecyclerView = binding.transacAboutInfoRecyclerView
 		deviceInfoRecyclerView = binding.transacDevicesRecyclerView
 		debugInfoRecyclerView = binding.transacDebugInfoRecyclerView
@@ -95,9 +94,7 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	private fun setupTopDetailsLayout(transaction: RunnerTransaction) {
 		UIHelper.changeStatusBarColor(requireActivity(),
 		                              RunnerColor(requireContext()).get(transaction.getStatusColor()))
-		topLayout.setTitle(transaction.getDate()!!, transaction.status)
-		topLayout.setSubTitle(transaction.uuid, transaction.status)
-		topLayout.setup(transaction.status, DetailScreenType.TRANSACTION, requireActivity())
+		topLayoutHeader.setTransaction(transaction, requireActivity())
 	}
 
 	private fun observeAboutInfo(transaction: RunnerTransaction) {

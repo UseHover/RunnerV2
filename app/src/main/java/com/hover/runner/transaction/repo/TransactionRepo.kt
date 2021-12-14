@@ -44,6 +44,10 @@ class TransactionRepo(db: AppDatabase) {
 		return transactionDao.transactionsByAction(actionId, limit)
 	}
 
+	fun getCountByStatus(actionId: String, status: String): LiveData<Int> {
+		return transactionDao.getCountByStatus(actionId, status)
+	}
+
 	suspend fun getTransactionsByParser(parserId: Int): List<RunnerTransaction> {
 		return transactionDao.transactionsByParser("%$parserId%")
 	}

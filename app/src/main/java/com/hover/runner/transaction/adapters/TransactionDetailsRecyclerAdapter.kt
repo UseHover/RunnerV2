@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.actions.StyledAction
 import com.hover.runner.parser.listeners.ParserClickListener
-import com.hover.runner.transaction.StatusUIHelper
 import com.hover.runner.transaction.model.TransactionDetailsInfo
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.TextViewUtils.Companion.underline
@@ -49,8 +48,7 @@ class TransactionDetailsRecyclerAdapter(private val infoList: List<TransactionDe
 		holder.value.text = info.value
 
 		if (info.label == "Status" && action != null) {
-			holder.value.setTextColor(RunnerColor(holder.itemView.context).get(StyledAction(action).getColor(
-				info.value)))
+//			holder.value.setTextColor(RunnerColor(holder.itemView.context).get(StyledAction(action).getColor(info.value)))
 		}
 
 		if (info.clickable) {

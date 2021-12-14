@@ -16,8 +16,12 @@ interface RunnerTransactionDao {
 	@Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at DESC LIMIT :limit")
 	fun transactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>>
 
+	@Query("SELECT COUNT(uuid) FROM runner_transactions WHERE action_id = :actionId AND status = :status")
+	fun getCountByStatus(actionId: String, status: String): LiveData<Int>
+
 	@Query("SELECT * FROM runner_transactions WHERE matched_parsers LIKE :parserId ORDER BY initiated_at DESC ")
 	suspend fun transactionsByParser(parserId: String): List<RunnerTransaction>
+
 
 	@Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at ASC LIMIT 1")
 	suspend fun lastTransactionsByAction_Suspended(actionId: String): RunnerTransaction?

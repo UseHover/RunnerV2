@@ -6,7 +6,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -14,39 +13,21 @@ import com.hover.runner.R
 import com.hover.runner.actions.adapters.VariableRecyclerAdapter
 import com.hover.runner.actions.StyledAction
 import com.hover.runner.base.fragment.BaseFragment
-import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
-import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
-import com.hover.runner.home.SDKCallerInterface
 import com.hover.runner.parser.listeners.ParserClickListener
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.transaction.model.RunnerTransaction
-import com.hover.runner.transaction.viewmodel.TransactionViewModel
-import com.hover.runner.utils.RunnerColor
-import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.runner.utils.setSafeOnClickListener
 import com.hover.sdk.actions.HoverAction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ActionDetailFragment : BaseFragment(), ParserClickListener,
-	TransactionClickListener {
-	private val maxTransactionListSize = 10
+class ActionDetailFragment : BaseFragment(), ParserClickListener, TransactionClickListener {
 
 	private val actionViewModel: ActionDetailViewModel by sharedViewModel()
-
 	private var _binding: ActionDetailsFragmentBinding? = null
 	private val binding get() = _binding!!
-
-	private lateinit var topLayout: RunnerTopDetailsView
-	private lateinit var operatorsText: TextView
-	private lateinit var stepsText: TextView
-	private lateinit var parsersText: TextView
-	private lateinit var transacText: TextView
-	private lateinit var successText: TextView
-	private lateinit var pendingText: TextView
-	private lateinit var failureText: TextView
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = ActionDetailsFragmentBinding.inflate(inflater, container, false)
@@ -55,22 +36,12 @@ class ActionDetailFragment : BaseFragment(), ParserClickListener,
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initViews()
+		initListeners()
 		initObservers()
 		actionViewModel.loadAction(requireArguments().getString("action_id", ""))
 	}
 
-	private fun initViews() {
-		topLayout = binding.detailsTopLayout
-
-		operatorsText = binding.operatorsContent
-		stepsText = binding.stepsContent
-		parsersText = binding.parsersContent
-		transacText = binding.transactionNoContent
-		successText = binding.successCountContent
-		pendingText = binding.pendingCountContent
-		failureText = binding.failedCountContent
-
+	private fun initListeners() {
 		binding.viewAll.setOnClickListener {
 			actionViewModel.action.value?.let {
 				val bundle = bundleOf("action_id" to it.public_id)
@@ -87,34 +58,46 @@ class ActionDetailFragment : BaseFragment(), ParserClickListener,
 	}
 
 	private fun initObservers() {
-		actionViewModel.action.observe(viewLifecycleOwner) {
-			setupTopDetailsLayout(StyledAction(it))
-		}
+		actionViewModel.action.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
+
 		actionViewModel.transactions.observe(viewLifecycleOwner) {
-			it?.let { setTransactionsList(it) }
+			fillTransactionDetails(it)
+			binding.header.setStatus(if (!it.isNullOrEmpty()) it[0].status else null, requireActivity())
 		}
+
+		actionViewModel.successCount.observe(viewLifecycleOwner) { it?.let { binding.successCount.text = it.toString() } }
+		actionViewModel.failedCount.observe(viewLifecycleOwner) { it?.let { binding.failedCount.text = it.toString() } }
+		actionViewModel.pendingCount.observe(viewLifecycleOwner) { it?.let { binding.pendingCount.text = it.toString() } }
 	}
 
-	private fun setupTopDetailsLayout(action: StyledAction) {
-		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).get(action.getLayoutColor()))
-		topLayout.setTitle(action.public_id, action.status)
-		topLayout.setSubTitle(action.name, action.status)
-		topLayout.setup(action.status, DetailScreenType.ACTION, requireActivity())
+	private fun fillDetails(action: HoverAction) {
+		binding.header.setAction(StyledAction(action))
+		binding.operators.text = action.network_name
+//		binding.longcode.text = action.generateLongcode();
+//		binding.parsersContent = action.pa
+
+		//		if (action.streamlinedSteps != null) stepsText.text =
+		//			action.streamlinedSteps!!.fullUSSDCodeStep
+
+		//		action.parsers?.let { Parser.convertTextToLinks(it, parsersText, this) }
+	}
+
+	private fun fillTransactionDetails(transactions: List<RunnerTransaction>) {
+		if (!transactions.isNullOrEmpty()) setTransactionsList(transactions)
+		else binding.recentHeader.setText(R.string.zero_transactions)
+
+		binding.transactionCount.text = transactions.size.toString()
+
+		//		successText.text = action.successNo
+		//		pendingText.text = action.pendingNo
+		//		failureText.text = action.failedNo
 	}
 
 	private fun setTransactionsList(transactions: List<RunnerTransaction>) {
+		binding.recentHeader.setText(R.string.recent_transactions)
 		binding.transactionRecycler.setLayoutManagerToLinear()
-
-		if (transactions.isEmpty()) {
-			binding.recentHeader.setText(R.string.zero_transactions)
-		} else {
-			binding.recentHeader.setText(R.string.recent_transactions)
-
-			if (transactions.size > maxTransactionListSize) binding.viewAll.visibility = VISIBLE
-			else binding.viewAll.visibility = GONE
-
-			binding.transactionRecycler.adapter = TransactionRecyclerAdapter(transactions, this)
-		}
+		binding.transactionRecycler.adapter = TransactionRecyclerAdapter(transactions, this)
+		binding.viewAll.visibility = if (transactions.size > ActionDetailViewModel.T_LIMIT - 1) VISIBLE else GONE
 	}
 
 	private fun setVariableEditRecyclerAdapter(action: HoverAction) {
@@ -123,33 +106,8 @@ class ActionDetailFragment : BaseFragment(), ParserClickListener,
 		variablesRecyclerView.adapter = VariableRecyclerAdapter(action)
 	}
 
-	private fun setVariableEditsVisibilityGone() {
-		binding.variableLabelGroup1.visibility = GONE
-		binding.variableLabelGroup2.visibility = GONE
-		binding.variableLabelGroup3.visibility = GONE
-	}
-
-	private fun makeVariableEditsVisible() {
-		binding.variableLabelGroup1.visibility = VISIBLE
-		binding.variableLabelGroup2.visibility = VISIBLE
-		binding.variableLabelGroup3.visibility = VISIBLE
-	}
-
-//
-//	private fun setDetailTexts(action: HoverAction) {
-//		operatorsText.text = action.operators
-//		if (action.streamlinedSteps != null) stepsText.text =
-//			action.streamlinedSteps!!.fullUSSDCodeStep
-//
-//		action.parsers?.let { Parser.convertTextToLinks(it, parsersText, this) }
-//		transacText.text = action.transactionsNo
-//		successText.text = action.successNo
-//		pendingText.text = action.pendingNo
-//		failureText.text = action.failedNo
-//	}
-
 	override fun onParserItemClicked(id: String) {
-		findNavController().navigate(R.id.navigation_parserDetails, bundleOf("actionId" to id))
+		findNavController().navigate(R.id.navigation_parserDetails, bundleOf("action_id" to id))
 	}
 
 	override fun onTransactionItemClicked(uuid: String) {
