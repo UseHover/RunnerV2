@@ -85,12 +85,7 @@ class ActionDetailFragment : BaseFragment(), ParserClickListener, TransactionCli
 	private fun fillTransactionDetails(transactions: List<RunnerTransaction>) {
 		if (!transactions.isNullOrEmpty()) setTransactionsList(transactions)
 		else binding.recentHeader.setText(R.string.zero_transactions)
-
 		binding.transactionCount.text = transactions.size.toString()
-
-		//		successText.text = action.successNo
-		//		pendingText.text = action.pendingNo
-		//		failureText.text = action.failedNo
 	}
 
 	private fun setTransactionsList(transactions: List<RunnerTransaction>) {
