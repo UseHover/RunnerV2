@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.hover.runner.R
-import com.hover.runner.transaction.TransactionStatus
+import com.hover.runner.transaction.StatusUIHelper
 import com.hover.runner.utils.RunnerColor
 import com.hover.sdk.transactions.Transaction
 
@@ -21,13 +21,15 @@ abstract class TopDetailsContentChooser(context: Context, attributeSet: Attribut
 	}
 
 	fun getTitleTextColor(status: String): Int {
-		return if (TransactionStatus.hasTransaction(status)) RunnerColor(context).WHITE
-		else RunnerColor(context).DARK
+//		return if (StatusUIHelper.hasTransaction(status)) RunnerColor(context).WHITE
+//		else
+		return RunnerColor(context).DARK
 	}
 
 	fun getTitleTextCompoundDrawable(status: String): Int {
-		return if (TransactionStatus.hasTransaction(status)) R.drawable.ic_arrow_back_white_24dp
-		else R.drawable.ic_arrow_back_black_24dp
+//		return if (StatusUIHelper.hasTransaction(status)) R.drawable.ic_arrow_back_white_24dp
+//		else
+		return R.drawable.ic_arrow_back_black_24dp
 	}
 
 	fun getSubTitleTextColor(status: String): Int {

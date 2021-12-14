@@ -67,7 +67,7 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 		progressBar = binding.recyclerViewState.progressState1
 		emptyInfoLayout = binding.recyclerViewState.emptyInfoLayout
 		emptyStateView = binding.recyclerViewState.layoutForEmptyStateId
-		homeTransactionsRecyclerView = binding.recyclerViewLayout.recyclerViewId
+		homeTransactionsRecyclerView = binding.recyclerView
 	}
 
 	private fun setupRecyclerView() {

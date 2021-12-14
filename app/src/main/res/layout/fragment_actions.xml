@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -7,21 +6,20 @@
 		android:background="@color/colorPrimaryDark"
 		android:layout_marginBottom="55dp"
 		xmlns:tools="http://schemas.android.com/tools"
-		tools:context=".action.fragments.ActionsFragment"
+		tools:context=".actions.ActionsFragment"
 		xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 			android:id="@+id/pullToRefresh"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"
-			android:layout_weight="1"
-			>
+			android:layout_weight="1">
+
 		<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:orientation="vertical"
-				android:paddingTop="4dp"
-				>
+				android:paddingTop="4dp" >
 
 			<LinearLayout
 					android:layout_width="match_parent"
@@ -39,8 +37,7 @@
 						android:textColor="@color/colorHoverWhite"
 						android:text="@string/title_actions"
 						android:paddingHorizontal="@dimen/margin16"
-						android:layout_weight="1"
-						/>
+						android:layout_weight="1" />
 
 				<TextView
 						android:layout_width="wrap_content"
@@ -58,15 +55,18 @@
 			</LinearLayout>
 
 			<include android:id="@+id/recyclerViewState"
+				android:visibility="gone"
 				layout="@layout/recycler_view_state"/>
 
-			<include
+			<androidx.recyclerview.widget.RecyclerView
+				xmlns:android="http://schemas.android.com/apk/res/android"
 				android:id="@+id/recyclerView"
-				layout="@layout/general_recycler_view"
-					android:visibility="gone"/>
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
 
 		</LinearLayout>
 	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="45dp"

@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FilterByNetworkNameBinding
 import com.hover.runner.filter.checkbox.CheckBoxItem
@@ -19,7 +20,7 @@ import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.MessageFormat
 
-class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
+class SelectNetworkNameFragment : Fragment() {
 	private var _binding: FilterByNetworkNameBinding? = null
 	private val binding get() = _binding!!
 
@@ -33,7 +34,7 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 	private lateinit var networksInPresentSimCountryListAdapter: CheckboxItemAdapter
 	private lateinit var networksOutsidePresentSimCountryListAdapter: CheckboxItemAdapter
 
-	private val actionViewModel: ActionViewModel by sharedViewModel()
+	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
 
 	private var filterEnum: FilterForEnum = FilterForEnum.ACTIONS
@@ -49,7 +50,7 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initViews()
-		titleTextView.setOnClickListener { navigateBack() }
+		titleTextView.setOnClickListener { requireActivity().onBackPressed() }
 		setupRecyclerViews()
 		observeNetworkLists()
 		setupSaveFilterClick()
@@ -91,76 +92,64 @@ class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxLi
 				selectedNetworksWithinCountry + selectedNetworksOutsideCountry
 
 			setFilterDataToAppropriateViewModel(totalList)
-			navigateBack()
+			requireActivity().onBackPressed()
 		}
 	}
 
 	private fun setFilterDataToAppropriateViewModel(totalList: List<String>) {
-		if (filterEnum.isForActions()) actionViewModel.filter_UpdateNetworkNameList(totalList)
-		else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateNetworkNameList(
-			totalList)
+//		if (filterEnum.isForActions()) actionsViewModel.filter_UpdateNetworkNameList(totalList)
+//		else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateNetworkNameList(
+//			totalList)
 	}
 
 	private fun observeNetworkLists() {
-		actionViewModel.loadNetworkNames()
+//		actionsViewModel.loadNetworkNames()
 		observeNetworksInPresentSimCountry()
 		observeNetworkOutsidePresentSimCountry()
 	}
 
-	private fun getAlreadySelectedNetworkNames(): List<String> {
-		return if (filterEnum.isForActions()) actionViewModel.getActionFilterParam().networkNameList
-		else transactionViewModel.getTransactionFilterParam().networkNameList
-	}
+//	private fun getAlreadySelectedNetworkNames(): List<String> {
+//		return if (filterEnum.isForActions()) actionsViewModel.getActionFilterParam().networkNameList
+//		else transactionViewModel.getTransactionFilterParam().networkNameList
+//	}
 
 	private fun observeNetworksInPresentSimCountry() {
-		actionViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
-			if (allNetworks != null) {
-				val checkBoxItems = CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
-				setInPresentSimCountryListAdapter(checkBoxItems)
-			}
-		}
+//		actionsViewModel.networksInPresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
+//			if (allNetworks != null) {
+//				val checkBoxItems = CheckBoxItem.toList(allNetworks, getAlreadySelectedNetworkNames())
+//				setInPresentSimCountryListAdapter(checkBoxItems)
+//			}
+//		}
 	}
 
 	private fun observeNetworkOutsidePresentSimCountry() {
-		actionViewModel.networksOutsidePresentSimCountryNamesLiveData.observe(viewLifecycleOwner) { allNetworks ->
-			if (allNetworks != null) {
-				val remainingNetworks = allNetworks - actionViewModel.getNetworksInCountries()
-				val checkBoxItems = CheckBoxItem.toList(remainingNetworks, getAlreadySelectedNetworkNames())
 
-				setOutsidePresentSimCountryListAdapter(checkBoxItems)
-				setOtherCountryVisibility(View.VISIBLE)
-				networksInOtherCountriesTextView.text = MessageFormat.format("+ {0} in other countries", remainingNetworks.size)
-			}
-			else {
-				setOtherCountryVisibility(View.GONE)
-			}
-		}
 	}
 
-	private fun setOtherCountryVisibility(visibility: Int) {
-		networksInOtherCountriesTextView.visibility = visibility
-		networksOutsidePresentSimCountryRecyclerView.visibility = visibility
-	}
+//	private fun setOtherCountryVisibility(visibility: Int) {
+//		networksInOtherCountriesTextView.visibility = visibility
+//		networksOutsidePresentSimCountryRecyclerView.visibility = visibility
+//	}
+//
+//	private fun setInPresentSimCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
+//		networksInPresentSimCountryListAdapter = CheckboxItemAdapter(checkBoxItems, this)
+//		networksInPresentSimCountryRecyclerView.adapter = networksInPresentSimCountryListAdapter
+//	}
+//
+//	private fun setOutsidePresentSimCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
+//		networksOutsidePresentSimCountryListAdapter = CheckboxItemAdapter(checkBoxItems, this, false)
+//		networksOutsidePresentSimCountryRecyclerView.adapter = networksOutsidePresentSimCountryListAdapter
+//	}
 
-	private fun setInPresentSimCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
-		networksInPresentSimCountryListAdapter = CheckboxItemAdapter(checkBoxItems, this)
-		networksInPresentSimCountryRecyclerView.adapter = networksInPresentSimCountryListAdapter
-	}
-
-	private fun setOutsidePresentSimCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
-		networksOutsidePresentSimCountryListAdapter = CheckboxItemAdapter(checkBoxItems, this, false)
-		networksOutsidePresentSimCountryRecyclerView.adapter = networksOutsidePresentSimCountryListAdapter
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-		_binding = null
-	}
-
-	override fun anItemSelected() {
-		if (!anItemWasSelected) {
-			anItemWasSelected = true
-			saveTextView.activateView()
-		}
-	}
+//	override fun onDestroyView() {
+//		super.onDestroyView()
+//		_binding = null
+//	}
+//
+//	override fun anItemSelected() {
+//		if (!anItemWasSelected) {
+//			anItemWasSelected = true
+//			saveTextView.activateView()
+//		}
+//	}
 }

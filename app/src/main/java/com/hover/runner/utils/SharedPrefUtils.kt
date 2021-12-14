@@ -32,7 +32,7 @@ object SharedPrefUtils {
 		}
 
 		fun getSavedString(key: String?, c: Context): String? {
-			return getSharedPrefs(c).getString(key, "")
+			return getSharedPrefs(c).getString(key, null)
 		}
 
 		fun saveInt(key: String?, value: Int, c: Context) {

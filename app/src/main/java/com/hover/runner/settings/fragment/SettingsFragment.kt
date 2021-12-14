@@ -116,7 +116,6 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 	}
 
 	private fun observeSimNames() {
-		simViewModel.getPresentSims()
 		simViewModel.presentSimsLiveData.observe(viewLifecycleOwner) { simNames ->
 			if (simNames != null) {
 				val emptySimValue = resources.getString(R.string.no_sim_found)
@@ -124,6 +123,7 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 				if (simNames.size > 1) sim2NameText.text = simNames[1]
 			}
 		}
+		simViewModel.getPresentSims()
 	}
 
 

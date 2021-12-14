@@ -228,7 +228,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/margin16"
                 android:text="@string/recent_transactions"
-                android:id="@+id/recentTransa_id"
+                android:id="@+id/recentHeader"
                 android:textColor="@color/colorHoverWhite"
                 android:textSize="@dimen/text_17"
                 android:textStyle="bold"

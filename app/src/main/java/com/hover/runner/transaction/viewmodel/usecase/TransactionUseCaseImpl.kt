@@ -48,8 +48,8 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 			val detailsList = mutableListOf<TransactionDetailsInfo>()
 			with(detailsList) {
 				add(TransactionDetailsInfo("Status", status, false))
-				add(TransactionDetailsInfo("Action", action.title, true))
-				add(TransactionDetailsInfo("ActionID", action.id, true))
+				add(TransactionDetailsInfo("Action", action.name, true))
+				add(TransactionDetailsInfo("ActionID", action.public_id, true))
 				add(TransactionDetailsInfo("Time", getDate() ?: "", false))
 				add(TransactionDetailsInfo("TransactionId", uuid, false))
 				add(TransactionDetailsInfo("Result", lastTransaction!!.last_message_hit!!, false))
@@ -108,7 +108,7 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 		val action = transactionRepoInterface.getAction(runnerTransaction.action_id)
 		val hoverTransaction = transactionRepoInterface.getHoverTransaction(runnerTransaction.uuid)
 		val arrayOfStringArray =
-			getMessages(action.rootCode, getSMSMessages(hoverTransaction), hoverTransaction)
+			getMessages(action.root_code, getSMSMessages(hoverTransaction), hoverTransaction)
 
 		return getMessagesModel(arrayOfStringArray)
 	}

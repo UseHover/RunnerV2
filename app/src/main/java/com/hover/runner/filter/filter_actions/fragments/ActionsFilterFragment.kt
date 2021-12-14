@@ -12,7 +12,7 @@ import androidx.core.util.Pair
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hover.runner.R
-import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.ActionFilterFragmentBinding
 import com.hover.runner.filter.enumValue.FilterForEnum
@@ -25,6 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
 class ActionsFilterFragment : BaseFragment() {
+
 	private lateinit var loadingProgressBar: ProgressBar
 	private lateinit var resetTextView: TextView
 	private lateinit var countryEntryTextView: TextView
@@ -43,16 +44,14 @@ class ActionsFilterFragment : BaseFragment() {
 	private lateinit var showActionsTextView: TextView
 
 	private var timer = Timer()
-	private val actionViewModel: ActionViewModel by sharedViewModel()
+	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 
 	private lateinit var filterActionNavigationInterface: FilterActionNavigationInterface
 
 	private var _binding: ActionFilterFragmentBinding? = null
 	private val binding get() = _binding!!
 
-	override fun onCreateView(inflater: LayoutInflater,
-	                          container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = ActionFilterFragmentBinding.inflate(inflater, container, false)
 		initNavigationInterface()
 		return binding.root
@@ -65,7 +64,6 @@ class ActionsFilterFragment : BaseFragment() {
 		setupFilterSelections()
 		setupResetFilter()
 		observeFilterParameters()
-		setupShowFilteredActions()
 		observeFilterActions()
 	}
 
@@ -97,23 +95,15 @@ class ActionsFilterFragment : BaseFragment() {
 		resetTextView.underline()
 	}
 
-	private fun setupShowFilteredActions() {
-		showActionsTextView.setOnClickListener {
-			val filteredActions = actionViewModel.filter_getActions()
-			actionViewModel.updateActionsLiveData(filteredActions)
-			navigateBack()
-		}
-	}
-
 	private fun setupFilterSelections() {
 		setupFilterEntryBoxSelections()
 		setupCheckboxSelections()
 	}
 
 	private fun observeFilterParameters() {
-		actionViewModel.actionFilterParametersMutableLiveData.observe(viewLifecycleOwner) {
-			updateFilterEntryData(it)
-			updateFilterCheckboxes(it)
+		actionsViewModel.filterString.observe(viewLifecycleOwner) {
+			updateFilterEntryData(actionsViewModel.generateFilterMap())
+			updateFilterCheckboxes(actionsViewModel.generateFilterMap())
 		}
 	}
 
@@ -123,7 +113,7 @@ class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun observeFilterData() {
-		actionViewModel.filteredActionsMutableLiveData.observe(viewLifecycleOwner) { actions ->
+		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
 			if (actions != null) {
 				with(showActionsTextView) {
 					if (actions.isNotEmpty()) {
@@ -146,8 +136,8 @@ class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun observeFilterLoadingStatus() {
-		actionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
-			if (!hasLoaded) {
+		actionsViewModel.allActions.observe(viewLifecycleOwner) {
+			if (!it.isNullOrEmpty()) {
 				with(showActionsTextView) {
 					isClickable = false
 					setBackgroundColor(resources.getColor(R.color.colorPrimary))
@@ -163,61 +153,53 @@ class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun handleResetTextClick() {
-		actionViewModel.getAllActions()
-		actionViewModel.filter_reset()
+		actionsViewModel.setFilter(null)
 	}
 
 	private fun observeForResetTextView() {
-		actionViewModel.actionsParentTotalLiveData.observe(viewLifecycleOwner) {
-			if (actionViewModel.filter_actionsTotal() != 0 && actionViewModel.filter_actionsTotal() < it) activateReset()
-			else deactivateReset()
+//		actionsViewModel.actionsParentTotalLiveData.observe(viewLifecycleOwner) {
+//			if (actionsViewModel.filteredActions.value?.size != actionsViewModel.allActions.value?.size)
+//				activateReset()
+//			else deactivateReset()
+//		}
+	}
+
+	private fun updateFilterEntryData(filterMap: Map<String, String>) {
+		with(filterMap) {
+//			searchActionEditText.setText(getActionIdOrRootCode())
+//			countryEntryTextView.text = getCountryListAsString()
+//			categoryEntryTextView.text = getCategoryListAsString()
+//			networkEntryTextView.text = getNetworkNamesAsString()
+//			datePickerTextView.text = getDateRangeValue(requireContext())
 		}
 	}
 
-	private fun updateFilterEntryData(parameters: ActionFilterParameters) {
-		with(parameters) {
-			searchActionEditText.setText(getActionIdOrRootCode())
-			countryEntryTextView.text = getCountryListAsString()
-			categoryEntryTextView.text = getCategoryListAsString()
-			networkEntryTextView.text = getNetworkNamesAsString()
-			datePickerTextView.text = getDateRangeValue(requireContext())
-		}
-	}
-
-	private fun updateFilterCheckboxes(parameters: ActionFilterParameters) {
-		with(parameters) {
-			successCheckBox.isChecked = isTransactionSuccessfulIncluded()
-			pendingCheckBox.isChecked = isTransactionPendingIncluded()
-			failureCheckBox.isChecked = isTransactionFailedIncluded()
-			noTransactionCheckBox.isChecked = hasNoTransaction
-			hasParserCheckBox.isChecked = hasParser
-			onlyWithSimPresentCheckBox.isChecked = onlyWithSimPresent
+	private fun updateFilterCheckboxes(filterMap: Map<String, String>) {
+		with(filterMap) {
+//			successCheckBox.isChecked = isTransactionSuccessfulIncluded()
+//			pendingCheckBox.isChecked = isTransactionPendingIncluded()
+//			failureCheckBox.isChecked = isTransactionFailedIncluded()
+//			noTransactionCheckBox.isChecked = hasNoTransaction
+//			hasParserCheckBox.isChecked = hasParser
+//			onlyWithSimPresentCheckBox.isChecked = onlyWithSimPresent
 		}
 	}
 
 	private fun setupCheckboxSelections() {
-		successCheckBox.setOnCheckedChangeListener { _, checked: Boolean ->
-			actionViewModel.filter_IncludeSucceededTransactions(checked)
-		}
-		pendingCheckBox.setOnCheckedChangeListener { _, checked ->
-			actionViewModel.filter_IncludePendingTransactions(checked)
-		}
-		failureCheckBox.setOnCheckedChangeListener { _, checked ->
-			actionViewModel.filter_IncludeFailedTransactions(checked)
-		}
-		noTransactionCheckBox.setOnCheckedChangeListener { _, checked ->
-			actionViewModel.filter_IncludeActionsWithNoTransaction(checked)
-		}
-		hasParserCheckBox.setOnCheckedChangeListener { _, checked ->
-			actionViewModel.filter_IncludeActionsWithParsers(checked)
-		}
-		onlyWithSimPresentCheckBox.setOnCheckedChangeListener { _, checked ->
-			actionViewModel.filter_ShowOnlyActionsWithSimPresent(checked)
-		}
+		successCheckBox.setOnCheckedChangeListener { _, checked -> toggleFilter("Succeeded", checked) }
+		pendingCheckBox.setOnCheckedChangeListener { _, checked -> toggleFilter("Pending", checked) }
+		failureCheckBox.setOnCheckedChangeListener { _, checked -> toggleFilter("Failed", checked) }
+		noTransactionCheckBox.setOnCheckedChangeListener { _, checked -> toggleFilter("Empty", checked) }
+		hasParserCheckBox.setOnCheckedChangeListener { _, checked -> toggleFilter("hasParsers", checked) }
+		onlyWithSimPresentCheckBox.setOnCheckedChangeListener { _, checked -> toggleFilter("simPresent", checked) }
+	}
+
+	private fun toggleFilter(name: String, checked: Boolean) {
+		actionsViewModel.addFilter(name, checked)
 	}
 
 	private fun setupFilterEntryBoxSelections() {
-		searchActionEditText.addTextChangedListener(searchActionEditTextWatcher)
+//		searchActionEditText.addTextChangedListener(searchActionEditTextWatcher)
 		countryEntryTextView.setOnClickListener {
 			filterActionNavigationInterface.navigateToSelectCountriesFragment(FilterForEnum.ACTIONS)
 		}
@@ -241,25 +223,9 @@ class ActionsFilterFragment : BaseFragment() {
 
 		val picker = builder.setTitleText(resources.getString(R.string.selected_range)).build()
 		picker.addOnPositiveButtonClickListener { selection: Pair<Long, Long>? ->
-			selection?.let { actionViewModel.filter_UpdateDateRange(it.first, it.second) }
+//			selection?.let { actionsViewModel.setDate(it.first, it.second) }
 		}
 		return picker
-	}
-
-	private val searchActionEditTextWatcher = object : TextWatcher {
-		override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-			timer.cancel()
-			timer = Timer()
-			val throttle: Long = 1500
-			timer.schedule(object : TimerTask() {
-				override fun run() {
-					if (s.isNotEmpty()) actionViewModel.filter_byActionSearch(s.toString())
-				}
-			}, throttle)
-		}
-
-		override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {} //No code needed here, but required to implement the method
-		override fun afterTextChanged(s: Editable) {} //No code needed here, but required to implement the method
 	}
 
 	private fun deactivateReset() {

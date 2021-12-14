@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.hover.runner.R
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
@@ -15,10 +16,9 @@ import com.hover.sdk.api.Hover
 import com.hover.sdk.permissions.PermissionActivity
 import timber.log.Timber
 
-class MainActivity : AbstractNavigationActivity() {
+class MainActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityMainBinding
-	val permission_acceptance_incomplete = "You did not allow all permissions"
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -27,11 +27,6 @@ class MainActivity : AbstractNavigationActivity() {
 		setContentView(binding.root)
 		checkForPermissions()
 		redirectIfRequired()
-	}
-
-	override fun onResume() {
-		super.onResume()
-		setupNavigation()
 	}
 
 	private fun redirectIfRequired() {
@@ -49,12 +44,11 @@ class MainActivity : AbstractNavigationActivity() {
 	}
 
 	private fun checkForPermissions() {
-		val resultLauncher =
-			registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-				if (result.resultCode != Activity.RESULT_OK) {
-					UIHelper.flashMessage(this, currentFocus, permission_acceptance_incomplete)
-				}
+		val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+			if (result.resultCode != Activity.RESULT_OK) {
+				UIHelper.flashMessage(this, currentFocus, getString(R.string.permissions_not_granted))
 			}
+		}
 		if (isLoggedIn() && !PermissionsUtil.hasPermissions(this,
 		                                                    arrayOf(Manifest.permission.READ_PHONE_STATE,
 		                                                            Manifest.permission.CALL_PHONE))) {

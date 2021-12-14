@@ -9,7 +9,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
-import com.hover.runner.action.navigation.ActionNavigationInterface
 import com.hover.runner.filter.enumValue.FilterForEnum
 import com.hover.runner.filter.filter_actions.navigation.FilterActionNavigationInterface
 import com.hover.runner.filter.filter_transactions.navigation.FilterTransactionNavigationInterface
@@ -19,7 +18,7 @@ import com.hover.runner.settings.navigation.SettingsNavigationInterface
 import com.hover.runner.transaction.navigation.TransactionNavigationInterface
 import com.hover.runner.webview.WebViewActivity
 
-abstract class AbstractNavigationActivity : SDKCallerActivity(), ActionNavigationInterface,
+abstract class AbstractNavigationActivity : SDKCallerActivity(),
 	TransactionNavigationInterface, ParserNavigationInterface, SettingsNavigationInterface,
 	FilterActionNavigationInterface, FilterTransactionNavigationInterface {
 	private lateinit var navController: NavController
@@ -41,19 +40,11 @@ abstract class AbstractNavigationActivity : SDKCallerActivity(), ActionNavigatio
 		navController.navigate(R.id.navigation_actionDetails, bundle, null, null)
 	}
 
-	override fun navUnCompletedVariableFragment() {
-		navController.navigate(R.id.navigation_uncompletedVariableFragment)
-	}
-
-	override fun navActionFilterFragment() {
-		navController.navigate(R.id.navigation_actionFilter)
-	}
-
 	override fun navLoginAndFinish() {
 		startActivity(Intent(this, LoginActivity::class.java))
 	}
 
-	override fun navWebView(title: String, url: String) {
+	fun navWebView(title: String, url: String) {
 		val i = Intent(this, WebViewActivity::class.java)
 		i.putExtra(WebViewActivity.TITLE, title)
 		i.putExtra(WebViewActivity.URL, url)
@@ -69,10 +60,6 @@ abstract class AbstractNavigationActivity : SDKCallerActivity(), ActionNavigatio
 
 	override fun navigateTransactionFilterFragment() {
 		navController.navigate(R.id.navigation_transactionsFilter)
-	}
-
-	override fun navTransactionListFragment(filterByActionId: String) {
-		TODO("Not yet implemented")
 	}
 
 	override fun navTransactionDetails(uuid: String) {

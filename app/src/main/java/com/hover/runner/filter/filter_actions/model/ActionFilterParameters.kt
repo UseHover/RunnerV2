@@ -56,19 +56,6 @@ data class ActionFilterParameters(var actionId: String = "",
 		return Utils.toString(categoryList)
 	}
 
-	fun isTransactionSuccessfulIncluded(): Boolean {
-		return transactionSuccessful.isNotEmpty()
-	}
-
-	fun isTransactionPendingIncluded(): Boolean {
-		return transactionPending.isNotEmpty()
-	}
-
-	fun isTransactionFailedIncluded(): Boolean {
-		return transactionFailed.isNotEmpty()
-	}
-
-
 	companion object {
 		fun getDefault(): ActionFilterParameters {
 			return ActionFilterParameters()

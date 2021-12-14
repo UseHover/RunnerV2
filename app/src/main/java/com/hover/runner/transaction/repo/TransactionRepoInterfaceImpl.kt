@@ -2,8 +2,8 @@ package com.hover.runner.transaction.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.hover.runner.action.models.Action
-import com.hover.runner.action.repo.ActionRepo
+import com.hover.runner.actions.StyledAction
+import com.hover.runner.database.ActionRepo
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.utils.Utils
@@ -47,10 +47,10 @@ class TransactionRepoInterfaceImpl(private val repo: TransactionRepo,
 		return repo.getLastTransaction(actionId)
 	}
 
-	override suspend fun getAction(actionId: String): Action {
+	override suspend fun getAction(actionId: String): StyledAction {
 		val hoverAction = actionRepo.getHoverAction(actionId)
 		val lastTransaction = repo.getLastTransaction(actionId)
-		return Action.get(hoverAction, lastTransaction, context)
+		return StyledAction(hoverAction)
 	}
 
 	override suspend fun getDeviceId(): String {

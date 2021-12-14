@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.action.listeners.ActionClickListener
 import com.hover.runner.customViews.detailsTopLayout.DetailScreenType
 import com.hover.runner.customViews.detailsTopLayout.RunnerTopDetailsView
 import com.hover.runner.databinding.TransactionDetailsFragmentBinding
@@ -24,7 +23,7 @@ import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickListener {
+class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	private var _binding: TransactionDetailsFragmentBinding? = null
 	private val binding get() = _binding!!
 
@@ -135,18 +134,18 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
 
 	private fun setAboutInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
 		aboutInfoAdapter =
-			TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this, true)
+			TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, null)
 		aboutInfoRecyclerView.adapter = aboutInfoAdapter
 	}
 
 	private fun setDeviceInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-		deviceInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
+		deviceInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, null)
 		deviceInfoRecyclerView.adapter = deviceInfoAdapter
 		deviceInfoRecyclerView.visibility = View.VISIBLE
 	}
 
 	private fun setDebugInfoAdapter(transactionDetailsInfo: List<TransactionDetailsInfo>) {
-		debugInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, this)
+		debugInfoAdapter = TransactionDetailsRecyclerAdapter(transactionDetailsInfo, this, null)
 		debugInfoRecyclerView.adapter = debugInfoAdapter
 		debugInfoRecyclerView.visibility = View.VISIBLE
 	}
@@ -161,12 +160,7 @@ class TransactionDetailsFragment : Fragment(), ActionClickListener, ParserClickL
 		_binding = null
 	}
 
-	override fun onActionItemClick(actionId: String, titleTextView: View) {
-		transactionNavigationInterface.navActionDetails(actionId, titleTextView)
-	}
-
 	override fun onParserItemClicked(id: String) {
-		transactionNavigationInterface.navParserDetailsFragment(aboutInfoAdapter.getActionId(),
-		                                                        id.toInt())
+		transactionNavigationInterface.navParserDetailsFragment(aboutInfoAdapter.getActionId(), id.toInt())
 	}
 }

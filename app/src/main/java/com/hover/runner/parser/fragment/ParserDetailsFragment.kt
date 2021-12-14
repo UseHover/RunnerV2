@@ -69,7 +69,6 @@ class ParserDetailsFragment : BaseFragment(), TransactionClickListener {
 		senderText = binding.parserSenderContent
 		regexText = binding.parserRegexContent
 		toolBarText = binding.parserDetailsToolbarText
-		recentTransText = binding.recentTransaId
 		transactionRecyclerView = binding.parserTransacRecyclerView
 	}
 

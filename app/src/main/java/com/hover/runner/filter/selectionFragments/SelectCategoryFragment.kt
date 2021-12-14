@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FilterByCategoriesBinding
 import com.hover.runner.filter.checkbox.CheckBoxItem
@@ -27,7 +27,7 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
 	private lateinit var categoryRecyclerView: RecyclerView
 	private lateinit var categoryListAdapter: CheckboxItemAdapter
 
-	private val actionViewModel: ActionViewModel by sharedViewModel()
+	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater,
@@ -60,7 +60,7 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
 			val selectedCategories = categoryListAdapter.getCheckedItemTitles()
 
 
-			actionViewModel.filter_UpdateCategoryList(selectedCategories)
+			actionsViewModel.addFilter("cats", selectedCategories.isNotEmpty())
 			navigateBack()
 		}
 	}
@@ -73,11 +73,11 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
 	private fun observeCategoryList() {
 		transactionViewModel.loadDistinctCategories()
 		transactionViewModel.distinctCategoryMutableLiveData.observe(viewLifecycleOwner) { allCategories ->
-			if (allCategories != null) {
-				val filterParameters: ActionFilterParameters = actionViewModel.getActionFilterParam()
-				val checkBoxItems = CheckBoxItem.toList(allCategories, filterParameters.categoryList)
-				setCategoryListAdapter(checkBoxItems)
-			}
+//			if (allCategories != null) {
+//				val filterParameters: ActionFilterParameters = actionsViewModel.filterMap.value
+//				val checkBoxItems = CheckBoxItem.toList(allCategories, filterParameters.categoryList)
+//				setCategoryListAdapter(checkBoxItems)
+//			}
 		}
 	}
 

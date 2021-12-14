@@ -8,6 +8,7 @@
 	<string name="transaction_details">Action details</string>
 	<string name="parser_details">Parser details</string>
 
+	<string name="permissions_not_granted">You will need to grant permissions to have full functionality.</string>
 
 	<string name="title_filter">Filter Actions</string>
 	<string name="title_filter_trans">Filter transactions</string>
@@ -173,5 +174,5 @@
 	<string name="INVALID_PASSWORD">Invalid password format. Ensure password has a minimum of 5 letters with no space</string>
 	<string name="NO_NETWORK">Internet connection not found</string>
 	<string name="transaction_coming_up">Transaction coming right up…</string>
-	<string name="uncompleted_variable_unfilled">Please fill in empty variable</string>
+	<string name="summary_incomplete">Please fill in all empty variables</string>
 </resources>

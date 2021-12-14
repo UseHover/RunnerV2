@@ -245,7 +245,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/recent_transactions"
-                        android:id="@+id/recentTransa_id"
+                        android:id="@+id/recentHeader"
                         android:textColor="@color/colorHoverWhite"
                         android:textSize="@dimen/text_17"
                         android:textStyle="bold"
@@ -258,7 +258,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/view_all"
-                        android:id="@+id/viewAll_id"
+                        android:id="@+id/viewAll"
                         android:visibility="gone"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
@@ -272,14 +272,14 @@
                     android:layout_height="1dp"
                     android:background="@color/colorPrimary"
                     android:layout_marginVertical="8dp"
-                    android:layout_marginHorizontal="@dimen/margin16"
-                    />
+                    android:layout_marginHorizontal="@dimen/margin16" />
+
             <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="@dimen/margin16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    android:id="@+id/action_transac_recyclerView"/>
+                    android:id="@+id/transaction_recycler"/>
 
         </LinearLayout>
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FilterByCountryBinding
 import com.hover.runner.filter.checkbox.CheckBoxItem
@@ -30,7 +30,7 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 	private lateinit var countryListAdapter: CheckboxItemAdapter
 	private var filterEnum: FilterForEnum = FilterForEnum.ACTIONS
 
-	private val actionViewModel: ActionViewModel by sharedViewModel()
+	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater,
@@ -74,30 +74,29 @@ class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListSt
 	private fun setupSaveFilterClick() {
 		saveTextView.setOnClickListener {
 			val selectedCountries = countryListAdapter.getCheckedItemTitles()
-			setFilterDataToAppropriateViewModel(selectedCountries)
+//			setFilterDataToAppropriateViewModel(selectedCountries)
 			navigateBack()
 		}
 	}
 
-	private fun setFilterDataToAppropriateViewModel(selectedCountries: List<String>) {
-		if (filterEnum.isForActions()) actionViewModel.filter_UpdateCountryCodeList(selectedCountries)
-		else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateCountryCodeList(selectedCountries)
-	}
+//	private fun setFilterDataToAppropriateViewModel(selectedCountries: List<String>) {
+//		if (filterEnum.isForActions()) actionsViewModel.filter_UpdateCountryCodeList(selectedCountries)
+//		else if (filterEnum.isForTransactions()) transactionViewModel.filter_UpdateCountryCodeList(selectedCountries)
+//	}
 
 	private fun observeCountryList() {
-		actionViewModel.loadDistinctCountries()
-		actionViewModel.countryListMutableLiveData.observe(viewLifecycleOwner) { allCountries ->
-			if (allCountries != null) {
-				val checkBoxItems = CheckBoxItem.toList(allCountries, getAlreadyCheckedCountries())
-				setCountryListAdapter(checkBoxItems)
-			}
-		}
+//		actionsViewModel.countryListMutableLiveData.observe(viewLifecycleOwner) { allCountries ->
+//			if (allCountries != null) {
+//				val checkBoxItems = CheckBoxItem.toList(allCountries, getAlreadyCheckedCountries())
+//				setCountryListAdapter(checkBoxItems)
+//			}
+//		}
 	}
 
-	private fun getAlreadyCheckedCountries(): List<String> {
-		return if (filterEnum.isForActions())  actionViewModel.getActionFilterParam().countryCodeList
-		else transactionViewModel.getTransactionFilterParam().countryCodeList
-	}
+//	private fun getAlreadyCheckedCountries(): List<String> {
+//		return if (filterEnum.isForActions())  actionsViewModel.getActionFilterParam().countryCodeList
+//		else transactionViewModel.getTransactionFilterParam().countryCodeList
+//	}
 
 	private fun setCountryListAdapter(checkBoxItems: List<CheckBoxItem>) {
 		countryListAdapter = CheckboxItemAdapter(checkBoxItems, this)

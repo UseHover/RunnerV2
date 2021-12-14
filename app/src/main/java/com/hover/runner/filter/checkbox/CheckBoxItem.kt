@@ -1,6 +1,6 @@
 package com.hover.runner.filter.checkbox
 
-import com.hover.runner.action.models.Action
+import com.hover.sdk.actions.HoverAction
 import kotlin.random.Random
 
 data class CheckBoxItem(val title: String, var isChecked: Boolean, var subTitle: String = "") {
@@ -16,12 +16,11 @@ data class CheckBoxItem(val title: String, var isChecked: Boolean, var subTitle:
 			return checkBoxItems
 		}
 
-		fun toListByActions(allActions: List<Action>,
-		                    actionsIdInFilter: List<String>): List<CheckBoxItem> {
+		fun toListByActions(allActions: List<HoverAction>, actionsIdInFilter: List<String>): List<CheckBoxItem> {
 			val checkBoxItems = mutableListOf<CheckBoxItem>()
 			allActions.forEach {
-				val isChecked = actionsIdInFilter.contains(it.id)
-				checkBoxItems.add(CheckBoxItem(it.id, isChecked, it.title))
+				val isChecked = actionsIdInFilter.contains(it.public_id)
+				checkBoxItems.add(CheckBoxItem(it.public_id, isChecked, it.name))
 			}
 			return checkBoxItems
 		}

@@ -16,8 +16,7 @@ class TransactionReceiver : BroadcastReceiver(), KoinComponent {
 	override fun onReceive(context: Context?, intent: Intent?) {
 		intent?.let {
 			CoroutineScope(Dispatchers.IO).launch {
-				if (context != null) repo.insertOrUpdateTransaction(intent,
-				                                                    context.applicationContext)
+				if (context != null) repo.insertOrUpdateTransaction(intent, context.applicationContext)
 			}
 		}
 	}

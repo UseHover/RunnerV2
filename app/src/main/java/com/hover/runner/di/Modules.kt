@@ -1,9 +1,8 @@
 package com.hover.runner.di
 
-import com.hover.runner.action.repo.ActionRepo
-import com.hover.runner.action.repo.ActionRepoInterfaceImpl
-import com.hover.runner.action.viewmodel.ActionViewModel
-import com.hover.runner.action.viewmodel.usecase.ActionUseCaseImpl
+import com.hover.runner.actionDetail.ActionDetailViewModel
+import com.hover.runner.database.ActionRepo
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.database.AppDatabase
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
@@ -40,10 +39,11 @@ val appModule = module {
 	}
 
 	viewModel {
-		val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
-		val actionUseCaseImpl =
-			ActionUseCaseImpl(ActionRepoInterfaceImpl(get(), get(), get(), get()))
-		ActionViewModel(actionUseCaseImpl, simUseCaseImpl)
+		ActionsViewModel(get(), get())
+	}
+
+	viewModel {
+		ActionDetailViewModel(get(), get())
 	}
 
 	viewModel {

@@ -5,31 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
-import com.hover.runner.action.listeners.ActionClickListener
+import com.hover.runner.actions.StyledAction
 import com.hover.runner.parser.listeners.ParserClickListener
-import com.hover.runner.transaction.TransactionStatus
+import com.hover.runner.transaction.StatusUIHelper
 import com.hover.runner.transaction.model.TransactionDetailsInfo
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.TextViewUtils.Companion.underline
+import com.hover.sdk.actions.HoverAction
 
 
 class TransactionDetailsRecyclerAdapter(private val infoList: List<TransactionDetailsInfo>,
-                                        private val actionClickListener: ActionClickListener,
                                         private val parserClickListener: ParserClickListener,
-                                        private var hasActionId: Boolean = false) :
+                                        private val action: HoverAction?) :
 	RecyclerView.Adapter<TransactionDetailsRecyclerAdapter.TDViewHolder>() {
 
 	private lateinit var actionId: String
 	private lateinit var actionName: String
 
 	init {
-		if (hasActionId) {
-			infoList.forEach {
-				if (it.label == "ActionID") actionId = it.value
-				if (it.label == "Action") actionName = it.value
-			}
+		infoList.forEach {
+			if (it.label == "ActionID") actionId = it.value
+			if (it.label == "Action") actionName = it.value
 		}
 	}
 
@@ -48,15 +48,15 @@ class TransactionDetailsRecyclerAdapter(private val infoList: List<TransactionDe
 		holder.label.text = info.label
 		holder.value.text = info.value
 
-		if (info.label == "Status") {
-			holder.value.setTextColor(RunnerColor(holder.itemView.context).get(TransactionStatus.getColor(
+		if (info.label == "Status" && action != null) {
+			holder.value.setTextColor(RunnerColor(holder.itemView.context).get(StyledAction(action).getColor(
 				info.value)))
 		}
 
 		if (info.clickable) {
 			holder.value.underline()
 			if (info.label.contains("Action")) holder.value.setOnClickListener {
-				actionClickListener.onActionItemClick(actionId, holder.value)
+				holder.itemView.findNavController().navigate(R.id.navigation_actionDetails, bundleOf("action_id" to actionId))
 			}
 			else holder.value.setOnClickListener { parserClickListener.onParserItemClicked(info.value) }
 		}

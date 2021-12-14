@@ -1,5 +1,6 @@
-package com.hover.runner.action.repo
+package com.hover.runner.database
 
+import androidx.lifecycle.LiveData
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
@@ -7,6 +8,10 @@ import timber.log.Timber
 class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 	suspend fun getAllActionsFromHover(): List<HoverAction> {
 		return sdkDB.actionDao().all
+	}
+
+	suspend fun getAllActions(): LiveData<List<HoverAction>> {
+		return sdkDB.actionDao().allLive
 	}
 
 	suspend fun getHoverAction(id: String): HoverAction {

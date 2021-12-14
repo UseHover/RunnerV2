@@ -8,13 +8,13 @@
 	<!--Actions -->
 	<fragment
 		android:id="@+id/navigation_actions"
-		android:name="com.hover.runner.action.fragments.ActionsFragment"
+		android:name="com.hover.runner.actions.ActionsFragment"
 		android:label="@string/title_actions"
 		tools:layout="@layout/fragment_actions" />
 
 	<fragment
 		android:id="@+id/navigation_actionDetails"
-		android:name="com.hover.runner.action.fragments.ActionDetailsFragment"
+		android:name="com.hover.runner.actionDetail.ActionDetailFragment"
 		android:label="@string/action_details"
 		tools:layout="@layout/action_details_fragment">
 		<argument
@@ -24,9 +24,9 @@
 
 	<fragment
 		android:id="@+id/navigation_uncompletedVariableFragment"
-		android:name="com.hover.runner.action.fragments.UnCompletedVariablesFragment"
+		android:name="com.hover.runner.actions.fragments.UnCompletedVariablesFragment"
 		android:label="@string/uncompleted_variable_notice"
-		tools:layout="@layout/uncompleted_variable_fragment_layout">
+		tools:layout="@layout/run_summary_fragment_layout">
 	</fragment>
 
 	<fragment

@@ -1,4 +1,4 @@
-package com.hover.runner.action.utils
+package com.hover.runner.actions
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,14 +9,12 @@ import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
 import timber.log.Timber
 
-internal class UpdateHoverActions(private val listener: Hover.DownloadListener,
-                                  private val context: Context) {
+internal class UpdateHoverActions(private val listener: Hover.DownloadListener, private val context: Context) {
 
 	fun init() {
+//		actionUpdateReceiver must be unregistered in onDestroyed method in most cases, so this will memory leak
 		LocalBroadcastManager.getInstance(context).registerReceiver(actionUpdateReceiver,
-		                                                            IntentFilter(Utils.getPackage(
-			                                                            context)
-			                                                                         .toString() + ".ACTIONS_DOWNLOADED"))
+				IntentFilter(Utils.getPackage(context).toString() + ".ACTIONS_DOWNLOADED"))
 		Hover.updateActionConfigs(listener, context)
 	}
 

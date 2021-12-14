@@ -8,7 +8,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.hover.runner.R
-import com.hover.runner.transaction.TransactionStatus
+import com.hover.runner.transaction.StatusUIHelper
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover
@@ -44,7 +44,7 @@ constructor(
 	@PrimaryKey(autoGenerate = true) @NonNull @JvmField var id: Int = 0
 
 
-) : TransactionStatus() {
+) : StatusUIHelper {
 
 	fun update(data: Intent, context: Context) {
 		status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!

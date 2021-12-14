@@ -1,4 +1,4 @@
-package com.hover.runner.action.fragments
+package com.hover.runner.testRun
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,27 +7,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
-import com.hover.runner.action.adapters.VariableRecyclerAdapter
-import com.hover.runner.action.listeners.ActionVariableEditListener
-import com.hover.runner.action.models.Action
-import com.hover.runner.action.models.ActionVariablesCache
-import com.hover.runner.action.models.StreamlinedSteps
-import com.hover.runner.action.viewmodel.ActionViewModel
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
-import com.hover.runner.databinding.UncompletedVariableFragmentLayoutBinding
+import com.hover.runner.databinding.RunSummaryFragmentLayoutBinding
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
-import org.json.JSONArray
+import com.hover.sdk.actions.HoverAction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
-class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener {
-	private var _binding: UncompletedVariableFragmentLayoutBinding? = null
+class RunSummaryFragment : BaseFragment() {
+	private var _binding: RunSummaryFragmentLayoutBinding? = null
 	private val binding get() = _binding!!
 
-	private val actionViewModel: ActionViewModel by sharedViewModel()
+	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 
 	private var timer = Timer()
 	private var initialUncompletedSize: Int = 0
@@ -43,11 +38,9 @@ class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener 
 	private lateinit var variablesRecyclerView: RecyclerView
 
 
-	override fun onCreateView(inflater: LayoutInflater,
-	                          container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).RED)
-		_binding = UncompletedVariableFragmentLayoutBinding.inflate(inflater, container, false)
+		_binding = RunSummaryFragmentLayoutBinding.inflate(inflater, container, false)
 		return binding.root
 	}
 
@@ -58,7 +51,6 @@ class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener 
 		setToolBarClick()
 		observePositionedAction()
 		setupSaveContinue()
-		setupSkipText()
 	}
 
 	private fun initViews() {
@@ -83,7 +75,7 @@ class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener 
 	}
 
 	private fun observePositionedAction() {
-		actionViewModel.actionsWithUCV_LiveData.observe(viewLifecycleOwner) {
+		actionsViewModel.incompleteActions.observe(viewLifecycleOwner) {
 			if (it.isEmpty()) navigateBack()
 			else {
 				if (initialUncompletedSize == 0) initialUncompletedSize = it.size
@@ -98,9 +90,9 @@ class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener 
 		return resources.getString(if (actionListSize == 1) R.string.act_missing_info_singular else R.string.act_missing_info_pluarl)
 	}
 
-	private fun setDetailsText(currentAction: Action, listSize: Int) {
-		toolBarText.text = currentAction.id
-		subtoolBarText.text = currentAction.title
+	private fun setDetailsText(currentAction: HoverAction, listSize: Int) {
+		toolBarText.text = currentAction.public_id
+		subtoolBarText.text = currentAction.name
 		descTitleText.text =
 			String.format(Locale.ENGLISH, "%d %s", listSize, getDescriptionSuffix(listSize))
 		descContentText.text = String.format(Locale.getDefault(), "%d actions left ", listSize)
@@ -109,58 +101,22 @@ class UnCompletedVariablesFragment : BaseFragment(), ActionVariableEditListener 
 
 	private fun setupSaveContinue() {
 		nextSaveText.setOnClickListener {
-			with(actionViewModel) {
-				if (canCurrentActionSave()) {
-					val action = getCurrentUCVAction()
-					action.removeFromSkipped(requireContext())
-					removeFromUCVList(action)
-				}
-				else {
-					UIHelper.flashMessage(requireContext(),
-					                      getString(R.string.uncompleted_variable_unfilled))
-				}
-			}
+			if (actionsViewModel.incompleteActions.value!!.size > 0)
+				actionsViewModel.incompleteActions
+			else
+				UIHelper.flashMessage(requireContext(), getString(R.string.summary_incomplete))
 		}
 	}
 
-	private fun setupSkipText() {
-		fun skip() {
-			with(actionViewModel) {
-				val action = getCurrentUCVAction()
-				action.saveAsSkipped(requireContext())
-				removeFromUCVList(action)
-			}
-		}
-		skipTextMember1.setOnClickListener { skip() }
-		skipTextMember2.setOnClickListener { skip() }
-		skipTextMember3.setOnClickListener { skip() }
-	}
-
-	private fun setVariableListAdapter(action: Action) {
+	private fun setVariableListAdapter(action: HoverAction) {
 		try {
-			val streamlinedSteps =
-				StreamlinedSteps.get(action.rootCode, JSONArray(action.jsonArrayToString))
-			val variables = ActionVariablesCache.get(requireContext(), action.id).actionMap
-			val adapter = VariableRecyclerAdapter(action.id, streamlinedSteps, this, variables)
-			variablesRecyclerView.adapter = adapter
+//			val adapter = MultiVariableRecyclerAdapter(action)
+//			variablesRecyclerView.adapter = adapter
 		} catch (e: Exception) {
 			UIHelper.flashMessage(requireContext(),
 			                      requireActivity().currentFocus,
 			                      resources.getString(R.string.bad_steps_config))
 		}
-	}
-
-
-	override fun updateVariableCache(label: String, value: String) {
-		timer.cancel()
-		timer = Timer()
-		val actionId = actionViewModel.getCurrentUCVAction().id
-		val task = object : TimerTask() {
-			override fun run() {
-				ActionVariablesCache.save(actionId, label, value, requireContext())
-			}
-		}
-		timer.schedule(task, ActionVariablesCache.THROTTLE)
 	}
 
 	override fun onDestroyView() {

@@ -66,8 +66,7 @@ class TransactionRepo(db: AppDatabase) {
 		AppDatabase.databaseWriteExecutor.execute {
 			CoroutineScope(Dispatchers.IO).launch {
 				try {
-					var t: RunnerTransaction? =
-						getTransactionSuspended(intent.getStringExtra(TransactionContract.COLUMN_UUID))
+					var t: RunnerTransaction? = getTransactionSuspended(intent.getStringExtra(TransactionContract.COLUMN_UUID))
 					if (t == null) {
 						Timber.i("save receiver triggered to create new transa")
 						t = RunnerTransaction.init(intent, context)
