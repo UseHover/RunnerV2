@@ -36,6 +36,9 @@ abstract class AbstractTransactionFilterViewModel(private val useCase: Transacti
 			}
 		} else filter_reset()
 	}
+	fun reloadFilterTransactions() {
+		runFilter(transactionFilterParametersMutableLiveData.value!!)
+	}
 
 	fun getTransactionFilterParam(): TransactionFilterParameters {
 		return transactionFilterParametersMutableLiveData.value!!

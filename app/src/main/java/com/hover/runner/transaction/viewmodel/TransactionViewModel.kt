@@ -37,6 +37,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 	init {
 		loadingStatusLiveData.value = false
 		highestTransactionsCountLiveData.value = 0
+
 		filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.addSource(
 			transactionFilterParametersMutableLiveData,
 			this::runFilter)
@@ -76,7 +77,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 		newList.add(actionId)
 
 		parameters.actionIdList = newList
-		//runFilter(parameters)
+		runFilter(parameters)
 	}
 
 	private fun load(deferredActions: Deferred<List<RunnerTransaction>>) {
@@ -110,6 +111,12 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 		viewModelScope.launch(Dispatchers.IO) {
 			messagesInfoLiveData.postValue(useCase.getMessagesInfo(transaction))
 		}
+	}
+	fun refreshTransactions() {
+		val isInFilterMode : Boolean = transactionsLiveData.value!!.size < highestTransactionsCountLiveData.value!!
+
+		if(isInFilterMode) reloadFilterTransactions()
+		else getAllTransactions()
 	}
 
 
