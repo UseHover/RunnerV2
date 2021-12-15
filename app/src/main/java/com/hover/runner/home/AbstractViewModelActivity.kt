@@ -63,10 +63,12 @@ abstract class AbstractViewModelActivity : AbstractNavigationActivity() {
 	}
 
 	private fun observeTransactionMediators() {
-		transactionViewModel.filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.observe(
-			this) { param ->
+		transactionViewModel.filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.observe(this) { param ->
 			param?.let { Timber.i("listing : ${it.actionIdList}") }
 
+		}
+		transactionViewModel.allTransactionsHolder_toRefresh_transactionsOrFilterList_MediatorLiveData.observe(this) { list->
+			list?.let { Timber.i("listing : ${it.size}") }
 		}
 	}
 }

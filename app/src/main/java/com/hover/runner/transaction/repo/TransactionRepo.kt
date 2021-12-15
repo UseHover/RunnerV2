@@ -9,6 +9,7 @@ import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.sdk.transactions.TransactionContract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -25,6 +26,10 @@ class TransactionRepo(db: AppDatabase) {
 
 	fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
 		return transactionDao.getTransaction(uuid)
+	}
+
+	fun getAllTransactionsLiveData() : LiveData<List<RunnerTransaction>> {
+		return transactionDao.allTransactionsLiveData()
 	}
 	suspend fun getTransactions(uuids: Array<String>): List<RunnerTransaction> {
 		return transactionDao.getTransactions(uuids)
@@ -72,6 +77,7 @@ class TransactionRepo(db: AppDatabase) {
 					}
 					else {
 						Timber.i("save receiver triggered to update")
+						delay(2000)
 						t.update(intent, context)
 						updateTransaction(t)
 					}

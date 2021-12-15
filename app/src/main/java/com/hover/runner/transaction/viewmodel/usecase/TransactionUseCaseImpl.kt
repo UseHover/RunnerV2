@@ -26,6 +26,10 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 		return transactionRepoInterface.getTransactionsByAction(actionId)
 	}
 
+	override fun getAllTransactionsLiveData(): LiveData<List<RunnerTransaction>> {
+		return transactionRepoInterface.getAllTransactionsLiveData()
+	}
+
 	override fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
 		return transactionRepoInterface.getTransaction(uuid)
 	}

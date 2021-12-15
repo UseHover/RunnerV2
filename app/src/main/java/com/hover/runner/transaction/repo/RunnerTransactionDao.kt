@@ -26,6 +26,8 @@ interface RunnerTransactionDao : AbstractTransactionFilterDao {
 
 	@Query("SELECT * FROM runner_transactions ORDER BY initiated_at DESC")
 	suspend fun allTransactions(): List<RunnerTransaction>
+	@Query("SELECT * FROM runner_transactions ORDER BY initiated_at DESC")
+	fun allTransactionsLiveData(): LiveData<List<RunnerTransaction>>
 
 	@Query("SELECT category FROM runner_transactions ORDER BY initiated_at DESC")
 	suspend fun allCategories(): List<String>

@@ -10,6 +10,7 @@ import com.hover.sdk.transactions.Transaction
 interface TransactionRepoInterface {
 	fun getTransaction(uuid: String): LiveData<RunnerTransaction>
 	fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>>
+	fun getAllTransactionsLiveData() : LiveData<List<RunnerTransaction>>
 
 	suspend fun getAllCategories(): List<String>
 	suspend fun getAllTransactions(): List<RunnerTransaction>

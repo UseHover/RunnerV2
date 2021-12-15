@@ -8,6 +8,7 @@ import com.hover.runner.transaction.model.TransactionDetailsMessages
 interface TransactionUseCase {
 	fun getTransaction(uuid: String): LiveData<RunnerTransaction>
 	fun getTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>>
+	fun getAllTransactionsLiveData() : LiveData<List<RunnerTransaction>>
 
 	suspend fun getAllTransactions(): List<RunnerTransaction>
 	suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction>

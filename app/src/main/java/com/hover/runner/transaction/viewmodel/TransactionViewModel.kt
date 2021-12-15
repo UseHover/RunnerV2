@@ -19,6 +19,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 	fun observeTransaction(uuid: String): LiveData<RunnerTransaction> = useCase.getTransaction(uuid)
 	fun observeTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
 
+	private val allTransactionsHolderLiveData : LiveData<List<RunnerTransaction>> = useCase.getAllTransactionsLiveData()
 	val highestTransactionsCountLiveData: MutableLiveData<Int> = MutableLiveData()
 
 	val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
@@ -31,8 +32,9 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 
 	val distinctCategoryMutableLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
-	val filter_Parameters_toFind_FilteredTransactions_MediatorLiveData: MediatorLiveData<TransactionFilterParameters> =
-		MediatorLiveData()
+	//MediatorLiveData
+	val filter_Parameters_toFind_FilteredTransactions_MediatorLiveData: MediatorLiveData<TransactionFilterParameters> = MediatorLiveData()
+	val allTransactionsHolder_toRefresh_transactionsOrFilterList_MediatorLiveData: MediatorLiveData<List<RunnerTransaction>> = MediatorLiveData()
 
 	init {
 		loadingStatusLiveData.value = false
@@ -41,6 +43,10 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 		filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.addSource(
 			transactionFilterParametersMutableLiveData,
 			this::runFilter)
+
+		allTransactionsHolder_toRefresh_transactionsOrFilterList_MediatorLiveData.addSource(
+			allTransactionsHolderLiveData,
+			this::refreshTransactions)
 
 	}
 
@@ -112,11 +118,13 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 			messagesInfoLiveData.postValue(useCase.getMessagesInfo(transaction))
 		}
 	}
-	fun refreshTransactions() {
-		val isInFilterMode : Boolean = transactionsLiveData.value!!.size < highestTransactionsCountLiveData.value!!
+	private fun refreshTransactions(newList: List<RunnerTransaction>) {
+		transactionsLiveData.value?.let {
+			val isInFilterMode : Boolean = it.size < highestTransactionsCountLiveData.value!!
 
-		if(isInFilterMode) reloadFilterTransactions()
-		else getAllTransactions()
+			if(isInFilterMode) reloadFilterTransactions()
+			else getAllTransactions()
+		}
 	}
 
 

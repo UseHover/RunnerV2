@@ -21,6 +21,10 @@ class TransactionRepoInterfaceImpl(private val repo: TransactionRepo,
 		return repo.getTransactionsByAction(actionId)
 	}
 
+	override fun getAllTransactionsLiveData(): LiveData<List<RunnerTransaction>> {
+		return repo.getAllTransactionsLiveData()
+	}
+
 	override suspend fun getAllCategories(): List<String> {
 		return repo.getCategories()
 	}

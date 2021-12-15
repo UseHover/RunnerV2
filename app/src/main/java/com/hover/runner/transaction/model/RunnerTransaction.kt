@@ -50,6 +50,7 @@ constructor(
 		status = data.getStringExtra(TransactionContract.COLUMN_STATUS)!!
 		matched_parsers = data.getStringExtra(TransactionContract.COLUMN_MATCHED_PARSERS)
 		updated_at = data.getLongExtra(TransactionContract.COLUMN_UPDATE_TIMESTAMP, DateUtils.now())
+		Timber.i("Transaction is now updating")
 		last_message_hit = getLastMessageHit(Hover.getTransaction(uuid, context), context)
 	}
 
@@ -107,6 +108,7 @@ constructor(
 				lastUSSDMessage = smsMessage
 			}
 			else {
+				Timber.i("Transactions hits at ussd message is: "+transaction.ussdMessages.toString())
 				try {
 					lastUSSDMessage = transaction.ussdMessages.getString(transaction.ussdMessages.length() - 1)
 				} catch (jsonE: JSONException) {
@@ -126,6 +128,7 @@ constructor(
 					smsMessage = Hover.getSMSMessageByUUID(lastUUID, context).msg
 				}
 			} catch (e: JSONException) {
+				Timber.i("Transactions hits at sms json error: $e")
 				e.printStackTrace()
 			}
 			return smsMessage
