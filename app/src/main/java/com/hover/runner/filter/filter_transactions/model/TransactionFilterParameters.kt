@@ -1,6 +1,5 @@
 package com.hover.runner.filter.filter_transactions.model
 
-import android.content.Context
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import java.util.*
@@ -20,7 +19,7 @@ data class TransactionFilterParameters(
 		return this == getDefault()
 	}
 
-	fun getDateRangeValue(context: Context): String {
+	fun getDateRangeValue(): String {
 		return if (endDate > 0) String.format(Locale.getDefault(),
 		                                      "%s - %s",
 		                                      DateUtils.formatDateV2(startDate),
@@ -31,6 +30,9 @@ data class TransactionFilterParameters(
 		                   DateUtils.formatDateV3(Date().time))
 	}
 
+	fun shouldFilterByTransactionStatus() : Boolean{
+		return successful.isNotEmpty() || pending.isNotEmpty() || failed.isNotEmpty()
+	}
 	fun getActionIdsAsString(): String {
 		return Utils.toString(actionIdList)
 	}
@@ -54,6 +56,7 @@ data class TransactionFilterParameters(
 	fun isTransactionFailedIncluded(): Boolean {
 		return failed.isNotEmpty()
 	}
+
 
 	companion object {
 		fun getDefault(): TransactionFilterParameters {

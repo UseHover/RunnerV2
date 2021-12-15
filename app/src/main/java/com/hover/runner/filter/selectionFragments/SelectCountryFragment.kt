@@ -18,7 +18,7 @@ import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
+internal class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
 	private var _binding: FilterByCountryBinding? = null
 	private val binding get() = _binding!!
 

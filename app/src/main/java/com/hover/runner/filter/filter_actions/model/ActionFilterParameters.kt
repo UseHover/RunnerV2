@@ -1,6 +1,5 @@
 package com.hover.runner.filter.filter_actions.model
 
-import android.content.Context
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import java.util.*
@@ -25,9 +24,8 @@ data class ActionFilterParameters(var actionId: String = "",
 		return this == getDefault()
 	}
 
-	fun getDateRangeValue(context: Context): String {
-		return if (endDate > 0) String.format(Locale.getDefault(),
-		                                      "%s - %s",
+	fun getDateRangeValue(): String {
+		return if (endDate > 0) String.format(Locale.getDefault(), "%s - %s",
 		                                      DateUtils.formatDateV2(startDate),
 		                                      DateUtils.formatDateV3(endDate))
 		else String.format(Locale.getDefault(),

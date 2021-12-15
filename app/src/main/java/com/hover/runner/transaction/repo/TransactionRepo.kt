@@ -3,7 +3,6 @@ package com.hover.runner.transaction.repo
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
-import androidx.room.Query
 import com.hover.runner.database.AppDatabase
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
@@ -27,10 +26,8 @@ class TransactionRepo(db: AppDatabase) {
 	fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
 		return transactionDao.getTransaction(uuid)
 	}
-
-	// TODO : Change to filter by dao, current method call is just for testing
-	suspend fun filterTransactions(transactionFilterParameters: TransactionFilterParameters): List<RunnerTransaction> {
-		return transactionDao.allTransactions()
+	suspend fun getTransactions(uuids: Array<String>): List<RunnerTransaction> {
+		return transactionDao.getTransactions(uuids)
 	}
 
 	suspend fun getCategories(): List<String> {
@@ -86,6 +83,7 @@ class TransactionRepo(db: AppDatabase) {
 		}
 	}
 
+	// For Action ID filtering
 	suspend fun getActionIdsByDateRange(actionIdSubList:Array<String>, startDate : Long, endDate: Long): Array<String> {
 		return transactionDao.getActionIdsByDateRange(actionIdSubList, startDate, endDate)
 	}
@@ -108,5 +106,40 @@ class TransactionRepo(db: AppDatabase) {
 	suspend fun getActionIdsWithTransactions(): List<String> {
 		return transactionDao.getActionIdsWithTransactions()
 	}
+
+	// For Transaction UUID filtering
+	suspend fun getUUIDsByActionIds(actionIds: Array<String>) : Array<String> {
+		return transactionDao.getUUIDsByActionIds(actionIds)
+	}
+
+	suspend fun getUUIDsByDateRange(selectedUUIDs: Array<String>,  startDate : Long, endDate: Long) : Array<String> {
+		return transactionDao.getTransactionsByDateRange(selectedUUIDs, startDate, endDate)
+	}
+	suspend fun getUUIDsByDateRange(startDate : Long, endDate: Long) : Array<String> {
+		return transactionDao.getTransactionsByDateRange(startDate, endDate)
+	}
+
+	suspend fun getSuccessfulUUIDs(selectedUUIDs: Array<String>) : Array<String> {
+		return transactionDao.getSuccessfulTransactions(selectedUUIDs)
+	}
+	suspend fun getSuccessfulUUIDs() : Array<String> {
+		return transactionDao.getSuccessfulTransactions()
+	}
+
+	suspend fun getPendingUUIDs(selectedUUIDs: Array<String>) : Array<String> {
+		return transactionDao.getPendingTransactions(selectedUUIDs)
+	}
+	suspend fun getPendingUUIDs() : Array<String> {
+		return transactionDao.getPendingTransactions()
+	}
+
+	suspend fun getFailedUUIDs(selectedUUIDs: Array<String>) : Array<String> {
+		return transactionDao.getFailedTransactions(selectedUUIDs)
+	}
+	suspend fun getFailedUUIDs() : Array<String> {
+		return transactionDao.getFailedTransactions()
+	}
+
+
 
 }

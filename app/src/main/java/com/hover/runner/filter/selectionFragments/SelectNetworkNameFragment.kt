@@ -19,7 +19,7 @@ import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.text.MessageFormat
 
-class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
+internal class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
 	private var _binding: FilterByNetworkNameBinding? = null
 	private val binding get() = _binding!!
 

@@ -2,19 +2,39 @@ package com.hover.runner.filter.filter_transactions.abstractViewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hover.runner.filter.filter_transactions.abstractViewModel.usecase.TransactionFilterUseCase
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.sdk.transactions.Transaction
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class AbstractTransactionFilterViewModel : ViewModel() {
-	val transactionFilterParametersMutableLiveData: MutableLiveData<TransactionFilterParameters> =
-		MutableLiveData()
-	val filteredTransactionsMutableLiveData: MutableLiveData<List<RunnerTransaction>> =
-		MutableLiveData()
+abstract class AbstractTransactionFilterViewModel(private val useCase: TransactionFilterUseCase) : ViewModel() {
+	val filterLoadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
+	val transactionFilterParametersMutableLiveData: MutableLiveData<TransactionFilterParameters> = MutableLiveData()
+	val filteredTransactionsMutableLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
 
 	init {
 		transactionFilterParametersMutableLiveData.value = TransactionFilterParameters.getDefault()
+	}
+
+	fun runFilter(transactionFilterParameters: TransactionFilterParameters) {
+		if (!transactionFilterParameters.isDefault()) {
+			filterLoadingStatusLiveData.postValue(false)
+
+			val deferredActions = viewModelScope.async(Dispatchers.IO) {
+				return@async useCase.filter(transactionFilterParameters)
+			}
+
+			viewModelScope.launch(Dispatchers.Main) {
+				val transactionList = deferredActions.await()
+				filteredTransactionsMutableLiveData.postValue(transactionList)
+				filterLoadingStatusLiveData.postValue(true)
+			}
+		} else filter_reset()
 	}
 
 	fun getTransactionFilterParam(): TransactionFilterParameters {

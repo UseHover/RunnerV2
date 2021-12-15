@@ -2,11 +2,13 @@ package com.hover.runner.transaction.repo
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.hover.runner.filter.filter_transactions.abstractDao.AbstractTransactionFilterDao
 import com.hover.runner.transaction.model.RunnerTransaction
 
 
 @Dao
-interface RunnerTransactionDao {
+interface RunnerTransactionDao : AbstractTransactionFilterDao {
+
 	@Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at DESC")
 	fun transactionsByAction(actionId: String): LiveData<List<RunnerTransaction>>
 
@@ -31,26 +33,11 @@ interface RunnerTransactionDao {
 	@Query("SELECT * FROM runner_transactions WHERE uuid = :uuid LIMIT 1")
 	fun getTransaction(uuid: String): LiveData<RunnerTransaction>
 
+	@Query("SELECT * FROM runner_transactions WHERE uuid IN (:uuids) ")
+	suspend fun getTransactions(uuids: Array<String>): List<RunnerTransaction>
+
 	@Query("SELECT * FROM runner_transactions WHERE uuid = :uuid LIMIT 1")
 	suspend fun getTransaction_Suspended(uuid: String?): RunnerTransaction?
-
-	@Query("SELECT DISTINCT action_id FROM runner_transactions WHERE action_id IN (:actionIdSubList) AND updated_at >= :startDate AND updated_at <= :endDate ")
-	suspend fun getActionIdsByDateRange(actionIdSubList:Array<String>, startDate : Long, endDate: Long): Array<String>
-
-	@Query("SELECT DISTINCT action_id FROM runner_transactions WHERE action_id IN (:actionIdSubList) AND category IN (:categories) ")
-	suspend fun getActionIdsByCategories(actionIdSubList:Array<String>, categories: Array<String>): Array<String>
-
-	@Query("SELECT DISTINCT action_id FROM runner_transactions WHERE action_id IN (:actionIdSubList) AND status = 'succeeded' ")
-	suspend fun getActionIdsByTransactionSuccessful(actionIdSubList:Array<String>): Array<String>
-
-	@Query("SELECT DISTINCT action_id FROM runner_transactions WHERE action_id IN (:actionIdSubList) AND status = 'pending' ")
-	suspend fun getActionIdsByTransactionPending(actionIdSubList:Array<String>): Array<String>
-
-	@Query("SELECT DISTINCT action_id FROM runner_transactions WHERE action_id IN (:actionIdSubList) AND status = 'failed' ")
-	suspend fun getActionIdsByTransactionFailed(actionIdSubList:Array<String>): Array<String>
-
-	@Query("SELECT DISTINCT action_id FROM runner_transactions")
-	suspend fun getActionIdsWithTransactions(): List<String>
 
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	fun insert(transaction: RunnerTransaction?)

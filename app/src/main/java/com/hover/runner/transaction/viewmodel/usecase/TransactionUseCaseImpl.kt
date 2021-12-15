@@ -26,10 +26,6 @@ class TransactionUseCaseImpl(private val transactionRepoInterface: TransactionRe
 		return transactionRepoInterface.getTransactionsByAction(actionId)
 	}
 
-	override suspend fun filter(transactionFilterParameters: TransactionFilterParameters): List<RunnerTransaction> {
-		return transactionRepoInterface.filter(transactionFilterParameters)
-	}
-
 	override fun getTransaction(uuid: String): LiveData<RunnerTransaction> {
 		return transactionRepoInterface.getTransaction(uuid)
 	}

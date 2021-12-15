@@ -47,7 +47,7 @@ class ActionRepoInterfaceImpl(private val actionRepo: ActionRepo,
 	}
 
 	override suspend fun getNetworkNames(countryCodes: List<String>): List<String> {
-		return explodeNetworkNameList(actionRepo.getNetworkNamesByCountryCodes(countryCodes))
+		return explodeNetworkNameList(actionRepo.getNetworkNamesByCountryCodes(countryCodes.toTypedArray()))
 	}
 
 	override suspend fun getAllNetworkNames(): List<String> {

@@ -47,7 +47,6 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 		super.onViewCreated(view, savedInstanceState)
 		initViews()
 		setupRecyclerView()
-		initTransactions()
 		observeLoadingStatus()
 		observeTransactionsList()
 		filterTextView.setOnClickListener { transactionNavigationInterface.navigateTransactionFilterFragment() }
@@ -73,10 +72,6 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 	private fun setupRecyclerView() {
 		homeTransactionsRecyclerView.setLayoutManagerToLinear()
 		homeTransactionsRecyclerView.setHasFixedSize(false)
-	}
-
-	private fun initTransactions() {
-		transactionViewModel.getAllTransactions()
 	}
 
 	private fun observeLoadingStatus() {

@@ -24,6 +24,15 @@ object ActionIdsInANetworkRepo {
 		return loadAllIds(networkName, context).toTypedArray()
 	}
 
+	fun getIds(networkNames: List<String>, context: Context) : List<String> {
+		val actionIdsInNetwork  = mutableListOf<String>()
+		networkNames.forEach {networkName->
+			val ids = getIds(networkName, context)
+			actionIdsInNetwork.addAll(ids)
+		}
+		return actionIdsInNetwork
+	}
+
 	private fun loadAllIds(networkName: String, context: Context) : Set<String>{
 		val ids = SharedPrefUtils.getStringSet(networkName, context)
 		return ids?: emptySet()

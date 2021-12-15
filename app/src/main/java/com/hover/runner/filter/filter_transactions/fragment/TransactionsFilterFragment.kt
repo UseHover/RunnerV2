@@ -134,7 +134,7 @@ class TransactionsFilterFragment : BaseFragment() {
 	}
 
 	private fun observeFilterLoadingStatus() {
-		transactionViewModel.loadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
+		transactionViewModel.filterLoadingStatusLiveData.observe(viewLifecycleOwner) { hasLoaded ->
 			if (!hasLoaded) {
 				with(showTransactionsTextView) {
 					isClickable = false
@@ -171,7 +171,7 @@ class TransactionsFilterFragment : BaseFragment() {
 			actionEntryTextView.text = getActionIdsAsString()
 			countryEntryTextView.text = getCountryListAsString()
 			networkEntryTextView.text = getNetworkNamesAsString()
-			datePickerTextView.text = getDateRangeValue(requireContext())
+			datePickerTextView.text = getDateRangeValue()
 		}
 	}
 

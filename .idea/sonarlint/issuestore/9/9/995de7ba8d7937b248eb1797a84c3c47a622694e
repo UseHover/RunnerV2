@@ -1,0 +1,11 @@
+
+ekotlin:S117"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Ïğù‘
+jkotlin:S117$"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(²Í½õÿÿÿÿÿ
+ekotlin:S117&"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ÙòÛù
+ekotlin:S117("NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(£½­à
+jkotlin:S117*"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ÉÊøÿÿÿÿ
+okotlin:S117K"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ı¡¢üÿÿÿÿ
+okotlin:S117O"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(İ¸©µûÿÿÿÿ
+jkotlin:S117Q"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(İÜë
+jkotlin:S117S"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Š½å
+jkotlin:S117U"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ƒ¸¾á

@@ -18,8 +18,8 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.actionDao().allCountryCodes
 	}
 
-	suspend fun getNetworkNamesByCountryCodes(countryCodes: List<String>): List<String> {
-		return sdkDB.actionDao().getNetworkNamesByCountryCodes(countryCodes.toTypedArray())
+	suspend fun getNetworkNamesByCountryCodes(countryCodes: Array<String>): List<String> {
+		return sdkDB.actionDao().getNetworkNamesByCountryCodes(countryCodes)
 	}
 
 	suspend fun getAllNetworkNames(): List<String> {
@@ -38,10 +38,18 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 	suspend fun filterByRootCode(subList: Array<String>, actionRootCode: String) : Array<String> {
 		return sdkDB.actionDao().filterByRootCode(subList, actionRootCode)
 	}
-	suspend fun filterByActionIds(subList: Array<String>, actionIdList: List<String>) : Array<String> {
-		return sdkDB.actionDao().filterByActionIdList(subList, actionIdList.toTypedArray())
+
+	suspend fun filterByActionIds(subList: Array<String>, actionIdList: Array<String>) : Array<String> {
+		return sdkDB.actionDao().filterByActionIdList(subList, actionIdList)
 	}
-	suspend fun filterByCountries(subList: Array<String>, countryCodes: List<String>) : Array<String> {
-		return sdkDB.actionDao().filterByCountry(subList, countryCodes.toTypedArray())
+	suspend fun filterByActionIds(actionIdList: Array<String>) : Array<String> {
+		return sdkDB.actionDao().filterByActionIdList(actionIdList)
+	}
+
+	suspend fun filterByCountries(subList: Array<String>, countryCodes: Array<String>) : Array<String> {
+		return sdkDB.actionDao().filterByCountry(subList, countryCodes)
+	}
+	suspend fun filterByCountries(countryCodes: Array<String>) : Array<String> {
+		return sdkDB.actionDao().filterByCountry(countryCodes)
 	}
 }

@@ -2,8 +2,6 @@ package com.hover.runner.home
 
 import android.os.Bundle
 import com.hover.runner.action.viewmodel.ActionViewModel
-import com.hover.runner.parser.viewmodel.ParserViewModel
-import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -11,12 +9,13 @@ import timber.log.Timber
 abstract class AbstractViewModelActivity : AbstractNavigationActivity() {
 	private val actionViewModel: ActionViewModel by viewModel()
 	private val transactionViewModel: TransactionViewModel by viewModel()
-	private val simViewModel: SimViewModel by viewModel()
-	private val parserViewModel: ParserViewModel by viewModel()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 		actionViewModel.getAllActions()
+		transactionViewModel.getAllTransactions()
+
 		observeLiveData()
 	}
 	private fun observeLiveData() {
@@ -64,7 +63,7 @@ abstract class AbstractViewModelActivity : AbstractNavigationActivity() {
 	}
 
 	private fun observeTransactionMediators() {
-		transactionViewModel.filterParameters_toFind_FilteredTransactions_MediatorLiveData.observe(
+		transactionViewModel.filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.observe(
 			this) { param ->
 			param?.let { Timber.i("listing : ${it.actionIdList}") }
 

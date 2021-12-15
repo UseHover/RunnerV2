@@ -9,11 +9,11 @@ import com.hover.runner.parser.repo.ParserRepo
 import com.hover.runner.sim.repo.SimRepo
 import com.hover.runner.transaction.repo.TransactionRepo
 
-class ActionFilterRepo(private val actionRepo: ActionRepo,
-                       private val transactionRepo: TransactionRepo,
-                       private val parserRepo: ParserRepo,
-                       private val simRepo: SimRepo,
-                       private val context: Context) : ActionFilterRepoInterface {
+class ActionFilterRepoImpl(private val actionRepo: ActionRepo,
+                           private val transactionRepo: TransactionRepo,
+                           private val parserRepo: ParserRepo,
+                           private val simRepo: SimRepo,
+                           private val context: Context) : ActionFilterRepoInterface {
 
 	override suspend fun filter(actionFilterParameters: ActionFilterParameters): List<Action> {
 		with(actionFilterParameters) {
@@ -33,10 +33,10 @@ class ActionFilterRepo(private val actionRepo: ActionRepo,
 
 		if(params.actionId.isNotEmpty()) filteredList = actionRepo.filterByActionId(filteredList, params.actionId)
 		if(params.actionRootCode.isNotEmpty()) filteredList = actionRepo.filterByRootCode(filteredList, params.actionRootCode)
-		if(params.countryCodeList.isNotEmpty()) filteredList = actionRepo.filterByCountries(filteredList, params.countryCodeList)
+		if(params.countryCodeList.isNotEmpty()) filteredList = actionRepo.filterByCountries(filteredList, params.countryCodeList.toTypedArray())
 
-		if(params.networkNameList.isNotEmpty()) params.actionIdList += getActionIdsInNetwork(params.networkNameList)
-		if(params.actionIdList.isNotEmpty()) filteredList = actionRepo.filterByActionIds(filteredList, params.actionIdList)
+		if(params.networkNameList.isNotEmpty()) params.actionIdList += ActionIdsInANetworkRepo.getIds(params.networkNameList, context)
+		if(params.actionIdList.isNotEmpty()) filteredList = actionRepo.filterByActionIds(filteredList, params.actionIdList.toTypedArray())
 		return filteredList
 	}
 
@@ -68,13 +68,13 @@ class ActionFilterRepo(private val actionRepo: ActionRepo,
 	private suspend fun filterThroughPresentSim(selectedList: Array<String>, param: ActionFilterParameters) : Array<String> {
 		return if(param.onlyWithSimPresent) {
 			val presentSimCountryCodes = simRepo.getPresentSims().map { it.countryIso }
-			return actionRepo.filterByCountries(selectedList, presentSimCountryCodes)
+			return actionRepo.filterByCountries(selectedList, presentSimCountryCodes.toTypedArray())
 		}
 		else selectedList
 	}
 
 	private fun getActionIdsWithNoTransaction(allActionIds: Array<String>, withTransactionList: Array<String>) : Array<String> {
-		return (allActionIds.toList() - withTransactionList.toList()).toTypedArray()
+		return (allActionIds.toList() - withTransactionList.toList().toSet()).toTypedArray()
 	}
 	private suspend fun getActionIdsInTransactions(selectedActionIds: Array<String>, params: ActionFilterParameters) : Array<String> {
 		var subList = arrayOf("")
@@ -84,14 +84,4 @@ class ActionFilterRepo(private val actionRepo: ActionRepo,
 
 		return if(subList[0] =="") emptyArray() else subList.distinct().toTypedArray() //arrayOf("") returns empty space as a value
 	}
-
-	private fun getActionIdsInNetwork(networkNames: List<String>) : List<String> {
-		val actionIdsInNetwork  = mutableListOf<String>()
-		networkNames.forEach {networkName->
-			val ids = ActionIdsInANetworkRepo.getIds(networkName, context)
-			actionIdsInNetwork.addAll(ids)
-		}
-		return actionIdsInNetwork
-	}
-
 }

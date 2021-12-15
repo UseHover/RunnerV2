@@ -24,7 +24,7 @@ import com.hover.runner.utils.TextViewUtils.Companion.underline
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
-class ActionsFilterFragment : BaseFragment() {
+internal class ActionsFilterFragment : BaseFragment() {
 	private lateinit var loadingProgressBar: ProgressBar
 	private lateinit var resetTextView: TextView
 	private lateinit var countryEntryTextView: TextView
@@ -178,7 +178,7 @@ class ActionsFilterFragment : BaseFragment() {
 			countryEntryTextView.text = getCountryListAsString()
 			categoryEntryTextView.text = getCategoryListAsString()
 			networkEntryTextView.text = getNetworkNamesAsString()
-			datePickerTextView.text = getDateRangeValue(requireContext())
+			datePickerTextView.text = getDateRangeValue()
 		}
 	}
 

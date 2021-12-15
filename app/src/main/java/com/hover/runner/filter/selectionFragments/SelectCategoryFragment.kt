@@ -17,7 +17,7 @@ import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
+internal class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
 	private var _binding: FilterByCategoriesBinding? = null
 	private val binding get() = _binding!!
 

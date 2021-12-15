@@ -18,7 +18,7 @@ import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
+internal class SelectActionsFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
 	private var _binding: FilterByActionsBinding? = null
 	private val binding get() = _binding!!
 

@@ -2,6 +2,7 @@ package com.hover.runner.transaction.viewmodel
 
 import androidx.lifecycle.*
 import com.hover.runner.filter.filter_transactions.abstractViewModel.AbstractTransactionFilterViewModel
+import com.hover.runner.filter.filter_transactions.abstractViewModel.usecase.TransactionFilterUseCase
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.transaction.model.TransactionDetailsInfo
@@ -12,8 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class TransactionViewModel(private val useCase: TransactionUseCase) :
-	AbstractTransactionFilterViewModel() {
+class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCase: TransactionFilterUseCase) :
+	AbstractTransactionFilterViewModel(filterUseCase) {
 
 	fun observeTransaction(uuid: String): LiveData<RunnerTransaction> = useCase.getTransaction(uuid)
 	fun observeTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
@@ -30,13 +31,13 @@ class TransactionViewModel(private val useCase: TransactionUseCase) :
 
 	val distinctCategoryMutableLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
-	val filterParameters_toFind_FilteredTransactions_MediatorLiveData: MediatorLiveData<TransactionFilterParameters> =
+	val filter_Parameters_toFind_FilteredTransactions_MediatorLiveData: MediatorLiveData<TransactionFilterParameters> =
 		MediatorLiveData()
 
 	init {
 		loadingStatusLiveData.value = false
 		transactionsParentTotalLiveData.value = 0
-		filterParameters_toFind_FilteredTransactions_MediatorLiveData.addSource(
+		filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.addSource(
 			transactionFilterParametersMutableLiveData,
 			this::runFilter)
 
@@ -62,22 +63,6 @@ class TransactionViewModel(private val useCase: TransactionUseCase) :
 
 	fun updateTransactionsLiveData(newTransactions: List<RunnerTransaction>) {
 		transactionsLiveData.postValue(newTransactions)
-	}
-
-	private fun runFilter(transactionFilterParameters: TransactionFilterParameters) {
-		if (!transactionFilterParameters.isDefault()) {
-			loadingStatusLiveData.postValue(false)
-
-			val deferredActions = viewModelScope.async(Dispatchers.IO) {
-				return@async useCase.filter(transactionFilterParameters)
-			}
-
-			viewModelScope.launch(Dispatchers.Main) {
-				val transactionList = deferredActions.await()
-				filteredTransactionsMutableLiveData.postValue(transactionList)
-				loadingStatusLiveData.postValue(true)
-			}
-		} else filter_reset()
 	}
 
 
