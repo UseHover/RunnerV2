@@ -86,6 +86,7 @@ class ActionFilterRepoImpl(private val actionRepo: ActionRepo,
 		if(params.isTransactionPendingIncluded()) subList += transactionRepo.getActionIdsByTransactionPending(selectedActionIds)
 		if(params.isTransactionFailedIncluded()) subList += transactionRepo.getActionIdsByTransactionFailed(selectedActionIds)
 
-		return if(subList[0] =="") emptyArray() else subList.distinct().toTypedArray() //arrayOf("") returns empty space as a value
+		return if(subList.size == 1) emptyArray() //arrayOf("") returns the first empty space as a value
+		else subList.distinct().toTypedArray()
 	}
 }

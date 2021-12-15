@@ -25,7 +25,7 @@ class TransactionFilterRepoImpl(private val actionRepo: ActionRepo,
 		if(params.countryCodeList.isNotEmpty()) filteredActionIds =  actionRepo.filterByCountries(params.countryCodeList.toTypedArray())
 
 		params.getTotalActionIds(context).apply { // Network names parameter is accounted for in total ids
-			if(this.isNotEmpty()) filteredActionIds = getActionIds(filteredActionIds, this)
+			if(this.isNotEmpty()) filteredActionIds = filterFromActionIds(filteredActionIds, this)
 		}
 
 		return filteredActionIds
@@ -41,24 +41,24 @@ class TransactionFilterRepoImpl(private val actionRepo: ActionRepo,
 			if(filteredUUIDs.isEmpty()) selectedUUIDs = emptyArray()
 			else selectedUUIDs += filteredUUIDs
 		}
-
 		return selectedUUIDs.distinct().toTypedArray()
 	}
 
 
 	private suspend fun getUUIDInTransactions(selectedUUIDs: Array<String>, params: TransactionFilterParameters) : Array<String> {
-		return if(params.isActionRelatedParamSelected() && selectedUUIDs.isEmpty()) emptyArray()
+		if(params.isActionRelatedParamSelected() && selectedUUIDs.isEmpty()) return emptyArray()
 		else{
 			var subList = arrayOf("")
 			if(params.isTransactionSuccessfulIncluded()) subList += getSuccessfulUUIDs(selectedUUIDs)
 			if(params.isTransactionPendingIncluded()) subList += getPendingUUIDs(selectedUUIDs)
 			if(params.isTransactionFailedIncluded()) subList += getFailedUUIDs(selectedUUIDs)
 
-			if(subList[0] =="") emptyArray() else subList.distinct().toTypedArray() //arrayOf("") returns empty space as a value
+			return if(subList.size == 1) emptyArray() //arrayOf("") returns the first empty space as a value
+				   else subList.distinct().toTypedArray()
 		}
 	}
 
-	private suspend fun getActionIds(filteredActionIds: Array<String>, actionIds: Array<String>) : Array<String> {
+	private suspend fun filterFromActionIds(filteredActionIds: Array<String>, actionIds: Array<String>) : Array<String> {
 		return if(filteredActionIds.isEmpty())  actionRepo.filterByActionIds(actionIds)
 		else actionRepo.filterByActionIds(filteredActionIds, actionIds)
 	}
@@ -67,7 +67,7 @@ class TransactionFilterRepoImpl(private val actionRepo: ActionRepo,
 		else transactionRepo.getUUIDsByDateRange(selectedUUIDs, startDate, endDate)
 	}
 	private suspend fun getSuccessfulUUIDs(selectedUUIDs: Array<String>) : Array<String> {
-		return if(selectedUUIDs.isEmpty())  transactionRepo.getSuccessfulUUIDs()
+		return if(selectedUUIDs.isEmpty()) transactionRepo.getSuccessfulUUIDs()
 		else transactionRepo.getSuccessfulUUIDs(selectedUUIDs)
 	}
 	private suspend fun getPendingUUIDs(selectedUUIDs: Array<String>) : Array<String> {
