@@ -127,8 +127,7 @@ class ActionDetailsFragment : BaseFragment(), ActionVariableEditListener, Parser
 	}
 
 	private fun setupTopDetailsLayout(action: Action) {
-		UIHelper.changeStatusBarColor(requireActivity(),
-		                              RunnerColor(requireContext()).get(action.getLayoutColor()))
+		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).get(action.getLayoutColor()))
 		topLayout.setTitle(action.id, action.status)
 		topLayout.setSubTitle(action.title, action.status)
 		topLayout.setup(action.status, DetailScreenType.ACTION, requireActivity())

@@ -21,7 +21,7 @@ interface RunnerTransactionDao : AbstractTransactionFilterDao {
 	@Query("SELECT * FROM runner_transactions WHERE matched_parsers LIKE :parserId ORDER BY initiated_at DESC ")
 	suspend fun transactionsByParser(parserId: String): List<RunnerTransaction>
 
-	@Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at ASC LIMIT 1")
+	@Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at DESC LIMIT 1")
 	suspend fun lastTransactionsByAction_Suspended(actionId: String): RunnerTransaction?
 
 	@Query("SELECT * FROM runner_transactions ORDER BY initiated_at DESC")

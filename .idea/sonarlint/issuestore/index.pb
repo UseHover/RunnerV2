@@ -75,8 +75,6 @@ Rapp/src/main/java/com/hover/runner/transaction/model/TransactionDetailsMessages
 Uapp/src/main/java/com/hover/runner/transaction/adapters/TransactionRecyclerAdapter.kt,f/7/f73565978b5195b56ad03e68fe7ea90d26adf859
 å
 \app/src/main/java/com/hover/runner/transaction/adapters/TransactionDetailsRecyclerAdapter.kt,2/d/2da43d45483a63a34d1edb97fc76f1789178028d
-Ü
-Vapp/src/main/java/com/hover/runner/transaction/fragments/TransactionDetailsFragment.kt,a/4/a4301139981dab828149fa8104d1738710bc850e
 Ñ
 Tapp/src/main/java/com/hover/runner/transaction/listeners/TransactionClickListener.kt,5/9/59fbf4551a62cf202dc079bef1189747fa9723f8
 ç
@@ -107,7 +105,5 @@ k
 ;app/src/main/java/com/hover/runner/utils/SharedPrefUtils.kt,5/b/5bb024349471a6ba1e3e6130ee948aaf5558c29c
 i
 9app/src/main/java/com/hover/runner/utils/TextViewUtils.kt,9/8/9883e142564663ed97c09658f6afc6493943b8c8
-|
-Lapp/src/main/java/com/hover/runner/action/fragments/ActionDetailsFragment.kt,3/a/3a145ee1aeef440ebfa980cfc709a4b4cd35701b
 d
 4app/src/main/java/com/hover/runner/utils/UIHelper.kt,0/c/0c8168da0f1f9b3dd9ec790003267efc40e64857
