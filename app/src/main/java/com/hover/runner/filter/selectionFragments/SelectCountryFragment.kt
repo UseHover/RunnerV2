@@ -17,6 +17,7 @@ import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 internal class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListStatus {
 	private var _binding: FilterByCountryBinding? = null
@@ -28,7 +29,7 @@ internal class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.Check
 	private lateinit var saveTextView: TextView
 	private lateinit var countryRecyclerView: RecyclerView
 	private lateinit var countryListAdapter: CheckboxItemAdapter
-	private var filterEnum: FilterForEnum = FilterForEnum.ACTIONS
+	private lateinit var filterEnum: FilterForEnum
 
 	private val actionViewModel: ActionViewModel by sharedViewModel()
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
@@ -51,11 +52,12 @@ internal class SelectCountryFragment : BaseFragment(), CheckboxItemAdapter.Check
 	}
 
 	private fun updateFilterFor() {
+		Timber.i("filterFor is checking")
 		arguments?.let {
-			val filterForInt = it.getInt("filterfor", 0)
-			if (filterForInt == 1) {
-				filterEnum = FilterForEnum.TRANSACTIONS
-			}
+			val filterForInt = it.getInt("filterFor", 0)
+			Timber.i("filterFor is $filterForInt")
+			filterEnum = if (filterForInt == 0) FilterForEnum.ACTIONS
+						 else FilterForEnum.TRANSACTIONS
 		}
 	}
 

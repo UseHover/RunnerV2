@@ -1,5 +1,7 @@
 package com.hover.runner.filter.filter_transactions.model
 
+import android.content.Context
+import com.hover.runner.action.repo.ActionIdsInANetworkRepo
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import java.util.*
@@ -33,12 +35,24 @@ data class TransactionFilterParameters(
 	fun shouldFilterByTransactionStatus() : Boolean{
 		return successful.isNotEmpty() || pending.isNotEmpty() || failed.isNotEmpty()
 	}
+
+	fun isActionRelatedParamSelected() : Boolean {
+		return actionIdList.isNotEmpty() && countryCodeList.isNotEmpty() && networkNameList.isNotEmpty()
+	}
 	fun getActionIdsAsString(): String {
 		return Utils.toString(actionIdList)
 	}
+	fun getTotalActionIds(context: Context) : Array<String> {
+		val totalList: List<String> =
+			if (networkNameList.isNotEmpty()) actionIdList + ActionIdsInANetworkRepo.getIds(networkNameList, context)
+			else actionIdList
+		return totalList.toTypedArray()
+	}
+
 
 	fun getCountryListAsString(): String {
-		return Utils.toString(countryCodeList)
+		val toFullCountryNames : List<String> = countryCodeList.map { Locale("EN", it).displayCountry }
+		return Utils.toString(toFullCountryNames)
 	}
 
 	fun getNetworkNamesAsString(): String {

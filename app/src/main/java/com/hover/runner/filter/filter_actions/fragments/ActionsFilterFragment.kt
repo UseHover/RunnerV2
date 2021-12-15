@@ -168,8 +168,8 @@ internal class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun updateResetTextView(isInDefault: Boolean) {
-		if (isInDefault) deactivateReset()
-		else activateReset()
+		if (isInDefault) resetTextView.deactivateView()
+		else resetTextView.activateView()
 	}
 
 	private fun updateFilterEntryData(parameters: ActionFilterParameters) {
@@ -258,14 +258,6 @@ internal class ActionsFilterFragment : BaseFragment() {
 
 		override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {} //No code needed here, but required to implement the method
 		override fun afterTextChanged(s: Editable) {} //No code needed here, but required to implement the method
-	}
-
-	private fun deactivateReset() {
-		resetTextView.deactivateView()
-	}
-
-	private fun activateReset() {
-		resetTextView.activateView()
 	}
 
 	override fun onDestroyView() {

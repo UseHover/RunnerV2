@@ -108,8 +108,7 @@ constructor(
 			}
 			else {
 				try {
-					lastUSSDMessage =
-						transaction.ussdMessages.getString(transaction.ussdMessages.length() - 1)
+					lastUSSDMessage = transaction.ussdMessages.getString(transaction.ussdMessages.length() - 1)
 				} catch (jsonE: JSONException) {
 					Timber.e(jsonE)
 				}

@@ -41,10 +41,6 @@ abstract class AbstractTransactionFilterViewModel(private val useCase: Transacti
 		return transactionFilterParametersMutableLiveData.value!!
 	}
 
-	fun filter_transactionsTotal(): Int {
-		return with(filteredTransactionsMutableLiveData) { if (value == null) 0 else value!!.size }
-	}
-
 	fun filter_getTransactions(): List<RunnerTransaction> {
 		return with(filteredTransactionsMutableLiveData) {
 			if (value == null) ArrayList()

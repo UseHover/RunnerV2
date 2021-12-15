@@ -19,7 +19,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 	fun observeTransaction(uuid: String): LiveData<RunnerTransaction> = useCase.getTransaction(uuid)
 	fun observeTransactionsByAction(actionId: String, limit: Int): LiveData<List<RunnerTransaction>> = useCase.getTransactionsByAction(actionId, limit)
 
-	val transactionsParentTotalLiveData: MutableLiveData<Int> = MutableLiveData()
+	val highestTransactionsCountLiveData: MutableLiveData<Int> = MutableLiveData()
 
 	val loadingStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
 	val transactionsLiveData: MutableLiveData<List<RunnerTransaction>> = MutableLiveData()
@@ -36,7 +36,7 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 
 	init {
 		loadingStatusLiveData.value = false
-		transactionsParentTotalLiveData.value = 0
+		highestTransactionsCountLiveData.value = 0
 		filter_Parameters_toFind_FilteredTransactions_MediatorLiveData.addSource(
 			transactionFilterParametersMutableLiveData,
 			this::runFilter)
@@ -54,24 +54,29 @@ class TransactionViewModel(private val useCase: TransactionUseCase, filterUseCas
 		load(deferredTransactions)
 	}
 
+
 	private fun updateParentTransactionsTotal(newTransactionListSize: Int) {
-		val currentTotalTransactionsSize: Int = transactionsParentTotalLiveData.value!!
+		val currentTotalTransactionsSize: Int = highestTransactionsCountLiveData.value!!
 		if (newTransactionListSize > currentTotalTransactionsSize) {
-			transactionsParentTotalLiveData.postValue(newTransactionListSize)
+			highestTransactionsCountLiveData.postValue(newTransactionListSize)
 		}
 	}
 
 	fun updateTransactionsLiveData(newTransactions: List<RunnerTransaction>) {
 		transactionsLiveData.postValue(newTransactions)
 	}
+	fun getHighestTransactionsCount() : Int {
+		return highestTransactionsCountLiveData.value!!
+	}
 
 
 	fun getTransactionsByAction(actionId: String) {
-		loadingStatusLiveData.value = false
-		val deferredTransactions = viewModelScope.async(Dispatchers.IO) {
-			return@async useCase.getTransactionsByAction(actionId)
-		}
-		load(deferredTransactions)
+		val parameters: TransactionFilterParameters = TransactionFilterParameters.getDefault()
+		val newList = mutableListOf<String>()
+		newList.add(actionId)
+
+		parameters.actionIdList = newList
+		//runFilter(parameters)
 	}
 
 	private fun load(deferredActions: Deferred<List<RunnerTransaction>>) {

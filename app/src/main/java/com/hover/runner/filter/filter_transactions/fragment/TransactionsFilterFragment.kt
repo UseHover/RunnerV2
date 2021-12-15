@@ -105,6 +105,7 @@ class TransactionsFilterFragment : BaseFragment() {
 		transactionViewModel.transactionFilterParametersMutableLiveData.observe(viewLifecycleOwner) {
 			updateFilterEntryData(it)
 			updateFilterCheckboxes(it)
+			updateResetTextView(it.isDefault())
 		}
 	}
 
@@ -148,7 +149,6 @@ class TransactionsFilterFragment : BaseFragment() {
 
 	private fun setupResetFilter() {
 		resetTextView.setOnClickListener { handleResetTextClick() }
-		observeForResetTextView()
 	}
 
 	private fun handleResetTextClick() {
@@ -156,13 +156,9 @@ class TransactionsFilterFragment : BaseFragment() {
 		transactionViewModel.filter_reset()
 	}
 
-	private fun observeForResetTextView() {
-		with(transactionViewModel) {
-			transactionsParentTotalLiveData.observe(viewLifecycleOwner) {
-				if (filter_transactionsTotal() != 0 && filter_transactionsTotal() < it) activateReset()
-				else deactivateReset()
-			}
-		}
+	private fun updateResetTextView(isInDefault: Boolean) {
+		if(isInDefault) resetTextView.deactivateView()
+		else resetTextView.activateView()
 	}
 
 
@@ -218,14 +214,6 @@ class TransactionsFilterFragment : BaseFragment() {
 			selection?.let { transactionViewModel.filter_UpdateDateRange(it.first, it.second) }
 		}
 		return picker
-	}
-
-	private fun deactivateReset() {
-		resetTextView.deactivateView()
-	}
-
-	private fun activateReset() {
-		resetTextView.activateView()
 	}
 
 	override fun onDestroyView() {

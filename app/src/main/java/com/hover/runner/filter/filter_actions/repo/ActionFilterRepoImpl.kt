@@ -2,7 +2,6 @@ package com.hover.runner.filter.filter_actions.repo
 
 import android.content.Context
 import com.hover.runner.action.models.Action
-import com.hover.runner.action.repo.ActionIdsInANetworkRepo
 import com.hover.runner.action.repo.ActionRepo
 import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 import com.hover.runner.parser.repo.ParserRepo
@@ -35,8 +34,13 @@ class ActionFilterRepoImpl(private val actionRepo: ActionRepo,
 		if(params.actionRootCode.isNotEmpty()) filteredList = actionRepo.filterByRootCode(filteredList, params.actionRootCode)
 		if(params.countryCodeList.isNotEmpty()) filteredList = actionRepo.filterByCountries(filteredList, params.countryCodeList.toTypedArray())
 
-		if(params.networkNameList.isNotEmpty()) params.actionIdList += ActionIdsInANetworkRepo.getIds(params.networkNameList, context)
-		if(params.actionIdList.isNotEmpty()) filteredList = actionRepo.filterByActionIds(filteredList, params.actionIdList.toTypedArray())
+		params.getTotalActionIds(context).apply { //Network names parameter is accounted for in total ids
+			if(this.isNotEmpty()) {
+				filteredList = if(filteredList.isEmpty())  actionRepo.filterByActionIds(this)
+				else actionRepo.filterByActionIds(filteredList, this)
+			}
+		}
+
 		return filteredList
 	}
 

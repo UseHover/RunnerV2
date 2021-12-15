@@ -97,7 +97,7 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 	}
 
 	private fun updateFilterTextStyle(currentTransactionListSize: Int) {
-		val initialTransactionListSize: Int = transactionViewModel.filter_transactionsTotal()
+		val initialTransactionListSize: Int = transactionViewModel.getHighestTransactionsCount()
 		val isFilterOn: Boolean = currentTransactionListSize < initialTransactionListSize
 
 		if (isFilterOn) filterTextView.styleAsFilterOn()

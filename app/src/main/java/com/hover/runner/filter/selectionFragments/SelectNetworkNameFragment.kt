@@ -36,7 +36,7 @@ internal class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.C
 	private val actionViewModel: ActionViewModel by sharedViewModel()
 	private val transactionViewModel: TransactionViewModel by sharedViewModel()
 
-	private var filterEnum: FilterForEnum = FilterForEnum.ACTIONS
+	private lateinit var filterEnum: FilterForEnum
 
 	override fun onCreateView(inflater: LayoutInflater,
 	                          container: ViewGroup?,
@@ -57,10 +57,10 @@ internal class SelectNetworkNameFragment : BaseFragment(), CheckboxItemAdapter.C
 
 	private fun updateFilterFor() {
 		arguments?.let {
-			val filterForInt = it.getInt("filterfor", 0)
-			if (filterForInt == 1) {
-				filterEnum = FilterForEnum.TRANSACTIONS
-			}
+			val filterForInt = it.getInt("filterFor", 0)
+			filterEnum = if(filterForInt == 0) FilterForEnum.ACTIONS
+						  else FilterForEnum.TRANSACTIONS
+
 		}
 	}
 

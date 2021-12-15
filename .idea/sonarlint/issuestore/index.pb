@@ -29,10 +29,6 @@ Wapp/src/main/java/com/hover/runner/customViews/detailsTopLayout/RunnerTopDetail
 [app/src/main/java/com/hover/runner/customViews/detailsTopLayout/TopDetailsContentChooser.kt,7/3/734055a26b043266517eaffc4aa0e98fb94c1238
 j
 :app/src/main/java/com/hover/runner/database/AppDatabase.kt,e/8/e8514e90271932325d8a5ed982e127aeaede28d6
- 
-papp/src/main/java/com/hover/runner/filter/filter_transactions/navigation/FilterTransactionNavigationInterface.kt,a/d/ad25c81455044d79010ada2de94137d9cd3ca7eb
-u
-Eapp/src/main/java/com/hover/runner/home/AbstractNavigationActivity.kt,4/3/43aecfc8945133112b547dc8aa7aa4190019c367
 p
 @app/src/main/java/com/hover/runner/base/fragment/BaseFragment.kt,a/0/a06c9b2834c282592b984a28b183dd06ea0f8cf3
 l
@@ -71,8 +67,6 @@ p
 @app/src/main/java/com/hover/runner/sim/viewmodel/SimViewModel.kt,a/d/ad59314a200d2a7064e2cf65caf1e24d08367562
 z
 Japp/src/main/java/com/hover/runner/sim/viewmodel/usecase/SimUseCaseImpl.kt,3/5/35c94a5d1888926465237faafec5a7ab4e603700
-y
-Iapp/src/main/java/com/hover/runner/transaction/model/RunnerTransaction.kt,9/9/995de7ba8d7937b248eb1797a84c3c47a622694e
 ~
 Napp/src/main/java/com/hover/runner/transaction/model/TransactionDetailsInfo.kt,6/2/6209ebec6c23ba1abd30be37b4aa348b2d4ee768
 ‚
@@ -99,8 +93,6 @@ g
 7app/src/main/java/com/hover/runner/home/MainActivity.kt,6/b/6b86ea579ba7c3a83ad18696f8e292a93fdbe1b1
 r
 Bapp/src/main/java/com/hover/runner/filter/checkbox/CheckBoxItem.kt,2/e/2ec20eca4ed1fdf8cadcdfc106e77069952805af
-y
-Iapp/src/main/java/com/hover/runner/filter/checkbox/CheckboxItemAdapter.kt,e/5/e583bb2f1e02818903a777da275f9407434d713c
 e
 5app/src/main/java/com/hover/runner/utils/DateUtils.kt,3/c/3cdefdd6bad7242b2f847bbb24d0e15471b7b31c
 g
