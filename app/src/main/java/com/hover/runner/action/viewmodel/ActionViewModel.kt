@@ -136,7 +136,7 @@ class ActionViewModel(private val useCase: ActionUseCase, filterUseCase: ActionF
 	private fun loadAllDeferredActions(deferredActions: Deferred<List<Action>>) {
 		viewModelScope.launch(Dispatchers.Main) {
 			val actionList = deferredActions.await()
-			if(actionList.isEmpty()) attemptAllActionsReload()
+			if(actionList.isEmpty()) attemptToReloadAllActions()
 			else {
 				actions.postValue(actionList)
 				loadingStatusLiveData.postValue(true)
@@ -144,7 +144,7 @@ class ActionViewModel(private val useCase: ActionUseCase, filterUseCase: ActionF
 			}
 		}
 	}
-	private suspend fun attemptAllActionsReload() {
+	private suspend fun attemptToReloadAllActions() {
 		if(actionsReloadAttemptCounter <= actionsReloadAttemptMax) {
 			actionsReloadAttemptCounter += 1
 			delay(2000)

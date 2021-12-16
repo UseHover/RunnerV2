@@ -200,10 +200,6 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 		SharedPrefUtils.saveInt(DELAY, value, requireContext())
 	}
 
-	private fun getDelay(): Int {
-		return SharedPrefUtils.getSavedInt(DELAY, requireContext())
-	}
-
 	private fun signOut() {
 		SharedPrefUtils.clearData(requireContext())
 		settingsNavigationInterface.navLoginAndFinish()

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
-import timber.log.Timber
 import java.util.*
 
 internal class CheckboxItemAdapter(private val checkBoxItems: List<CheckBoxItem>,

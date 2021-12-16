@@ -25,12 +25,12 @@ abstract class AbstractTransactionFilterViewModel(private val useCase: Transacti
 		if (!transactionFilterParameters.isDefault()) {
 			filterLoadingStatusLiveData.postValue(false)
 
-			val deferredActions = viewModelScope.async(Dispatchers.IO) {
+			val deferredTransactions = viewModelScope.async(Dispatchers.IO) {
 				return@async useCase.filter(transactionFilterParameters)
 			}
 
 			viewModelScope.launch(Dispatchers.Main) {
-				val transactionList = deferredActions.await()
+				val transactionList = deferredTransactions.await()
 				filteredTransactionsMutableLiveData.postValue(transactionList)
 				filterLoadingStatusLiveData.postValue(true)
 			}

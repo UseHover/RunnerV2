@@ -7,20 +7,19 @@ data class CheckBoxItem(val title: String, var isChecked: Boolean, var subTitle:
 	val id: String = title.replace(" ", "") + Random(99999).nextInt().toString()
 
 	companion object {
-		fun toList(allTitles: List<String>, titlesInFilter: List<String>): List<CheckBoxItem> {
+		fun toList(allTitles: List<String>, checkedTitles: List<String>): List<CheckBoxItem> {
 			val checkBoxItems = mutableListOf<CheckBoxItem>()
 			allTitles.forEach {
-				val isChecked = titlesInFilter.contains(it)
+				val isChecked = checkedTitles.contains(it)
 				checkBoxItems.add(CheckBoxItem(it, isChecked))
 			}
 			return checkBoxItems
 		}
 
-		fun toListByActions(allActions: List<Action>,
-		                    actionsIdInFilter: List<String>): List<CheckBoxItem> {
+		fun toListByActions(allActions: List<Action>, checkedActionIds: List<String>): List<CheckBoxItem> {
 			val checkBoxItems = mutableListOf<CheckBoxItem>()
 			allActions.forEach {
-				val isChecked = actionsIdInFilter.contains(it.id)
+				val isChecked = checkedActionIds.contains(it.id)
 				checkBoxItems.add(CheckBoxItem(it.id, isChecked, it.title))
 			}
 			return checkBoxItems
