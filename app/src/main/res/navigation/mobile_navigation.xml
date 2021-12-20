@@ -23,8 +23,8 @@
 	</fragment>
 
 	<fragment
-		android:id="@+id/navigation_uncompletedVariableFragment"
-		android:name="com.hover.runner.actions.fragments.UnCompletedVariablesFragment"
+		android:id="@+id/navigation_run_summary"
+		android:name="com.hover.runner.testRuns.RunSummaryFragment"
 		android:label="@string/uncompleted_variable_notice"
 		tools:layout="@layout/run_summary_fragment_layout">
 	</fragment>
@@ -97,7 +97,7 @@
 
 	<fragment
 		android:id="@+id/navigation_parserDetails"
-		android:name="com.hover.runner.parser.fragment.ParserDetailsFragment"
+		android:name="com.hover.runner.parser.ParserDetailsFragment"
 		android:label="@string/parser_details"
 		tools:layout="@layout/parsers_fragment">
 		<argument
@@ -112,7 +112,7 @@
 	<!--Settings -->
 	<fragment
 		android:id="@+id/navigation_settings"
-		android:name="com.hover.runner.settings.fragment.SettingsFragment"
+		android:name="com.hover.runner.settings.SettingsFragment"
 		android:label="@string/title_settings"
 		tools:layout="@layout/settings_fragment" />
 

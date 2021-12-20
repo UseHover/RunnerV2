@@ -20,7 +20,7 @@ interface RunnerTransactionDao {
 	fun getCountByStatus(actionId: String, status: String): LiveData<Int>
 
 	@Query("SELECT * FROM runner_transactions WHERE matched_parsers LIKE :parserId ORDER BY initiated_at DESC ")
-	suspend fun transactionsByParser(parserId: String): List<RunnerTransaction>
+	fun transactionsByParser(parserId: String): LiveData<List<RunnerTransaction>>
 
 
 	@Query("SELECT * FROM runner_transactions WHERE action_id = :actionId ORDER BY initiated_at ASC LIMIT 1")

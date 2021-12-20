@@ -9,15 +9,16 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.hover.runner.R
 import com.hover.runner.utils.SharedPrefUtils
-import com.hover.sdk.actions.HoverAction
 
 
-internal class VariableRecyclerAdapter(private val action: HoverAction) : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
+internal class VariableRecyclerAdapter(private val variables: List<String>) : RecyclerView.Adapter<VariableRecyclerAdapter.VariableItemListView>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariableItemListView {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.variables_items, parent, false)
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.variable_item, parent, false)
 		return VariableItemListView(view)
 	}
 
@@ -26,17 +27,15 @@ internal class VariableRecyclerAdapter(private val action: HoverAction) : Recycl
 	}
 
 	override fun onBindViewHolder(holder: VariableItemListView, position: Int) {
-		action.requiredParams.get(position)
-		val key: String? = action.requiredParams.get(position)
+		val key: String = variables[position]
 		val value: String? = getVariableValue(key, holder.view.context)
-		holder.view.tag = action.public_id + key
-		holder.labelText.text = key
-		holder.editText.setText(value)
+		holder.input.hint = key
+		holder.edittext.setText(value)
 
-		holder.editText.addTextChangedListener(object : TextWatcher {
+		holder.edittext.addTextChangedListener(object : TextWatcher {
 			override fun afterTextChanged(s: Editable) {
 				SharedPrefUtils.saveString("variable-$key", s.toString(), holder.view.context)
-			} //No changes needed, but required to implement the method
+			}
 			override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 			override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 		})
@@ -46,13 +45,11 @@ internal class VariableRecyclerAdapter(private val action: HoverAction) : Recycl
 
 	override fun getItemViewType(position: Int): Int { return position }
 
-	override fun getItemCount(): Int {
-		return action.requiredParams.size
-	}
+	override fun getItemCount(): Int { return variables.size }
 
 	class VariableItemListView(val view: View) : RecyclerView.ViewHolder(view) {
-		val labelText: TextView = itemView.findViewById(R.id.variable_label_id)
-		val editText: EditText = itemView.findViewById(R.id.variableEditId)
+		val input: TextInputLayout = itemView.findViewById(R.id.inputLayout)
+		val edittext: TextInputEditText = itemView.findViewById(R.id.inputEditText)
 	}
 
 }

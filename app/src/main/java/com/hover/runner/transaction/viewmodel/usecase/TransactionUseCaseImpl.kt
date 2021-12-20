@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.google.android.gms.common.util.ArrayUtils
 import com.hover.runner.BuildConfig
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
-import com.hover.runner.settings.fragment.SettingsFragment
+import com.hover.runner.settings.SettingsFragment
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.transaction.model.TransactionDetailsInfo
 import com.hover.runner.transaction.model.TransactionDetailsMessages

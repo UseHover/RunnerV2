@@ -21,7 +21,7 @@ interface StatusUiTranslator {
 			Transaction.PENDING -> R.color.colorYellow
 			Transaction.FAILED -> R.color.colorRed
 			Transaction.SUCCEEDED -> R.color.colorGreen
-			else -> R.color.colorPrimaryDark
+			else -> R.color.colorSecondaryGrey
 		}
 	}
 

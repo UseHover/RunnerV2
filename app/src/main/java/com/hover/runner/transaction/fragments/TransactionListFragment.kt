@@ -8,8 +8,11 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTransactionsBinding
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener
@@ -33,13 +36,8 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 	private lateinit var homeTransactionsRecyclerView: RecyclerView
 	private lateinit var emptyStateView: RelativeLayout
 
-	private lateinit var transactionNavigationInterface: TransactionNavigationInterface
-
-	override fun onCreateView(inflater: LayoutInflater,
-	                          container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentTransactionsBinding.inflate(inflater, container, false)
-		initInterfaces()
 		return binding.root
 	}
 
@@ -50,16 +48,12 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 		initTransactions()
 		observeLoadingStatus()
 		observeTransactionsList()
-		filterTextView.setOnClickListener { transactionNavigationInterface.navigateTransactionFilterFragment() }
+//		filterTextView.setOnClickListener { transactionNavigationInterface.navigateTransactionFilterFragment() }
 	}
 
 	override fun onResume() {
 		super.onResume()
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
-	}
-
-	private fun initInterfaces() {
-		transactionNavigationInterface = activity as TransactionNavigationInterface
 	}
 
 	private fun initViews() {
@@ -137,6 +131,6 @@ class TransactionListFragment : Fragment(), TransactionClickListener {
 	}
 
 	override fun onTransactionItemClicked(uuid: String) {
-		transactionNavigationInterface.navTransactionDetails(uuid)
+		findNavController().navigate(R.id.navigation_transactionDetails, bundleOf("uuid" to uuid))
 	}
 }

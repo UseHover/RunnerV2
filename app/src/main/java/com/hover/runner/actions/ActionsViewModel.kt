@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.hover.runner.database.ActionRepo
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -15,14 +16,18 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 	val incompleteActions: MutableLiveData<List<HoverAction>> = MutableLiveData()
 	val completedActions: MutableLiveData<List<HoverAction>> = MutableLiveData()
 
-	var filterString: MutableLiveData<String> = MutableLiveData()
-	var filterMap: MutableLiveData<Map<String, String>> = MutableLiveData()
+	val filterString: MutableLiveData<String> = MutableLiveData()
+	val filterMap: MutableLiveData<Map<String, String>> = MutableLiveData()
+	val variableList: MediatorLiveData<List<String>> = MediatorLiveData()
 
 	init {
 		filteredActions.value = listOf()
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterString, this@ActionsViewModel::runFilter)
+		}
+		variableList.apply {
+			addSource(filteredActions, this@ActionsViewModel::loadAllVariables)
 		}
 		viewModelScope.launch(Dispatchers.IO) {
 //			filterString = SharedPrefUtils.getSavedString()
@@ -36,7 +41,7 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 		else filteredActions.value = listOf<HoverAction>()
 	}
 
-	fun runFilter(filters: String) {
+	private fun runFilter(filters: String) {
 		if (allActions.value != null && allActions.value!!.isNotEmpty())
 			runFilter(allActions.value!!, filters)
 		else filteredActions.value = listOf<HoverAction>()
@@ -58,10 +63,22 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 	}
 
 	fun generateFilterMap() : Map<String, String> {
-		val filterMap = mutableMapOf<String, String>()
-		filterString.value?.split(",")?.map { keyValue ->
-			filterMap.put(keyValue.split(":").get(0), keyValue.split(":").get(1))
+//		viewModelScope.launch(Dispatchers.Default) {
+			val filterMap = mutableMapOf<String, String>()
+//			filterString.value?.split(",")?.map { keyValue ->
+//				filterMap.put(keyValue.split(":").get(0), keyValue.split(":").get(1))
+//			}
+			return filterMap
+//		}
+	}
+
+	private fun loadAllVariables(actions: List<HoverAction>) {
+		viewModelScope.launch(Dispatchers.Default) {
+			val params = arrayListOf<String>()
+			for (a in actions) {
+				params.addAll(a.requiredParams)
+			}
+			variableList.postValue(params.distinct())
 		}
-		return filterMap
 	}
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
+import com.hover.runner.database.UpdateHoverActions
 import com.hover.runner.databinding.FragmentActionsBinding
 import com.hover.runner.utils.NetworkUtil
 import com.hover.runner.utils.RunnerColor
@@ -98,7 +99,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	private fun setupTestAll() {
 		binding.testAllActionsId.setSafeOnClickListener {
 			if (!actionsViewModel.filteredActions.value.isNullOrEmpty())
-				it.findNavController().navigate(R.id.navigation_uncompletedVariableFragment)
+				it.findNavController().navigate(R.id.navigation_run_summary)
 			else
 				UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
 		}

@@ -6,6 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
@@ -27,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 		setContentView(binding.root)
 		checkForPermissions()
 		redirectIfRequired()
+		setupNavigation()
 	}
 
 	private fun redirectIfRequired() {
@@ -50,9 +55,17 @@ class MainActivity : AppCompatActivity() {
 			}
 		}
 		if (isLoggedIn() && !PermissionsUtil.hasPermissions(this,
-		                                                    arrayOf(Manifest.permission.READ_PHONE_STATE,
-		                                                            Manifest.permission.CALL_PHONE))) {
+                arrayOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE))) {
 			resultLauncher.launch(Intent(this, PermissionActivity::class.java))
+		}
+	}
+
+	private fun setupNavigation() {
+		val navView = findViewById<BottomNavigationView>(R.id.nav_view)
+		NavigationUI.setupWithNavController(navView, findNavController(R.id.nav_host_fragment))
+
+		if (intent.extras != null && intent.extras!!.getString("navigate") != null) {
+			findNavController(R.id.nav_host_fragment).navigate(R.id.navigation_transactions)
 		}
 	}
 

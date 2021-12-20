@@ -9,10 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
-import com.hover.runner.actions.StyledAction
-import com.hover.runner.parser.listeners.ParserClickListener
+import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.transaction.model.TransactionDetailsInfo
-import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.sdk.actions.HoverAction
 
@@ -56,7 +54,7 @@ class TransactionDetailsRecyclerAdapter(private val infoList: List<TransactionDe
 			if (info.label.contains("Action")) holder.value.setOnClickListener {
 				holder.itemView.findNavController().navigate(R.id.navigation_actionDetails, bundleOf("action_id" to actionId))
 			}
-			else holder.value.setOnClickListener { parserClickListener.onParserItemClicked(info.value) }
+			else holder.value.setOnClickListener { parserClickListener.onParserItemClicked(info.value.toInt()) }
 		}
 	}
 

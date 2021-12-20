@@ -4,10 +4,9 @@ import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
 import org.json.JSONArray
 
-class StyledAction(val action: HoverAction) {
+class ActionDecorator(val action: HoverAction) {
 
 	lateinit var status: String
-	var steps: JSONArray? = null
 
 	val name: String
 		get() = action.name
@@ -17,6 +16,9 @@ class StyledAction(val action: HoverAction) {
 
 	val root_code: String
 		get() = action.root_code
+
+	val network_name: String
+		get() = action.network_name
 
 	fun hasTransaction(status: String): Boolean {
 		return when (status) {

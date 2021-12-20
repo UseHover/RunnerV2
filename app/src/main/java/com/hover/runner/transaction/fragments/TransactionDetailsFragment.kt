@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.hover.runner.R
 import com.hover.runner.customViews.detailsTopLayout.DetailsHeaderView
 import com.hover.runner.databinding.TransactionDetailsFragmentBinding
-import com.hover.runner.parser.listeners.ParserClickListener
+import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.transaction.adapters.TransactionDetailsRecyclerAdapter
 import com.hover.runner.transaction.adapters.TransactionMessagesRecyclerAdapter
 import com.hover.runner.transaction.model.RunnerTransaction
@@ -157,7 +160,7 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		_binding = null
 	}
 
-	override fun onParserItemClicked(id: String) {
-		transactionNavigationInterface.navParserDetailsFragment(aboutInfoAdapter.getActionId(), id.toInt())
+	override fun onParserItemClicked(id: Int) {
+		findNavController().navigate(R.id.navigation_parserDetails, bundleOf("parser_id" to id))
 	}
 }

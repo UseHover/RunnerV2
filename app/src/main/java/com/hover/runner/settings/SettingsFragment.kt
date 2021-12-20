@@ -1,7 +1,8 @@
-package com.hover.runner.settings.fragment
+package com.hover.runner.settings
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,7 +19,7 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.hover.runner.R
 import com.hover.runner.databinding.SettingsFragmentBinding
-import com.hover.runner.settings.navigation.SettingsNavigationInterface
+import com.hover.runner.login.activities.LoginActivity
 import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.SharedPrefUtils.DELAY
@@ -50,18 +51,11 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 	private lateinit var delayInputEdit: EditText
 	private lateinit var signOutText: Button
 
-
 	private var isRefreshButtonIdle = false
-
-	private lateinit var settingsNavigationInterface: SettingsNavigationInterface
 	private val simViewModel: SimViewModel by sharedViewModel()
 
-
-	override fun onCreateView(inflater: LayoutInflater,
-	                          container: ViewGroup?,
-	                          savedInstanceState: Bundle?): View {
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = SettingsFragmentBinding.inflate(inflater, container, false)
-		initInterfaces()
 		return binding.root
 	}
 
@@ -83,10 +77,6 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 		packageNameText.text = Utils.getPackage(requireContext())
 		apiKeyText.text = SharedPrefUtils.getApiKey(requireContext())
 		signOutText.setOnClickListener { showSignOutDialog() }
-	}
-
-	private fun initInterfaces() {
-		settingsNavigationInterface = activity as SettingsNavigationInterface
 	}
 
 	private fun initViews() {
@@ -206,7 +196,7 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 
 	private fun signOut() {
 		SharedPrefUtils.clearData(requireContext())
-		settingsNavigationInterface.navLoginAndFinish()
+		startActivity(Intent(requireActivity(), LoginActivity::class.java))
 	}
 
 	override fun onError(reason: String?) {

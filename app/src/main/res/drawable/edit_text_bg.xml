@@ -19,6 +19,7 @@
 			<solid android:color="@color/colorPrimaryDark"/>
 			<stroke android:width="@dimen/stroke_bold" android:color="@color/colorRed"/>
 			<corners android:radius="@dimen/corner_radius" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item>
@@ -30,6 +31,7 @@
 			<solid android:color="@color/colorPrimaryDark"/>
 			<stroke android:width="@dimen/stroke_bold" android:color="@color/colorPureWhite"/>
 			<corners android:radius="@dimen/corner_radius" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item> <!-- focused -->
@@ -42,6 +44,7 @@
 					android:dashGap="3dp"
 					android:color="@color/colorMainGrey"/>
 			<corners android:radius="@dimen/corner_radius" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item>
@@ -54,6 +57,7 @@
 					android:dashGap="3dp"
 					android:color="@color/colorMainGrey"/>
 			<corners android:radius="@dimen/corner_radius" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item> <!-- default -->

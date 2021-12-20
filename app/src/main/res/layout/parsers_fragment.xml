@@ -20,9 +20,9 @@
                 android:drawableStart="@drawable/ic_arrow_back_white_24dp"
                 android:drawablePadding="@dimen/margin16"
                 android:textColor="@color/colorHoverWhite"
-                android:textSize="@dimen/text22"
+                android:textSize="@dimen/text_22"
                 android:paddingHorizontal="@dimen/margin16"
-                android:id="@+id/parserDetails_toolbarText"/>
+                android:id="@+id/toolbarText"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
                     android:textAllCaps="true"
-                    android:id="@+id/parser_type_content" />
+                    android:id="@+id/response_type" />
 
         </LinearLayout>
 
@@ -72,7 +72,7 @@
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
                     android:textStyle="bold"
-                    android:id="@+id/parser_action_content" />
+                    android:id="@+id/action" />
 
         </LinearLayout>
 
@@ -97,7 +97,7 @@
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
                     android:textStyle="bold"
-                    android:id="@+id/parser_actionId_content" />
+                    android:id="@+id/actionId" />
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_category_content" />
+                    android:id="@+id/category" />
 
         </LinearLayout>
 
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_status_content" />
+                    android:id="@+id/status" />
 
         </LinearLayout>
 
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_createdAt_content" />
+                    android:id="@+id/createdAt" />
 
         </LinearLayout>
 
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_sender_content" />
+                    android:id="@+id/sender" />
 
         </LinearLayout>
 
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorSecondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_regex_content" />
+                    android:id="@+id/regex" />
 
         </LinearLayout>
 
@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/parser_transac_recyclerView"/>
+                android:id="@+id/transactions"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

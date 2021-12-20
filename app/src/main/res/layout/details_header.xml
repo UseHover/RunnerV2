@@ -15,7 +15,7 @@
 		android:textStyle="bold"
 		android:drawablePadding="@dimen/margin16"
 		android:textColor="@color/colorPrimaryDark"
-		android:textSize="@dimen/text22"
+		android:textSize="@dimen/text_22"
 		android:background="?selectableItemBackground"
 		android:transitionName="action_title"
 		android:id="@+id/header_title"
@@ -24,7 +24,7 @@
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/margin42"
+		android:layout_marginStart="42dp"
 		android:textSize="@dimen/text_14"
 		android:id="@+id/header_subtitle"
 		android:textColor="@color/colorPrimaryDark"
@@ -38,7 +38,7 @@
 		android:textColor="@color/colorPrimaryDark"
 		android:textSize="@dimen/text_14"
 		android:id="@+id/header_status"
-		android:layout_marginStart="@dimen/margin42"
+		android:layout_marginStart="42dp"
 		android:layout_marginBottom="@dimen/margin16" />
 
 	<TextView
@@ -50,7 +50,7 @@
 		android:textColor="@color/colorPrimaryDark"
 		android:textSize="@dimen/text_14"
 		android:visibility="gone"
-		android:layout_marginStart="@dimen/margin42"
+		android:layout_marginStart="42dp"
 		android:layout_marginBottom="@dimen/margin16" />
 
 	<TextView
@@ -63,7 +63,7 @@
 		android:textColor="@color/colorPrimaryDark"
 		android:drawablePadding="4dp"
 		android:visibility="gone"
-		android:layout_marginStart="@dimen/margin42"
+		android:layout_marginStart="42dp"
 		android:layout_marginBottom="8dp"
 		app:drawableEndCompat="@drawable/ic_open_in_new_black_15dp" />
 </LinearLayout>

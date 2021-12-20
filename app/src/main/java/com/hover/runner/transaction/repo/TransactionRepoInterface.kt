@@ -1,7 +1,7 @@
 package com.hover.runner.transaction.repo
 
 import androidx.lifecycle.LiveData
-import com.hover.runner.actions.StyledAction
+import com.hover.runner.actions.ActionDecorator
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.sdk.sms.MessageLog
@@ -17,7 +17,7 @@ interface TransactionRepoInterface {
 	suspend fun getTransactionsByAction(actionId: String): List<RunnerTransaction>
 	suspend fun getTransactionSuspended(uuid: String): RunnerTransaction?
 	suspend fun getLastTransaction(actionId: String): RunnerTransaction?
-	suspend fun getAction(actionId: String): StyledAction
+	suspend fun getAction(actionId: String): ActionDecorator
 	suspend fun getDeviceId(): String
 	suspend fun getHoverTransaction(uuid: String): Transaction
 	suspend fun getMessageLog(smsUUID: String): MessageLog

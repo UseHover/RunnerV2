@@ -6,10 +6,8 @@ import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.database.AppDatabase
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
-import com.hover.runner.parser.repo.ParserRepo
-import com.hover.runner.parser.repo.ParserRepoInterfaceImpl
-import com.hover.runner.parser.viewmodel.ParserViewModel
-import com.hover.runner.parser.viewmodel.usecase.ParserUseCaseImpl
+import com.hover.runner.parser.ParserRepo
+import com.hover.runner.parser.ParserViewModel
 import com.hover.runner.sim.repo.SimRepo
 import com.hover.runner.sim.repo.SimRepoInterfaceImpl
 import com.hover.runner.sim.viewmodel.SimViewModel
@@ -34,8 +32,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		val parserUseCaseImpl = ParserUseCaseImpl(ParserRepoInterfaceImpl(get(), get(), get()))
-		ParserViewModel(parserUseCaseImpl)
+		ParserViewModel(get(), get(), get())
 	}
 
 	viewModel {
@@ -43,7 +40,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		ActionDetailViewModel(get(), get())
+		ActionDetailViewModel(get(), get(), get())
 	}
 
 	viewModel {

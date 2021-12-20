@@ -7,8 +7,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.hover.runner.R
 import com.hover.runner.actions.ActionsViewModel
-import com.hover.runner.parser.viewmodel.ParserViewModel
-import com.hover.runner.settings.fragment.SettingsFragment
+import com.hover.runner.parser.ParserViewModel
+import com.hover.runner.settings.SettingsFragment
 import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
 import com.hover.runner.utils.SharedPrefUtils

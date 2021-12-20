@@ -6,10 +6,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import com.hover.runner.actions.StyledAction
+import com.hover.runner.actions.ActionDecorator
 import com.hover.runner.databinding.DetailsHeaderBinding
 import com.hover.runner.transaction.model.RunnerTransaction
-import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.transactions.Transaction
 
@@ -17,7 +16,7 @@ class DetailsHeaderView(context: Context, attributeSet: AttributeSet) : LinearLa
 
 	private var binding: DetailsHeaderBinding = DetailsHeaderBinding.inflate(LayoutInflater.from(context), this, true)
 
-	fun setAction(action: StyledAction) {
+	fun setAction(action: ActionDecorator) {
 		binding.headerTitle.text = action.name
 		binding.headerSubtitle.text = action.public_id
 	}
