@@ -17,11 +17,9 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.actions.adapters.VariableRecyclerAdapter
 import com.hover.runner.actions.ActionDecorator
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
-import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.transaction.model.RunnerTransaction
@@ -97,7 +95,7 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 	}
 
 	private fun fillParserDetails(parsers: List<HoverParser>, tv: TextView) {
-		val ss = SpannableString(parsers.joinToString { "${it.category}, " })
+		val ss = SpannableString(parsers.joinToString { it.category })
 		var start = 0
 		var end: Int
 		for (item in parsers) {

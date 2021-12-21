@@ -26,7 +26,7 @@
                 android:drawablePadding="@dimen/margin16"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_22"
-                android:text="@string/run_head"
+                android:text="@string/run_group_head"
                 app:drawableStartCompat="@drawable/ic_close_black_24dp" />
 
         <TextView

@@ -1,4 +1,4 @@
-package com.hover.runner.customViews.detailsTopLayout
+package com.hover.runner.utils
 
 import android.content.Context
 import com.hover.runner.R

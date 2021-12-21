@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.base.fragment.BaseFragment
-import com.hover.runner.customViews.detailsTopLayout.StatusUiTranslator
+import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.databinding.ParsersFragmentBinding
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener

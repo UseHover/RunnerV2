@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
-import com.hover.runner.customViews.detailsTopLayout.DetailsHeaderView
+import com.hover.runner.ui.DetailsHeaderView
 import com.hover.runner.databinding.TransactionDetailsFragmentBinding
 import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.transaction.adapters.TransactionDetailsRecyclerAdapter

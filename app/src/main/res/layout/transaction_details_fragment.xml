@@ -14,7 +14,7 @@
             android:paddingBottom="32dp"
             android:orientation="vertical">
 
-        <com.hover.runner.customViews.detailsTopLayout.DetailsHeaderView
+        <com.hover.runner.ui.DetailsHeaderView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/transactionDetailsTopLayoutId"/>

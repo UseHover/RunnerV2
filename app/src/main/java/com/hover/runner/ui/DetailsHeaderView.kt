@@ -1,4 +1,4 @@
-package com.hover.runner.customViews.detailsTopLayout
+package com.hover.runner.ui
 
 import android.app.Activity
 import android.content.Context
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.hover.runner.actions.ActionDecorator
+import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.databinding.DetailsHeaderBinding
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.utils.UIHelper

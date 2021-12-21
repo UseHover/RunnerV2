@@ -5,26 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hover.runner.R
-import com.hover.runner.actions.ActionsViewModel
-import com.hover.runner.actions.adapters.VariableRecyclerAdapter
+import com.hover.runner.actionDetail.VariableRecyclerAdapter
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.RunSummaryFragmentLayoutBinding
+import com.hover.runner.home.MainActivity
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
-import com.hover.sdk.actions.HoverAction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import org.json.JSONArray
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
+import timber.log.Timber
 
 class RunSummaryFragment : BaseFragment() {
 	private var _binding: RunSummaryFragmentLayoutBinding? = null
 	private val binding get() = _binding!!
 
-	private val actionsViewModel: ActionsViewModel by sharedViewModel()
+	private val runViewModel: RunViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
@@ -34,9 +30,17 @@ class RunSummaryFragment : BaseFragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		load()
 		initListeners()
 		initObservers()
 		setupStart()
+	}
+
+	private fun load() {
+		if (requireArguments().getString("action_id", "").isNotEmpty())
+			runViewModel.setAction(requireArguments().getString("action_id", ""))
+		else
+			runViewModel.loadActionsWithFilters()
 	}
 
 	private fun initListeners() {
@@ -44,13 +48,18 @@ class RunSummaryFragment : BaseFragment() {
 	}
 
 	private fun initObservers() {
-		actionsViewModel.variableList.observe(viewLifecycleOwner) {
-			it?.let { onVarUpdate(it) }
+		runViewModel.actionQueue.observe(viewLifecycleOwner) {
+			binding.runTitle.text = if (it.size == 1) resources.getString(R.string.run_single_head, it[0].name) else resources.getString(R.string.run_group_head, it.size)
 		}
+
+		runViewModel.variableList.observe(viewLifecycleOwner) {
+			it?.let { onVarListUpdate(it) }
+		}
+
+		runViewModel.kayValMap.observe(viewLifecycleOwner) { Timber.i("observing variable values") }
 	}
 
-	private fun onVarUpdate(vars: List<String>) {
-		binding.runTitle.text = resources.getString(R.string.run_head, vars.size)
+	private fun onVarListUpdate(vars: List<String>) {
 		val adapter = VariableRecyclerAdapter(vars)
 		binding.actionVariables.setLayoutManagerToLinear()
 		binding.actionVariables.adapter = adapter
@@ -58,9 +67,10 @@ class RunSummaryFragment : BaseFragment() {
 
 	private fun setupStart() {
 		binding.startBtn.setOnClickListener {
-			if (actionsViewModel.incompleteActions.value!!.size > 0)
-				actionsViewModel.incompleteActions
-			else
+			if (!runViewModel.actionQueue.value.isNullOrEmpty() && runViewModel.variableList.value?.size == runViewModel.kayValMap.value?.size) {
+				val intent = TestRun(JSONArray(runViewModel.actionQueue.value?.map { it.public_id })).generateIntent(requireActivity())
+				(requireActivity() as MainActivity).runAction(intent)
+			} else
 				UIHelper.flashMessage(requireContext(), getString(R.string.summary_incomplete))
 		}
 	}

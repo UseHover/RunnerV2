@@ -8,7 +8,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.hover.runner.R
-import com.hover.runner.customViews.detailsTopLayout.StatusUiTranslator
+import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.api.Hover

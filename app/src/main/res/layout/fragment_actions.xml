@@ -50,7 +50,7 @@
 						android:paddingHorizontal="@dimen/margin16"
 						android:paddingVertical="16dp"
 						android:id="@+id/actionFilter_id"
-						android:text="@string/filter_text"/>
+						android:text="@string/filter_underlined"/>
 
 			</LinearLayout>
 

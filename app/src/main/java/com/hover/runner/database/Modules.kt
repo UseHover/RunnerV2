@@ -12,6 +12,7 @@ import com.hover.runner.sim.repo.SimRepo
 import com.hover.runner.sim.repo.SimRepoInterfaceImpl
 import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.sim.viewmodel.usecase.SimUseCaseImpl
+import com.hover.runner.testRuns.RunViewModel
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
@@ -37,6 +38,10 @@ val appModule = module {
 
 	viewModel {
 		ActionsViewModel(get(), get())
+	}
+
+	viewModel {
+		RunViewModel(get(), get())
 	}
 
 	viewModel {

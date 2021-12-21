@@ -13,7 +13,7 @@
 	<string name="title_filter">Filter Actions</string>
 	<string name="title_filter_trans">Filter transactions</string>
 	<string name="filter">Filter</string>
-	<string name="reset">Reset</string>
+	<string name="reset"><u>Reset</u></string>
 	<string name="search">Search</string>
 	<string name="search_hint">Search for actionID or root code</string>
 	<string name="search_hint_transaction">Search transaction id, or session text</string>
@@ -52,6 +52,7 @@
 	<string name="sign_in_success">Signed in successfully</string>
 	<string name="one_or_more_empty_variable">This action has one or more empty variables. Please check.</string>
 	<string name="filter_text">Filter</string>
+	<string name="filter_underlined"><u>Filter</u></string>
 	<string name="testAllActions">Test all actions</string>
 	<string name="test_single_action">Test action</string>
 	<string name="testing_mode">Testing mode</string>
@@ -164,7 +165,10 @@
 	<string name="no_transactions_filter_result">0 Transactions</string>
 	<string name="next_label">Next</string>
 
-	<string name="run_head">Test %1$d Actions</string>
+	<string name="run_single_head">Test %1$s</string>
+	<string name="test_run_name">Test %1$d Actions: %1$d</string>
+	<string name="test_run_name_single">Test %1$s: %1$d</string>
+	<string name="run_group_head">Test %1$d Actions</string>
 	<string name="run_label">Start Run</string>
 	<string name="save_continue">Save and continue</string>
 

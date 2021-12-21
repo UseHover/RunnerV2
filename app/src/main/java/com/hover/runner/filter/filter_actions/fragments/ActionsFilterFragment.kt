@@ -39,40 +39,28 @@ class ActionsFilterFragment : BaseFragment() {
 	private lateinit var noTransactionCheckBox: AppCompatCheckBox
 	private lateinit var hasParserCheckBox: AppCompatCheckBox
 	private lateinit var onlyWithSimPresentCheckBox: AppCompatCheckBox
-	private lateinit var toolBarTextView: TextView
 	private lateinit var filterLayout: LinearLayout
 	private lateinit var showActionsTextView: TextView
 
-	private var timer = Timer()
 	private val actionsViewModel: ActionsViewModel by sharedViewModel()
-
-	private lateinit var filterActionNavigationInterface: FilterActionNavigationInterface
-
 	private var _binding: ActionFilterFragmentBinding? = null
 	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = ActionFilterFragmentBinding.inflate(inflater, container, false)
-		initNavigationInterface()
 		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initViews()
-		setupToolBarViews()
+		setupListeners()
 		setupFilterSelections()
-		setupResetFilter()
 		observeFilterParameters()
-		observeFilterActions()
-	}
-
-	private fun initNavigationInterface() {
-		filterActionNavigationInterface = activity as FilterActionNavigationInterface
+		observeFilterData()
 	}
 
 	private fun initViews() {
-		toolBarTextView = binding.actionFilterBackId
 		filterLayout = binding.entryFilterView
 		showActionsTextView = binding.showActionsId
 		loadingProgressBar = binding.filterProgressBar
@@ -90,9 +78,9 @@ class ActionsFilterFragment : BaseFragment() {
 		datePickerTextView = binding.dateRangeEditId
 	}
 
-	private fun setupToolBarViews() {
-		toolBarTextView.setOnClickListener { navigateBack() }
-		resetTextView.underline()
+	private fun setupListeners() {
+		resetTextView.setOnClickListener { actionsViewModel.setFilter(null) }
+		binding.actionFilterBackId.setOnClickListener { navigateBack() }
 	}
 
 	private fun setupFilterSelections() {
@@ -107,61 +95,25 @@ class ActionsFilterFragment : BaseFragment() {
 		}
 	}
 
-	private fun observeFilterActions() {
-		observeFilterData()
-		observeFilterLoadingStatus()
-	}
-
 	private fun observeFilterData() {
 		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
-			if (actions != null) {
-				with(showActionsTextView) {
-					if (actions.isNotEmpty()) {
-						isClickable = true
-						setBackgroundColor(resources.getColor(R.color.colorPrimary))
-						val suffixAction = if (actions.size == 1) "action " else "action"
-						text = String.format(Locale.getDefault(),
-						                     "Show %d %s",
-						                     actions.size,
-						                     suffixAction)
-					}
-					else {
-						isClickable = false
-						setBackgroundColor(resources.getColor(R.color.colorMainGrey))
-						text = resources.getString(R.string.no_actions_filter_result)
-					}
-				}
-			}
-		}
-	}
+			with(showActionsTextView) {
+				isClickable = !actions.isNullOrEmpty()
+				setBackgroundColor(resources.getColor(if (actions.isNullOrEmpty()) R.color.colorMainGrey else R.color.colorPrimary))
 
-	private fun observeFilterLoadingStatus() {
-		actionsViewModel.allActions.observe(viewLifecycleOwner) {
-			if (!it.isNullOrEmpty()) {
-				with(showActionsTextView) {
-					isClickable = false
-					setBackgroundColor(resources.getColor(R.color.colorPrimary))
+				if (actions == null) {
 					text = resources.getString(R.string.loadingText)
+					showReset(false)
+				} else if (actions.isNotEmpty()) {
+					val suffixAction = if (actions.size == 1) "action " else "action"
+					text = String.format(Locale.getDefault(), "Show %d %s", actions.size, suffixAction)
+					showReset(actions.size != actionsViewModel.allActions.value?.size)
+				} else {
+					text = resources.getString(R.string.no_actions_filter_result)
+					showReset(!actionsViewModel.allActions.value.isNullOrEmpty())
 				}
 			}
 		}
-	}
-
-	private fun setupResetFilter() {
-		resetTextView.setOnClickListener { handleResetTextClick() }
-		observeForResetTextView()
-	}
-
-	private fun handleResetTextClick() {
-		actionsViewModel.setFilter(null)
-	}
-
-	private fun observeForResetTextView() {
-//		actionsViewModel.actionsParentTotalLiveData.observe(viewLifecycleOwner) {
-//			if (actionsViewModel.filteredActions.value?.size != actionsViewModel.allActions.value?.size)
-//				activateReset()
-//			else deactivateReset()
-//		}
 	}
 
 	private fun updateFilterEntryData(filterMap: Map<String, String>) {
@@ -200,13 +152,13 @@ class ActionsFilterFragment : BaseFragment() {
 
 	private fun setupFilterEntryBoxSelections() {
 //		searchActionEditText.addTextChangedListener(searchActionEditTextWatcher)
-		countryEntryTextView.setOnClickListener {
-			filterActionNavigationInterface.navigateToSelectCountriesFragment(FilterForEnum.ACTIONS)
-		}
-		categoryEntryTextView.setOnClickListener { filterActionNavigationInterface.navigateToSelectCategoriesFragment() }
-		networkEntryTextView.setOnClickListener {
-			filterActionNavigationInterface.navigateToSelectNetworksFragment(FilterForEnum.ACTIONS)
-		}
+//		countryEntryTextView.setOnClickListener {
+//			filterActionNavigationInterface.navigateToSelectCountriesFragment(FilterForEnum.ACTIONS)
+//		}
+//		categoryEntryTextView.setOnClickListener { filterActionNavigationInterface.navigateToSelectCategoriesFragment() }
+//		networkEntryTextView.setOnClickListener {
+//			filterActionNavigationInterface.navigateToSelectNetworksFragment(FilterForEnum.ACTIONS)
+//		}
 		datePickerTextView.setOnClickListener { pickDateRange() }
 	}
 
@@ -228,12 +180,8 @@ class ActionsFilterFragment : BaseFragment() {
 		return picker
 	}
 
-	private fun deactivateReset() {
-		resetTextView.deactivateView()
-	}
-
-	private fun activateReset() {
-		resetTextView.activateView()
+	private fun showReset(show: Boolean) {
+		if (show) resetTextView.activateView() else resetTextView.deactivateView()
 	}
 
 	override fun onDestroyView() {

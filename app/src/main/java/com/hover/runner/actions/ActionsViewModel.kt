@@ -18,16 +18,12 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 
 	val filterString: MutableLiveData<String> = MutableLiveData()
 	val filterMap: MutableLiveData<Map<String, String>> = MutableLiveData()
-	val variableList: MediatorLiveData<List<String>> = MediatorLiveData()
 
 	init {
 		filteredActions.value = listOf()
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterString, this@ActionsViewModel::runFilter)
-		}
-		variableList.apply {
-			addSource(filteredActions, this@ActionsViewModel::loadAllVariables)
 		}
 		viewModelScope.launch(Dispatchers.IO) {
 //			filterString = SharedPrefUtils.getSavedString()
@@ -48,7 +44,7 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 	}
 
 	private fun runFilter(actions: List<HoverAction>, filters: String?) {
-			filteredActions.value = actions
+		filteredActions.value = actions
 	}
 
 	fun addFilter(newKey: String, check: Boolean) {
@@ -70,15 +66,5 @@ class ActionsViewModel(val application: Application, private val actionRepo: Act
 //			}
 			return filterMap
 //		}
-	}
-
-	private fun loadAllVariables(actions: List<HoverAction>) {
-		viewModelScope.launch(Dispatchers.Default) {
-			val params = arrayListOf<String>()
-			for (a in actions) {
-				params.addAll(a.requiredParams)
-			}
-			variableList.postValue(params.distinct())
-		}
 	}
 }

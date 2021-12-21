@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
 import com.hover.runner.database.UpdateHoverActions
@@ -19,7 +16,6 @@ import com.hover.runner.utils.NetworkUtil
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.TextViewUtils.Companion.styleAsFilterOff
 import com.hover.runner.utils.TextViewUtils.Companion.styleAsFilterOn
-import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.runner.utils.setSafeOnClickListener
@@ -32,13 +28,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 
 	private var _binding: FragmentActionsBinding? = null
 	private val actionsViewModel: ActionsViewModel by sharedViewModel()
-
-	private lateinit var actionsRecyclerView: RecyclerView
-	private lateinit var pullToRefresh: SwipeRefreshLayout
-	private lateinit var filterTextView: TextView
-
 	private var actionRecyclerAdapter: ActionRecyclerAdapter? = null
-
 	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -48,14 +38,9 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initViews()
 		showLoadingView()
-		pullToRefresh.isRefreshing = false
-		setupRecyclerView()
-		setupPullToRefresh()
 		observeActions()
-		setupTestAll()
-		handleFilterText()
+		setupListeners()
 	}
 
 	override fun onResume() {
@@ -63,22 +48,11 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
 	}
 
-	private fun initViews() {
-		pullToRefresh = binding.pullToRefresh
-		actionsRecyclerView = binding.recyclerView
-		filterTextView = binding.actionFilterId
-	}
-
-	private fun handleFilterText() {
-		filterTextView.underline()
-		filterTextView.setOnClickListener { view -> view.findNavController().navigate(R.id.navigation_actionFilter) }
-	}
-
 	private fun updateFilterTextStyle(currentActionListSize: Int) {
 		val isFilterOn: Boolean = currentActionListSize < actionsViewModel.allActions.value!!.size
 
-		if (isFilterOn) filterTextView.styleAsFilterOn()
-		else filterTextView.styleAsFilterOff()
+		if (isFilterOn) binding.actionFilterId.styleAsFilterOn()
+		else binding.actionFilterId.styleAsFilterOff()
 	}
 
 	private fun observeActions() {
@@ -92,11 +66,15 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	}
 
 	private fun setActionListAdapter(actions: List<HoverAction>) {
+		binding.recyclerView.setLayoutManagerToLinear()
 		actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
-		actionsRecyclerView.adapter = actionRecyclerAdapter
+		binding.recyclerView.adapter = actionRecyclerAdapter
 	}
 
-	private fun setupTestAll() {
+	private fun setupListeners() {
+		setupPullToRefresh()
+		//		navController.navigate(R.id.navigation_filter_selectByActions)
+		binding.actionFilterId.setOnClickListener { view -> view.findNavController().navigate(R.id.navigation_actionFilter) }
 		binding.testAllActionsId.setSafeOnClickListener {
 			if (!actionsViewModel.filteredActions.value.isNullOrEmpty())
 				it.findNavController().navigate(R.id.navigation_run_summary)
@@ -106,16 +84,12 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	}
 
 	private fun showLoadingView() {
+		binding.pullToRefresh.isRefreshing = false
 		binding.recyclerViewState.progressState1.visibility = View.VISIBLE
 	}
 
-	private fun setupRecyclerView() {
-		actionsRecyclerView.setLayoutManagerToLinear()
-		actionsRecyclerView.setHasFixedSize(true)
-	}
-
 	private fun setupPullToRefresh() {
-		pullToRefresh.setOnRefreshListener {
+		binding.pullToRefresh.setOnRefreshListener {
 			if (NetworkUtil(requireContext()).isNetworkAvailable) refreshActions()
 			else showNetworkError()
 		}
@@ -128,7 +102,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	}
 
 	private fun showNetworkError() {
-		pullToRefresh.isRefreshing = false
+		binding.pullToRefresh.isRefreshing = false
 		UIHelper.flashMessage(requireContext(),
 		                      if (activity != null) requireActivity().currentFocus else null,
 		                      requireContext().getString(R.string.NO_NETWORK))
@@ -140,12 +114,12 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	}
 
 	override fun onError(reason: String?) {
-		pullToRefresh.isRefreshing = false
+		binding.pullToRefresh.isRefreshing = false
 		UIHelper.flashMessage(requireContext(), reason)
 	}
 
 	override fun onSuccess(actionList: ArrayList<HoverAction>?) {
-		pullToRefresh.isRefreshing = false
+		binding.pullToRefresh.isRefreshing = false
 		UIHelper.flashMessage(requireContext(), resources.getString(R.string.refreshed_successfully))
 	}
 

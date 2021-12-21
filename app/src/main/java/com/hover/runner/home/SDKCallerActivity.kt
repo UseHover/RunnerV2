@@ -16,67 +16,25 @@ import com.hover.sdk.api.HoverParameters
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-abstract class SDKCallerActivity : AppCompatActivity(), SDKCallerInterface {
+abstract class SDKCallerActivity : AppCompatActivity() {
 	private val actionsViewModel: ActionsViewModel by viewModel()
 	private val transactionViewModel: TransactionViewModel by viewModel()
 	private val simViewModel: SimViewModel by viewModel()
 	private val parserViewModel: ParserViewModel by viewModel()
 
-	private var lastRanPos = -1
-
 	private lateinit var chainedActionLauncher: ActivityResultLauncher<Intent>
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		observeLiveData()
-		initChainedLauncher()
+//		initChainedLauncher()
 	}
 
-	override fun runAction(actionId: String) {
-		startActivity(initBuilder(actionId).buildIntent())
-	}
+	fun runAction(intent: Intent) { startActivity(intent) }
 
 	private fun initChainedLauncher() {
 		chainedActionLauncher =
 			registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-				runChainedActions()
+//				runChainedActions()
 			}
 	}
-
-	private fun getThrottle(): Int {
-		return if (lastRanPos > 0) SharedPrefUtils.getDelay(this) else 0
-	}
-
-	private fun initBuilder(actionId: String): HoverParameters.Builder {
-//		val actionExtras: Map<String, String> = ActionVariablesCache.get(this, actionId).actionMap
-		val builder = HoverParameters.Builder(this)
-		builder.request(actionId)
-		builder.setEnvironment(SettingsFragment.getCurrentEnv(this))
-		builder.style(R.style.myHoverTheme)
-//		actionExtras.keys.forEach { builder.extra(it, actionExtras[it]) }
-		return builder
-	}
-
-	private fun observeLiveData() {
-		observeActionViewModel()
-		observeTransactionMediators()
-	}
-
-	private fun observeActionViewModel() { //Necessary to observe these liveData for transformations to work
-		actionsViewModel.incompleteActions.observe(this) {
-			Timber.i("listening to actions with UC variables ${it.size}")
-		}
-		actionsViewModel.completedActions.observe(this) {
-			Timber.i("listening to actions with completed variables ${it.size}")
-		}
-	}
-
-	private fun observeTransactionMediators() {
-		transactionViewModel.filterParameters_toFind_FilteredTransactions_MediatorLiveData.observe(
-			this) { param ->
-			param?.let { Timber.i("listing : ${it.actionIdList}") }
-
-		}
-	}
-
 }
