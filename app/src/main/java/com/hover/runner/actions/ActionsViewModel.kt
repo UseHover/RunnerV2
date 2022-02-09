@@ -1,20 +1,16 @@
 package com.hover.runner.actions
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.hover.runner.database.ActionRepo
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ActionsViewModel(val application: Application, private val actionRepo: ActionRepo) : ViewModel() {
+class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 
 	val allActions: MutableLiveData<List<HoverAction>> = MutableLiveData()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
-	val incompleteActions: MutableLiveData<List<HoverAction>> = MutableLiveData()
-	val completedActions: MutableLiveData<List<HoverAction>> = MutableLiveData()
 
 	val filterString: MutableLiveData<String> = MutableLiveData()
 	val filterMap: MutableLiveData<Map<String, String>> = MutableLiveData()

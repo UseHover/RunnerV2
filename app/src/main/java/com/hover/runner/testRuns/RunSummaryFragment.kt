@@ -49,14 +49,17 @@ class RunSummaryFragment : BaseFragment() {
 
 	private fun initObservers() {
 		runViewModel.actionQueue.observe(viewLifecycleOwner) {
-			binding.runTitle.text = if (it.size == 1) resources.getString(R.string.run_single_head, it[0].name) else resources.getString(R.string.run_group_head, it.size)
+			it?.let {
+				binding.runTitle.text = if (it.size == 1) resources.getString(R.string.run_single_head, it[0].name) else resources.getString(R.string.run_group_head, it.size)
+
+			}
 		}
 
 		runViewModel.variableList.observe(viewLifecycleOwner) {
 			it?.let { onVarListUpdate(it) }
 		}
 
-		runViewModel.kayValMap.observe(viewLifecycleOwner) { Timber.i("observing variable values") }
+		runViewModel.keyValMap.observe(viewLifecycleOwner) { Timber.i("observing variable values") }
 	}
 
 	private fun onVarListUpdate(vars: List<String>) {
@@ -67,7 +70,7 @@ class RunSummaryFragment : BaseFragment() {
 
 	private fun setupStart() {
 		binding.startBtn.setOnClickListener {
-			if (!runViewModel.actionQueue.value.isNullOrEmpty() && runViewModel.variableList.value?.size == runViewModel.kayValMap.value?.size) {
+			if (!runViewModel.actionQueue.value.isNullOrEmpty() && runViewModel.variableList.value?.size == runViewModel.keyValMap.value?.size) {
 				val intent = TestRun(JSONArray(runViewModel.actionQueue.value?.map { it.public_id })).generateIntent(requireActivity())
 				(requireActivity() as MainActivity).runAction(intent)
 			} else

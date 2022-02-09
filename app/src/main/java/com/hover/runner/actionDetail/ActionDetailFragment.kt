@@ -17,7 +17,6 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.actions.ActionDecorator
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
@@ -82,7 +81,7 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 	}
 
 	private fun fillDetails(action: HoverAction) {
-		binding.header.setAction(ActionDecorator(action))
+		binding.header.setAction(action)
 		binding.operators.text = action.network_name
 		binding.longcode.text = action.longcode(requireContext())
 		showVariables(action)

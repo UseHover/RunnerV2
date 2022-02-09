@@ -1,15 +1,15 @@
 package com.hover.runner.filter.filter_actions.abstractViewModel
 
 import androidx.lifecycle.MutableLiveData
-import com.hover.runner.actions.ActionDecorator
 import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
 import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.sim.viewmodel.usecase.SimUseCase
+import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
 
 abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewModel(simUseCase) {
 	val actionFilterParametersMutableLiveData: MutableLiveData<ActionFilterParameters> = MutableLiveData()
-	val filteredActionsMutableLiveData: MutableLiveData<List<ActionDecorator>> = MutableLiveData()
+	val filteredActionsMutableLiveData: MutableLiveData<List<HoverAction>> = MutableLiveData()
 
 	init {
 		actionFilterParametersMutableLiveData.value = ActionFilterParameters.getDefault()
@@ -23,7 +23,7 @@ abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewMo
 		return with(filteredActionsMutableLiveData) { if (value == null) 0 else value!!.size }
 	}
 
-	fun filter_getActions(): List<ActionDecorator> {
+	fun filter_getActions(): List<HoverAction> {
 		return with(filteredActionsMutableLiveData) {
 			if (value == null) ArrayList()
 			else value!!

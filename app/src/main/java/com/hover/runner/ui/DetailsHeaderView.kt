@@ -6,18 +6,18 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
-import com.hover.runner.actions.ActionDecorator
 import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.databinding.DetailsHeaderBinding
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.utils.UIHelper
+import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
 
 class DetailsHeaderView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet), StatusUiTranslator {
 
 	private var binding: DetailsHeaderBinding = DetailsHeaderBinding.inflate(LayoutInflater.from(context), this, true)
 
-	fun setAction(action: ActionDecorator) {
+	fun setAction(action: HoverAction) {
 		binding.headerTitle.text = action.name
 		binding.headerSubtitle.text = action.public_id
 	}

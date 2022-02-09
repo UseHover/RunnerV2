@@ -9,14 +9,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RunViewModel(private val application: Application, private val actionRepo: ActionRepo) : ViewModel() {
+
 	val actionQueue: MutableLiveData<List<HoverAction>> = MutableLiveData()
+	val incompleteActions: MutableLiveData<List<String>> = MutableLiveData()
+	val completedActions: MutableLiveData<List<String>> = MutableLiveData()
+
 	val variableList: LiveData<List<String>>
-	val kayValMap: LiveData<Map<String, String>>
+	val keyValMap: LiveData<Map<String, String>>
 
 	init {
 		actionQueue.value = listOf()
 		variableList = Transformations.map(actionQueue, this@RunViewModel::loadAllVariables)
-		kayValMap = Transformations.map(variableList, this@RunViewModel::loadVariableValues)
+		keyValMap = Transformations.map(variableList, this@RunViewModel::loadVariableValues)
 	}
 
 	fun setAction(id: String) {

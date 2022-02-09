@@ -22,16 +22,16 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.actionDao().allCountryCodes
 	}
 
-	suspend fun filterHoverAction(actionId: String, actionRootCode: String,
-	                              actionIdList: List<String>, countryCodes: List<String>) : List<HoverAction> {
+//	suspend fun filterHoverAction(actionId: String, actionRootCode: String,
+//	                              actionIdList: List<String>, countryCodes: List<String>) : List<HoverAction> {
 
-		val filteredActionIds = sdkDB.actionDao().filterIds(actionId,
-		                                                    actionRootCode,
-		                                                    actionIdList.toTypedArray(),
-		                                                    countryCodes.toTypedArray())
-		Timber.i("filter result size is {${filteredActionIds.size}}")
-		return sdkDB.actionDao().getActions(filteredActionIds.toTypedArray())
-	}
+//		val filteredActionIds = sdkDB.actionDao().filterIds(actionId,
+//		                                                    actionRootCode,
+//		                                                    actionIdList.toTypedArray(),
+//		                                                    countryCodes.toTypedArray())
+//		Timber.i("filter result size is {${filteredActionIds.size}}")
+//		return sdkDB.actionDao().getActions(filteredActionIds.toTypedArray())
+//	}
 
 	suspend fun getNetworkNamesByCountryCodes(countryCodes: List<String>): List<String> {
 		return sdkDB.actionDao().getNetworkNamesByCountryCodes(countryCodes.toTypedArray())
