@@ -2,12 +2,11 @@ package com.hover.runner.filter.filter_actions.abstractViewModel
 
 import androidx.lifecycle.MutableLiveData
 import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
-import com.hover.runner.sim.viewmodel.SimViewModel
-import com.hover.runner.sim.viewmodel.usecase.SimUseCase
+import com.hover.runner.settings.SimsViewModel
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
 
-abstract class AbstractFilterActionViewModel(simUseCase: SimUseCase) : SimViewModel(simUseCase) {
+abstract class AbstractFilterActionViewModel() {
 	val actionFilterParametersMutableLiveData: MutableLiveData<ActionFilterParameters> = MutableLiveData()
 	val filteredActionsMutableLiveData: MutableLiveData<List<HoverAction>> = MutableLiveData()
 

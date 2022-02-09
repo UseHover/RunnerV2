@@ -10,8 +10,6 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -20,7 +18,6 @@ import androidx.fragment.app.Fragment
 import com.hover.runner.R
 import com.hover.runner.databinding.SettingsFragmentBinding
 import com.hover.runner.login.activities.LoginActivity
-import com.hover.runner.sim.viewmodel.SimViewModel
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.SharedPrefUtils.DELAY
 import com.hover.runner.utils.SharedPrefUtils.ENV
@@ -40,19 +37,8 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 	private var _binding: SettingsFragmentBinding? = null
 	private val binding get() = _binding!!
 
-	private lateinit var radioGroup: RadioGroup
-	private lateinit var sim1NameText: TextView
-	private lateinit var sim2NameText: TextView
-	private lateinit var contactSupportText: TextView
-	private lateinit var refreshButton: Button
-	private lateinit var emailText: TextView
-	private lateinit var packageNameText: TextView
-	private lateinit var apiKeyText: TextView
-	private lateinit var delayInputEdit: EditText
-	private lateinit var signOutText: Button
-
 	private var isRefreshButtonIdle = false
-	private val simViewModel: SimViewModel by sharedViewModel()
+	private val simsViewModel: SimsViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = SettingsFragmentBinding.inflate(inflater, container, false)
@@ -66,30 +52,16 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initViews()
 		observeSimNames()
 		setupEnvRadio()
-		linkify(contactSupportText)
+		linkify(binding.contactSupport)
 		setupDelayEntry()
 
-		refreshButton.setOnClickListener { confirmRefresh() }
-		emailText.text = SharedPrefUtils.getEmail(requireContext())
-		packageNameText.text = Utils.getPackage(requireContext())
-		apiKeyText.text = SharedPrefUtils.getApiKey(requireContext())
-		signOutText.setOnClickListener { showSignOutDialog() }
-	}
-
-	private fun initViews() {
-		radioGroup = binding.envRadioGroup
-		sim1NameText = binding.sim1Content
-		sim2NameText = binding.sim2Content
-		contactSupportText = binding.contactSupport
-		refreshButton = binding.refreshButton
-		emailText = binding.email
-		packageNameText = binding.packageName
-		apiKeyText = binding.apiKey
-		delayInputEdit = binding.delayInput
-		signOutText = binding.signOutButton
+		binding.refreshButton.setOnClickListener { confirmRefresh() }
+		binding.email.text = SharedPrefUtils.getEmail(requireContext())
+		binding.packageName.text = Utils.getPackage(requireContext())
+		binding.apiKey.text = SharedPrefUtils.getApiKey(requireContext())
+		binding.signOutButton.setOnClickListener { showSignOutDialog() }
 	}
 
 	private val delayWatcher: TextWatcher = object : TextWatcher {
@@ -101,29 +73,26 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 	}
 
 	private fun setupDelayEntry() {
-		delayInputEdit.setText(SharedPrefUtils.getDelay(requireContext()).toString())
-		delayInputEdit.addTextChangedListener(delayWatcher)
+		binding.delayInput.setText(SharedPrefUtils.getDelay(requireContext()).toString())
+		binding.delayInput.addTextChangedListener(delayWatcher)
 	}
 
 	private fun observeSimNames() {
-		simViewModel.presentSimsLiveData.observe(viewLifecycleOwner) { simNames ->
-			if (simNames != null) {
-				val emptySimValue = resources.getString(R.string.no_sim_found)
-				sim1NameText.text = if (simNames.isNotEmpty()) simNames[0] else emptySimValue
-				if (simNames.size > 1) sim2NameText.text = simNames[1]
-			}
+		simsViewModel.sims.observe(viewLifecycleOwner) { sims ->
+			if (!sims.isNullOrEmpty())
+				binding.sim1Content.text = sims[0].operatorName + "(" + sims[0].osReportedHni + ")"
+			if (!sims.isNullOrEmpty() && sims.size > 1)
+				binding.sim2Content.text = sims[1].operatorName + "(" + sims[1].osReportedHni + ")"
 		}
-		simViewModel.getPresentSims()
 	}
-
 
 	private fun setupEnvRadio() {
 		when (getCurrentEnv(requireContext())) {
-			PROD_ENV -> radioGroup.check(R.id.mode_normal)
-			DEBUG_ENV -> radioGroup.check(R.id.mode_debug)
-			else -> radioGroup.check(R.id.mode_noSim)
+			PROD_ENV -> binding.envRadioGroup.check(R.id.mode_normal)
+			DEBUG_ENV -> binding.envRadioGroup.check(R.id.mode_debug)
+			else -> binding.envRadioGroup.check(R.id.mode_noSim)
 		}
-		radioGroup.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+		binding.envRadioGroup.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
 			updateEnv(checkedId)
 		}
 	}

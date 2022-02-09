@@ -8,10 +8,8 @@ import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
 import com.hover.runner.parser.ParserRepo
 import com.hover.runner.parser.ParserViewModel
-import com.hover.runner.sim.repo.SimRepo
-import com.hover.runner.sim.repo.SimRepoInterfaceImpl
-import com.hover.runner.sim.viewmodel.SimViewModel
-import com.hover.runner.sim.viewmodel.usecase.SimUseCaseImpl
+import com.hover.runner.settings.SimsRepo
+import com.hover.runner.settings.SimsViewModel
 import com.hover.runner.testRuns.RunViewModel
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
@@ -49,8 +47,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		val simUseCaseImpl = SimUseCaseImpl(SimRepoInterfaceImpl(get()))
-		SimViewModel(simUseCaseImpl)
+		SimsViewModel(get(), get())
 	}
 }
 
@@ -60,5 +57,5 @@ val dataModule = module(createdAtStart = true) {
 	single { ActionRepo(get()) }
 	single { TransactionRepo(get()) }
 	single { ParserRepo(get()) }
-	single { SimRepo(get()) }
+	single { SimsRepo(get()) }
 }

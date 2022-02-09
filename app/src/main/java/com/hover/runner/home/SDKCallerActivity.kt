@@ -5,21 +5,16 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.hover.runner.R
 import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.parser.ParserViewModel
-import com.hover.runner.settings.SettingsFragment
-import com.hover.runner.sim.viewmodel.SimViewModel
+import com.hover.runner.settings.SimsViewModel
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
-import com.hover.runner.utils.SharedPrefUtils
-import com.hover.sdk.api.HoverParameters
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 abstract class SDKCallerActivity : AppCompatActivity() {
 	private val actionsViewModel: ActionsViewModel by viewModel()
 	private val transactionViewModel: TransactionViewModel by viewModel()
-	private val simViewModel: SimViewModel by viewModel()
+	private val simsViewModel: SimsViewModel by viewModel()
 	private val parserViewModel: ParserViewModel by viewModel()
 
 	private lateinit var chainedActionLauncher: ActivityResultLauncher<Intent>

@@ -159,7 +159,8 @@
 					android:layout_height="wrap_content"
 					android:textColor="@color/colorSecondaryGrey"
 					android:textSize="@dimen/text_15"
-					android:id="@+id/sim1_content" />
+					android:id="@+id/sim1_content"
+					android:text="@string/no_sim_found" />
 
 		</LinearLayout>
 
@@ -183,7 +184,8 @@
 					android:layout_height="wrap_content"
 					android:textColor="@color/colorSecondaryGrey"
 					android:textSize="@dimen/text_15"
-					android:id="@+id/sim2_content" />
+					android:id="@+id/sim2_content"
+					android:text="@string/no_sim_found" />
 		</LinearLayout>
 
 		<TextView
