@@ -17,18 +17,22 @@
         <entry key="app/src/main/res/layout/filter_by_country.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/filter_by_network_name.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/fragment_actions.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_create.xml" value="0.1140625" />
+        <entry key="app/src/main/res/layout/fragment_fill_variables.xml" value="0.2125" />
+        <entry key="app/src/main/res/layout/fragment_run_summary.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_transactions.xml" value="0.31657608695652173" />
         <entry key="app/src/main/res/layout/general_recycler_view.xml" value="0.378125" />
         <entry key="app/src/main/res/layout/login_activity2.xml" value="0.24139492753623187" />
         <entry key="app/src/main/res/layout/parsers_fragment.xml" value="0.284375" />
         <entry key="app/src/main/res/layout/recycler_view_state.xml" value="0.12222222222222222" />
-        <entry key="app/src/main/res/layout/run_summary_fragment_layout.xml" value="0.378125" />
+        <entry key="app/src/main/res/layout/run_summary_fragment_layout.xml" value="0.18" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.290625" />
         <entry key="app/src/main/res/layout/transac_details_list_items.xml" value="0.24139492753623187" />
         <entry key="app/src/main/res/layout/transaction_details_fragment.xml" value="0.31657608695652173" />
         <entry key="app/src/main/res/layout/transaction_filter_fragment.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/transaction_list_items.xml" value="0.24139492753623187" />
         <entry key="app/src/main/res/layout/uncompleted_variable_fragment_layout.xml" value="0.13323201621073963" />
+        <entry key="app/src/main/res/layout/variable_item.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/variables_items.xml" value="0.378125" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.1546875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24" />

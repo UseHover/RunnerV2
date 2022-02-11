@@ -2,7 +2,7 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/runnerDark"
         android:paddingTop="8dp"
         android:paddingHorizontal="@dimen/margin16"
         android:orientation="horizontal"
@@ -11,14 +11,14 @@
     <TextView
             android:layout_width="105dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/runnerPrimary"
             android:textSize="@dimen/text_15"
             />
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorSecondaryGrey"
+            android:textColor="@color/secondaryGrey"
             android:textSize="@dimen/text_15"
             android:layout_marginStart="12dp"
             />

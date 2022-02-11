@@ -1,6 +1,7 @@
 package com.hover.runner.actions
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,10 @@ import com.hover.runner.ApplicationInstance
 import com.hover.runner.R
 import com.hover.runner.database.UpdateHoverActions
 import com.hover.runner.databinding.FragmentActionsBinding
-import com.hover.runner.utils.NetworkUtil
-import com.hover.runner.utils.RunnerColor
+import com.hover.runner.utils.*
 import com.hover.runner.utils.TextViewUtils.Companion.styleAsFilterOff
 import com.hover.runner.utils.TextViewUtils.Companion.styleAsFilterOn
-import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
-import com.hover.runner.utils.setSafeOnClickListener
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -73,14 +71,18 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 
 	private fun setupListeners() {
 		setupPullToRefresh()
-		//		navController.navigate(R.id.navigation_filter_selectByActions)
 		binding.actionFilterId.setOnClickListener { view -> view.findNavController().navigate(R.id.navigation_actionFilter) }
-		binding.testAllActionsId.setSafeOnClickListener {
-			if (!actionsViewModel.filteredActions.value.isNullOrEmpty())
-				it.findNavController().navigate(R.id.navigation_run_summary)
-			else
-				UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
-		}
+		binding.testAllActionsId.setSafeOnClickListener { navigateToRun(); }
+	}
+
+	private fun navigateToRun() {
+		if (!actionsViewModel.filteredActions.value.isNullOrEmpty()) {
+			Log.e("Actionsfrag", Utils.convertActionListToIds(actionsViewModel.filteredActions.value!!).toString())
+			findNavController().navigate(R.id.navigation_run_variables,
+				bundleOf(Pair("action_ids",
+					Utils.convertActionListToIds(actionsViewModel.filteredActions.value!!).toTypedArray())))
+		} else
+			UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
 	}
 
 	private fun showLoadingView() {

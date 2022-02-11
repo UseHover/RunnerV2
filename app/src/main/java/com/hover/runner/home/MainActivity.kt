@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
 		setupNavigation()
 	}
 
-	fun runAction(intent: Intent) { startActivity(intent) }
-
 	private fun redirectIfRequired() {
 		if (!isLoggedIn()) {
 			startActivity(Intent(this, SplashScreenActivity::class.java))

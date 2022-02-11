@@ -89,7 +89,7 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 
 	private fun showVariables(action: HoverAction) {
 		binding.actionVariables.setLayoutManagerToLinear()
-		binding.actionVariables.adapter = VariableRecyclerAdapter(action.requiredParams)
+		binding.actionVariables.adapter = VariableRecyclerAdapter(action)
 		binding.variableSection.visibility = if (action.requiredParams.size > 0) VISIBLE else GONE
 	}
 

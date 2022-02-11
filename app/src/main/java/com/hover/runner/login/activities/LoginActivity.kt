@@ -164,16 +164,16 @@ class LoginActivity : AppCompatActivity() {
 
 	private fun setErrorView(editText: EditText, errorText: TextView, label: TextView) {
 		editText.isActivated = true
-		editText.setTextColor(resources.getColor(R.color.colorRed))
+		editText.setTextColor(resources.getColor(R.color.runnerRed))
 		errorText.visibility = View.VISIBLE
-		label.setTextColor(resources.getColor(R.color.colorRed))
+		label.setTextColor(resources.getColor(R.color.runnerRed))
 	}
 
 	private fun undoErrorView(editText: EditText, errorText: TextView, label: TextView) {
 		editText.isActivated = false
-		editText.setTextColor(resources.getColor(R.color.colorHoverWhite))
+		editText.setTextColor(resources.getColor(R.color.runnerWhite))
 		errorText.visibility = View.GONE
-		label.setTextColor(resources.getColor(R.color.colorHoverWhite))
+		label.setTextColor(resources.getColor(R.color.runnerWhite))
 	}
 
 	override fun onBackPressed() {

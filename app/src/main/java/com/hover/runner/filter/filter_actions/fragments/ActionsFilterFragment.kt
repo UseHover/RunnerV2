@@ -1,8 +1,6 @@
 package com.hover.runner.filter.filter_actions.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +13,8 @@ import com.hover.runner.R
 import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.ActionFilterFragmentBinding
-import com.hover.runner.filter.enumValue.FilterForEnum
-import com.hover.runner.filter.filter_actions.model.ActionFilterParameters
-import com.hover.runner.filter.filter_actions.navigation.FilterActionNavigationInterface
 import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
-import com.hover.runner.utils.TextViewUtils.Companion.underline
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
@@ -99,7 +93,7 @@ class ActionsFilterFragment : BaseFragment() {
 		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
 			with(showActionsTextView) {
 				isClickable = !actions.isNullOrEmpty()
-				setBackgroundColor(resources.getColor(if (actions.isNullOrEmpty()) R.color.colorMainGrey else R.color.colorPrimary))
+				setBackgroundColor(resources.getColor(if (actions.isNullOrEmpty()) R.color.mainGrey else R.color.runnerPrimary))
 
 				if (actions == null) {
 					text = resources.getString(R.string.loadingText)

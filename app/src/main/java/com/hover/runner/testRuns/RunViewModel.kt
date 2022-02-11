@@ -5,22 +5,18 @@ import androidx.lifecycle.*
 import com.hover.runner.database.ActionRepo
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.api.Hover
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RunViewModel(private val application: Application, private val actionRepo: ActionRepo) : ViewModel() {
 
-	val actionQueue: MutableLiveData<List<HoverAction>> = MutableLiveData()
-	val incompleteActions: MutableLiveData<List<String>> = MutableLiveData()
-	val completedActions: MutableLiveData<List<String>> = MutableLiveData()
-
-	val variableList: LiveData<List<String>>
-	val keyValMap: LiveData<Map<String, String>>
+	var actionQueue: MutableLiveData<List<HoverAction>> = MutableLiveData()
+	var unfilledActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
 	init {
 		actionQueue.value = listOf()
-		variableList = Transformations.map(actionQueue, this@RunViewModel::loadAllVariables)
-		keyValMap = Transformations.map(variableList, this@RunViewModel::loadVariableValues)
+		unfilledActions.addSource(actionQueue, this@RunViewModel::initUnfilled)
 	}
 
 	fun setAction(id: String) {
@@ -29,27 +25,41 @@ class RunViewModel(private val application: Application, private val actionRepo:
 		}
 	}
 
-	fun loadActionsWithFilters() {
+	fun setActions(ids: Array<String>?) {
 		viewModelScope.launch(Dispatchers.IO) {
-//			filterString = SharedPrefUtils.getSavedString()
-			actionQueue.postValue(actionRepo.getAllActionsFromHover())
+			actionQueue.postValue(ids?.let { actionRepo.getHoverActions(it) })
 		}
 	}
 
-	private fun loadAllVariables(actions: List<HoverAction>): List<String> {
-		val params = arrayListOf<String>()
-		for (a in actions) {
-			params.addAll(a.requiredParams)
+	private fun initUnfilled(actions: List<HoverAction>?) {
+		val unfilled = mutableListOf<HoverAction>()
+		if (!actions.isNullOrEmpty()) {
+			for (a in actions) {
+				for (key in a.requiredParams) {
+					if (SharedPrefUtils.getVarValue(a.public_id, key, application).isEmpty()) {
+						unfilled.add(a)
+						break
+					}
+				}
+			}
+			unfilledActions.postValue(unfilled)
 		}
-		return params.distinct()
 	}
 
-	private fun loadVariableValues(variableList: List<String>): Map<String, String> {
-		val params = mutableMapOf<String, String>()
-		for (key in variableList) {
-			if (SharedPrefUtils.getVarValue(key, application).isNotEmpty())
-				params[key] = SharedPrefUtils.getVarValue(key, application)
+	fun next(): Boolean {
+		val a = unfilledActions.value!![0]
+		for (key in a.requiredParams) {
+			if (SharedPrefUtils.getVarValue(a.public_id, key, application).isEmpty())
+				return false
 		}
-		return params
+		unfilledActions.postValue(unfilledActions.value!!.slice(1 until unfilledActions.value!!.size))
+		return true
+	}
+
+	fun skip() {
+		val a = unfilledActions.value!![0]
+		val newQueue = actionQueue.value!!.toMutableList()
+		newQueue.remove(a)
+		actionQueue.postValue(newQueue)
 	}
 }

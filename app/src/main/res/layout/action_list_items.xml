@@ -23,7 +23,7 @@
                 android:paddingHorizontal="@dimen/margin16"
                 android:layout_marginEnd="38dp"
                 android:transitionName="action_title"
-                android:textColor="@color/colorHoverWhite"
+                android:textColor="@color/runnerWhite"
                 android:textStyle="bold"/>
 
         <TextView
@@ -33,7 +33,7 @@
                 android:layout_below="@id/actionIdText_Id"
                 android:textSize="@dimen/text_17"
                 android:paddingHorizontal="@dimen/margin16"
-                android:textColor="@color/colorHoverWhite"
+                android:textColor="@color/runnerWhite"
                 android:layout_marginEnd="38dp"
                 android:textStyle="bold"/>
         <ImageView

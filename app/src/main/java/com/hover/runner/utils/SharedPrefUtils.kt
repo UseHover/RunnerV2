@@ -35,14 +35,14 @@ object SharedPrefUtils {
 		return getSharedPrefs(c).getString(key, null)
 	}
 
-	fun saveVar(key: String?, value: String, c: Context) {
+	fun saveVar(action_id: String, key: String?, value: String, c: Context) {
 		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
-		editor.putString("variable-$key", value)
-		editor.apply()
+		editor.putString("$action_id-variable-$key", value)
+		editor.commit()
 	}
 
-	fun getVarValue(key: String, c: Context): String {
-		return getSharedPrefs(c).getString("variable-$key", "")!!
+	fun getVarValue(action_id: String, key: String, c: Context): String {
+		return getSharedPrefs(c).getString("$action_id-variable-$key", "")!!
 	}
 
 	fun saveInt(key: String?, value: Int, c: Context) {

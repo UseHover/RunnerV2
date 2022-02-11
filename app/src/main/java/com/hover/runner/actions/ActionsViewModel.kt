@@ -22,7 +22,6 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 			addSource(filterString, this@ActionsViewModel::runFilter)
 		}
 		viewModelScope.launch(Dispatchers.IO) {
-//			filterString = SharedPrefUtils.getSavedString()
 			allActions.postValue(actionRepo.getAllActionsFromHover())
 		}
 	}

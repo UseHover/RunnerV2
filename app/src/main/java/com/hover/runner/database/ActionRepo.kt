@@ -2,6 +2,7 @@ package com.hover.runner.database
 
 import androidx.lifecycle.LiveData
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.api.Hover
 import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
 
@@ -16,6 +17,10 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 
 	fun getHoverAction(id: String): HoverAction {
 		return sdkDB.actionDao().getAction(id)
+	}
+
+	fun getHoverActions(ids: Array<String>): List<HoverAction> {
+		return sdkDB.actionDao().getActions(ids)
 	}
 
 	fun getAllActionsCountryCodes(): List<String> {

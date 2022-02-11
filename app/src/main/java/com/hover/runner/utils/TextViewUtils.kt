@@ -50,13 +50,13 @@ class TextViewUtils {
 		}
 
 		fun TextView.styleAsFilterOn() {
-			setTextColor(resources.getColor(R.color.colorPrimary))
+			setTextColor(resources.getColor(R.color.runnerPrimary))
 			setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dot_purple_24dp, 0, 0, 0)
 			compoundDrawablePadding = 8
 		}
 
 		fun TextView.styleAsFilterOff() {
-			setTextColor(resources.getColor(R.color.colorHoverWhite))
+			setTextColor(resources.getColor(R.color.runnerWhite))
 			setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 		}
 	}

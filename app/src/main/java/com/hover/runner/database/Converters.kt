@@ -6,16 +6,12 @@ import org.json.JSONException
 
 public class Converters {
 	@TypeConverter
-	fun toJsonArr(value: String?): JSONArray? {
-		return try {
-			value?.let { JSONArray(it) }
-		} catch (e: JSONException) {
-			null
-		}
+	fun toArr(value: String?): List<String>? {
+		return value?.split(",")
 	}
 
 	@TypeConverter
-	fun fromJsonArr(arr: JSONArray?): String? {
-		return arr?.toString()
+	fun fromArr(stringList: List<String>?): String? {
+		return stringList?.joinToString(",")
 	}
 }

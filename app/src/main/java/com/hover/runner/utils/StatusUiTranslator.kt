@@ -2,7 +2,6 @@ package com.hover.runner.utils
 
 import android.content.Context
 import com.hover.runner.R
-import com.hover.runner.utils.RunnerColor
 import com.hover.sdk.transactions.Transaction
 
 interface StatusUiTranslator {
@@ -18,10 +17,10 @@ interface StatusUiTranslator {
 
 	fun getColor(status: String?): Int {
 		return when (status) {
-			Transaction.PENDING -> R.color.colorYellow
-			Transaction.FAILED -> R.color.colorRed
-			Transaction.SUCCEEDED -> R.color.colorGreen
-			else -> R.color.colorSecondaryGrey
+			Transaction.PENDING -> R.color.runnerYellow
+			Transaction.FAILED -> R.color.runnerRed
+			Transaction.SUCCEEDED -> R.color.runnerGreen
+			else -> R.color.secondaryGrey
 		}
 	}
 

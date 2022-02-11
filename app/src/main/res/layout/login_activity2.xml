@@ -34,7 +34,7 @@
 	<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_weight="1"
-			android:background="@color/colorPrimaryDark"
+			android:background="@color/runnerDark"
 			android:orientation="vertical"
 			android:layout_gravity="center"
 			android:padding="@dimen/margin16"
@@ -46,7 +46,7 @@
 				android:layout_height="wrap_content"
 				android:text="@string/email_string"
 				android:id="@+id/email_label_id"
-				android:textColor="@color/colorHoverWhite"
+				android:textColor="@color/runnerWhite"
 				android:textSize="@dimen/text_17"
 				android:textStyle="bold"/>
 
@@ -61,7 +61,7 @@
 				android:paddingTop="@dimen/margin13"
 				android:paddingBottom="@dimen/margin13"
 				android:hint="@string/email_hint"
-				android:textColorHint="@color/colorTextHint"
+				android:textColorHint="@color/textHint"
 				android:layout_marginTop="8dp"
 				android:maxLines="1"
 				android:imeOptions="actionNext"
@@ -69,7 +69,7 @@
 				android:id="@+id/emailEditId"
 				android:autofillHints="@string/email_hint"
 				android:inputType="textEmailAddress"
-				android:textColor="@color/colorHoverWhite"
+				android:textColor="@color/runnerWhite"
 				android:background="@drawable/edit_text_bg"/>
 
 		<TextView
@@ -81,14 +81,14 @@
 				android:visibility="gone"
 				android:textSize="@dimen/text_17"
 				android:id="@+id/errorText_email"
-				android:textColor="@color/colorRed" />
+				android:textColor="@color/runnerRed" />
 
 		<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/password"
 				android:layout_marginTop="@dimen/margin33"
-				android:textColor="@color/colorHoverWhite"
+				android:textColor="@color/runnerWhite"
 				android:textSize="@dimen/text_17"
 				android:id="@+id/password_label_id"
 				android:textStyle="bold"/>
@@ -99,7 +99,7 @@
 				android:inputType="textPassword"
 				android:maxLines="1"
 				android:autofillHints="@string/email_hint"
-				android:textColor="@color/colorHoverWhite"
+				android:textColor="@color/runnerWhite"
 				android:paddingLeft="@dimen/margin21"
 				android:paddingStart="@dimen/margin21"
 				android:paddingEnd="@dimen/margin21"
@@ -107,7 +107,7 @@
 				android:paddingTop="@dimen/margin13"
 				android:imeOptions="actionDone"
 				android:hint="@string/password_hint"
-				android:textColorHint="@color/colorTextHint"
+				android:textColorHint="@color/textHint"
 				android:layout_marginTop="8dp"
 				android:id="@+id/passwordEditId"
 				android:paddingBottom="@dimen/margin13"
@@ -122,7 +122,7 @@
 				android:visibility="gone"
 				android:textSize="@dimen/text_17"
 				android:id="@+id/errorText_password"
-				android:textColor="@color/colorRed" />
+				android:textColor="@color/runnerRed" />
 
 		<Button
 				android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="19dp"
-				android:textColor="@color/colorHoverWhite"
+				android:textColor="@color/runnerWhite"
 				android:background="?selectableItemBackground"
 				android:textStyle="bold"
 				android:textSize="@dimen/text_17"

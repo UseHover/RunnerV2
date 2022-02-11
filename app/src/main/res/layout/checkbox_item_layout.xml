@@ -5,17 +5,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/runnerDark">
 
     <androidx.appcompat.widget.AppCompatCheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="false"
-            app:buttonTint="@color/colorPrimary"
+            app:buttonTint="@color/runnerPrimary"
             android:layout_marginTop="@dimen/margin16"
             android:id="@+id/checkbox_title"
             android:text="@string/sim_checkbox"
-            android:textColor="@color/colorHoverWhite"
+            android:textColor="@color/runnerWhite"
             android:textSize="@dimen/text_17"
             android:layout_marginHorizontal="@dimen/margin16"
             android:paddingHorizontal="@dimen/margin16"
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="67dp"
-            android:textColor="@color/colorHoverWhite"
+            android:textColor="@color/runnerWhite"
             android:textSize="@dimen/text_17"
             android:visibility="gone"
             android:layout_marginEnd="16dp"

@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import com.hover.runner.R
+import com.hover.sdk.actions.HoverAction
 import org.json.JSONArray
 import org.json.JSONException
 import timber.log.Timber
@@ -73,4 +74,8 @@ object Utils {
 			} catch (e: SecurityException) { Timber.e(e)}
 			return c.getString(R.string.hsdk_unknown_device_id)
 		}
+
+	public fun convertActionListToIds(actions: List<HoverAction>): List<String> {
+		return actions.map { action -> action.public_id }
+	}
 }

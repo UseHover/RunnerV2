@@ -11,7 +11,7 @@
     <TextView
             android:layout_width="105dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/runnerPrimary"
             android:textSize="@dimen/text_15"
             android:id="@+id/transac_det_label"
             android:text="@string/parsers"/>
@@ -19,7 +19,7 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorSecondaryGrey"
+            android:textColor="@color/secondaryGrey"
             android:textSize="@dimen/text_15"
             android:lineSpacingExtra="10dp"
             android:textStyle="bold"

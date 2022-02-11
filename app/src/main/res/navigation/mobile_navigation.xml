@@ -23,10 +23,22 @@
 	</fragment>
 
 	<fragment
+		android:id="@+id/navigation_run_variables"
+		android:name="com.hover.runner.testRuns.FillVariablesFragment"
+		android:label="@string/uncompleted_variable_notice"
+		tools:layout="@layout/fragment_fill_variables">
+		<argument
+			android:name="action_id"
+			app:argType="string" />
+		<argument
+			android:name="action_ids"
+			app:argType="string[]" />
+	</fragment>
+
+	<fragment
 		android:id="@+id/navigation_run_summary"
 		android:name="com.hover.runner.testRuns.RunSummaryFragment"
-		android:label="@string/uncompleted_variable_notice"
-		tools:layout="@layout/run_summary_fragment_layout">
+		tools:layout="@layout/fragment_run_summary">
 	</fragment>
 
 	<fragment

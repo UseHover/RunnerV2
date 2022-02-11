@@ -1,60 +1,30 @@
 <resources>
-	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-		<!-- Customize your theme here. -->
-		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
-
+	<style name="CalendarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 		<item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
 		<item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
 		<item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
-
-	</style>
-
-	<style name="myHoverTheme" parent="@style/HoverTheme.Base" />
-
-	<style name="HoverTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
-		<item name="android:windowActionBar">true</item>
-		<!-- Customize your theme here. -->
-		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
-
-	</style>
-
-	<style name="PinButtonTheme" parent="Widget.AppCompat.Button.Borderless">
-		<item name="android:textColor">@color/colorPureWhite</item>
-		<item name="android:textSize">24sp</item>
-		<item name="android:background">@color/colorPrimaryDark</item>
-		<item name="android:typeface">normal</item>
-		<item name="android:textAllCaps">true</item>
-	</style>
-
-	<style name="PosButtonTheme" parent="Widget.AppCompat.Button.Colored">
-		<item name="android:textColor">@color/colorPureWhite</item>
-		<item name="background">@color/colorPrimary</item>
-		<item name="android:typeface">normal</item>
-		<item name="android:textAllCaps">false</item>
 	</style>
 
 	<style name="LabeledInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-		<item name="android:layout_marginStart">@dimen/margin21</item>
-		<item name="android:layout_marginEnd">@dimen/margin21</item>
 		<item name="android:layout_marginBottom">@dimen/margin13</item>
-		<item name="boxStrokeColor">@color/colorHoverWhite</item>
+		<item name="boxStrokeColor">@color/runnerWhite</item>
 		<item name="boxStrokeWidth">2dp</item>
-		<item name="android:textColorHint">@color/colorMainGrey</item>
-		<item name="hintTextColor">@color/colorHoverWhite</item>
-		<item name="android:textColor">@color/colorHoverWhite</item>
+		<item name="android:textColorHint">@color/mainGrey</item>
+		<item name="hintTextColor">@color/runnerWhite</item>
+		<item name="android:textColor">@color/runnerWhite</item>
 		<item name="android:textSize">@dimen/text_17</item>
 		<item name="fontFamily">font-medium</item>
 		<item name="android:fontFamily">font-medium</item>
-		<item name="errorTextColor">@color/colorRed</item>
-		<item name="endIconTint">@color/colorHoverWhite</item>
+		<item name="errorTextColor">@color/runnerRed</item>
+		<item name="endIconTint">@color/runnerWhite</item>
 		<item name="errorEnabled">true</item>
-		<item name="helperTextTextColor">@color/colorMainGrey</item>
+		<item name="helperTextTextColor">@color/mainGrey</item>
 		<item name="helperTextEnabled">true</item>
+	</style>
+
+	<style name="ExtendedFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">1dp</item>
 	</style>
 </resources>
 

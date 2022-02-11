@@ -3,7 +3,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/runnerDark"
         android:layout_marginBottom="55dp"
         android:orientation="vertical">
 
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_22"
-                android:textColor="@color/colorHoverWhite"
+                android:textColor="@color/runnerWhite"
                 android:text="Record your session to create a new action"
                 android:paddingBottom="@dimen/margin16" />
         </LinearLayout>
@@ -34,10 +34,10 @@
             android:hint="Name it"
             android:textStyle="bold"
             android:textSize="@dimen/text_22"
-            android:textColor="@color/colorHoverWhite"
-            app:hintTextColor="@color/colorMainGrey"
-            android:textColorHint="@color/colorTextHint"
-            app:backgroundTint="@color/colorHoverWhite"
+            android:textColor="@color/runnerWhite"
+            app:hintTextColor="@color/mainGrey"
+            android:textColorHint="@color/textHint"
+            app:backgroundTint="@color/runnerWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/margin21"/>
@@ -48,7 +48,7 @@
             android:paddingTop="@dimen/margin21"
             android:textStyle="bold"
             android:textSize="@dimen/text_22"
-            android:textColor="@color/colorHoverWhite"
+            android:textColor="@color/runnerWhite"
             android:text="Choose SIM"/>
         <RadioGroup android:id="@+id/chooseSim"
             android:layout_width="wrap_content"
@@ -57,9 +57,9 @@
         <EditText android:id="@+id/root_code"
             android:textStyle="bold"
             android:textSize="@dimen/text_22"
-            android:textColor="@color/colorHoverWhite"
-            android:textColorHint="@color/colorTextHint"
-            app:backgroundTint="@color/colorHoverWhite"
+            android:textColor="@color/runnerWhite"
+            android:textColorHint="@color/textHint"
+            app:backgroundTint="@color/runnerWhite"
             android:hint="Enter root code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,11 +69,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:textAlignment="center"
         android:paddingVertical="10dp"
         android:textStyle="bold"
-        android:textColor="@color/runActionTextColor"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="@dimen/text_17"
         android:id="@+id/startSession"
         android:text="Dial and record"/>

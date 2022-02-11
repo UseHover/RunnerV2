@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="font-normal"
-        android:textColor="@color/colorHoverWhite"
+        android:textColor="@color/runnerWhite"
         android:textSize="@dimen/text_17"
-        android:textColorHint="@color/colorHoverWhite"
+        android:textColorHint="@color/runnerWhite"
         android:layout_marginVertical="@dimen/margin8"
         android:maxLines="1" />
 
