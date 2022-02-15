@@ -60,7 +60,7 @@ class SelectCategoryFragment : BaseFragment(), CheckboxItemAdapter.CheckBoxListS
 			val selectedCategories = categoryListAdapter.getCheckedItemTitles()
 
 
-			actionsViewModel.addFilter("cats", selectedCategories.isNotEmpty())
+//			actionsViewModel.addFilter("cats", selectedCategories.isNotEmpty())
 			navigateBack()
 		}
 	}

@@ -38,11 +38,11 @@ class FiltersViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 	}
 
 	private fun runFilter(query: SimpleSQLiteQuery?) {
-		query?.let { filteredActions.value = actionRepo.search(query) }
+		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
 	}
 
-	fun setFilter(newValue: SimpleSQLiteQuery?) {
-		filterQuery.postValue(newValue)
+	fun reset() {
+		searchString.value = null
 	}
 
 	fun setSearch(value: String) {
@@ -51,13 +51,16 @@ class FiltersViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 		}
 	}
 
-	private fun generateSQLStatement(search: String) {
-		var fString = SQL_SELECT
-
-		if (!search.isEmpty()) {
-			fString += " WHERE "
-			fString += generateSearchString(search)
+	private fun generateSQLStatement(search: String?) {
+		if (search.isNullOrEmpty()) {
+			filterQuery.postValue(null)
+			return
 		}
+
+		var fString = "$SQL_SELECT WHERE "
+		if (!search.isNullOrEmpty())
+			fString += generateSearchString(search)
+
 		Timber.e("Searching %s", fString)
 		filterQuery.postValue(SimpleSQLiteQuery(fString))
 	}
@@ -65,9 +68,5 @@ class FiltersViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 	private fun generateSearchString(search: String): String {
 		val s = "%$search%"
 		return "(server_id LIKE '$s' OR name LIKE '$s')"
-	}
-
-	fun saveFilter() {
-
 	}
 }

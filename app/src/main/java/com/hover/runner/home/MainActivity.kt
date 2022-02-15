@@ -10,18 +10,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
-import com.hover.runner.actionDetails.ActionDetailViewModel
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
-import com.hover.runner.settings.SettingsFragment
 import com.hover.runner.utils.PermissionsUtil
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
-import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
-import com.hover.sdk.api.HoverParameters
 import com.hover.sdk.permissions.PermissionActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {

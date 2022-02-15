@@ -1,6 +1,7 @@
 package com.hover.runner.actions
 
 import androidx.lifecycle.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.hover.runner.database.ActionRepo
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
@@ -12,51 +13,28 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
-	val filterString: MutableLiveData<String> = MutableLiveData()
-	val filterMap: MutableLiveData<Map<String, String>> = MutableLiveData()
+	val filterQuery: MutableLiveData<SimpleSQLiteQuery> = MutableLiveData()
 
 	init {
 		filteredActions.value = listOf()
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
-			addSource(filterString, this@ActionsViewModel::runFilter)
+			addSource(filterQuery, this@ActionsViewModel::runFilter)
 		}
 	}
 
 	private fun runFilter(actions: List<HoverAction>?) {
-		if (actions != null && actions.isNotEmpty())
-			runFilter(actions, filterString.value)
-		else filteredActions.value = listOf<HoverAction>()
+		if (!actions.isNullOrEmpty() && filterQuery.value == null)
+			filteredActions.value = actions
 	}
 
-	private fun runFilter(filters: String) {
-		if (allActions.value != null && allActions.value!!.isNotEmpty())
-			runFilter(allActions.value!!, filters)
-		else filteredActions.value = listOf<HoverAction>()
+	private fun runFilter(query: SimpleSQLiteQuery?) {
+		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
 	}
 
-	private fun runFilter(actions: List<HoverAction>, filters: String?) {
-		filteredActions.value = actions
-	}
-
-	fun addFilter(newKey: String, check: Boolean) {
-		if (check)
-			filterString.postValue("$filterString.value$newKey,")
-		else
-			filterString.postValue(filterString.value?.replace("$newKey,", "", ignoreCase = true))
-	}
-
-	fun setFilter(newValue: String?) {
-		filterString.postValue(newValue)
-	}
-
-	fun generateFilterMap() : Map<String, String> {
-//		viewModelScope.launch(Dispatchers.Default) {
-			val filterMap = mutableMapOf<String, String>()
-//			filterString.value?.split(",")?.map { keyValue ->
-//				filterMap.put(keyValue.split(":").get(0), keyValue.split(":").get(1))
-//			}
-			return filterMap
-//		}
+	fun setFilter(query: SimpleSQLiteQuery?) {
+		viewModelScope.launch(Dispatchers.IO) {
+			filterQuery.postValue(query)
+		}
 	}
 }

@@ -7,16 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.util.Pair
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hover.runner.R
+import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FragmentFilterActionsBinding
+import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ActionsFilterFragment : BaseFragment() {
 
 	private val filterViewModel: FiltersViewModel by sharedViewModel()
+	private val actionsViewModel: ActionsViewModel by sharedViewModel()
+
 	private var _binding: FragmentFilterActionsBinding? = null
 	private val binding get() = _binding!!
 
@@ -33,9 +38,14 @@ class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun setupListeners() {
-		binding.resetBtn.setOnClickListener { filterViewModel.setFilter(null) }
-		binding.filterNow.setOnClickListener { filterViewModel.saveFilter() }
+		binding.resetBtn.setOnClickListener { reset() }
+		binding.filterNow.setOnClickListener { saveFilter() }
 		binding.searchInput.addTextChangedListener(searchWatcher)
+	}
+
+	private fun saveFilter() {
+		actionsViewModel.setFilter(filterViewModel.filterQuery.value)
+		findNavController().navigate(R.id.navigation_actions)
 	}
 
 	private val searchWatcher: TextWatcher = object : TextWatcher {
@@ -46,14 +56,21 @@ class ActionsFilterFragment : BaseFragment() {
 		}
 	}
 
-	private fun setupFilterSelections() {
-		setupFilterEntryBoxSelections()
-	}
-
 	private fun observeFilterData() {
 		filterViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
 			actions?.let { binding.filterNow.text = getString(R.string.cta_filter_actions, actions.size)}
 		}
+	}
+
+	private fun setupFilterSelections() {
+		binding.searchInput.setText(filterViewModel.searchString.value)
+	}
+
+	private fun reset() {
+		filterViewModel.reset()
+		actionsViewModel.setFilter(null)
+		binding.searchInput.text = null
+		UIHelper.flashMessage(requireContext(), "Filters reset")
 	}
 
 	private fun updateFilterEntryData(filterMap: Map<String, String>) {
