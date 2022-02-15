@@ -1,13 +1,12 @@
 package com.hover.runner.testRuns
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.actionDetail.VariableRecyclerAdapter
+import com.hover.runner.actionDetails.VariableRecyclerAdapter
 import com.hover.runner.base.fragment.BaseFragment
 import com.hover.runner.databinding.FragmentFillVariablesBinding
 import com.hover.runner.utils.RunnerColor
@@ -40,7 +39,7 @@ class FillVariablesFragment : BaseFragment() {
 		if (!requireArguments().getString("action_id", "").isNullOrEmpty())
 			runViewModel.setAction(requireArguments().getString("action_id", ""))
 		else {
-			Log.e("FILLVARFRAG", requireArguments().getStringArray("action_ids").toString())
+			Timber.e(requireArguments().getStringArray("action_ids").toString())
 			runViewModel.setActions(requireArguments().getStringArray("action_ids"))
 		}
 
@@ -56,14 +55,14 @@ class FillVariablesFragment : BaseFragment() {
 		runViewModel.actionQueue.observe(viewLifecycleOwner) {
 			it?.let {
 				if (runViewModel.actionQueue.value?.size == 1)
-					binding.runTitle.text = getString(R.string.run_single_head, it[0].name)
+					binding.runTitle.text = getString(R.string.new_run_single_subtitle, it[0].name)
 			}
 		}
 
 		runViewModel.unfilledActions.observe(viewLifecycleOwner) {
 			if (!it.isNullOrEmpty()) {
 				Timber.e("filling. First is %s", it[0].name)
-				binding.runSubtitle.text = getString(R.string.fill_vars_subhead, (runViewModel.actionQueue.value!!.size - it.size), runViewModel.actionQueue.value!!.size)
+				binding.runSubtitle.text = getString(R.string.new_run_vars_subtitle, (runViewModel.actionQueue.value!!.size - it.size), runViewModel.actionQueue.value!!.size)
 				binding.actionTitle.text = it[0].name
 				binding.actionSubtitle.text = it[0].public_id
 				onVarListUpdate(it[0])

@@ -3,6 +3,7 @@ package com.hover.runner.home
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.navigation.NavController
 import com.hover.runner.R
@@ -12,7 +13,7 @@ import com.hover.runner.filter.filter_transactions.navigation.FilterTransactionN
 import com.hover.runner.transaction.navigation.TransactionNavigationInterface
 import com.hover.runner.webview.WebViewActivity
 
-abstract class AbstractNavigationActivity : SDKCallerActivity(),
+abstract class AbstractNavigationActivity : AppCompatActivity(),
 	TransactionNavigationInterface,	FilterActionNavigationInterface, FilterTransactionNavigationInterface {
 	private lateinit var navController: NavController
 

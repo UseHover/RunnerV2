@@ -8,6 +8,12 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 object DateUtils {
+	fun timestampTemplate(timestamp: Long): String? {
+		val pattern = "yy-MM-dd_HH:mm:ss"
+		val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+		return simpleDateFormat.format(timestamp)
+	}
+
 		fun formatDate(timestamp: Long): String? {
 			val pattern = "HH:mm:ss (z) MMM dd, yyyy"
 			val simpleDateFormat = SimpleDateFormat(pattern, Locale.getDefault())

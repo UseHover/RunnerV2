@@ -3,20 +3,23 @@ package com.hover.runner.testRuns
 import android.app.Application
 import androidx.lifecycle.*
 import com.hover.runner.database.ActionRepo
+import com.hover.runner.database.TestRunRepo
 import com.hover.runner.utils.SharedPrefUtils
+import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.api.Hover
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RunViewModel(private val application: Application, private val actionRepo: ActionRepo) : ViewModel() {
-
+class RunViewModel(private val application: Application, private val actionRepo: ActionRepo, private val runRepo: TestRunRepo) : ViewModel() {
 	var actionQueue: MutableLiveData<List<HoverAction>> = MutableLiveData()
+
 	var unfilledActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
+	var run: MediatorLiveData<TestRun> = MediatorLiveData()
 
 	init {
 		actionQueue.value = listOf()
 		unfilledActions.addSource(actionQueue, this@RunViewModel::initUnfilled)
+		run.addSource(actionQueue, this@RunViewModel::initRun)
 	}
 
 	fun setAction(id: String) {
@@ -46,6 +49,10 @@ class RunViewModel(private val application: Application, private val actionRepo:
 		}
 	}
 
+	private fun initRun(actions: List<HoverAction>) {
+		run.postValue(TestRun(Utils.convertActionListToIds(actions)))
+	}
+
 	fun next(): Boolean {
 		val a = unfilledActions.value!![0]
 		for (key in a.requiredParams) {
@@ -61,5 +68,12 @@ class RunViewModel(private val application: Application, private val actionRepo:
 		val newQueue = actionQueue.value!!.toMutableList()
 		newQueue.remove(a)
 		actionQueue.postValue(newQueue)
+	}
+
+	fun start(name: String, freq: Int) {
+		val  r = run.value
+		r!!.name = name
+		r.frequency = freq
+		runRepo.startNew(r, application)
 	}
 }

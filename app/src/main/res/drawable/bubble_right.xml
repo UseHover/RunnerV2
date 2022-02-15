@@ -9,7 +9,7 @@
             <shape android:shape="rectangle" android:padding="10dp">
 
                 <solid android:color="@color/mainGrey"/>
-                <corners android:radius="@dimen/corner_radius" />
+                <corners android:radius="@dimen/radius_corner" />
 
             </shape>
         </rotate>
@@ -19,7 +19,7 @@
 
             <solid android:color="@color/runnerDark"/>
             <stroke android:width="2dp" android:color="@color/mainGrey"/>
-            <corners android:radius="@dimen/corner_radius" />
+            <corners android:radius="@dimen/radius_corner" />
 
         </shape>
     </item>

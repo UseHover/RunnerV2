@@ -95,17 +95,17 @@ class ActionsFilterFragment : BaseFragment() {
 				isClickable = !actions.isNullOrEmpty()
 				setBackgroundColor(resources.getColor(if (actions.isNullOrEmpty()) R.color.mainGrey else R.color.runnerPrimary))
 
-				if (actions == null) {
-					text = resources.getString(R.string.loadingText)
-					showReset(false)
-				} else if (actions.isNotEmpty()) {
-					val suffixAction = if (actions.size == 1) "action " else "action"
-					text = String.format(Locale.getDefault(), "Show %d %s", actions.size, suffixAction)
-					showReset(actions.size != actionsViewModel.allActions.value?.size)
-				} else {
-					text = resources.getString(R.string.no_actions_filter_result)
-					showReset(!actionsViewModel.allActions.value.isNullOrEmpty())
-				}
+//				if (actions == null) {
+//					text = resources.getString(R.string.loadingText)
+//					showReset(false)
+//				} else if (actions.isNotEmpty()) {
+//					val suffixAction = if (actions.size == 1) "action " else "action"
+//					text = String.format(Locale.getDefault(), "Show %d %s", actions.size, suffixAction)
+//					showReset(actions.size != actionsViewModel.allActions.value?.size)
+//				} else {
+//					text = resources.getString(R.string.no_actions_filter_result)
+//					showReset(!actionsViewModel.allActions.value.isNullOrEmpty())
+//				}
 			}
 		}
 	}

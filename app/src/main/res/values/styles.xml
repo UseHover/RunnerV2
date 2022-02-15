@@ -1,20 +1,25 @@
 <resources>
-	<style name="CalendarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-		<item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
-		<item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
-		<item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+	<style name="TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+		<item name="android:textSize">@dimen/text_22</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="SubtitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+		<item name="android:textSize">@dimen/text_17</item>
+		<item name="android:textStyle">bold</item>
 	</style>
 
 	<style name="LabeledInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-		<item name="android:layout_marginBottom">@dimen/margin13</item>
+		<item name="android:layout_marginTop">@dimen/margin16</item>
+		<item name="android:layout_marginStart">@dimen/margin16</item>
+		<item name="android:layout_marginEnd">@dimen/margin16</item>
+		<item name="android:layout_marginBottom">@dimen/margin5</item>
 		<item name="boxStrokeColor">@color/runnerWhite</item>
 		<item name="boxStrokeWidth">2dp</item>
 		<item name="android:textColorHint">@color/mainGrey</item>
 		<item name="hintTextColor">@color/runnerWhite</item>
 		<item name="android:textColor">@color/runnerWhite</item>
 		<item name="android:textSize">@dimen/text_17</item>
-		<item name="fontFamily">font-medium</item>
-		<item name="android:fontFamily">font-medium</item>
 		<item name="errorTextColor">@color/runnerRed</item>
 		<item name="endIconTint">@color/runnerWhite</item>
 		<item name="errorEnabled">true</item>
@@ -22,10 +27,19 @@
 		<item name="helperTextEnabled">true</item>
 	</style>
 
+	<style name="LabeledDropdown" parent="LabeledInput">
+		<item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.AutoCompleteTextView.OutlinedBox</item>
+		<item name="endIconMode">dropdown_menu</item>
+	</style>
+
 	<style name="ExtendedFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
 		<item name="cornerFamily">rounded</item>
 		<item name="cornerSize">1dp</item>
 	</style>
+
+	<style name="CalendarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+		<item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+		<item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+		<item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+	</style>
 </resources>
-
-

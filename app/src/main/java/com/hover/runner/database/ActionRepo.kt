@@ -7,11 +7,7 @@ import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
 
 class ActionRepo(private val sdkDB: HoverRoomDatabase) {
-	suspend fun getAllActionsFromHover(): List<HoverAction> {
-		return sdkDB.actionDao().all
-	}
-
-	suspend fun getAllActions(): LiveData<List<HoverAction>> {
+	fun getAll(): LiveData<List<HoverAction>> {
 		return sdkDB.actionDao().allLive
 	}
 

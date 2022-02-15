@@ -13,5 +13,6 @@
 		<item name="colorOnSurface">@color/runnerWhite</item>
 
 		<item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>
+		<item name="android:navigationBarColor" tools:targetApi="l">?attr/colorPrimaryDark</item>
 	</style>
 </resources>

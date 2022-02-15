@@ -1,9 +1,10 @@
 package com.hover.runner.di
 
-import com.hover.runner.actionDetail.ActionDetailViewModel
+import com.hover.runner.actionDetails.ActionDetailViewModel
 import com.hover.runner.database.ActionRepo
 import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.database.AppDatabase
+import com.hover.runner.database.TestRunRepo
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
 import com.hover.runner.parser.ParserRepo
@@ -39,7 +40,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		RunViewModel(get(), get())
+		RunViewModel(get(), get(), get())
 	}
 
 	viewModel {
@@ -55,6 +56,7 @@ val dataModule = module(createdAtStart = true) {
 	single { AppDatabase.getInstance(get()) }
 	single { HoverRoomDatabase.getInstance(get()) }
 	single { ActionRepo(get()) }
+	single { TestRunRepo(get()) }
 	single { TransactionRepo(get()) }
 	single { ParserRepo(get()) }
 	single { SimsRepo(get()) }

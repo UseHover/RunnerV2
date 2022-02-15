@@ -1,5 +1,6 @@
 package com.hover.runner.utils
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.content.SharedPreferences
@@ -18,14 +19,13 @@ object SharedPrefUtils {
 
 	val ENV = "hoverEnv"
 	val EMAIL = "hoverEmail"
-	val PWD = "encryptedPwd"
 
 	fun getSharedPrefs(context: Context): SharedPreferences {
 		return context.getSharedPreferences(getPackage(context).toString() + SHARED_PREFS,
 		                                    Context.MODE_PRIVATE)
 	}
 
-	fun saveString(key: String?, value: String?, c: Context) {
+	private fun saveString(key: String?, value: String?, c: Context) {
 		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
 		editor.putString(key, value)
 		editor.apply()
@@ -45,6 +45,17 @@ object SharedPrefUtils {
 		return getSharedPrefs(c).getString("$action_id-variable-$key", "")!!
 	}
 
+	@SuppressLint("ApplySharedPref")
+	public fun saveQueue(idList: List<String>?, c: Context) {
+		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
+		editor.putStringSet("actionQueue", idList?.toSet())
+		editor.commit()
+	}
+
+	public fun getQueue(c: Context): MutableList<String>? {
+		return getSharedPrefs(c).getStringSet("actionQueue", null)?.toMutableList()
+	}
+
 	fun saveInt(key: String?, value: Int, c: Context) {
 		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
 		editor.putInt(key, value)
@@ -53,30 +64,6 @@ object SharedPrefUtils {
 
 	fun getSavedInt(key: String?, c: Context): Int {
 		return getSharedPrefs(c).getInt(key, 0)
-	}
-
-	fun saveIntoStringSet(key: String, newValue: String, c: Context) {
-		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
-
-		val data = getStringSet(key, c)
-		data?.add(newValue)
-		data?.forEach { Timber.i("old skipped items: $it") }
-
-		editor.putStringSet(key, data)
-		data?.forEach { Timber.i("new skipped items: $it") }
-		editor.apply()
-	}
-
-	fun removeFromStringSet(key: String, value: String, c: Context) {
-		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
-		val data = getStringSet(key, c)
-		data?.remove(value)
-		editor.putStringSet(key, data)
-		editor.apply()
-	}
-
-	fun getStringSet(key: String, c: Context): MutableSet<String>? {
-		return getSharedPrefs(c).getStringSet(key, HashSet<String>())
 	}
 
 	fun setEnv(mode: Int, c: Context) {

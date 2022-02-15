@@ -117,17 +117,17 @@ class TransactionsFilterFragment : BaseFragment() {
 		transactionViewModel.filteredTransactionsMutableLiveData.observe(viewLifecycleOwner) { transactions ->
 			if (transactions != null) {
 				with(showTransactionsTextView) {
-					if (transactions.isNotEmpty()) {
-						isClickable = true
-						setBackgroundColor(resources.getColor(R.color.runnerPrimary))
-						val suffixAction = if (transactions.size == 1) "transactions " else "transaction"
-						text = String.format(Locale.getDefault(), "Show %d %s", transactions.size, suffixAction)
-					}
-					else {
-						isClickable = false
-						setBackgroundColor(resources.getColor(R.color.mainGrey))
-						text = resources.getString(R.string.no_transactions_filter_result)
-					}
+//					if (transactions.isNotEmpty()) {
+//						isClickable = true
+//						setBackgroundColor(resources.getColor(R.color.runnerPrimary))
+//						val suffixAction = if (transactions.size == 1) "transactions " else "transaction"
+//						text = String.format(Locale.getDefault(), "Show %d %s", transactions.size, suffixAction)
+//					}
+//					else {
+//						isClickable = false
+//						setBackgroundColor(resources.getColor(R.color.mainGrey))
+//						text = resources.getString(R.string.no_transactions_filter_result)
+//					}
 				}
 			}
 		}

@@ -4,14 +4,14 @@ import androidx.room.TypeConverter
 import org.json.JSONArray
 import org.json.JSONException
 
-public class Converters {
+class Converters {
 	@TypeConverter
-	fun toArr(value: String?): List<String>? {
-		return value?.split(",")
+	fun toArr(value: String): List<String> {
+		return value.split(",")
 	}
 
 	@TypeConverter
-	fun fromArr(stringList: List<String>?): String? {
-		return stringList?.joinToString(",")
+	fun fromArr(stringList: List<String>): String {
+		return stringList.joinToString(",")
 	}
 }

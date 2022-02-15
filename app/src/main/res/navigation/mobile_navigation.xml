@@ -14,7 +14,7 @@
 
 	<fragment
 		android:id="@+id/navigation_actionDetails"
-		android:name="com.hover.runner.actionDetail.ActionDetailFragment"
+		android:name="com.hover.runner.actionDetails.ActionDetailFragment"
 		android:label="@string/action_details"
 		tools:layout="@layout/action_details_fragment">
 		<argument
@@ -25,7 +25,7 @@
 	<fragment
 		android:id="@+id/navigation_run_variables"
 		android:name="com.hover.runner.testRuns.FillVariablesFragment"
-		android:label="@string/uncompleted_variable_notice"
+		android:label="@string/run_group_description"
 		tools:layout="@layout/fragment_fill_variables">
 		<argument
 			android:name="action_id"
@@ -39,6 +39,12 @@
 		android:id="@+id/navigation_run_summary"
 		android:name="com.hover.runner.testRuns.RunSummaryFragment"
 		tools:layout="@layout/fragment_run_summary">
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_run_in_progress"
+		android:name="com.hover.runner.testRuns.RunSummaryFragment"
+		tools:layout="@layout/fragment_run_in_progress">
 	</fragment>
 
 	<fragment

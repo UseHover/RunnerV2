@@ -6,23 +6,28 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hover.runner.R
+import com.hover.runner.actionDetails.ActionDetailViewModel
 import com.hover.runner.databinding.ActivityMainBinding
 import com.hover.runner.login.activities.SplashScreenActivity
+import com.hover.runner.settings.SettingsFragment
 import com.hover.runner.utils.PermissionsUtil
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
+import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
+import com.hover.sdk.api.HoverParameters
 import com.hover.sdk.permissions.PermissionActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityMainBinding
+	private val viewModel: ActionDetailViewModel by viewModel()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -76,4 +81,37 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
+	public fun startHover(action: HoverAction) {
+		Timber.e("Starting hover action %s", action.public_id)
+		val builder = HoverParameters.Builder(this)
+		builder.request(action.public_id)
+		builder.setEnvironment(SettingsFragment.getCurrentEnv(this))
+		builder.finalMsgDisplayTime(0)
+		action.requiredParams.forEach { builder.extra(it, SharedPrefUtils.getVarValue(action.public_id, it, application)) }
+		startActivityForResult(builder.buildIntent(), 0)
+	}
+
+	@Override
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		Timber.e("Got result")
+		if (data?.getStringExtra("action_id") != null) {
+			Timber.e("Got result with action id %s", data.getStringExtra("action_id"))
+			updateQueueAndGetNext(data.getStringExtra("action_id")!!)
+		}
+	}
+
+	private fun updateQueueAndGetNext(finishedActionId: String) {
+		val actionIdList = SharedPrefUtils.getQueue(this)
+		actionIdList?.remove(finishedActionId)
+		SharedPrefUtils.saveQueue(actionIdList?.toList(), this)
+		if (actionIdList != null && actionIdList.size > 0) {
+			Timber.e("loading next: %s", actionIdList[0])
+			viewModel.action.observe(this) {
+				viewModel.action.removeObservers(this)
+				startHover(it)
+			}
+			viewModel.loadAction(actionIdList[0])
+		}
+	}
 }

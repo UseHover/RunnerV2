@@ -1,4 +1,4 @@
-package com.hover.runner.actionDetail
+package com.hover.runner.actionDetails
 
 import android.graphics.Color
 import android.os.Bundle

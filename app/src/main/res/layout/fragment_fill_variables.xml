@@ -31,7 +31,7 @@
                 android:textColor="?attr/colorOnPrimary"
                 android:drawablePadding="@dimen/margin16"
                 android:textSize="@dimen/text_22"
-                android:text="@string/fill_vars_head"
+                android:text="@string/new_run_vars_title"
                 app:drawableStartCompat="@drawable/ic_close_black_24dp" />
 
             <TextView android:id="@+id/run_subtitle"
@@ -41,7 +41,7 @@
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="@dimen/text_22"
-                android:text="@string/fill_vars_subhead" />
+                android:text="@string/new_run_vars_subtitle" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                 android:id="@+id/action_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fill_vars_head"
+                android:text="@string/new_run_vars_title"
                 android:textSize="@dimen/text_22"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
@@ -81,7 +81,7 @@
                 android:id="@+id/action_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fill_vars_head"
+                android:text="@string/new_run_vars_title"
                 android:textSize="@dimen/text_14"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />

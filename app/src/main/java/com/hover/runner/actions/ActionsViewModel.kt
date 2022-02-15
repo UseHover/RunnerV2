@@ -9,7 +9,7 @@ import java.util.*
 
 class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 
-	val allActions: MutableLiveData<List<HoverAction>> = MutableLiveData()
+	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
 	val filterString: MutableLiveData<String> = MutableLiveData()
@@ -20,9 +20,6 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterString, this@ActionsViewModel::runFilter)
-		}
-		viewModelScope.launch(Dispatchers.IO) {
-			allActions.postValue(actionRepo.getAllActionsFromHover())
 		}
 	}
 

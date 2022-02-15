@@ -1,15 +1,53 @@
 <resources>
-	<string name="app_name">Runner</string>
+	<string name="app_name" translatable="false">Runner</string>
+
+	<string name="url_forgot_password" translatable="false">https://www.usehover.com/u/password/new</string>
+	<string name="api_url" translatable="false">https://www.usehover.com/api/</string>
+	<string name="hsdk_base_url" translatable="false">https://www.usehover.com/sdk/</string>
+	<string name="auth_endpoint" translatable="false">authenticate</string>
+	<string name="token_endpoint" translatable="false">get_token</string>
+
 	<string name="title_actions">Actions</string>
 	<string name="title_transactions">Transactions</string>
 	<string name="title_settings">Settings</string>
+
+	<!--	NAVIGATION-->
 	<string name="title_actions_in_filter">Choose actions</string>
+	<string name="transaction_details">Transaction details</string>
 	<string name="action_details">Action details</string>
-	<string name="transaction_details">Action details</string>
 	<string name="parser_details">Parser details</string>
 
 	<string name="permissions_not_granted">You will need to grant permissions to have full functionality.</string>
 
+	<!--	TEST RUNS-->
+	<string name="new_run_vars_title">New Test Run</string>
+	<string name="new_run_vars_subtitle">%1$d/%2$d actions complete</string>
+	<string name="run_group_description">Please fill out the remaining variables to create the test run.</string>
+	<string name="above_skip_text">Don’t have the values for these variables right now?</string>
+	<string name="skip_text">Skip this action for now.</string>
+	<string name="next_label">Next ></string>
+	<string name="finish">Finish</string>
+
+	<string name="summary_head">Create Test Run</string>
+	<string name="new_run_single_subtitle">Testing %1$s</string>
+	<string name="new_run_subtitle">Testing %1$d Actions</string>
+	<string name="start_label">Save and start</string>
+	<string name="run_template">%1$s-actions-%2$d</string>
+	<string name="run_template_single">%1$s-action-%2$s</string>
+	<string name="run_label">Start Run</string>
+
+	<string name="label_name">Test Run Name</string>
+	<string name="label_frequency">Schedule</string>
+	<string-array name="schedule_array">
+		<item>Once</item>
+		<item>Hourly</item>
+		<item>Daily</item>
+		<item>Weekly</item>
+		<item>Biweekly</item>
+		<item>Monthly</item>
+	</string-array>
+
+<!--	FILTERS-->
 	<string name="title_filter">Filter Actions</string>
 	<string name="title_filter_trans">Filter transactions</string>
 	<string name="filter">Filter</string>
@@ -29,7 +67,6 @@
 	<string name="parsers_checkbox">Only show actions with parsers</string>
 	<string name="sim_checkbox">Only show actions with SIM present</string>
 	<string name="somethingWentWrong">Something went wrong, please try again</string>
-	<string name="url_forgot_password">https://www.usehover.com/u/password/new</string>
 
 	<string name="simon_content_desc">Hover_background</string>
 	<string name="login_image_transition">image_transition</string>
@@ -149,52 +186,15 @@
 	<string name="no_actions_yet">No Actions yet</string>
 	<string name="no_actions_desc">Try swiping down to refresh</string>
 	
-	<string name="uncompleted_variable_notice">Please enter values for the variables below.</string>
-	<string name="above_skip_text">Don’t have the values for these variables right now?</string>
-	<string name="skip_text">Skip this action for now.</string>
-	<string name="below_skip_text">You can always add the values later on this action’s details page</string>
-	<string name="bad_steps_config">Something went wrong with your steps. Please check your dashboard settings</string>
-	
 	<string name="title_countries">Choose countries</string>
 	<string name="title_categories">Choose categories</string>
 	<string name="title_networks">Choose networks</string>
 	<string name="save_text">Save</string>
-
 	<string name="reset_successful">Reset successful</string>
-	<string name="no_actions_filter_result">0 Actions</string>
-	<string name="no_transactions_filter_result">0 Transactions</string>
-	<string name="next_label">Next ></string>
-	<string name="start_label">Save and start</string>
-
-	<string name="run_single_head">Test %1$s</string>
-	<string name="test_run_name">Test %1$d Actions: %1$d</string>
-	<string name="test_run_name_single">Test %1$s: %1$d</string>
-	<string name="fill_vars_head">New Test Run</string>
-	<string name="fill_vars_subhead">%1$d/%2$d actions complete</string>
-	<string name="finish">Finish</string>
-	<string name="summary_head">Create Test Run</string>
-	<string name="summary_subhead">%1$d actions</string>
-	<string name="run_group_description">Please fill out the remaining variables to create the test run.</string>
-	<string name="run_label">Start Run</string>
-	<string name="save_continue">Save and continue</string>
-
-	<string name="api_url">https://www.usehover.com/api/</string>
-	<string name="hsdk_base_url" translatable="false">https://www.usehover.com/sdk/</string>
-	<string name="auth_endpoint">authenticate</string>
-	<string name="token_endpoint">get_token</string>
 
 	<string name="INVALID_EMAIL">Invalid email format, please enter correct email and try again</string>
 	<string name="INVALID_PASSWORD">Invalid password format. Ensure password has a minimum of 5 letters with no space</string>
 	<string name="NO_NETWORK">Internet connection not found</string>
 	<string name="transaction_coming_up">Transaction coming right up…</string>
 	<string name="summary_incomplete">Please fill in all empty variables</string>
-
-	<string-array name="schedule_array">
-		<item>Once</item>
-		<item>Hourly</item>
-		<item>Daily</item>
-		<item>Weekly</item>
-		<item>Biweekly</item>
-		<item>Monthly</item>
-	</string-array>
 </resources>

@@ -1,4 +1,4 @@
-package com.hover.runner.actionDetail
+package com.hover.runner.actionDetails
 
 import androidx.lifecycle.*
 import com.hover.runner.database.ActionRepo
