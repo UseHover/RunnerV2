@@ -1,6 +1,7 @@
 package com.hover.runner.database
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import com.hover.sdk.database.HoverRoomDatabase
@@ -17,6 +18,10 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 
 	fun getHoverActions(ids: Array<String>): List<HoverAction> {
 		return sdkDB.actionDao().getActions(ids)
+	}
+
+	fun search(sqlWhere: SimpleSQLiteQuery): List<HoverAction> {
+		return sdkDB.actionDao().search(sqlWhere)
 	}
 
 	fun getAllActionsCountryCodes(): List<String> {

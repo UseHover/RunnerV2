@@ -49,8 +49,8 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	private fun updateFilterTextStyle(currentActionListSize: Int) {
 		val isFilterOn: Boolean = currentActionListSize < actionsViewModel.allActions.value!!.size
 
-		if (isFilterOn) binding.actionFilterId.styleAsFilterOn()
-		else binding.actionFilterId.styleAsFilterOff()
+		if (isFilterOn) binding.actionFilter.styleAsFilterOn()
+		else binding.actionFilter.styleAsFilterOff()
 	}
 
 	private fun observeActions() {
@@ -71,13 +71,12 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 
 	private fun setupListeners() {
 		setupPullToRefresh()
-		binding.actionFilterId.setOnClickListener { view -> view.findNavController().navigate(R.id.navigation_actionFilter) }
+		binding.actionFilter.setOnClickListener { view -> view.findNavController().navigate(R.id.navigation_actionFilter) }
 		binding.testAllActionsId.setSafeOnClickListener { navigateToRun(); }
 	}
 
 	private fun navigateToRun() {
 		if (!actionsViewModel.filteredActions.value.isNullOrEmpty()) {
-			Log.e("Actionsfrag", Utils.convertActionListToIds(actionsViewModel.filteredActions.value!!).toString())
 			findNavController().navigate(R.id.navigation_run_variables,
 				bundleOf(Pair("action_ids",
 					Utils.convertActionListToIds(actionsViewModel.filteredActions.value!!).toTypedArray())))

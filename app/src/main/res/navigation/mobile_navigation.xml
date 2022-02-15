@@ -49,9 +49,9 @@
 
 	<fragment
 		android:id="@+id/navigation_actionFilter"
-		android:name="com.hover.runner.filter.filter_actions.fragments.ActionsFilterFragment"
-		android:label="@string/title_filter"
-		tools:layout="@layout/action_filter_fragment" />
+		android:name="com.hover.runner.actionFilters.ActionsFilterFragment"
+		android:label="@string/title_filter_actions"
+		tools:layout="@layout/fragment_filter_actions" />
 
 
 	<!--Transactions -->
@@ -82,19 +82,17 @@
 	<fragment
 		android:id="@+id/navigation_filter_selectByActions"
 		android:name="com.hover.runner.filter.selectionFragments.SelectActionsFragment"
-		android:label="@string/filter"
 		tools:layout="@layout/filter_by_actions"/>
 
 	<fragment
 		android:id="@+id/navigation_filter_selectByCategory"
 		android:name="com.hover.runner.filter.selectionFragments.SelectCategoryFragment"
-		android:label="@string/title_filter"
+		android:label="@string/title_filter_actions"
 		tools:layout="@layout/filter_by_categories" />
 
 	<fragment
 		android:id="@+id/navigation_filter_selectByCountry"
 		android:name="com.hover.runner.filter.selectionFragments.SelectCountryFragment"
-		android:label="@string/filter"
 		tools:layout="@layout/filter_by_country">
 		<argument
 			android:name="filterfor"
@@ -104,7 +102,6 @@
 	<fragment
 		android:id="@+id/navigation_filter_selectByNetworkNames"
 		android:name="com.hover.runner.filter.selectionFragments.SelectNetworkNameFragment"
-		android:label="@string/filter"
 		tools:layout="@layout/filter_by_network_name">
 		<argument
 			android:name="filterfor"
