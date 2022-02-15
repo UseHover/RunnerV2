@@ -27,7 +27,6 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityMainBinding
-	private val viewModel: ActionDetailViewModel by viewModel()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -78,40 +77,6 @@ class MainActivity : AppCompatActivity() {
 		with(SharedPrefUtils.getApiKey(this)) {
 			Timber.i("API key is: $this")
 			return this != null && this.length > 5
-		}
-	}
-
-	public fun startHover(action: HoverAction) {
-		Timber.e("Starting hover action %s", action.public_id)
-		val builder = HoverParameters.Builder(this)
-		builder.request(action.public_id)
-		builder.setEnvironment(SettingsFragment.getCurrentEnv(this))
-		builder.finalMsgDisplayTime(0)
-		action.requiredParams.forEach { builder.extra(it, SharedPrefUtils.getVarValue(action.public_id, it, application)) }
-		startActivityForResult(builder.buildIntent(), 0)
-	}
-
-	@Override
-	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-		super.onActivityResult(requestCode, resultCode, data)
-		Timber.e("Got result")
-		if (data?.getStringExtra("action_id") != null) {
-			Timber.e("Got result with action id %s", data.getStringExtra("action_id"))
-			updateQueueAndGetNext(data.getStringExtra("action_id")!!)
-		}
-	}
-
-	private fun updateQueueAndGetNext(finishedActionId: String) {
-		val actionIdList = SharedPrefUtils.getQueue(this)
-		actionIdList?.remove(finishedActionId)
-		SharedPrefUtils.saveQueue(actionIdList?.toList(), this)
-		if (actionIdList != null && actionIdList.size > 0) {
-			Timber.e("loading next: %s", actionIdList[0])
-			viewModel.action.observe(this) {
-				viewModel.action.removeObservers(this)
-				startHover(it)
-			}
-			viewModel.loadAction(actionIdList[0])
 		}
 	}
 }

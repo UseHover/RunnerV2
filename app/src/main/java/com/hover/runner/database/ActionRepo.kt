@@ -11,7 +11,7 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.actionDao().allLive
 	}
 
-	fun getHoverAction(id: String): HoverAction {
+	fun load(id: String): HoverAction {
 		return sdkDB.actionDao().getAction(id)
 	}
 

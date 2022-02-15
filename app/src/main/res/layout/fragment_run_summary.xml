@@ -19,7 +19,7 @@
 		app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 		app:titleTextAppearance="@style/TitleText"
 		app:subtitleTextAppearance="@style/SubtitleText"
-		app:title="@string/summary_head"
+		app:title="@string/summary_title"
 		app:subtitle="@string/new_run_subtitle" />
 
 	<com.google.android.material.textfield.TextInputLayout

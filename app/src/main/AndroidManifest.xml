@@ -32,6 +32,8 @@
 			android:exported="false" />
 		<activity android:name=".webview.WebViewActivity"
 			android:exported="false" />
+		<activity android:name=".running.RunningActivity"
+			android:exported="false" />
 
 		<receiver
 			android:name=".transaction.TransactionReceiver"

@@ -1,4 +1,4 @@
-package com.hover.runner.testRuns
+package com.hover.runner.newRun
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ class FillVariablesFragment : BaseFragment() {
 	private var _binding: FragmentFillVariablesBinding? = null
 	private val binding get() = _binding!!
 
-	private val runViewModel: RunViewModel by sharedViewModel()
+	private val newRunViewModel: NewRunViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
@@ -37,10 +37,10 @@ class FillVariablesFragment : BaseFragment() {
 
 	private fun load() {
 		if (!requireArguments().getString("action_id", "").isNullOrEmpty())
-			runViewModel.setAction(requireArguments().getString("action_id", ""))
+			newRunViewModel.setAction(requireArguments().getString("action_id", ""))
 		else {
 			Timber.e(requireArguments().getStringArray("action_ids").toString())
-			runViewModel.setActions(requireArguments().getStringArray("action_ids"))
+			newRunViewModel.setActions(requireArguments().getStringArray("action_ids"))
 		}
 
 	}
@@ -48,21 +48,21 @@ class FillVariablesFragment : BaseFragment() {
 	private fun initListeners() {
 		binding.runTitle.setOnClickListener { navigateBack() }
 		binding.fab.setOnClickListener { next() }
-		binding.skip.setOnClickListener { runViewModel.skip() }
+		binding.skip.setOnClickListener { newRunViewModel.skip() }
 	}
 
 	private fun initObservers() {
-		runViewModel.actionQueue.observe(viewLifecycleOwner) {
+		newRunViewModel.actionQueue.observe(viewLifecycleOwner) {
 			it?.let {
-				if (runViewModel.actionQueue.value?.size == 1)
+				if (newRunViewModel.actionQueue.value?.size == 1)
 					binding.runTitle.text = getString(R.string.new_run_single_subtitle, it[0].name)
 			}
 		}
 
-		runViewModel.unfilledActions.observe(viewLifecycleOwner) {
+		newRunViewModel.unfilledActions.observe(viewLifecycleOwner) {
 			if (!it.isNullOrEmpty()) {
 				Timber.e("filling. First is %s", it[0].name)
-				binding.runSubtitle.text = getString(R.string.new_run_vars_subtitle, (runViewModel.actionQueue.value!!.size - it.size), runViewModel.actionQueue.value!!.size)
+				binding.runSubtitle.text = getString(R.string.new_run_vars_subtitle, (newRunViewModel.actionQueue.value!!.size - it.size), newRunViewModel.actionQueue.value!!.size)
 				binding.actionTitle.text = it[0].name
 				binding.actionSubtitle.text = it[0].public_id
 				onVarListUpdate(it[0])
@@ -80,7 +80,7 @@ class FillVariablesFragment : BaseFragment() {
 	}
 
 	private fun next() {
-		if (!runViewModel.next())
+		if (!newRunViewModel.next())
 			UIHelper.flashMessage(requireContext(), getString(R.string.summary_incomplete))
 	}
 

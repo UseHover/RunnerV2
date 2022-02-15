@@ -31,8 +31,8 @@ object SharedPrefUtils {
 		editor.apply()
 	}
 
-	fun getSavedString(key: String?, c: Context): String? {
-		return getSharedPrefs(c).getString(key, null)
+	fun getSavedString(key: String?, c: Context): String {
+		return getSharedPrefs(c).getString(key, "")!!
 	}
 
 	fun saveVar(action_id: String, key: String?, value: String, c: Context) {

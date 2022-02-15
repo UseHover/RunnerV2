@@ -11,7 +11,8 @@ import com.hover.runner.parser.ParserRepo
 import com.hover.runner.parser.ParserViewModel
 import com.hover.runner.settings.SimsRepo
 import com.hover.runner.settings.SimsViewModel
-import com.hover.runner.testRuns.RunViewModel
+import com.hover.runner.newRun.NewRunViewModel
+import com.hover.runner.running.RunningViewModel
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
 import com.hover.runner.transaction.viewmodel.TransactionViewModel
@@ -40,7 +41,11 @@ val appModule = module {
 	}
 
 	viewModel {
-		RunViewModel(get(), get(), get())
+		NewRunViewModel(get(), get(), get())
+	}
+
+	viewModel {
+		RunningViewModel(get(), get(), get())
 	}
 
 	viewModel {

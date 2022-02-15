@@ -26,7 +26,7 @@ class ParserViewModel(private val parserRepo: ParserRepo, private val actionRepo
 	}
 
 	private fun getAction(parser: HoverParser) : HoverAction {
-		return actionRepo.getHoverAction(parser.actionId)
+		return actionRepo.load(parser.actionId)
 	}
 
 	private fun getTransactions(parser: HoverParser) : LiveData<List<RunnerTransaction>> {

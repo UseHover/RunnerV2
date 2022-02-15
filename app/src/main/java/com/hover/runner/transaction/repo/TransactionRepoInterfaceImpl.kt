@@ -48,7 +48,7 @@ class TransactionRepoInterfaceImpl(private val repo: TransactionRepo,
 	}
 
 	override suspend fun getAction(actionId: String): HoverAction {
-		val hoverAction = actionRepo.getHoverAction(actionId)
+		val hoverAction = actionRepo.load(actionId)
 		val lastTransaction = repo.getLastTransaction(actionId)
 		return hoverAction
 	}

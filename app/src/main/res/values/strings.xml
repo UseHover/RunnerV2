@@ -28,13 +28,16 @@
 	<string name="next_label">Next ></string>
 	<string name="finish">Finish</string>
 
-	<string name="summary_head">Create Test Run</string>
+	<string name="summary_title">Create Test Run</string>
 	<string name="new_run_single_subtitle">Testing %1$s</string>
 	<string name="new_run_subtitle">Testing %1$d Actions</string>
 	<string name="start_label">Save and start</string>
 	<string name="run_template">%1$s-actions-%2$d</string>
 	<string name="run_template_single">%1$s-action-%2$s</string>
 	<string name="run_label">Start Run</string>
+
+	<string name="in_progress_title">Tests running</string>
+	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
 
 	<string name="label_name">Test Run Name</string>
 	<string name="label_frequency">Schedule</string>

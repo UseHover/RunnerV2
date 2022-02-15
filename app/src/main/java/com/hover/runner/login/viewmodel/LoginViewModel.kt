@@ -13,18 +13,15 @@ class LoginViewModel(private val useCase: LoginUseCase) : ViewModel() {
 	val loginLiveData: MutableLiveData<Resource<Int>> = MutableLiveData()
 	val validationLiveData: MutableLiveData<Resource<Int>> = MutableLiveData()
 
-	private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
-	private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main
-
 	fun doLogin(email: String, password: String) {
-		viewModelScope.launch(dispatcherIO) {
+		viewModelScope.launch(Dispatchers.IO) {
 			loginLiveData.postValue(Resource.Loading())
 			loginLiveData.postValue(useCase.login(email, password))
 		}
 	}
 
 	fun validate(email: String, password: String) {
-		viewModelScope.launch(dispatcherMain) {
+		viewModelScope.launch(Dispatchers.Main) {
 			validationLiveData.postValue(useCase.validate(email, password))
 		}
 	}

@@ -32,7 +32,7 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 
 	fun loadAction(id: String) {
 		viewModelScope.launch(Dispatchers.IO) {
-			action.postValue(actionRepo.getHoverAction(id))
+			action.postValue(actionRepo.load(id))
 		}
 	}
 

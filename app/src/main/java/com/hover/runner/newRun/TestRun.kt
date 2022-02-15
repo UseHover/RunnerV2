@@ -1,4 +1,4 @@
-package com.hover.runner.testRuns
+package com.hover.runner.newRun
 
 import android.content.Context
 import androidx.annotation.NonNull
@@ -16,7 +16,7 @@ data class TestRun(
 ) : Comparable<TestRun> {
 
 	@PrimaryKey(autoGenerate = true)
-	var id: Int = 0
+	var id: Long = 0
 
 	var name: String = ""
 

@@ -1,4 +1,4 @@
-package com.hover.runner.testRuns
+package com.hover.runner.newRun
 
 import android.app.Application
 import androidx.lifecycle.*
@@ -9,8 +9,9 @@ import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class RunViewModel(private val application: Application, private val actionRepo: ActionRepo, private val runRepo: TestRunRepo) : ViewModel() {
+class NewRunViewModel(private val application: Application, private val actionRepo: ActionRepo, private val runRepo: TestRunRepo) : ViewModel() {
 	var actionQueue: MutableLiveData<List<HoverAction>> = MutableLiveData()
 
 	var unfilledActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
@@ -18,13 +19,13 @@ class RunViewModel(private val application: Application, private val actionRepo:
 
 	init {
 		actionQueue.value = listOf()
-		unfilledActions.addSource(actionQueue, this@RunViewModel::initUnfilled)
-		run.addSource(actionQueue, this@RunViewModel::initRun)
+		unfilledActions.addSource(actionQueue, this@NewRunViewModel::initUnfilled)
+		run.addSource(actionQueue, this@NewRunViewModel::initRun)
 	}
 
 	fun setAction(id: String) {
 		viewModelScope.launch(Dispatchers.IO) {
-			actionQueue.postValue(listOf(actionRepo.getHoverAction(id)))
+			actionQueue.postValue(listOf(actionRepo.load(id)))
 		}
 	}
 
@@ -70,10 +71,12 @@ class RunViewModel(private val application: Application, private val actionRepo:
 		actionQueue.postValue(newQueue)
 	}
 
-	fun start(name: String, freq: Int) {
+	fun save(name: String, freq: Int): LiveData<Long> {
 		val  r = run.value
 		r!!.name = name
 		r.frequency = freq
-		runRepo.startNew(r, application)
+		return liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+			emit(runRepo.saveNew(r, application))
+		}
 	}
 }
