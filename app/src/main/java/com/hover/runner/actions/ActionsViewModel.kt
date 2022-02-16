@@ -6,20 +6,29 @@ import com.hover.runner.database.ActionRepo
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import timber.log.Timber
+
+const val SQL_SELECT = "SELECT * FROM hover_actions"
 
 class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
-	val filterQuery: MutableLiveData<SimpleSQLiteQuery> = MutableLiveData()
+	var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
+	val searchString: MutableLiveData<String> = MutableLiveData()
+
 
 	init {
 		filteredActions.value = listOf()
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterQuery, this@ActionsViewModel::runFilter)
+		}
+
+		filterQuery.value = null
+		filterQuery.apply {
+			addSource(searchString, this@ActionsViewModel::generateSQLStatement)
 		}
 	}
 
@@ -32,9 +41,32 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
 	}
 
-	fun setFilter(query: SimpleSQLiteQuery?) {
+	fun reset() {
+		searchString.value = null
+	}
+
+	fun setSearch(value: String) {
 		viewModelScope.launch(Dispatchers.IO) {
-			filterQuery.postValue(query)
+			searchString.postValue(value)
 		}
+	}
+
+	private fun generateSQLStatement(search: String?) {
+		if (search.isNullOrEmpty()) {
+			filterQuery.postValue(null)
+			return
+		}
+
+		var fString = "$SQL_SELECT WHERE "
+		if (!search.isNullOrEmpty())
+			fString += generateSearchString(search)
+
+		Timber.e("Searching %s", fString)
+		filterQuery.postValue(SimpleSQLiteQuery(fString))
+	}
+
+	private fun generateSearchString(search: String): String {
+		val s = "%$search%"
+		return "(server_id LIKE '$s' OR name LIKE '$s')"
 	}
 }

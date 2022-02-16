@@ -18,8 +18,6 @@ import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ActionsFilterFragment : BaseFragment() {
-
-	private val filterViewModel: FiltersViewModel by sharedViewModel()
 	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 
 	private var _binding: FragmentFilterActionsBinding? = null
@@ -44,7 +42,6 @@ class ActionsFilterFragment : BaseFragment() {
 	}
 
 	private fun saveFilter() {
-		actionsViewModel.setFilter(filterViewModel.filterQuery.value)
 		findNavController().navigate(R.id.navigation_actions)
 	}
 
@@ -52,23 +49,22 @@ class ActionsFilterFragment : BaseFragment() {
 		override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 		override fun afterTextChanged(editable: Editable) {}
 		override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-			if (charSequence.isNotEmpty()) filterViewModel.setSearch(charSequence.toString())
+			if (charSequence.isNotEmpty()) actionsViewModel.setSearch(charSequence.toString())
 		}
 	}
 
 	private fun observeFilterData() {
-		filterViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
+		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
 			actions?.let { binding.filterNow.text = getString(R.string.cta_filter_actions, actions.size)}
 		}
 	}
 
 	private fun setupFilterSelections() {
-		binding.searchInput.setText(filterViewModel.searchString.value)
+		binding.searchInput.setText(actionsViewModel.searchString.value)
 	}
 
 	private fun reset() {
-		filterViewModel.reset()
-		actionsViewModel.setFilter(null)
+		actionsViewModel.reset()
 		binding.searchInput.text = null
 		UIHelper.flashMessage(requireContext(), "Filters reset")
 	}

@@ -1,7 +1,6 @@
 package com.hover.runner.di
 
 import com.hover.runner.actionDetails.ActionDetailViewModel
-import com.hover.runner.actionFilters.FiltersViewModel
 import com.hover.runner.database.ActionRepo
 import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.database.AppDatabase
@@ -39,10 +38,6 @@ val appModule = module {
 
 	viewModel {
 		ActionsViewModel(get())
-	}
-
-	viewModel {
-		FiltersViewModel(get())
 	}
 
 	viewModel {
