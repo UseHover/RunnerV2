@@ -17,9 +17,12 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 
 	var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
 	val searchString: MutableLiveData<String> = MutableLiveData()
-
+	val tagsList: MutableLiveData<List<String>> = MutableLiveData()
 
 	init {
+		viewModelScope.launch(Dispatchers.IO) {
+			tagsList.postValue(actionRepo.getAllTags())
+		}
 		filteredActions.value = listOf()
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
