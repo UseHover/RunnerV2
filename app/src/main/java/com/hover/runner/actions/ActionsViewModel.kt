@@ -2,11 +2,9 @@ package com.hover.runner.actions
 
 import androidx.lifecycle.*
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.hover.runner.database.ActionRepo
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 const val SQL_SELECT = "SELECT * FROM hover_actions"
 

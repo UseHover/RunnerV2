@@ -3,8 +3,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/runnerDark"
-        android:layout_marginBottom="55dp"
         android:orientation="vertical">
 
     <LinearLayout

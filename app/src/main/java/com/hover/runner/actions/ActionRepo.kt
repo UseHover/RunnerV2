@@ -1,10 +1,8 @@
-package com.hover.runner.database
+package com.hover.runner.actions
 
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.hover.runner.actions.SQL_SELECT
 import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.api.Hover
 import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
 
@@ -32,15 +30,15 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 			.split(",").distinct().filter { it.isNotEmpty() }
 	}
 
-	fun getAllActionsCountryCodes(): List<String> {
+	fun getAllCountryCodes(): List<String> {
 		return sdkDB.actionDao().allCountryCodes
 	}
 
-	suspend fun getNetworkNamesByCountryCodes(countryCodes: List<String>): List<String> {
+	fun getNetworkNamesByCountry(countryCodes: List<String>): List<String> {
 		return sdkDB.actionDao().getNetworkNamesByCountryCodes(countryCodes.toTypedArray())
 	}
 
-	suspend fun getAllNetworkNames(): List<String> {
+	fun getAllNetworkNames(): List<String> {
 		return sdkDB.actionDao().allNetworkNames
 	}
 

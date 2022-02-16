@@ -1,10 +1,10 @@
 package com.hover.runner.actions
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -14,8 +14,6 @@ import com.hover.runner.R
 import com.hover.runner.database.UpdateHoverActions
 import com.hover.runner.databinding.FragmentActionsBinding
 import com.hover.runner.utils.*
-import com.hover.runner.utils.TextViewUtils.Companion.styleAsFilterOff
-import com.hover.runner.utils.TextViewUtils.Companion.styleAsFilterOn
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
@@ -46,21 +44,28 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
 	}
 
-	private fun updateFilterTextStyle(currentActionListSize: Int) {
-		val isFilterOn: Boolean = actionsViewModel.allActions.value != null && currentActionListSize < actionsViewModel.allActions.value!!.size
-
-		if (isFilterOn) binding.actionFilter.styleAsFilterOn()
-		else binding.actionFilter.styleAsFilterOff()
-	}
-
 	private fun observeActions() {
 		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
 			if (actions.isNullOrEmpty()) showLoadingView()
 			else {
-				updateFilterTextStyle(actions.size)
+				setFilterState(actions.size)
 				setActionListAdapter(actions)
+				binding.startTestRun.text = getCtaText(actions.size)
 			}
 		}
+	}
+
+	private fun setFilterState(actionListSize: Int) {
+		binding.actionFilter.setTextColor(getColor(requireContext(), if (showingAll(actionListSize)) R.color.runnerWhite else R.color.runnerPrimary))
+		binding.actionFilter.setCompoundDrawablesWithIntrinsicBounds(if (showingAll(actionListSize)) 0 else R.drawable.ic_dot_purple_24dp, 0, 0, 0)
+	}
+
+	private fun getCtaText(actionListSize: Int): String {
+		return if (showingAll(actionListSize)) getString(R.string.test_all) else getString(R.string.test_some, actionListSize)
+	}
+
+	private fun showingAll(actionListSize: Int): Boolean {
+		return actionsViewModel.allActions.value == null || actionListSize == actionsViewModel.allActions.value!!.size
 	}
 
 	private fun setActionListAdapter(actions: List<HoverAction>) {
@@ -72,7 +77,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	private fun setupListeners() {
 		setupPullToRefresh()
 		binding.actionFilter.setOnClickListener { view -> view.findNavController().navigate(R.id.navigation_actionFilter) }
-		binding.testAllActionsId.setSafeOnClickListener { navigateToRun(); }
+		binding.startTestRun.setSafeOnClickListener { navigateToRun(); }
 	}
 
 	private fun navigateToRun() {

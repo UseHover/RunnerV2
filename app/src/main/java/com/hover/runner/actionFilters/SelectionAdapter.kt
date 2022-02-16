@@ -1,4 +1,4 @@
-package com.hover.runner.filter.checkbox
+package com.hover.runner.actionFilters
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -6,7 +6,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.widget.CompoundButtonCompat
 import androidx.recyclerview.widget.RecyclerView

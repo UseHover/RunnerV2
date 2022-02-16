@@ -19,6 +19,13 @@
 
 	<string name="permissions_not_granted">You will need to grant permissions to have full functionality.</string>
 
+	<!--	ACTIONS-->
+	<string name="filter_text">Filter</string>
+	<string name="filter_underlined"><u>Filter</u></string>
+	<string name="test_all">Test all actions</string>
+	<string name="test_some">Test %1$d actions</string>
+	<string name="test_single">Test action</string>
+
 	<!--	TEST RUNS-->
 	<string name="new_run_vars_title">New Test Run</string>
 	<string name="new_run_vars_subtitle">%1$d/%2$d actions complete</string>
@@ -96,10 +103,8 @@
 	<string name="sign_in_err">Unable to sign in, please check your email and password.</string>
 	<string name="sign_in_success">Signed in successfully</string>
 	<string name="one_or_more_empty_variable">This action has one or more empty variables. Please check.</string>
-	<string name="filter_text">Filter</string>
-	<string name="filter_underlined"><u>Filter</u></string>
-	<string name="testAllActions">Test all actions</string>
-	<string name="test_single_action">Test action</string>
+
+<!--	SETTINGS-->
 	<string name="testing_mode">Testing mode</string>
 	<string name="normal">Normal</string>
 	<string name="normal_toolTip">USSD sessions run in the background</string>
@@ -134,7 +139,7 @@
 	<string name="failedStatus_url">https://docs.usehover.com/parsing</string>
 
 	<string name="successStatus_title">This action works.</string>
-	<string name="unrunStatus_title">This action is yet to be run on this device.</string>
+	<string name="unrunStatus_title">This action has not yet been run on this device.</string>
 	<string name="emptyString"> </string>
 
 	<string name="transaction_det_failed">This transaction failed</string>

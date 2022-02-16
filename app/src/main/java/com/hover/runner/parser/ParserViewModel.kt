@@ -1,7 +1,7 @@
 package com.hover.runner.parser
 
 import androidx.lifecycle.*
-import com.hover.runner.database.ActionRepo
+import com.hover.runner.actions.ActionRepo
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.sdk.actions.HoverAction

@@ -1,4 +1,4 @@
-package com.hover.runner.newRun
+package com.hover.runner.testRuns
 
 import android.content.Context
 import androidx.annotation.NonNull

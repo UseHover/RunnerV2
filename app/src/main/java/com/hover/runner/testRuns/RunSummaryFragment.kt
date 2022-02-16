@@ -1,4 +1,4 @@
-package com.hover.runner.newRun
+package com.hover.runner.testRuns
 
 import android.content.Intent
 import android.os.Bundle

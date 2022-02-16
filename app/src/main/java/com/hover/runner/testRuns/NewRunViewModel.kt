@@ -1,15 +1,13 @@
-package com.hover.runner.newRun
+package com.hover.runner.testRuns
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.hover.runner.database.ActionRepo
-import com.hover.runner.database.TestRunRepo
+import com.hover.runner.actions.ActionRepo
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class NewRunViewModel(private val application: Application, private val actionRepo: ActionRepo, private val runRepo: TestRunRepo) : ViewModel() {
 	var actionQueue: MutableLiveData<List<HoverAction>> = MutableLiveData()

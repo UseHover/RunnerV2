@@ -1,8 +1,8 @@
-package com.hover.runner.database
+package com.hover.runner.testRuns
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.hover.runner.newRun.TestRun
+import com.hover.runner.testRuns.TestRun
 
 @Dao
 interface RunDao {

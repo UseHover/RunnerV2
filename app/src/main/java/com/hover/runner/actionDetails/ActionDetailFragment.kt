@@ -17,8 +17,8 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
+import com.hover.runner.databinding.FragmentActionDetailsBinding
 import com.hover.runner.home.BaseFragment
-import com.hover.runner.databinding.ActionDetailsFragmentBinding
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.transaction.model.RunnerTransaction
@@ -32,11 +32,11 @@ import timber.log.Timber
 class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 
 	private val actionViewModel: ActionDetailViewModel by sharedViewModel()
-	private var _binding: ActionDetailsFragmentBinding? = null
+	private var _binding: FragmentActionDetailsBinding? = null
 	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		_binding = ActionDetailsFragmentBinding.inflate(inflater, container, false)
+		_binding = FragmentActionDetailsBinding.inflate(inflater, container, false)
 		return binding.root
 	}
 
@@ -55,7 +55,7 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 			}
 		}
 
-		binding.testSingleId.setSafeOnClickListener {
+		binding.startTest.setSafeOnClickListener {
 			actionViewModel.action.value?.let {
 				val bundle = bundleOf("action_id" to it.public_id)
 				findNavController().navigate(R.id.navigation_run_summary, bundle)

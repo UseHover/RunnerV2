@@ -1,4 +1,4 @@
-package com.hover.runner.newRun
+package com.hover.runner.testRuns
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -2,7 +2,7 @@ package com.hover.runner.transaction.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.hover.runner.database.ActionRepo
+import com.hover.runner.actions.ActionRepo
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
 import com.hover.runner.transaction.model.RunnerTransaction
 import com.hover.runner.utils.Utils

@@ -2,9 +2,9 @@ package com.hover.runner.running
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.hover.runner.database.ActionRepo
-import com.hover.runner.database.TestRunRepo
-import com.hover.runner.newRun.TestRun
+import com.hover.runner.actions.ActionRepo
+import com.hover.runner.testRuns.TestRunRepo
+import com.hover.runner.testRuns.TestRun
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers

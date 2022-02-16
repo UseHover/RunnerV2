@@ -21,10 +21,12 @@
         <entry key="app/src/main/res/layout/filter_by_categories.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/filter_by_country.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/filter_by_network_name.xml" value="0.16875" />
+        <entry key="app/src/main/res/layout/fragment_action_detail.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_actions.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_create.xml" value="0.1140625" />
         <entry key="app/src/main/res/layout/fragment_fill_variables.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_filter_actions.xml" value="0.2125" />
+        <entry key="app/src/main/res/layout/fragment_record.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_run_in_progress.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_run_summary.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_selection.xml" value="0.1033434650455927" />

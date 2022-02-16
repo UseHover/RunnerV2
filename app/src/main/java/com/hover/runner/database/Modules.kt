@@ -1,17 +1,17 @@
 package com.hover.runner.di
 
 import com.hover.runner.actionDetails.ActionDetailViewModel
-import com.hover.runner.database.ActionRepo
+import com.hover.runner.actions.ActionRepo
 import com.hover.runner.actions.ActionsViewModel
 import com.hover.runner.database.AppDatabase
-import com.hover.runner.database.TestRunRepo
+import com.hover.runner.testRuns.TestRunRepo
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.login.viewmodel.usecase.LoginUseCaseImpl
 import com.hover.runner.parser.ParserRepo
 import com.hover.runner.parser.ParserViewModel
 import com.hover.runner.settings.SimsRepo
 import com.hover.runner.settings.SimsViewModel
-import com.hover.runner.newRun.NewRunViewModel
+import com.hover.runner.testRuns.NewRunViewModel
 import com.hover.runner.running.RunningViewModel
 import com.hover.runner.transaction.repo.TransactionRepo
 import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
