@@ -12,7 +12,7 @@ import androidx.core.util.Pair
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hover.runner.R
-import com.hover.runner.base.fragment.BaseFragment
+import com.hover.runner.home.BaseFragment
 import com.hover.runner.databinding.TransactionFilterFragmentBinding
 import com.hover.runner.filter.enumValue.FilterForEnum
 import com.hover.runner.filter.filter_transactions.model.TransactionFilterParameters
@@ -22,7 +22,6 @@ import com.hover.runner.utils.TextViewUtils.Companion.activateView
 import com.hover.runner.utils.TextViewUtils.Companion.deactivateView
 import com.hover.runner.utils.TextViewUtils.Companion.underline
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.util.*
 
 class TransactionsFilterFragment : BaseFragment() {
 

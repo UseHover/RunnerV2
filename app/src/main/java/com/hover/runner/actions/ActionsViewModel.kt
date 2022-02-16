@@ -16,13 +16,11 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
 	var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
+
 	val searchString: MutableLiveData<String> = MutableLiveData()
-	val tagsList: MutableLiveData<List<String>> = MutableLiveData()
+	val selectedTags: MutableLiveData<List<String>> = MutableLiveData()
 
 	init {
-		viewModelScope.launch(Dispatchers.IO) {
-			tagsList.postValue(actionRepo.getAllTags())
-		}
 		filteredActions.value = listOf()
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
@@ -32,6 +30,12 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 		filterQuery.value = null
 		filterQuery.apply {
 			addSource(searchString, this@ActionsViewModel::generateSQLStatement)
+			addSource(selectedTags, this@ActionsViewModel::generateSQLStatement)
+		}
+
+		selectedTags.value = listOf()
+		viewModelScope.launch(Dispatchers.IO) {
+			selectedTags.postValue(actionRepo.getAllTags())
 		}
 	}
 
@@ -46,6 +50,7 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 
 	fun reset() {
 		searchString.value = null
+		selectedTags.value = actionRepo.getAllTags()
 	}
 
 	fun setSearch(value: String) {
@@ -54,22 +59,23 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 		}
 	}
 
-	private fun generateSQLStatement(search: String?) {
-		if (search.isNullOrEmpty()) {
-			filterQuery.postValue(null)
-			return
+	fun getAllTags(): LiveData<List<String>> {
+		return liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+			emit(actionRepo.getAllTags())
 		}
-
-		var fString = "$SQL_SELECT WHERE "
-		if (!search.isNullOrEmpty())
-			fString += generateSearchString(search)
-
-		Timber.e("Searching %s", fString)
-		filterQuery.postValue(SimpleSQLiteQuery(fString))
 	}
 
-	private fun generateSearchString(search: String): String {
-		val s = "%$search%"
-		return "(server_id LIKE '$s' OR name LIKE '$s')"
+	fun setTags(value: List<String>) {
+		viewModelScope.launch(Dispatchers.IO) {
+			selectedTags.postValue(value)
+		}
+	}
+
+	private fun generateSQLStatement(search: String?) {
+		filterQuery.postValue(actionRepo.generateSQLStatement(search, selectedTags.value))
+	}
+
+	private fun generateSQLStatement(tagList: List<String>?) {
+		filterQuery.postValue(actionRepo.generateSQLStatement(searchString.value, tagList))
 	}
 }

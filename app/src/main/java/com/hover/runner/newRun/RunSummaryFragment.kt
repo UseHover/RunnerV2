@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.base.fragment.BaseFragment
+import com.hover.runner.home.BaseFragment
 import com.hover.runner.databinding.FragmentRunSummaryBinding
 import com.hover.runner.running.RunningActivity
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

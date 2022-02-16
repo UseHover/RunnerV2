@@ -6,13 +6,14 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.util.Pair
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hover.runner.R
 import com.hover.runner.actions.ActionsViewModel
-import com.hover.runner.base.fragment.BaseFragment
+import com.hover.runner.home.BaseFragment
 import com.hover.runner.databinding.FragmentFilterActionsBinding
 import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -39,6 +40,9 @@ class ActionsFilterFragment : BaseFragment() {
 		binding.resetBtn.setOnClickListener { reset() }
 		binding.filterNow.setOnClickListener { saveFilter() }
 		binding.searchInput.addTextChangedListener(searchWatcher)
+		binding.tagInput.setOnClickListener {
+			findNavController().navigate(R.id.navigation_filter_selection, bundleOf("type" to "tags"))
+		}
 	}
 
 	private fun saveFilter() {
@@ -56,6 +60,11 @@ class ActionsFilterFragment : BaseFragment() {
 	private fun observeFilterData() {
 		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
 			actions?.let { binding.filterNow.text = getString(R.string.cta_filter_actions, actions.size)}
+		}
+
+		actionsViewModel.selectedTags.observe(viewLifecycleOwner) { tags ->
+			if (!tags.isNullOrEmpty()) binding.tagInput.text = tags.joinToString(", ")
+			else binding.tagInput.text = getString(R.string.empty_tags)
 		}
 	}
 

@@ -17,7 +17,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.base.fragment.BaseFragment
+import com.hover.runner.home.BaseFragment
 import com.hover.runner.databinding.ActionDetailsFragmentBinding
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener

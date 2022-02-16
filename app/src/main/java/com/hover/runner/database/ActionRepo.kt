@@ -2,6 +2,7 @@ package com.hover.runner.database
 
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.hover.runner.actions.SQL_SELECT
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import com.hover.sdk.database.HoverRoomDatabase
@@ -27,23 +28,13 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 	fun getAllTags(): List<String> {
 		return sdkDB.actionDao().allTags.toString()
 			.replace("[", "").replace("]", "")
-			.replace(" ", "").split(",").distinct()
+			.replace("\"", "").replace(" ", "")
+			.split(",").distinct().filter { it.isNotEmpty() }
 	}
 
 	fun getAllActionsCountryCodes(): List<String> {
 		return sdkDB.actionDao().allCountryCodes
 	}
-
-//	suspend fun filterHoverAction(actionId: String, actionRootCode: String,
-//	                              actionIdList: List<String>, countryCodes: List<String>) : List<HoverAction> {
-
-//		val filteredActionIds = sdkDB.actionDao().filterIds(actionId,
-//		                                                    actionRootCode,
-//		                                                    actionIdList.toTypedArray(),
-//		                                                    countryCodes.toTypedArray())
-//		Timber.i("filter result size is {${filteredActionIds.size}}")
-//		return sdkDB.actionDao().getActions(filteredActionIds.toTypedArray())
-//	}
 
 	suspend fun getNetworkNamesByCountryCodes(countryCodes: List<String>): List<String> {
 		return sdkDB.actionDao().getNetworkNamesByCountryCodes(countryCodes.toTypedArray())
@@ -53,8 +44,39 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.actionDao().allNetworkNames
 	}
 
-	private fun emptyToNull(values : Array<String>) : Array<String>?{
-		return if(values.isEmpty()) null
-		else values
+	fun generateSQLStatement(search: String?, tagList: List<String>?): SimpleSQLiteQuery {
+		var fString = SQL_SELECT
+
+		if (!generateSearchString(search).isEmpty() || !generateTagString(tagList).isEmpty())
+			fString += " WHERE "
+
+		fString += generateSearchString(search)
+		fString += generateTagString(tagList)
+
+		Timber.e("Searching %s", fString)
+		return SimpleSQLiteQuery(fString)
+	}
+
+	private fun generateSearchString(search: String?): String {
+		if (search.isNullOrEmpty())
+			return ""
+		val s = "%$search%"
+		return "(server_id LIKE '$s' OR name LIKE '$s')"
+	}
+
+	private fun generateTagString(tagList: List<String>?): String {
+		if (tagList?.size == getAllTags().size || getAllTags().isEmpty())
+			return ""
+		else if (tagList.isNullOrEmpty())
+			return "(tags_list IS NULL OR tags_list = '')"
+
+		var sqlStr = "("
+		for ((i, tag) in tagList.withIndex()) {
+			if (i > 0) sqlStr += " OR "
+			val t = "%$tag%"
+			sqlStr += "tags_list LIKE '$t'"
+		}
+		sqlStr += ")"
+		return sqlStr
 	}
 }

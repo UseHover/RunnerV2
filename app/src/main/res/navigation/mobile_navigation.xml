@@ -77,39 +77,17 @@
 			app:argType="string" />
 	</fragment>
 
-	<!-- Filter Selection Fragments -->
-
 	<fragment
-		android:id="@+id/navigation_filter_selectByActions"
-		android:name="com.hover.runner.filter.selectionFragments.SelectActionsFragment"
-		tools:layout="@layout/filter_by_actions"/>
-
-	<fragment
-		android:id="@+id/navigation_filter_selectByCategory"
-		android:name="com.hover.runner.filter.selectionFragments.SelectCategoryFragment"
+		android:id="@+id/navigation_filter_selection"
+		android:name="com.hover.runner.actionFilters.SelectionFragment"
 		android:label="@string/title_filter_actions"
-		tools:layout="@layout/filter_by_categories" />
-
-	<fragment
-		android:id="@+id/navigation_filter_selectByCountry"
-		android:name="com.hover.runner.filter.selectionFragments.SelectCountryFragment"
-		tools:layout="@layout/filter_by_country">
+		tools:layout="@layout/fragment_selection">
 		<argument
-			android:name="filterfor"
-			app:argType="integer" />
-	</fragment>
-
-	<fragment
-		android:id="@+id/navigation_filter_selectByNetworkNames"
-		android:name="com.hover.runner.filter.selectionFragments.SelectNetworkNameFragment"
-		tools:layout="@layout/filter_by_network_name">
-		<argument
-			android:name="filterfor"
-			app:argType="integer" />
+			android:name="type"
+			app:argType="string" />
 	</fragment>
 
 	<!--Parsers -->
-
 	<fragment
 		android:id="@+id/navigation_parserDetails"
 		android:name="com.hover.runner.parser.ParserDetailsFragment"

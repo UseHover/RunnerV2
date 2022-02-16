@@ -94,6 +94,33 @@
                     android:textColor="@color/runnerWhite"
                     android:background="@drawable/edit_text_bg"/>
 
+                <TextView android:id="@+id/tag_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_filter_tags"
+                    android:textColor="@color/runnerWhite"
+                    android:textSize="@dimen/text_17"
+                    android:layout_marginTop="32dp"
+                    android:textStyle="bold"/>
+
+                <TextView android:id="@+id/tagInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin21"
+                    android:paddingStart="@dimen/margin21"
+                    android:paddingEnd="@dimen/margin21"
+                    android:paddingRight="@dimen/margin21"
+                    android:paddingTop="@dimen/margin13"
+                    android:paddingBottom="@dimen/margin13"
+                    android:hint="@string/hint_tags"
+                    android:textColorHint="@color/textHint"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_17"
+                    android:textAllCaps="true"
+                    android:textColor="@color/runnerWhite"
+                    android:background="@drawable/edit_text_bg"/>
+
 <!--                <TextView-->
 <!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="wrap_content"-->
@@ -248,37 +275,6 @@
 <!--                        android:textSize="@dimen/text_17"-->
 <!--                        android:paddingHorizontal="@dimen/margin16"-->
 <!--                        />-->
-
-
-<!--                <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/categories"-->
-<!--                        android:id="@+id/category_label_id"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:layout_marginTop="32dp"-->
-<!--                        android:textStyle="bold"/>-->
-
-<!--                <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:paddingLeft="@dimen/margin21"-->
-<!--                        android:paddingStart="@dimen/margin21"-->
-<!--                        android:paddingEnd="@dimen/margin21"-->
-<!--                        android:paddingRight="@dimen/margin21"-->
-<!--                        android:paddingTop="@dimen/margin13"-->
-<!--                        android:paddingBottom="@dimen/margin13"-->
-<!--                        android:hint="@string/categories_hint"-->
-<!--                        android:textColorHint="@color/textHint"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:maxLines="1"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:textAllCaps="false"-->
-<!--                        android:id="@+id/categoryEntryId"-->
-<!--                        android:autofillHints="@string/search_hint"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:background="@drawable/edit_text_bg"/>-->
 
 <!--                <TextView-->
 <!--                        android:layout_width="wrap_content"-->

@@ -47,7 +47,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	}
 
 	private fun updateFilterTextStyle(currentActionListSize: Int) {
-		val isFilterOn: Boolean = currentActionListSize < actionsViewModel.allActions.value!!.size
+		val isFilterOn: Boolean = actionsViewModel.allActions.value != null && currentActionListSize < actionsViewModel.allActions.value!!.size
 
 		if (isFilterOn) binding.actionFilter.styleAsFilterOn()
 		else binding.actionFilter.styleAsFilterOff()
