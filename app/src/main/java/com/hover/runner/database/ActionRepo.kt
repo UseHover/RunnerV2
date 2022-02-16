@@ -27,7 +27,7 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 	fun getAllTags(): List<String> {
 		return sdkDB.actionDao().allTags.toString()
 			.replace("[", "").replace("]", "")
-			.replace(" ", "").split(",")
+			.replace(" ", "").split(",").distinct()
 	}
 
 	fun getAllActionsCountryCodes(): List<String> {
