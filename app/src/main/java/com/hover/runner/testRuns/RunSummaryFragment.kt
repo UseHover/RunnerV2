@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.home.BaseFragment
 import com.hover.runner.databinding.FragmentRunSummaryBinding
+import com.hover.runner.home.BaseFragment
 import com.hover.runner.utils.DateUtils
-import com.hover.runner.utils.UIHelper
 import com.hover.sdk.actions.HoverAction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
+
 
 class RunSummaryFragment : BaseFragment() {
 
@@ -56,7 +57,7 @@ class RunSummaryFragment : BaseFragment() {
 	private fun generateName(actions: List<HoverAction>) : String {
 		val now = DateUtils.timestampTemplate(System.currentTimeMillis())
 		return if (actions.size > 1) getString(R.string.run_template, now, actions.size)
-		else getString(R.string.run_template_single, now, actions[0])
+		else getString(R.string.run_template_single, now, actions[0].public_id)
 	}
 
 	private fun saveAndStart() {
@@ -66,7 +67,16 @@ class RunSummaryFragment : BaseFragment() {
 				findNavController().navigate(R.id.navigation_actions)
 			}
 		}
-		newRunViewModel.save(binding.nameInput.text.toString(), binding.scheduleAutocomplete.listSelection)
+		newRunViewModel.save(binding.nameInput.text.toString(), getFreq())
+	}
+
+	private fun getFreq(): Int {
+		val arr = resources.getStringArray(R.array.schedule_array)
+		for ((i, item) in arr.withIndex()) {
+			if (binding.scheduleAutocomplete.text.toString() == item)
+				return i
+		}
+		return 0
 	}
 
 	override fun onDestroyView() {

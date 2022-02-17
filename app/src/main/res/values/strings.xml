@@ -48,6 +48,7 @@
 	<string name="notify_run_error">No run id, canceling.</string>
 	<string name="in_progress_title">Tests running</string>
 	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
+	<string name="all_complete">All tests complete</string>
 
 	<string name="label_name">Test Run Name</string>
 	<string name="label_frequency">Schedule</string>

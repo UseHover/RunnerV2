@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.PowerManager
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.os.HandlerCompat.postDelayed
 import com.hover.runner.R
 import com.hover.runner.databinding.ActivityTestRunningBinding
 import com.hover.runner.settings.SettingsFragment
@@ -76,7 +78,7 @@ class RunningActivity : AppCompatActivity() {
 		}
 
 		viewModel.run.observe(this) {
-			it?.let { updateProgressText(it) }
+			it?.let { updateProgress(it) }
 		}
 	}
 
@@ -114,9 +116,14 @@ class RunningActivity : AppCompatActivity() {
 		}
 	}
 
-	fun updateProgressText(run: TestRun) {
-		binding.progress.text = getString(R.string.in_progress_subtitle,
-			run.action_id_list.size - run.pending_action_id_list.size, run.action_id_list.size)
+	fun updateProgress(run: TestRun) {
+		if (run.pending_action_id_list.size > 0) {
+			binding.progress.text =
+				getString(R.string.in_progress_subtitle, run.action_id_list.size - run.pending_action_id_list.size, run.action_id_list.size)
+		} else {
+			UIHelper.flashMessage(this, getString(R.string.all_complete))
+			Handler().postDelayed({ finish() }, 3000)
+		}
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {

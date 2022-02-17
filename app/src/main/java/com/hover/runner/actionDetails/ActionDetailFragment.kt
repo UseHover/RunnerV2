@@ -72,7 +72,7 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 
 	private fun startTest() {
 		val bundle = bundleOf("action_id" to actionViewModel.action.value!!.public_id)
-		findNavController().navigate(R.id.navigation_run_summary, bundle)
+		findNavController().navigate(R.id.navigation_run_variables, bundle)
 	}
 
 	private fun allVarsFilled(action: HoverAction): Boolean {
