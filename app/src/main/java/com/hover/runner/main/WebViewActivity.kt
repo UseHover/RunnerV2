@@ -1,4 +1,4 @@
-package com.hover.runner.webview
+package com.hover.runner.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle

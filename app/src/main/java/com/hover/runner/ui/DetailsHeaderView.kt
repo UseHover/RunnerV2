@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.databinding.DetailsHeaderBinding
-import com.hover.runner.transaction.model.RunnerTransaction
+import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
@@ -22,8 +22,8 @@ class DetailsHeaderView(context: Context, attributeSet: AttributeSet) : LinearLa
 		binding.headerSubtitle.text = action.public_id
 	}
 
-	fun setTransaction(transaction: RunnerTransaction, activity: Activity) {
-		binding.headerTitle.text = transaction.getDate()!!
+	fun setTransaction(transaction: Transaction, activity: Activity) {
+		binding.headerTitle.text = DateUtils.humanFriendlyDate(transaction.reqTimestamp)
 		binding.headerSubtitle.text = transaction.uuid
 		setStatus(transaction.status, activity)
 	}

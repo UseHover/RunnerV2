@@ -1,4 +1,4 @@
-package com.hover.runner.home
+package com.hover.runner.main
 
 import android.Manifest
 import android.app.Activity

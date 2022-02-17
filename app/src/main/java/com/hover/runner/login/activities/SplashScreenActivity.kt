@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.lifecycleScope
 import com.hover.runner.R
 import com.hover.runner.databinding.SplashScreenLayoutBinding
-import com.hover.runner.home.MainActivity
+import com.hover.runner.main.MainActivity
 import com.hover.runner.login.viewmodel.LoginViewModel
 import com.hover.runner.utils.Resource
 import com.hover.runner.utils.UIHelper

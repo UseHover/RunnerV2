@@ -7,16 +7,14 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
-import com.hover.runner.home.BaseFragment
+import com.hover.runner.main.BaseFragment
 import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.databinding.ParsersFragmentBinding
-import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
-import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ParserDetailsFragment : BaseFragment(), View.OnClickListener, TransactionClickListener, StatusUiTranslator {
+class ParserDetailsFragment : BaseFragment(), View.OnClickListener, StatusUiTranslator {
 
 	private var _binding: ParsersFragmentBinding? = null
 	private val binding get() = _binding!!
@@ -68,20 +66,20 @@ class ParserDetailsFragment : BaseFragment(), View.OnClickListener, TransactionC
 
 	private fun observeTransactions() {
 		binding.transactions.setLayoutManagerToLinear()
-		viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
-			if (transactions != null) {
-				if (transactions.isEmpty()) {
-					binding.recentHeader.text = resources.getString(R.string.zero_transactions)
-				}
-				else {
-					binding.recentHeader.text = resources.getString(R.string.recent_transactions)
-					binding.transactions.adapter = TransactionRecyclerAdapter(transactions, this)
-				}
-			}
-		}
+//		viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+//			if (transactions != null) {
+//				if (transactions.isEmpty()) {
+//					binding.recentHeader.text = resources.getString(R.string.zero_transactions)
+//				}
+//				else {
+//					binding.recentHeader.text = resources.getString(R.string.recent_transactions)
+//					binding.transactions.adapter = TransactionRecyclerAdapter(transactions, this)
+//				}
+//			}
+//		}
 	}
 
-	override fun onTransactionItemClicked(uuid: String) {
+	fun onTransactionItemClicked(uuid: String) {
 		findNavController().navigate(R.id.navigation_transactionDetails, bundleOf("uuid" to uuid))
 	}
 

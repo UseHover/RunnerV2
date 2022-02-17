@@ -3,18 +3,17 @@ package com.hover.runner.actionDetails
 import androidx.lifecycle.*
 import com.hover.runner.actions.ActionRepo
 import com.hover.runner.parser.ParserRepo
-import com.hover.runner.transaction.model.RunnerTransaction
-import com.hover.runner.transaction.repo.TransactionRepo
+import com.hover.runner.transactions.TransactionsRepo
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.parsers.HoverParser
 import com.hover.sdk.transactions.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActionDetailViewModel(private val actionRepo: ActionRepo, private val transactionRepo: TransactionRepo, private val parserRepo: ParserRepo) : ViewModel() {
+class ActionDetailViewModel(private val actionRepo: ActionRepo, private val transactionsRepo: TransactionsRepo, private val parserRepo: ParserRepo) : ViewModel() {
 
 	val action: MutableLiveData<HoverAction> = MutableLiveData()
-	val transactions: LiveData<List<RunnerTransaction>>
+	val transactions: LiveData<List<Transaction>>
 	val parsers: LiveData<List<HoverParser>>
 
 	val successCount: LiveData<Int>
@@ -36,8 +35,10 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 		}
 	}
 
-	private fun getActionTransactions(action: HoverAction) : LiveData<List<RunnerTransaction>> {
-		return transactionRepo.getTransactionsByAction(action.public_id, T_LIMIT)
+	private fun getActionTransactions(action: HoverAction) : LiveData<List<Transaction>> {
+		return liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+			emit(transactionsRepo.getTransactionsByAction(action.public_id))
+		}
 	}
 
 	private fun getActionParsers(action: HoverAction) : List<HoverParser> {
@@ -45,7 +46,7 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 	}
 
 	private fun getStatusCount(action: HoverAction, status: String) : LiveData<Int> {
-		return transactionRepo.getCountByStatus(action.public_id, status)
+		return transactionsRepo.getCountByStatus(action.public_id, status)
 	}
 
 	companion object {

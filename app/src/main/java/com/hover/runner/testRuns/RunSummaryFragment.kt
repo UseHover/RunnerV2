@@ -5,12 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentRunSummaryBinding
-import com.hover.runner.home.BaseFragment
+import com.hover.runner.main.BaseFragment
 import com.hover.runner.utils.DateUtils
 import com.hover.sdk.actions.HoverAction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hover.runner.actions.ActionsViewModel
-import com.hover.runner.home.BaseFragment
+import com.hover.runner.main.BaseFragment
 import com.hover.runner.databinding.FragmentSelectionBinding
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

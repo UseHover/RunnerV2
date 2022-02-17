@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.actionDetails.VariableRecyclerAdapter
-import com.hover.runner.home.BaseFragment
+import com.hover.runner.main.BaseFragment
 import com.hover.runner.databinding.FragmentFillVariablesBinding
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper

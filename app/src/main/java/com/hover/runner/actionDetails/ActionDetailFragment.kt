@@ -18,21 +18,18 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentActionDetailsBinding
-import com.hover.runner.home.BaseFragment
-import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
-import com.hover.runner.transaction.listeners.TransactionClickListener
-import com.hover.runner.transaction.model.RunnerTransaction
+import com.hover.runner.main.BaseFragment
+import com.hover.runner.transactions.TransactionsRecyclerAdapter
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
-import com.hover.runner.utils.setSafeOnClickListener
 import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.api.Hover
 import com.hover.sdk.parsers.HoverParser
+import com.hover.sdk.transactions.Transaction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
-class ActionDetailFragment : BaseFragment(), TransactionClickListener {
+class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.TransactionClickListener {
 
 	private val actionViewModel: ActionDetailViewModel by sharedViewModel()
 	private var _binding: FragmentActionDetailsBinding? = null
@@ -131,20 +128,20 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 		tv.setText(ss, TextView.BufferType.SPANNABLE)
 	}
 
-	private fun fillTransactionDetails(transactions: List<RunnerTransaction>) {
+	private fun fillTransactionDetails(transactions: List<Transaction>) {
 		if (!transactions.isNullOrEmpty()) setTransactionsList(transactions)
 		else binding.recentHeader.setText(R.string.zero_transactions)
 		binding.transactionCount.text = transactions.size.toString()
 	}
 
-	private fun setTransactionsList(transactions: List<RunnerTransaction>) {
+	private fun setTransactionsList(transactions: List<Transaction>) {
 		binding.recentHeader.setText(R.string.recent_transactions)
 		binding.transactionRecycler.setLayoutManagerToLinear()
-		binding.transactionRecycler.adapter = TransactionRecyclerAdapter(transactions, this)
+		binding.transactionRecycler.adapter = TransactionsRecyclerAdapter(transactions, this)
 		binding.viewAll.visibility = if (transactions.size > ActionDetailViewModel.T_LIMIT - 1) VISIBLE else GONE
 	}
 
-	override fun onTransactionItemClicked(uuid: String) {
+	override fun onItemClick(uuid: String) {
 		findNavController().navigate(R.id.navigation_transactionDetails, bundleOf("uuid" to uuid))
 	}
 

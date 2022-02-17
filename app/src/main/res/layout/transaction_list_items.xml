@@ -13,6 +13,7 @@
             android:textStyle="bold"
             android:id="@+id/transaction_date_id"
             android:textColor="@color/runnerWhite"
+            android:drawablePadding="@dimen/margin8"
             android:paddingHorizontal="@dimen/margin16"
             android:textSize="@dimen/text_17"/>
     <TextView

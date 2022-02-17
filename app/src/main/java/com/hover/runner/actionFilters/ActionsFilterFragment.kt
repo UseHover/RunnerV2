@@ -13,7 +13,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hover.runner.R
 import com.hover.runner.actions.ActionsViewModel
-import com.hover.runner.home.BaseFragment
+import com.hover.runner.main.BaseFragment
 import com.hover.runner.databinding.FragmentFilterActionsBinding
 import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

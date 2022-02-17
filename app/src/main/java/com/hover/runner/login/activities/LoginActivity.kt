@@ -18,7 +18,7 @@ import com.hover.runner.utils.Resource
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.runner.utils.UIHelper
-import com.hover.runner.webview.WebViewActivity
+import com.hover.runner.main.WebViewActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {

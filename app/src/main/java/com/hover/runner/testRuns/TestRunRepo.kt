@@ -1,9 +1,7 @@
 package com.hover.runner.testRuns
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import com.hover.runner.database.AppDatabase
-import com.hover.runner.utils.SharedPrefUtils
 
 class TestRunRepo(db: AppDatabase) {
 	private val runDao: RunDao = db.runDao()

@@ -13,10 +13,9 @@ import com.hover.runner.settings.SimsRepo
 import com.hover.runner.settings.SimsViewModel
 import com.hover.runner.testRuns.NewRunViewModel
 import com.hover.runner.running.RunningViewModel
-import com.hover.runner.transaction.repo.TransactionRepo
-import com.hover.runner.transaction.repo.TransactionRepoInterfaceImpl
-import com.hover.runner.transaction.viewmodel.TransactionViewModel
-import com.hover.runner.transaction.viewmodel.usecase.TransactionUseCaseImpl
+import com.hover.runner.transactionDetails.TransactionDetailsViewModel
+import com.hover.runner.transactions.TransactionsRepo
+import com.hover.runner.transactions.TransactionsViewModel
 import com.hover.sdk.database.HoverRoomDatabase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -27,9 +26,11 @@ val appModule = module {
 	}
 
 	viewModel {
-		val transactionUseCaseImpl =
-			TransactionUseCaseImpl(TransactionRepoInterfaceImpl(get(), get(), get()))
-		TransactionViewModel(transactionUseCaseImpl)
+		TransactionsViewModel(get())
+	}
+
+	viewModel {
+		TransactionDetailsViewModel(get())
 	}
 
 	viewModel {
@@ -62,7 +63,7 @@ val dataModule = module(createdAtStart = true) {
 	single { HoverRoomDatabase.getInstance(get()) }
 	single { ActionRepo(get()) }
 	single { TestRunRepo(get()) }
-	single { TransactionRepo(get()) }
+	single { TransactionsRepo(get()) }
 	single { ParserRepo(get()) }
 	single { SimsRepo(get()) }
 }

@@ -6,15 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hover.runner.testRuns.RunDao
 import com.hover.runner.testRuns.TestRun
-import com.hover.runner.transaction.model.RunnerTransaction
-import com.hover.runner.transaction.repo.RunnerTransactionDao
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-@Database(entities = [RunnerTransaction::class, TestRun::class], version = 2)
+@Database(entities = [TestRun::class], version = 2)
 public abstract class AppDatabase : RoomDatabase() {
-	abstract fun runnerTransactionDao(): RunnerTransactionDao
 	abstract fun runDao(): RunDao
 
 	companion object {

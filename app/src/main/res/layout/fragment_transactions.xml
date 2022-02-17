@@ -6,7 +6,7 @@
 		android:background="@color/runnerDark"
 		android:orientation="vertical"
 		android:layout_marginBottom="55dp"
-		tools:context=".transaction.fragments.TransactionListFragment">
+		tools:context=".transactions.TransactionListFragment">
 
 	<LinearLayout
 		android:layout_width="match_parent"
