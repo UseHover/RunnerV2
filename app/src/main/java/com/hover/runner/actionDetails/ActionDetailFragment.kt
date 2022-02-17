@@ -22,9 +22,12 @@ import com.hover.runner.home.BaseFragment
 import com.hover.runner.transaction.adapters.TransactionRecyclerAdapter
 import com.hover.runner.transaction.listeners.TransactionClickListener
 import com.hover.runner.transaction.model.RunnerTransaction
+import com.hover.runner.utils.SharedPrefUtils
+import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.runner.utils.setSafeOnClickListener
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.api.Hover
 import com.hover.sdk.parsers.HoverParser
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
@@ -56,16 +59,28 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 		}
 
 		binding.startTest.setOnClickListener {
-			startTest()
+			attemptStartTest()
 		}
 	}
 
+	private fun attemptStartTest() {
+		if (actionViewModel.action.value == null || !allVarsFilled(actionViewModel.action.value!!))
+			UIHelper.flashMessage(requireContext(), getString(R.string.summary_incomplete))
+		else
+			startTest()
+	}
+
 	private fun startTest() {
-		if (actionViewModel.action.value == null || )
-		actionViewModel.action.value?.let {
-			val bundle = bundleOf("action_id" to it.public_id)
-			findNavController().navigate(R.id.navigation_run_summary, bundle)
+		val bundle = bundleOf("action_id" to actionViewModel.action.value!!.public_id)
+		findNavController().navigate(R.id.navigation_run_summary, bundle)
+	}
+
+	private fun allVarsFilled(action: HoverAction): Boolean {
+		for (key in action.requiredParams) {
+			if (SharedPrefUtils.getVarValue(action.public_id, key, requireContext()).isEmpty())
+				return false
 		}
+		return true
 	}
 
 	private fun initObservers() {

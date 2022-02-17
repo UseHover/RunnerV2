@@ -42,7 +42,6 @@ class FillVariablesFragment : BaseFragment() {
 			Timber.e(requireArguments().getStringArray("action_ids").toString())
 			newRunViewModel.setActions(requireArguments().getStringArray("action_ids"))
 		}
-
 	}
 
 	private fun initListeners() {
@@ -67,7 +66,7 @@ class FillVariablesFragment : BaseFragment() {
 				binding.actionSubtitle.text = it[0].public_id
 				onVarListUpdate(it[0])
 				if (it.size == 1) binding.fab.text = getString(R.string.finish)
-			} else if (it.isEmpty()){
+			} else if (it != null) {
 				findNavController().navigate(R.id.navigation_run_summary)
 			}
 		}

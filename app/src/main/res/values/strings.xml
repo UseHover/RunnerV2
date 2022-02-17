@@ -43,6 +43,9 @@
 	<string name="run_template_single">%1$s-action-%2$s</string>
 	<string name="run_label">Start Run</string>
 
+	<string name="notify_starting">Starting test run…</string>
+	<string name="notify_saved">Test run saved. It will run at the appropriate time.</string>
+	<string name="notify_run_error">No run id, canceling.</string>
 	<string name="in_progress_title">Tests running</string>
 	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
 

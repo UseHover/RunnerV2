@@ -55,17 +55,6 @@ object SharedPrefUtils {
 		return getSharedPrefs(c).getString("$action_id-variable-$key", "")!!
 	}
 
-	@SuppressLint("ApplySharedPref")
-	public fun saveQueue(idList: List<String>?, c: Context) {
-		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
-		editor.putStringSet("actionQueue", idList?.toSet())
-		editor.commit()
-	}
-
-	public fun getQueue(c: Context): MutableList<String>? {
-		return getSharedPrefs(c).getStringSet("actionQueue", null)?.toMutableList()
-	}
-
 	fun saveInt(key: String?, value: Int, c: Context) {
 		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
 		editor.putInt(key, value)

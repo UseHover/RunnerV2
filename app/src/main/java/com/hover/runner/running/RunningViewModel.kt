@@ -13,19 +13,13 @@ import kotlinx.coroutines.launch
 class RunningViewModel(private val application: Application, private val actionRepo: ActionRepo, private val runRepo: TestRunRepo) : ViewModel() {
 
 	var run: MutableLiveData<TestRun> = MutableLiveData()
-
-	var pendingActionIdList: MutableLiveData<List<String>> = MutableLiveData()
 	var currentAction: MediatorLiveData<HoverAction> = MediatorLiveData()
 
 	var testRunning: MutableLiveData<Boolean> = MutableLiveData()
 
 	init {
 		testRunning.value = false
-		currentAction.addSource(pendingActionIdList, this@RunningViewModel::getFirstAction)
-
-		viewModelScope.launch(Dispatchers.IO) {
-			pendingActionIdList.postValue(SharedPrefUtils.getQueue(application))
-		}
+		currentAction.addSource(run, this@RunningViewModel::getFirstAction)
 	}
 
 	fun loadRun(id: Long) {
@@ -34,8 +28,10 @@ class RunningViewModel(private val application: Application, private val actionR
 		}
 	}
 
-	private fun getFirstAction(id_list: List<String>) {
-		currentAction.postValue(if (id_list.isNullOrEmpty()) null else actionRepo.load(id_list[0]))
+	private fun getFirstAction(testRun: TestRun?) {
+		testRun?.let {
+			currentAction.postValue(if (testRun.pending_action_id_list.isNullOrEmpty()) null else actionRepo.load(testRun.pending_action_id_list[0]))
+		}
 	}
 
 	fun setRunInProgress(isIt: Boolean) {
@@ -50,10 +46,12 @@ class RunningViewModel(private val application: Application, private val actionR
 
 	fun updateQueue(finishedActionId: String) {
 		viewModelScope.launch(Dispatchers.IO) {
-			val actionIdList = SharedPrefUtils.getQueue(application)
-			actionIdList?.remove(finishedActionId)
-			SharedPrefUtils.saveQueue(actionIdList?.toList(), application)
-			pendingActionIdList.postValue(actionIdList)
+			val tr = run.value!!
+			val actionIdList = tr.pending_action_id_list.toMutableList()
+			actionIdList.remove(finishedActionId)
+			tr.pending_action_id_list = actionIdList.toList()
+			runRepo.update(tr)
+			run.postValue(tr)
 		}
 	}
 }

@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat.getColor
 import com.hover.runner.R
 import com.hover.runner.databinding.ActivityTestRunningBinding
 import com.hover.runner.settings.SettingsFragment
+import com.hover.runner.testRuns.RUN_ID
+import com.hover.runner.testRuns.TestRun
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.sdk.actions.HoverAction
@@ -29,17 +31,15 @@ class RunningActivity : AppCompatActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		UIHelper.changeStatusBarColor(this, getColor(this, R.color.runnerPrimary))
 		wakeUp()
 
+		UIHelper.changeStatusBarColor(this, getColor(this, R.color.runnerPrimary))
 		binding = ActivityTestRunningBinding.inflate(layoutInflater)
 		val view = binding.root
 		setContentView(view)
 
 		startObservers(savedInstanceState)
-
-		if (intent.hasExtra("runId"))
-			viewModel.loadRun(intent.getLongExtra("runId", -1L))
+		load();
 	}
 
 	private fun wakeUp() {
@@ -76,10 +76,19 @@ class RunningActivity : AppCompatActivity() {
 		}
 
 		viewModel.run.observe(this) {
-			it?.let { if ( viewModel.pendingActionIdList.value != null) updateProgressText() }
+			it?.let { updateProgressText(it) }
 		}
-		viewModel.pendingActionIdList.observe(this) {
-			it?.let { if ( viewModel.run.value != null) updateProgressText() }
+	}
+
+	private fun load() {
+		if (intent.hasExtra(RUN_ID)) {
+			Timber.e("loaded run id %d", intent.getLongExtra(RUN_ID, -1))
+			if (viewModel.run.value == null)
+				viewModel.loadRun(intent.getLongExtra(RUN_ID, -1L))
+		} else {
+			Timber.e("Problem: no run id")
+			UIHelper.flashMessage(this, getString(R.string.notify_run_error))
+			finish();
 		}
 	}
 
@@ -105,10 +114,9 @@ class RunningActivity : AppCompatActivity() {
 		}
 	}
 
-	fun updateProgressText() {
+	fun updateProgressText(run: TestRun) {
 		binding.progress.text = getString(R.string.in_progress_subtitle,
-			viewModel.run.value!!.action_id_list.size - viewModel.pendingActionIdList.value!!.size,
-			viewModel.run.value!!.action_id_list.size)
+			run.action_id_list.size - run.pending_action_id_list.size, run.action_id_list.size)
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {

@@ -20,8 +20,7 @@ class TestRunRepo(db: AppDatabase) {
 		runDao.update(run)
 	}
 
-	suspend fun saveNew(run: TestRun, context: Context): Long {
-		SharedPrefUtils.saveQueue(run.action_id_list, context)
+	fun saveNew(run: TestRun): Long {
 		return runDao.insert(run)
 	}
 }
