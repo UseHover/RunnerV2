@@ -55,11 +55,16 @@ class ActionDetailFragment : BaseFragment(), TransactionClickListener {
 			}
 		}
 
-		binding.startTest.setSafeOnClickListener {
-			actionViewModel.action.value?.let {
-				val bundle = bundleOf("action_id" to it.public_id)
-				findNavController().navigate(R.id.navigation_run_summary, bundle)
-			}
+		binding.startTest.setOnClickListener {
+			startTest()
+		}
+	}
+
+	private fun startTest() {
+		if (actionViewModel.action.value == null || )
+		actionViewModel.action.value?.let {
+			val bundle = bundleOf("action_id" to it.public_id)
+			findNavController().navigate(R.id.navigation_run_summary, bundle)
 		}
 	}
 

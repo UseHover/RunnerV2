@@ -1,5 +1,6 @@
 package com.hover.runner.testRuns
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -55,9 +56,10 @@ class RunSummaryFragment : BaseFragment() {
 	private fun saveAndStart() {
 		newRunViewModel.save(binding.nameInput.text.toString(), binding.scheduleAutocomplete.listSelection).observe(viewLifecycleOwner) {
 			it?.let {
-				val i = Intent(requireActivity(), RunningActivity::class.java)
-				i.putExtra("runId", it)
-				startActivity(i)
+//				val i = Intent(requireActivity(), RunningActivity::class.java)
+//				i.putExtra("runId", it)
+//				startActivity(i)
+				newRunViewModel.run.value!!.schedule(requireActivity())
 				findNavController().navigate(R.id.navigation_actions)
 			}
 		}

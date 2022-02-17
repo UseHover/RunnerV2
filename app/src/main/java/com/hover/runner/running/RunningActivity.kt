@@ -1,7 +1,12 @@
 package com.hover.runner.running
 
+import android.app.KeyguardManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import com.hover.runner.R
@@ -14,22 +19,59 @@ import com.hover.sdk.api.HoverParameters
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
+const val TAG = "hover:runningtest"
+
 class RunningActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityTestRunningBinding
 
 	private val viewModel: RunningViewModel by viewModel()
+	private lateinit var wakeLock: PowerManager.WakeLock
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		UIHelper.changeStatusBarColor(this, getColor(this, R.color.runnerPrimary))
+		wakeUp()
+
 		binding = ActivityTestRunningBinding.inflate(layoutInflater)
 		val view = binding.root
 		setContentView(view)
 
+		startObservers(savedInstanceState)
+
+		if (intent.hasExtra("runId"))
+			viewModel.loadRun(intent.getLongExtra("runId", -1L))
+	}
+
+	private fun wakeUp() {
+		this.window.setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+		val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+		val isReady = if (Build.VERSION.SDK_INT >= 20) powerManager.isInteractive else powerManager.isScreenOn
+//		if (!isReady) {
+			disableKeyguard()
+			wakeLock = powerManager.newWakeLock(
+				PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.ON_AFTER_RELEASE, TAG)
+			wakeLock.acquire(10*60*1000L /*10 minutes*/)
+//		}
+	}
+
+	private fun disableKeyguard() {
+		val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
+		val keyguardLock = keyguardManager!!.newKeyguardLock(TAG)
+		if (Build.VERSION.SDK_INT >= 26)
+			keyguardManager.requestDismissKeyguard(this, null)
+		else
+			keyguardLock.disableKeyguard()
+	}
+
+//	private fun onWake(): KeyguardManager.KeyguardDismissCallback? {
+//
+//	}
+
+	private fun startObservers(savedInstanceState: Bundle?) {
 		viewModel.currentAction.observe(this) {
 			if (it != null && !viewModel.isTestRunning() &&
-					(savedInstanceState?.getString("running_action_id") == null ||
-					savedInstanceState.getString("running_action_id") != it.public_id))
+				(savedInstanceState?.getString("running_action_id") == null ||
+						savedInstanceState.getString("running_action_id") != it.public_id))
 				startHover(it)
 		}
 
@@ -39,9 +81,6 @@ class RunningActivity : AppCompatActivity() {
 		viewModel.pendingActionIdList.observe(this) {
 			it?.let { if ( viewModel.run.value != null) updateProgressText() }
 		}
-
-		if (intent.hasExtra("runId"))
-			viewModel.loadRun(intent.getLongExtra("runId", -1L))
 	}
 
 	private fun startHover(action: HoverAction) {
@@ -75,5 +114,10 @@ class RunningActivity : AppCompatActivity() {
 	override fun onSaveInstanceState(outState: Bundle) {
 		outState.putString("running_action_id", viewModel.currentAction.value?.public_id)
 		super.onSaveInstanceState(outState)
+	}
+
+	override fun onDestroy() {
+		wakeLock.release()
+		super.onDestroy()
 	}
 }

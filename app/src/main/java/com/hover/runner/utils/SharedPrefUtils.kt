@@ -35,6 +35,16 @@ object SharedPrefUtils {
 		return getSharedPrefs(c).getString(key, "")!!
 	}
 
+	fun saveBool(key: String, value: Boolean, c: Context) {
+		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
+		editor.putBoolean(key, value)
+		editor.commit()
+	}
+
+	fun getSavedBool(key: String?, c: Context): Boolean {
+		return getSharedPrefs(c).getBoolean(key, false)
+	}
+
 	fun saveVar(action_id: String, key: String?, value: String, c: Context) {
 		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
 		editor.putString("$action_id-variable-$key", value)

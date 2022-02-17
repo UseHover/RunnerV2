@@ -256,11 +256,10 @@
                         android:layout_weight="1"
                         />
 
-                <TextView
+                <TextView android:id="@+id/viewAll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/view_all"
-                        android:id="@+id/viewAll"
                         android:visibility="gone"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
