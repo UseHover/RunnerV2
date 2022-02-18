@@ -3,9 +3,9 @@ package com.hover.runner.running
 import android.app.Application
 import androidx.lifecycle.*
 import com.hover.runner.actions.ActionRepo
+import com.hover.runner.testRuns.ONCE
 import com.hover.runner.testRuns.TestRunRepo
 import com.hover.runner.testRuns.TestRun
-import com.hover.runner.utils.SharedPrefUtils
 import com.hover.sdk.actions.HoverAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,8 +50,15 @@ class RunningViewModel(private val application: Application, private val actionR
 			val actionIdList = tr.pending_action_id_list.toMutableList()
 			actionIdList.remove(finishedActionId)
 			tr.pending_action_id_list = actionIdList.toList()
+			if (actionIdList.size == 0 && tr.frequency != ONCE)
+				scheduleNext(tr)
+
 			runRepo.update(tr)
 			run.postValue(tr)
 		}
+	}
+
+	private fun scheduleNext(tr: TestRun) {
+		tr.schedule(application)
 	}
 }

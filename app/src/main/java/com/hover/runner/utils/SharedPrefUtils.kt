@@ -118,11 +118,13 @@ object SharedPrefUtils {
 	}
 
 	fun setDelay(value: Int, c: Context) {
-		saveInt(DELAY, value, c)
+		val editor: SharedPreferences.Editor = getSharedPrefs(c).edit()
+		editor.putInt(DELAY, value)
+		editor.apply()
 	}
 
 	fun getDelay(c: Context): Int {
-		return getSavedInt(DELAY, c)
+		return getSharedPrefs(c).getInt(DELAY, 5)
 	}
 
 	fun clearData(c: Context) {

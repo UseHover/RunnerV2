@@ -10,12 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTransactionDetailsBinding
-import com.hover.runner.ui.DetailsHeaderView
+import com.hover.runner.main.DetailsHeaderView
 import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.transactions.Transaction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 
 class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	private var _binding: FragmentTransactionDetailsBinding? = null
@@ -49,7 +48,6 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	}
 
 	private fun initViews() {
-		topLayoutHeader = binding.transactionDetailsTopLayoutId
 		aboutInfoRecyclerView = binding.transacAboutInfoRecyclerView
 		deviceInfoRecyclerView = binding.transacDevicesRecyclerView
 		debugInfoRecyclerView = binding.transacDebugInfoRecyclerView

@@ -1,4 +1,4 @@
-package com.hover.runner.ui
+package com.hover.runner.main
 
 import android.app.Activity
 import android.content.Context

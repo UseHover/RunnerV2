@@ -19,7 +19,6 @@
 
 		<activity
 			android:name=".main.MainActivity"
-			android:label="@string/app_name"
 			android:exported="true">
 
 			<intent-filter>
@@ -36,14 +35,5 @@
 			android:exported="false" />
 		<activity android:name=".running.RunningActivity"
 			android:exported="false" />
-
-		<receiver
-			android:name=".transaction.TransactionReceiver"
-			android:enabled="true"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="com.hover.runner.TRANSACTION_UPDATE" />
-			</intent-filter>
-		</receiver>
 	</application>
 </manifest>

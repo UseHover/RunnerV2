@@ -38,28 +38,37 @@
 	<string name="summary_title">Create Test Run</string>
 	<string name="new_run_single_subtitle">Testing %1$s</string>
 	<string name="new_run_subtitle">Testing %1$d Actions</string>
-	<string name="start_label">Save and start</string>
-	<string name="run_template">%1$s-actions-%2$d</string>
+
+	<string name="run_template">%1$s-actionsX%2$d</string>
 	<string name="run_template_single">%1$s-action-%2$s</string>
-	<string name="run_label">Start Run</string>
-
-	<string name="notify_starting">Starting test run…</string>
-	<string name="notify_saved">Test run saved. It will run at the appropriate time.</string>
-	<string name="notify_run_error">No run id, canceling.</string>
-	<string name="in_progress_title">Tests running</string>
-	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
-	<string name="all_complete">All tests complete</string>
-
 	<string name="label_name">Test Run Name</string>
-	<string name="label_frequency">Schedule</string>
-	<string-array name="schedule_array">
+	<string name="label_frequency">How often?</string>
+	<string-array name="frequency_array">
 		<item>Once</item>
 		<item>Hourly</item>
 		<item>Daily</item>
 		<item>Weekly</item>
-		<item>Biweekly</item>
-		<item>Monthly</item>
 	</string-array>
+	<string name="label_when">Start</string>
+	<string-array name="when_array">
+		<item>Now</item>
+		<item>Later</item>
+	</string-array>
+	<string name="label_start">Choose date and time</string>
+	<string name="now">Now</string>
+
+	<string name="label_run">Start Run</string>
+	<string name="label_schedule">Schedule</string>
+	<string name="notify_name_error">Please enter a name</string>
+	<string name="notify_start_error">Please choose a start date and time</string>
+	<string name="notify_past_error">Please choose a time in the future</string>
+	<string name="notify_start_now">The chosen time is within 10 minutes, starting now</string>
+	<string name="notify_starting">Starting test run…</string>
+	<string name="notify_scheduled">Test run saved. It will run at the appropriate time.</string>
+	<string name="notify_run_error">No run id, canceling.</string>
+	<string name="in_progress_title">Tests running</string>
+	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
+	<string name="all_complete">All tests complete</string>
 
 <!--	FILTERS-->
 	<string name="title_filter_actions">Filter Actions</string>

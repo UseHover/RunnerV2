@@ -64,17 +64,18 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 		binding.signOutButton.setOnClickListener { showSignOutDialog() }
 	}
 
+	private fun setupDelayEntry() {
+		binding.delayInput.setText(SharedPrefUtils.getDelay(requireContext()).toString())
+		binding.delayInput.addTextChangedListener(delayWatcher)
+	}
+
 	private val delayWatcher: TextWatcher = object : TextWatcher {
 		override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 		override fun afterTextChanged(editable: Editable) {}
 		override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-			if (charSequence.isNotEmpty()) setDelay(charSequence.toString().toInt())
+			if (charSequence.isNotEmpty())
+				SharedPrefUtils.setDelay(charSequence.toString().toInt(), requireContext())
 		}
-	}
-
-	private fun setupDelayEntry() {
-		binding.delayInput.setText(SharedPrefUtils.getDelay(requireContext()).toString())
-		binding.delayInput.addTextChangedListener(delayWatcher)
 	}
 
 	private fun observeSimNames() {
@@ -153,14 +154,6 @@ class SettingsFragment : Fragment(), Hover.DownloadListener {
 			R.id.mode_debug -> setEnv(DEBUG_ENV)
 			R.id.mode_noSim -> setEnv(TEST_ENV)
 		}
-	}
-
-	private fun setDelay(value: Int) {
-		SharedPrefUtils.saveInt(DELAY, value, requireContext())
-	}
-
-	private fun getDelay(): Int {
-		return SharedPrefUtils.getSavedInt(DELAY, requireContext())
 	}
 
 	private fun signOut() {

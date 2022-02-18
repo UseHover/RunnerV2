@@ -13,9 +13,9 @@ import androidx.room.TypeConverters
 import com.hover.runner.R
 import com.hover.runner.database.Converters
 import com.hover.runner.running.RunningActivity
-import com.hover.runner.scheduling.WakeUpHelper
 import com.hover.runner.utils.UIHelper
 import timber.log.Timber
+import java.util.*
 
 const val ONCE = 0
 const val HOURLY = 1
@@ -31,6 +31,9 @@ data class TestRun(
 
 	val frequency: Int,
 
+	@ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
+	var start_at: Long,
+
 	@NonNull
 	var action_id_list: List<String>,
 
@@ -42,18 +45,11 @@ data class TestRun(
 	@NonNull
 	var pending_action_id_list: List<String> = action_id_list
 
-	@ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
-	var started_at: Long = System.currentTimeMillis()
-
-	@ColumnInfo()
-	var finished_at: Long = 0
-
-	override fun compareTo(other: TestRun): Int = (started_at - other.started_at).toInt()
+	override fun compareTo(other: TestRun): Int = (start_at - other.start_at).toInt()
 
 	fun start(activity: FragmentActivity) {
 		Timber.e("starting run. id: %d, freq: %d", id, frequency)
-		if (frequency == ONCE) runNow(activity)
-		else schedule(activity)
+		runNow(activity)
 	}
 
 	private fun runNow(activity: FragmentActivity) {
@@ -63,9 +59,9 @@ data class TestRun(
 		activity.startActivity(i)
 	}
 
-	private fun schedule(c: Context) {
-		UIHelper.flashMessage(c, c.getString(R.string.notify_saved))
-		setAlarm(WakeUpHelper.plusTen, c)
+	fun schedule(c: Context) {
+		setAlarm(getNextTime(), c)
+		UIHelper.flashMessage(c, c.getString(R.string.notify_scheduled))
 	}
 
 	private fun setAlarm(time: Long, c: Context) {
@@ -75,13 +71,15 @@ data class TestRun(
 //		add "or PendingIntent.FLAG_MUTABLE" in API 31
 	}
 
-	fun getInterval(): Long {
-		return when (frequency) {
-			HOURLY -> AlarmManager.INTERVAL_HOUR
-			DAILY -> AlarmManager.INTERVAL_DAY
-			WEEKLY -> AlarmManager.INTERVAL_DAY * 7
-			else -> 0
+	private fun getNextTime(): Long {
+		val cal: Calendar = Calendar.getInstance()
+		cal.timeInMillis = System.currentTimeMillis()
+		when (frequency) {
+			WEEKLY -> cal.add(Calendar.WEEK_OF_MONTH, 1)
+			DAILY -> cal.add(Calendar.DAY_OF_MONTH, 1)
+			HOURLY -> cal.add(Calendar.HOUR_OF_DAY, 1)
 		}
+		return cal.timeInMillis
 	}
 
 	private fun generateIntent(c: Context): Intent {

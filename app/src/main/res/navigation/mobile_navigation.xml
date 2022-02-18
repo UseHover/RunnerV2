@@ -24,7 +24,7 @@
 
 	<fragment
 		android:id="@+id/navigation_run_variables"
-		android:name="com.hover.runner.testRuns.FillVariablesFragment"
+		android:name="com.hover.runner.testRunCreation.FillVariablesFragment"
 		android:label="@string/run_group_description"
 		tools:layout="@layout/fragment_fill_variables">
 		<argument
@@ -37,13 +37,13 @@
 
 	<fragment
 		android:id="@+id/navigation_run_summary"
-		android:name="com.hover.runner.testRuns.RunSummaryFragment"
+		android:name="com.hover.runner.testRunCreation.RunSummaryFragment"
 		tools:layout="@layout/fragment_run_summary">
 	</fragment>
 
 	<fragment
 		android:id="@+id/navigation_run_in_progress"
-		android:name="com.hover.runner.testRuns.RunSummaryFragment"
+		android:name="com.hover.runner.testRunCreation.RunSummaryFragment"
 		tools:layout="@layout/activity_test_running">
 	</fragment>
 

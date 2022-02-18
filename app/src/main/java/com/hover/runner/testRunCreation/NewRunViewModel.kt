@@ -1,10 +1,10 @@
-package com.hover.runner.testRuns
+package com.hover.runner.testRunCreation
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
 import com.hover.runner.actions.ActionRepo
-import com.hover.runner.utils.DateUtils
+import com.hover.runner.testRuns.TestRun
+import com.hover.runner.testRuns.TestRunRepo
 import com.hover.runner.utils.SharedPrefUtils
 import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
@@ -17,8 +17,13 @@ class NewRunViewModel(private val application: Application, private val actionRe
 	var unfilledActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 	var run: MutableLiveData<TestRun> = MutableLiveData()
 
+	var startHour: Int = 0
+	var startMin: Int = 0
+	var startTimestamp: MutableLiveData<Long> = MutableLiveData()
+
 	init {
 		actionQueue.value = listOf()
+		startTimestamp.value = 0L
 		unfilledActions.addSource(actionQueue, this@NewRunViewModel::initUnfilled)
 	}
 
@@ -67,10 +72,21 @@ class NewRunViewModel(private val application: Application, private val actionRe
 	}
 
 	fun save(name: String, freq: Int) {
-		val r = TestRun(name, freq, Utils.convertActionListToIds(actionQueue.value!!))
+		val r = TestRun(name, freq, if (freq == 0) System.currentTimeMillis() else startTimestamp.value!!, Utils.convertActionListToIds(actionQueue.value!!))
 		viewModelScope.launch(Dispatchers.IO) {
 			val id = runRepo.saveNew(r)
 			run.postValue(runRepo.load(id))
+		}
+	}
+
+	fun setTime(h: Int, m: Int) {
+		startHour = h
+		startMin = m
+	}
+
+	fun setTimestamp(stamp: Long) {
+		viewModelScope.launch(Dispatchers.IO) {
+			startTimestamp.postValue(stamp)
 		}
 	}
 

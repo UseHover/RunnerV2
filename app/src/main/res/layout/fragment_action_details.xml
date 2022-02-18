@@ -16,7 +16,7 @@
                 tools:context=".ui.action_details.ActionDetailsFragment"
                 android:orientation="vertical">
 
-            <com.hover.runner.ui.DetailsHeaderView
+            <com.hover.runner.main.DetailsHeaderView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/header"/>
