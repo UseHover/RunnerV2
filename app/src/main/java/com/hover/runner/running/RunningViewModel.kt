@@ -50,8 +50,10 @@ class RunningViewModel(private val application: Application, private val actionR
 			val actionIdList = tr.pending_action_id_list.toMutableList()
 			actionIdList.remove(finishedActionId)
 			tr.pending_action_id_list = actionIdList.toList()
-			if (actionIdList.size == 0 && tr.frequency != ONCE)
+			if (actionIdList.size == 0 && tr.frequency != ONCE) {
+				tr.finished_at = System.currentTimeMillis()
 				scheduleNext(tr)
+			}
 
 			runRepo.update(tr)
 			run.postValue(tr)
@@ -59,6 +61,8 @@ class RunningViewModel(private val application: Application, private val actionR
 	}
 
 	private fun scheduleNext(tr: TestRun) {
-		tr.schedule(application)
+		val newRun = TestRun(tr.name, tr.frequency, tr.getNextTime(), tr.action_id_list)
+		runRepo.saveNew(newRun)
+		newRun.schedule(application)
 	}
 }

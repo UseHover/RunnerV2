@@ -116,7 +116,7 @@ class RunningActivity : AppCompatActivity() {
 		} else Timber.e("Got result with no action id")
 	}
 
-	fun updateProgress(run: TestRun) {
+	private fun updateProgress(run: TestRun) {
 		binding.progress.text =
 			getString(R.string.in_progress_subtitle, run.action_id_list.size - run.pending_action_id_list.size, run.action_id_list.size)
 		if (run.pending_action_id_list.isEmpty()) {

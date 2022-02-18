@@ -14,13 +14,13 @@ internal class ActionRecyclerAdapter(private val actionList: List<HoverAction>, 
 	RecyclerView.Adapter<ActionRecyclerAdapter.ActionListItemViewHolder>() {
 
 	inner class ActionListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		var actionIdText: TextView = itemView.findViewById(R.id.actionIdText_Id)
-		var actionTitleText: TextView = itemView.findViewById(R.id.actionTitle_Id)
-		var iconImage: ImageView = itemView.findViewById(R.id.actionIconStatus)
+		var actionIdText: TextView = itemView.findViewById(R.id.title)
+		var actionTitleText: TextView = itemView.findViewById(R.id.subtitle)
+		var iconImage: ImageView = itemView.findViewById(R.id.icon)
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionListItemViewHolder {
-		val view = LayoutInflater.from(parent.context).inflate(R.layout.action_list_items, parent, false)
+		val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
 		return ActionListItemViewHolder(view)
 	}
 

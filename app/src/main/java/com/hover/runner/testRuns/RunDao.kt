@@ -9,6 +9,9 @@ interface RunDao {
 	@Query("SELECT * FROM test_runs")
 	fun allRuns(): LiveData<List<TestRun>>
 
+	@Query("SELECT * FROM test_runs WHERE finished_at = 0")
+	fun getFuture(): LiveData<List<TestRun>>
+
 	@Query("SELECT * FROM test_runs WHERE id = :id LIMIT 1")
 	fun load(id: Long): TestRun
 

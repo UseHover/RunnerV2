@@ -10,6 +10,10 @@ class TestRunRepo(db: AppDatabase) {
 		return runDao.allRuns()
 	}
 
+	fun getFuture(): LiveData<List<TestRun>> {
+		return runDao.getFuture()
+	}
+
 	fun load(id: Long): TestRun {
 		return runDao.load(id)
 	}

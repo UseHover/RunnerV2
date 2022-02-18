@@ -42,6 +42,8 @@ data class TestRun(
 	@PrimaryKey(autoGenerate = true)
 	var id: Long = 0
 
+	var finished_at: Long = 0,
+
 	@NonNull
 	var pending_action_id_list: List<String> = action_id_list
 
@@ -60,20 +62,20 @@ data class TestRun(
 	}
 
 	fun schedule(c: Context) {
-		setAlarm(getNextTime(), c)
+		setAlarm(c)
 		UIHelper.flashMessage(c, c.getString(R.string.notify_scheduled))
 	}
 
-	private fun setAlarm(time: Long, c: Context) {
+	private fun setAlarm(c: Context) {
 		val alarmMgr = c.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-		alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time,
+		alarmMgr.setExact(AlarmManager.RTC_WAKEUP, start_at,
 			PendingIntent.getActivity(c, id.toInt(), generateIntent(c), PendingIntent.FLAG_CANCEL_CURRENT))
 //		add "or PendingIntent.FLAG_MUTABLE" in API 31
 	}
 
-	private fun getNextTime(): Long {
+	fun getNextTime(): Long {
 		val cal: Calendar = Calendar.getInstance()
-		cal.timeInMillis = System.currentTimeMillis()
+		cal.timeInMillis = start_at
 		when (frequency) {
 			WEEKLY -> cal.add(Calendar.WEEK_OF_MONTH, 1)
 			DAILY -> cal.add(Calendar.DAY_OF_MONTH, 1)

@@ -62,12 +62,6 @@
 		tools:layout="@layout/fragment_transactions" />
 
 	<fragment
-		android:id="@+id/navigation_transactionsFilter"
-		android:name="com.hover.runner.filter.filter_transactions.fragment.TransactionsFilterFragment"
-		android:label="@string/title_filter_trans"
-		tools:layout="@layout/transaction_filter_fragment" />
-
-	<fragment
 		android:id="@+id/navigation_transactionDetails"
 		android:name="com.hover.runner.transactionDetails.TransactionDetailsFragment"
 		android:label="@string/transaction_details"
@@ -101,6 +95,11 @@
 			app:argType="string" />
 	</fragment>
 
+	<fragment
+		android:id="@+id/navigation_runs"
+		android:name="com.hover.runner.testRuns.RunsFragment"
+		android:label="@string/title_runs"
+		tools:layout="@layout/fragment_runs" />
 
 	<!--Settings -->
 	<fragment

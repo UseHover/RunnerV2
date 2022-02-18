@@ -9,11 +9,13 @@
 
 	<string name="title_actions">Actions</string>
 	<string name="title_transactions">Transactions</string>
+	<string name="title_runs">Scheduled</string>
 	<string name="title_settings">Settings</string>
 
 	<!--	NAVIGATION-->
 	<string name="title_actions_in_filter">Choose actions</string>
 	<string name="transaction_details">Transaction details</string>
+	<string name="header_runs">Scheduled Runs</string>
 	<string name="action_details">Action details</string>
 	<string name="parser_details">Parser details</string>
 
@@ -127,7 +129,7 @@
 	<string name="delay_hint">Set ms delay between sessions</string>
 	<string name="no_sim_toolTip">When you do not have the correct SIM for the service you want to test</string>
 	<string name="sim_cards">SIM cards</string>
-	<string name="action_icon_status_description">Action status after it was ran</string>
+	<string name="action_icon_status_description">Status indicator</string>
 	<string name="sim_tooltip">Don’t see the correct SIM? Try removing it and re-inserting it. If that doesn\’t work, contact support.</string>
 	<string name="contact_support">Contact support</string>
 	<string name="refresh">Refresh</string>
