@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.hover.runner.R
 import com.hover.runner.database.Converters
-import com.hover.runner.running.RunningActivity
+import com.hover.runner.testRunning.RunningActivity
 import com.hover.runner.utils.UIHelper
 import timber.log.Timber
 import java.util.*
@@ -42,7 +42,7 @@ data class TestRun(
 	@PrimaryKey(autoGenerate = true)
 	var id: Long = 0
 
-	var finished_at: Long = 0,
+	var finished_at: Long = 0
 
 	@NonNull
 	var pending_action_id_list: List<String> = action_id_list

@@ -11,8 +11,6 @@
 
 	<style name="LabeledInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 		<item name="android:layout_marginTop">@dimen/margin16</item>
-		<item name="android:layout_marginStart">@dimen/margin16</item>
-		<item name="android:layout_marginEnd">@dimen/margin16</item>
 		<item name="android:layout_marginBottom">@dimen/margin5</item>
 		<item name="android:background">?attr/colorSurface</item>
 		<item name="boxStrokeColor">@color/runnerWhite</item>

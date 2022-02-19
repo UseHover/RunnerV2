@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTestRunsBinding
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
@@ -26,25 +29,18 @@ class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		observeActions()
+		viewModel.runs.observe(viewLifecycleOwner) { onLoad(it) }
 	}
 
-	override fun onResume() {
-		super.onResume()
-		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
-	}
-
-	private fun observeActions() {
-		viewModel.runs.observe(viewLifecycleOwner) {
-			it?.let {
-				binding.recyclerView.setLayoutManagerToLinear()
-				runsRecyclerAdapter = RunsRecyclerAdapter(it, this)
-				binding.recyclerView.adapter = runsRecyclerAdapter
-			}
+	private fun onLoad(runs: List<TestRun>?) {
+		runs?.let {
+			binding.recyclerView.setLayoutManagerToLinear()
+			runsRecyclerAdapter = RunsRecyclerAdapter(it, this)
+			binding.recyclerView.adapter = runsRecyclerAdapter
 		}
 	}
 
 	override fun onItemClick(testRunId: Long, titleTextView: View) {
-
+		findNavController().navigate(R.id.navigation_run_details, bundleOf(RUN_ID to testRunId))
 	}
 }

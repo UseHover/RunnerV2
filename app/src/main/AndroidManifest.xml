@@ -33,7 +33,7 @@
 			android:exported="false" />
 		<activity android:name=".main.WebViewActivity"
 			android:exported="false" />
-		<activity android:name=".running.RunningActivity"
+		<activity android:name=".testRunning.RunningActivity"
 			android:exported="false" />
 	</application>
 </manifest>

@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/margin16"
     android:background="?selectableItemBackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingVertical="8dp"
-        android:layout_marginBottom="@dimen/margin16">
+        android:paddingHorizontal="@dimen/margin16"
+        android:paddingVertical="@dimen/margin13">
 
         <TextView android:id="@+id/title"
             android:layout_width="wrap_content"

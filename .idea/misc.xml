@@ -39,6 +39,7 @@
         <entry key="app/src/main/res/layout/fragment_run_in_progress.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_run_summary.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_selection.xml" value="0.1033434650455927" />
+        <entry key="app/src/main/res/layout/fragment_test_run_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_test_runs.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_transaction_details.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/fragment_transactions.xml" value="0.31657608695652173" />

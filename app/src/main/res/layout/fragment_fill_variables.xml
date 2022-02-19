@@ -6,51 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout android:id="@+id/run_header"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/run_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
+        android:layout_height="@dimen/margin85"
         android:background="?attr/colorPrimary"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="@dimen/margin16"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView android:id="@+id/run_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnPrimary"
-                android:drawablePadding="@dimen/margin16"
-                android:textSize="@dimen/text_22"
-                android:text="@string/new_run_vars_title"
-                app:drawableStartCompat="@drawable/ic_close_black_24dp" />
-
-            <TextView android:id="@+id/run_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/margin21"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="@dimen/text_22"
-                android:text="@string/new_run_vars_subtitle" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/margin21"
-                android:text="@string/run_group_description"
-                android:textSize="@dimen/text_17"
-                android:textColor="?attr/colorOnPrimary"
-                android:id="@+id/u_variable_statusTitle2" />
-        </LinearLayout>
-    </RelativeLayout>
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:elevation="@dimen/elevation_up"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:subtitleTextAppearance="@style/SubtitleText"
+        app:title="@string/new_run_vars_title"
+        app:titleTextAppearance="@style/TitleText" >
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -58,13 +25,22 @@
         android:layout_below="@+id/run_header"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/buttons">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin33"
+                android:text="@string/run_group_description"
+                android:textSize="@dimen/text_17"
+                android:textColor="?attr/colorOnSurface"
+                android:id="@+id/u_variable_statusTitle2" />
 
             <TextView
                 android:id="@+id/action_title"
@@ -89,36 +65,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="@dimen/margin16" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/above_skip_text"
-                android:textColor="@color/mainGrey"
-                android:textSize="@dimen/text_15" />
-
-            <TextView
-                android:id="@+id/skip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/skip_text"
-                android:textColor="@color/mainGrey"
-                android:textSize="@dimen/text_15"
-                android:textStyle="bold" />
-
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout  android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:textAlignment="center"
-        android:text="@string/next_label"
-        android:textStyle="bold"
-        app:shapeAppearanceOverlay="@style/ExtendedFab" />
+        android:orientation="horizontal"
+        android:background="@color/runnerPrimary">
+
+        <TextView android:id="@+id/skip"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/mainGrey"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_17"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="@string/label_skip"/>
+
+        <TextView android:id="@+id/fab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_17"
+            android:textColor="?attr/colorOnPrimary"
+            android:text="@string/label_next"/>
+    </LinearLayout>
 </RelativeLayout>

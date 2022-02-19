@@ -1,4 +1,4 @@
-package com.hover.runner.running
+package com.hover.runner.testRunning
 
 import android.app.KeyguardManager
 import android.content.Context
@@ -10,7 +10,6 @@ import android.os.PowerManager
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
-import androidx.core.os.HandlerCompat.postDelayed
 import com.hover.runner.R
 import com.hover.runner.databinding.ActivityTestRunningBinding
 import com.hover.runner.settings.SettingsFragment

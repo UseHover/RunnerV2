@@ -99,7 +99,13 @@
 		android:id="@+id/navigation_runs"
 		android:name="com.hover.runner.testRuns.RunsFragment"
 		android:label="@string/title_runs"
-		tools:layout="@layout/fragment_runs" />
+		tools:layout="@layout/fragment_test_runs" />
+
+	<fragment
+		android:id="@+id/navigation_run_details"
+		android:name="com.hover.runner.testRuns.RunDetailsFragment"
+		android:label="@string/title_runs"
+		tools:layout="@layout/fragment_test_run_details" />
 
 	<!--Settings -->
 	<fragment

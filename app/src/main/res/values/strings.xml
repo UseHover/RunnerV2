@@ -10,6 +10,7 @@
 	<string name="title_actions">Actions</string>
 	<string name="title_transactions">Transactions</string>
 	<string name="title_runs">Scheduled</string>
+	<string name="title_run_details">Run Details</string>
 	<string name="title_settings">Settings</string>
 
 	<!--	NAVIGATION-->
@@ -33,8 +34,8 @@
 	<string name="new_run_vars_subtitle">%1$d/%2$d actions complete</string>
 	<string name="run_group_description">Please fill out the remaining variables to create the test run.</string>
 	<string name="above_skip_text">Don’t have the values for these variables right now?</string>
-	<string name="skip_text">Skip this action for now.</string>
-	<string name="next_label">Next ></string>
+	<string name="label_skip">Skip</string>
+	<string name="label_next">Next ></string>
 	<string name="finish">Finish</string>
 
 	<string name="summary_title">Create Test Run</string>
@@ -44,7 +45,7 @@
 	<string name="run_template">%1$s-actionsX%2$d</string>
 	<string name="run_template_single">%1$s-action-%2$s</string>
 	<string name="label_name">Test Run Name</string>
-	<string name="label_frequency">How often?</string>
+	<string name="label_frequency_input">How often?</string>
 	<string-array name="frequency_array">
 		<item>Once</item>
 		<item>Hourly</item>
@@ -71,6 +72,12 @@
 	<string name="in_progress_title">Tests running</string>
 	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
 	<string name="all_complete">All tests complete</string>
+
+	<string name="run_details_subtitle">Test Run</string>
+	<string name="label_frequency">Frequency</string>
+	<string name="label_next_start">Next run</string>
+	<string name="label_last_start">Ran at</string>
+	<string name="actions_to_run">Actions to run</string>
 
 <!--	FILTERS-->
 	<string name="title_filter_actions">Filter Actions</string>
@@ -126,7 +133,7 @@
 	<string name="Debug">Debug</string>
 	<string name="debug_toolTip">Watch USSD sessions as they happen</string>
 	<string name="no_sim">No SIM</string>
-	<string name="delay_hint">Set ms delay between sessions</string>
+	<string name="delay_hint">Seconds delay between sessions</string>
 	<string name="no_sim_toolTip">When you do not have the correct SIM for the service you want to test</string>
 	<string name="sim_cards">SIM cards</string>
 	<string name="action_icon_status_description">Status indicator</string>

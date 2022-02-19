@@ -45,7 +45,7 @@ class FillVariablesFragment : BaseFragment() {
 	}
 
 	private fun initListeners() {
-		binding.runTitle.setOnClickListener { navigateBack() }
+//		binding.runTitle.setOnClickListener { navigateBack() }
 		binding.fab.setOnClickListener { next() }
 		binding.skip.setOnClickListener { newRunViewModel.skip() }
 	}
@@ -54,18 +54,17 @@ class FillVariablesFragment : BaseFragment() {
 		newRunViewModel.actionQueue.observe(viewLifecycleOwner) {
 			it?.let {
 				if (newRunViewModel.actionQueue.value?.size == 1)
-					binding.runTitle.text = getString(R.string.new_run_single_subtitle, it[0].name)
+					binding.runHeader.title = getString(R.string.new_run_single_subtitle, it[0].name)
 			}
 		}
 
 		newRunViewModel.unfilledActions.observe(viewLifecycleOwner) {
 			if (!it.isNullOrEmpty()) {
 				Timber.e("filling. First is %s", it[0].name)
-				binding.runSubtitle.text = getString(R.string.new_run_vars_subtitle, (newRunViewModel.actionQueue.value!!.size - it.size), newRunViewModel.actionQueue.value!!.size)
+				binding.runHeader.subtitle = getString(R.string.new_run_vars_subtitle, (newRunViewModel.actionQueue.value!!.size - it.size), newRunViewModel.actionQueue.value!!.size)
 				binding.actionTitle.text = it[0].name
 				binding.actionSubtitle.text = it[0].public_id
 				onVarListUpdate(it[0])
-				if (it.size == 1) binding.fab.text = getString(R.string.finish)
 			} else if (it != null) {
 				findNavController().navigate(R.id.navigation_run_summary)
 			}
