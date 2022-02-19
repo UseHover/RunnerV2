@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.transactionDetails.TransactionMessagesRecyclerAdapter.TransactionMessageViewHolder
 
-class TransactionMessagesRecyclerAdapter(private val messagesModelArrayList: List<TransactionMessages>) :
+class TransactionMessagesRecyclerAdapter(private val messagePairs: List<TransactionMessages>) :
 	RecyclerView.Adapter<TransactionMessageViewHolder>() {
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionMessageViewHolder {
@@ -18,17 +18,13 @@ class TransactionMessagesRecyclerAdapter(private val messagesModelArrayList: Lis
 	}
 
 	override fun onBindViewHolder(holder: TransactionMessageViewHolder, position: Int) {
-//		val (enteredValue, messageContent) = messagesModelArrayList[position]
-//		if (enteredValue!!.isNotEmpty()) {
-//			if (enteredValue == "(pin)") {
-//				holder.enteredValueText.text = "...."
-//				holder.enteredValueText.textSize = 60f
-//			}
-//			else holder.enteredValueText.text = enteredValue
-//		}
-//		else holder.enteredValueText.visibility = View.GONE
-//
-//		holder.messageContentText.text = messageContent
+		val model: TransactionMessages = messagePairs[position]
+
+		if (model.enteredValue.isNotEmpty()) holder.enteredValueText.text = model.enteredValue
+		else holder.enteredValueText.visibility = View.GONE
+
+		if (!model.responseMessage.isEmpty()) holder.messageContentText.text = model.responseMessage
+		else holder.messageContentText.visibility = View.GONE
 	}
 
 	override fun getItemId(position: Int): Long {
@@ -40,7 +36,7 @@ class TransactionMessagesRecyclerAdapter(private val messagesModelArrayList: Lis
 	}
 
 	override fun getItemCount(): Int {
-		return messagesModelArrayList.size
+		return messagePairs.size
 	}
 
 	class TransactionMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

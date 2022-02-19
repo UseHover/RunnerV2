@@ -85,6 +85,16 @@
 	<string name="delete">Delete</string>
 	<string name="run_deleted">Test run deleted</string>
 
+<!--	TRANSACTIONS-->
+	<string name="label_status">Status</string>
+	<string name="label_action">Action</string>
+	<string name="label_action_id">Action ID</string>
+	<string name="label_time">Time</string>
+	<string name="label_transaction_id">UUID</string>
+	<string name="label_result">Result</string>
+	<string name="label_category">Category</string>
+	<string name="label_operator">Operator</string>
+
 <!--	FILTERS-->
 	<string name="title_filter_actions">Filter Actions</string>
 	<string name="cta_filter_actions">Show %1$d Actions</string>

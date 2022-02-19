@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.hover.runner.R
 
 class UIHelper {
 	companion object {
@@ -31,6 +32,14 @@ class UIHelper {
 			window.statusBarColor = color
 		}
 
+		fun getStatusColor(status: String, context: Context): Int {
+			return when(status) {
+				"failed" -> context.resources.getColor(R.color.runnerRed)
+				"pending" -> context.resources.getColor(R.color.runnerYellow)
+				"succeeded" -> context.resources.getColor(R.color.runnerGreen)
+				else -> context.resources.getColor(R.color.runnerDark)
+			}
+		}
 
 		fun flashMessage(context: Context, view: View?, message: String?) {
 			if (view == null) flashMessage(context, message)

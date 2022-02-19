@@ -12,9 +12,14 @@ import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTransactionDetailsBinding
 import com.hover.runner.main.DetailsHeaderView
 import com.hover.runner.parser.ParserClickListener
+import com.hover.runner.utils.DateUtils
+import com.hover.runner.utils.RunnerColor
+import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
+import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	private var _binding: FragmentTransactionDetailsBinding? = null
@@ -22,24 +27,9 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 
 	private val viewModel: TransactionDetailsViewModel by sharedViewModel()
 
-	private lateinit var topLayoutHeader: DetailsHeaderView
-
-	private lateinit var aboutInfoRecyclerView: RecyclerView
-	private lateinit var deviceInfoRecyclerView: RecyclerView
-	private lateinit var debugInfoRecyclerView: RecyclerView
-	private lateinit var messagesInfoRecyclerView: RecyclerView
-
-	private lateinit var messagesInfoAdapter: TransactionMessagesRecyclerAdapter
-
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false)
 		return binding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		initViews()
-		initRecyclerViewsLayoutManager()
 	}
 
 	override fun onResume() {
@@ -47,45 +37,36 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		loadTransaction()
 	}
 
-	private fun initViews() {
-		aboutInfoRecyclerView = binding.transacAboutInfoRecyclerView
-		deviceInfoRecyclerView = binding.transacDevicesRecyclerView
-		debugInfoRecyclerView = binding.transacDebugInfoRecyclerView
-		messagesInfoRecyclerView = binding.transacMessagesRecyclerView
-	}
-
-	private fun initRecyclerViewsLayoutManager() {
-		aboutInfoRecyclerView.setLayoutManagerToLinear()
-		deviceInfoRecyclerView.setLayoutManagerToLinear()
-		debugInfoRecyclerView.setLayoutManagerToLinear()
-		messagesInfoRecyclerView.setLayoutManagerToLinear()
-	}
-
 	private fun loadTransaction() {
 		viewModel.transaction.observe(viewLifecycleOwner) {
-			it?.let {
-				setupTopDetailsLayout(it)
-//				observeTransactionMessages(it)
-			}
+			it?.let { fillDetails(it) }
+			viewModel.action.value?.let { a -> createMessagesAdapter(it, a) }
 		}
+
+		viewModel.action.observe(viewLifecycleOwner) {
+			Timber.e("Loaded action: %s", it?.public_id?: "null")
+			viewModel.transaction.value?.let { t -> createMessagesAdapter(t, it) } }
+		viewModel.load(requireArguments().getString("uuid", ""))
 	}
 
-	private fun setupTopDetailsLayout(transaction: Transaction) {
-//		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).get(transaction.getStatusColor()))
-		topLayoutHeader.setTransaction(transaction, requireActivity())
+	private fun fillDetails(transaction: Transaction) {
+		UIHelper.changeStatusBarColor(requireActivity(), UIHelper.getStatusColor(transaction.status, requireContext()))
+		binding.transactionDetailsTopLayoutId.setTransaction(transaction, requireActivity())
+		binding.valueStatus.text = transaction.status
+		binding.valueCategory.text = transaction.category
+		binding.valueActionId.text = transaction.actionId
+		binding.valueTime.text = DateUtils.humanFriendlyDateTime(transaction.reqTimestamp)
+		binding.valueTransactionId.text = transaction.uuid
+		binding.valueResult.text = transaction.userMessage
 	}
 
-//	private fun observeTransactionMessages(transaction: Transaction) {
-//		transactionViewModel.loadTransactionMessages(transaction)
-//		transactionViewModel.messagesInfoLiveData.observe(viewLifecycleOwner) { messages ->
-//			messages?.let { setMessagesAdapter(it) }
-//		}
-//	}
-
-//	private fun setMessagesAdapter(transactionDetailsMessages: List<TransactionDetailsMessages>) {
-//		messagesInfoAdapter = TransactionMessagesRecyclerAdapter(transactionDetailsMessages)
-//		messagesInfoRecyclerView.adapter = messagesInfoAdapter
-//	}
+	private fun createMessagesAdapter(t: Transaction, a: HoverAction) {
+		binding.valueAction.text = a.name
+		val messages = TransactionMessages.generateConvo(t, a)
+		binding.transacMessagesRecyclerView.setLayoutManagerToLinear()
+		val messagesInfoAdapter = TransactionMessagesRecyclerAdapter(messages)
+		binding.transacMessagesRecyclerView.adapter = messagesInfoAdapter
+	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()

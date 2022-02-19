@@ -31,7 +31,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		TransactionDetailsViewModel(get())
+		TransactionDetailsViewModel(get(), get())
 	}
 
 	viewModel {
