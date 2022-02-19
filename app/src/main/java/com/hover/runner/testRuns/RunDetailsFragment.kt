@@ -1,9 +1,12 @@
 package com.hover.runner.testRuns
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -11,6 +14,7 @@ import com.hover.runner.R
 import com.hover.runner.actions.ActionRecyclerAdapter
 import com.hover.runner.databinding.FragmentTestRunDetailsBinding
 import com.hover.runner.utils.DateUtils
+import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -31,6 +35,7 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 		viewModel.run.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
 		viewModel.actions.observe(viewLifecycleOwner) { it?.let { addActions(it) } }
 		viewModel.load(requireArguments().getLong(RUN_ID))
+		binding.delete.setOnClickListener { showDeleteDialog() }
 	}
 
 	private fun fillDetails(run: TestRun?) {
@@ -42,6 +47,7 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 				binding.startLabel.text = getString(R.string.label_next_start)
 			else
 				binding.startLabel.text = getString(R.string.label_last_start)
+			binding.delete.visibility = VISIBLE
 		}
 	}
 
@@ -50,6 +56,23 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 			binding.recyclerView.setLayoutManagerToLinear()
 			binding.recyclerView.adapter = ActionRecyclerAdapter(it, this)
 		}
+	}
+
+	private fun showDeleteDialog() {
+		val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity()).apply {
+			setTitle(R.string.delete_title)
+			setMessage(R.string.delete_message)
+			setPositiveButton(R.string.delete) { dialog, id -> delete() }
+			setNegativeButton(R.string.cancel, null)
+		}
+		val alert = builder.create()
+		alert.show()
+	}
+
+	private fun delete() {
+		viewModel.deleteRun()
+		UIHelper.flashMessage(requireContext(), view, getString(R.string.run_deleted))
+		findNavController().popBackStack()
 	}
 
 	override fun onActionItemClick(actionId: String, titleTextView: View) {

@@ -25,4 +25,10 @@ class RunsViewModel(private val runRepo: TestRunRepo, private val actionRepo: Ac
 	private fun getActions(r: TestRun): List<HoverAction> {
 		return actionRepo.getHoverActions(r.action_id_list.toTypedArray())
 	}
+
+	fun deleteRun() {
+		viewModelScope.launch(Dispatchers.IO) {
+			run.value?.let { runRepo.delete(it) }
+		}
+	}
 }

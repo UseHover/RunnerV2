@@ -20,4 +20,7 @@ interface RunDao {
 
 	@Update
 	fun update(run: TestRun?)
+
+	@Delete
+	fun delete(run: TestRun?)
 }

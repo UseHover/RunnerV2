@@ -91,6 +91,9 @@ class NewRunViewModel(private val application: Application, private val actionRe
 	}
 
 	fun clear() {
+		startHour = 0
+		startMin = 0
+		startTimestamp.postValue(0L)
 		actionQueue.postValue(listOf())
 		unfilledActions.postValue(null)
 		run.postValue(null)

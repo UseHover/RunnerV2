@@ -25,4 +25,8 @@ class TestRunRepo(db: AppDatabase) {
 	fun saveNew(run: TestRun): Long {
 		return runDao.insert(run)
 	}
+
+	fun delete(run: TestRun) {
+		runDao.delete(run)
+	}
 }
