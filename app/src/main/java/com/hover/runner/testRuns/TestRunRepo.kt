@@ -1,5 +1,6 @@
 package com.hover.runner.testRuns
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.hover.runner.database.AppDatabase
 
@@ -26,7 +27,8 @@ class TestRunRepo(db: AppDatabase) {
 		return runDao.insert(run)
 	}
 
-	fun delete(run: TestRun) {
+	fun delete(run: TestRun, context: Context) {
+		run.cancelAlarm(context)
 		runDao.delete(run)
 	}
 }

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.utils.DateUtils
+import com.hover.runner.utils.UIHelper
 import com.hover.sdk.transactions.Transaction
 
 
@@ -21,9 +22,9 @@ class TransactionsRecyclerAdapter(private val transactionList: List<Transaction>
 
 	override fun onBindViewHolder(holder: TransactionListItemView, position: Int) {
 		val transaction = transactionList[position]
-		holder.date.text = DateUtils.timestampTemplate(transaction.reqTimestamp)
+		holder.date.text = DateUtils.formatDate(transaction.reqTimestamp)
+		holder.date.setTextColor(UIHelper.getStatusColor(transaction.status, holder.itemView.context))
 		holder.content.text = if (transaction.userMessage.isNullOrEmpty()) transaction.category else transaction.userMessage
-//		holder.date.setTextColor(RunnerColor(holder.itemView.context).get(transaction.getStatusColor()))
 		holder.itemView.setOnClickListener { clickListener.onItemClick(transaction.uuid) }
 	}
 

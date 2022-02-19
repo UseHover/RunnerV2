@@ -73,6 +73,12 @@ data class TestRun(
 //		add "or PendingIntent.FLAG_MUTABLE" in API 31
 	}
 
+	fun cancelAlarm(c: Context) {
+		val alarmMgr = c.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+		alarmMgr.cancel(PendingIntent.getActivity(c, id.toInt(), generateIntent(c), PendingIntent.FLAG_CANCEL_CURRENT))
+	}
+
+
 	fun getNextTime(): Long {
 		val cal: Calendar = Calendar.getInstance()
 		cal.timeInMillis = start_at
