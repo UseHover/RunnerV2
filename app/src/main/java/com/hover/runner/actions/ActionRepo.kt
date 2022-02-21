@@ -45,7 +45,7 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 	fun generateSQLStatement(search: String?, tagList: List<String>?): SimpleSQLiteQuery {
 		var fString = SQL_SELECT
 
-		if (!generateSearchString(search).isEmpty() || !generateTagString(tagList).isEmpty())
+		if (generateSearchString(search).isNotEmpty() || generateTagString(tagList).isNotEmpty())
 			fString += " WHERE "
 
 		fString += generateSearchString(search)

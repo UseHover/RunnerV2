@@ -30,16 +30,13 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 			addSource(searchString, this@ActionsViewModel::generateSQLStatement)
 			addSource(selectedTags, this@ActionsViewModel::generateSQLStatement)
 		}
-
-		selectedTags.value = listOf()
-		viewModelScope.launch(Dispatchers.IO) {
-			selectedTags.postValue(actionRepo.getAllTags())
-		}
 	}
 
 	private fun runFilter(actions: List<HoverAction>?) {
-		if (!actions.isNullOrEmpty() && filterQuery.value == null)
+		if (!actions.isNullOrEmpty() && filterQuery.value == null) {
 			filteredActions.value = actions
+			selectedTags.postValue(actionRepo.getAllTags())
+		}
 	}
 
 	private fun runFilter(query: SimpleSQLiteQuery?) {
@@ -70,10 +67,10 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 	}
 
 	private fun generateSQLStatement(search: String?) {
-		filterQuery.postValue(actionRepo.generateSQLStatement(search, selectedTags.value))
+		search?.let { filterQuery.postValue(actionRepo.generateSQLStatement(search, selectedTags.value)) }
 	}
 
 	private fun generateSQLStatement(tagList: List<String>?) {
-		filterQuery.postValue(actionRepo.generateSQLStatement(searchString.value, tagList))
+		tagList?.let {  filterQuery.postValue(actionRepo.generateSQLStatement(searchString.value, tagList)) }
 	}
 }
