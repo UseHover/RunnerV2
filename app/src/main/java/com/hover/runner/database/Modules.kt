@@ -39,7 +39,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		ActionsViewModel(get())
+		ActionsViewModel(get(), get())
 	}
 
 	viewModel {

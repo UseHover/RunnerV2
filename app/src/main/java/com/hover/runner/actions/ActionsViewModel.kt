@@ -1,17 +1,23 @@
 package com.hover.runner.actions
 
+import android.app.Application
 import androidx.lifecycle.*
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.api.TransactionApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 const val SQL_SELECT = "SELECT * FROM hover_actions"
 
-class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
+class ActionsViewModel(private val application: Application, private val actionRepo: ActionRepo) : ViewModel() {
 
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
+
+	// This is not great, but easier than creating a whole new model just to hold a status.
+	val statuses: MediatorLiveData<HashMap<String, String?>> = MediatorLiveData()
 
 	var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
 
@@ -24,6 +30,7 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterQuery, this@ActionsViewModel::runFilter)
 		}
+		statuses.addSource(filteredActions, this@ActionsViewModel::lookUpStatuses)
 
 		filterQuery.value = null
 		filterQuery.apply {
@@ -41,6 +48,15 @@ class ActionsViewModel(private val actionRepo: ActionRepo) : ViewModel() {
 
 	private fun runFilter(query: SimpleSQLiteQuery?) {
 		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
+	}
+
+	private fun lookUpStatuses(actions: List<HoverAction>?) {
+		actions?.let {
+			val sMap = hashMapOf<String, String?>()
+			for (action in actions)
+				sMap[action.public_id] = TransactionApi.getStatusForAction(action.public_id, application)
+			statuses.postValue(sMap)
+		}
 	}
 
 	fun reset() {

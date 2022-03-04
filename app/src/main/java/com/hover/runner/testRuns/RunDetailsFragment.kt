@@ -54,7 +54,7 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 	private fun addActions(actions: List<HoverAction>?) {
 		actions?.let {
 			binding.recyclerView.setLayoutManagerToLinear()
-			binding.recyclerView.adapter = ActionRecyclerAdapter(it, this)
+			binding.recyclerView.adapter = ActionRecyclerAdapter(it, hashMapOf(), this)
 		}
 	}
 

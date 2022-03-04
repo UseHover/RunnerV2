@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-	compileSdk 30
+	compileSdk 31
 
 	lintOptions {
 		abortOnError false
@@ -15,9 +15,9 @@ android {
 	defaultConfig {
 		applicationId "com.hover.runner"
 		minSdk 19
-		targetSdk 30
-		versionCode 7
-		versionName "2.0"
+		targetSdk 31
+		versionCode 8
+		versionName "2.0.0-alpha01"
 		multiDexEnabled true
 		vectorDrawables.useSupportLibrary true
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -106,7 +106,7 @@ dependencies {
 	implementation 'com.google.firebase:firebase-crashlytics:18.2.4'
 
 	//Hover
-	def sdk_version = "2.0.0-alpha0.0.7"
+	def sdk_version = "2.0.0-alpha1.0.3"
 	//implementation "com.hover:android-sdk:$sdk_version"
 
 	debugImplementation project(":hover.sdk")

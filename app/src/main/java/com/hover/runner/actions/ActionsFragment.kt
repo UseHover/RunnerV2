@@ -19,6 +19,7 @@ import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.api.Hover
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
+import kotlin.collections.HashMap
 
 class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapter.ActionClickListener {
 
@@ -49,8 +50,15 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 			if (actions.isNullOrEmpty()) showLoadingView()
 			else {
 				setFilterState(actions.size)
-				setActionListAdapter(actions)
+				if (actionsViewModel.statuses.value != null)
+					setActionListAdapter(actions, actionsViewModel.statuses.value!!)
 				binding.startTestRun.text = getCtaText(actions.size)
+			}
+		}
+		actionsViewModel.statuses.observe(viewLifecycleOwner) { statuses ->
+			statuses?.let {
+				if (actionsViewModel.filteredActions.value != null)
+					setActionListAdapter(actionsViewModel.filteredActions.value!!, statuses)
 			}
 		}
 	}
@@ -68,9 +76,9 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 		return actionsViewModel.allActions.value == null || actionListSize == actionsViewModel.allActions.value!!.size
 	}
 
-	private fun setActionListAdapter(actions: List<HoverAction>) {
+	private fun setActionListAdapter(actions: List<HoverAction>, statuses: HashMap<String, String?>) {
 		binding.recyclerView.setLayoutManagerToLinear()
-		actionRecyclerAdapter = ActionRecyclerAdapter(actions, this)
+		actionRecyclerAdapter = ActionRecyclerAdapter(actions, statuses, this)
 		binding.recyclerView.adapter = actionRecyclerAdapter
 	}
 

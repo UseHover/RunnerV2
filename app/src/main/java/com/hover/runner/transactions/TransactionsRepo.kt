@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hover.sdk.api.Hover
+import com.hover.sdk.api.TransactionApi
 import com.hover.sdk.transactions.Transaction
 
 class TransactionsRepo(private val context: Context) {
@@ -17,6 +18,10 @@ class TransactionsRepo(private val context: Context) {
 
 	fun getTransactionsByAction(actionId: String): List<Transaction> {
 		return Hover.getTransactionsByActionId(actionId, context)
+	}
+
+	fun getLatestStatusForAction(actionId: String): String {
+		return TransactionApi.getStatusForAction(actionId, context)
 	}
 
 	fun getCountByStatus(actionId: String, status: String): LiveData<Int> {

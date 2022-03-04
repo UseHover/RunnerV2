@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
+import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.utils.TextViewUtils.Companion.underline
 import com.hover.sdk.actions.HoverAction
 
-internal class ActionRecyclerAdapter(private val actionList: List<HoverAction>, private val clickListener: ActionClickListener) :
-	RecyclerView.Adapter<ActionRecyclerAdapter.ActionListItemViewHolder>() {
+internal class ActionRecyclerAdapter(private val actionList: List<HoverAction>, private val statuses: HashMap<String, String?>, private val clickListener: ActionClickListener) :
+	RecyclerView.Adapter<ActionRecyclerAdapter.ActionListItemViewHolder>(), StatusUiTranslator {
 
 	inner class ActionListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		var actionIdText: TextView = itemView.findViewById(R.id.title)
@@ -28,10 +29,13 @@ internal class ActionRecyclerAdapter(private val actionList: List<HoverAction>, 
 		val action: HoverAction = actionList[position]
 
 		holder.actionIdText.underline(action.public_id)
-//		holder.actionIdText.setTextColor(RunnerColor(holder.itemView.context).get(action.getStatusColor()))
 		holder.actionTitleText.text = action.name
 
-//		holder.iconImage.setImageResource(action.getStatusDrawable())
+		if (statuses.containsKey(action.public_id)) {
+			holder.actionIdText.setTextColor(getHeaderColor(statuses[action.public_id], holder.itemView.context))
+			holder.iconImage.setImageResource(getStatusIcon(statuses[action.public_id]))
+			holder.iconImage.visibility = View.VISIBLE
+		}
 
 		holder.itemView.setOnClickListener { view ->
 			action.public_id.let { clickListener.onActionItemClick(it, view) }

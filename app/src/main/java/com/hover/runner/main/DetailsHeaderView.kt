@@ -39,7 +39,7 @@ class DetailsHeaderView(context: Context, attributeSet: AttributeSet) : LinearLa
 		addListeners(status, activity)
 	}
 
-	fun updateColorsAndIcons(status: String?, activity: Activity) {
+	private fun updateColorsAndIcons(status: String?, activity: Activity) {
 		binding.detailHeaderRoot.setBackgroundColor(getHeaderColor(status, context))
 		binding.headerDescription.setCompoundDrawablesWithIntrinsicBounds(getDarkStatusIcon(status), 0, 0, 0)
 		UIHelper.changeStatusBarColor(activity, resources.getColor(getColor(status)))

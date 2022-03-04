@@ -58,7 +58,7 @@ data class TestRun(
 		UIHelper.flashMessage(activity, activity.getString(R.string.notify_starting))
 		val i = Intent(activity, RunningActivity::class.java)
 		i.putExtra(RUN_ID, id)
-		activity.startActivity(i)
+		activity.startActivityForResult(i, id.toInt())
 	}
 
 	fun schedule(c: Context) {
