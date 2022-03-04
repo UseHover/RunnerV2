@@ -44,15 +44,20 @@ class RunningViewModel(private val application: Application, private val actionR
 		return testRunning.value!!
 	}
 
-	fun updateQueue(finishedActionId: String) {
+	fun update(finishedActionId: String, transactionUuid: String) {
 		viewModelScope.launch(Dispatchers.IO) {
 			val tr = run.value!!
 			val actionIdList = tr.pending_action_id_list.toMutableList()
 			actionIdList.remove(finishedActionId)
 			tr.pending_action_id_list = actionIdList.toList()
-			if (actionIdList.size == 0 && tr.frequency != ONCE) {
+			val uuidList = tr.transaction_uuid_list.toMutableList()
+			uuidList.add(transactionUuid)
+			tr.transaction_uuid_list = uuidList.toList()
+
+			if (actionIdList.size == 0) {
 				tr.finished_at = System.currentTimeMillis()
-				scheduleNext(tr)
+				if (tr.frequency != ONCE)
+					scheduleNext(tr)
 			}
 
 			runRepo.update(tr)

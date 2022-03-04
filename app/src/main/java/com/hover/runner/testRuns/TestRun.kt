@@ -47,6 +47,8 @@ data class TestRun(
 	@NonNull
 	var pending_action_id_list: List<String> = action_id_list
 
+	var transaction_uuid_list: List<String> = listOf()
+
 	override fun compareTo(other: TestRun): Int = (start_at - other.start_at).toInt()
 
 	fun start(activity: FragmentActivity) {

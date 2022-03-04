@@ -13,13 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.actions.ActionRecyclerAdapter
 import com.hover.runner.databinding.FragmentTestRunDetailsBinding
+import com.hover.runner.transactions.TransactionsRecyclerAdapter
 import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.transactions.Transaction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener {
+class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener, TransactionsRecyclerAdapter.TransactionClickListener {
 
 	private val viewModel: RunsViewModel by sharedViewModel()
 	private var _binding: FragmentTestRunDetailsBinding? = null
@@ -33,8 +35,8 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		viewModel.run.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
-		viewModel.actions.observe(viewLifecycleOwner) { it?.let { addActions(it, viewModel.statuses.value) } }
-		viewModel.statuses.observe(viewLifecycleOwner) { it?.let { addActions(viewModel.actions.value, it) } }
+		viewModel.actions.observe(viewLifecycleOwner) { it?.let { addActions(it) } }
+		viewModel.transactions.observe(viewLifecycleOwner) { it?.let { addTransactions(it) } }
 		viewModel.load(requireArguments().getLong(RUN_ID))
 		binding.delete.setOnClickListener { showDeleteDialog() }
 	}
@@ -52,10 +54,20 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 		}
 	}
 
-	private fun addActions(actions: List<HoverAction>?, statuses: HashMap<String, String?>?) {
-		if (actions != null && statuses != null) {
+	private fun addActions(actions: List<HoverAction>) {
+		if (viewModel.run.value != null && viewModel.run.value?.finished_at == 0L) {
+			binding.relationTitle.text = getString(R.string.actions_to_run)
 			binding.recyclerView.setLayoutManagerToLinear()
-			binding.recyclerView.adapter = ActionRecyclerAdapter(actions, statuses, this)
+			binding.recyclerView.adapter = ActionRecyclerAdapter(actions, hashMapOf(), this)
+		}
+	}
+
+	private fun addTransactions(transactions: List<Transaction>) {
+		if (viewModel.run.value != null && viewModel.run.value?.finished_at != 0L) {
+			binding.relationTitle.text = getString(R.string.actions_run)
+			binding.recyclerView.setLayoutManagerToLinear()
+			binding.recyclerView.adapter = TransactionsRecyclerAdapter(transactions, this)
+			binding.delete.visibility = View.GONE
 		}
 	}
 
@@ -79,5 +91,9 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 	override fun onActionItemClick(actionId: String, titleTextView: View) {
 		val bundle = bundleOf("action_id" to actionId)
 		findNavController().navigate(R.id.navigation_actionDetails, bundle)
+	}
+
+	override fun onItemClick(uuid: String) {
+		findNavController().navigate(R.id.navigation_transactionDetails, bundleOf("uuid" to uuid))
 	}
 }

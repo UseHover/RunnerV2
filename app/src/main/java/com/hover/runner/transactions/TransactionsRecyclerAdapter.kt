@@ -22,6 +22,7 @@ class TransactionsRecyclerAdapter(private val transactionList: List<Transaction>
 
 	override fun onBindViewHolder(holder: TransactionListItemView, position: Int) {
 		val transaction = transactionList[position]
+		holder.name.text = transaction.actionName
 		holder.date.text = DateUtils.formatDate(transaction.reqTimestamp)
 		holder.date.setTextColor(UIHelper.getStatusColor(transaction.status, holder.itemView.context))
 		holder.content.text = if (transaction.userMessage.isNullOrEmpty()) transaction.category else transaction.userMessage
@@ -41,8 +42,9 @@ class TransactionsRecyclerAdapter(private val transactionList: List<Transaction>
 	}
 
 	class TransactionListItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		var date: TextView = itemView.findViewById(R.id.transaction_date_id)
-		var content: TextView = itemView.findViewById(R.id.transaction_content_id)
+		var name: TextView = itemView.findViewById(R.id.transaction_action_name)
+		var date: TextView = itemView.findViewById(R.id.transaction_date)
+		var content: TextView = itemView.findViewById(R.id.transaction_content)
 	}
 
 	interface TransactionClickListener {

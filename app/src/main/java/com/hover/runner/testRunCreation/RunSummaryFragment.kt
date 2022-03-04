@@ -101,7 +101,7 @@ class RunSummaryFragment : BaseFragment() {
 		else if (binding.whenAutocomplete.text.toString() != getString(R.string.now) && inPast(newRunViewModel.startTimestamp.value!!))
 			UIHelper.flashMessage(requireContext(), getString(R.string.notify_past_error))
 		else {
-			if (binding.whenAutocomplete.text.toString() != getString(R.string.now) && withinTenMin(newRunViewModel.startTimestamp.value!!))
+			if (binding.whenAutocomplete.text.toString() != getString(R.string.now) && withinOneMin(newRunViewModel.startTimestamp.value!!))
 				UIHelper.flashMessage(requireContext(), getString(R.string.notify_start_now))
 			saveAndStart()
 		}
@@ -110,7 +110,7 @@ class RunSummaryFragment : BaseFragment() {
 	private fun saveAndStart() {
 		newRunViewModel.run.observe(viewLifecycleOwner) {
 			it?.let {
-				if (withinTenMin(it.start_at))
+				if (withinOneMin(it.start_at))
 					it.start(requireActivity())
 				else
 					it.schedule(requireContext())
@@ -120,12 +120,12 @@ class RunSummaryFragment : BaseFragment() {
 		newRunViewModel.save(binding.nameInput.text.toString(), getFreq())
 	}
 
-	private fun withinTenMin(timestamp: Long): Boolean {
-		return kotlin.math.abs(System.currentTimeMillis() - timestamp) < 10*60*1000
+	private fun withinOneMin(timestamp: Long): Boolean {
+		return kotlin.math.abs(System.currentTimeMillis() - timestamp) < 60*1000
 	}
 
-	private fun inPast(timestamp: Long): Boolean { // 10 minute grace
-		return (timestamp - System.currentTimeMillis()) < 10*60*1000
+	private fun inPast(timestamp: Long): Boolean { // 1 minute grace
+		return (timestamp - System.currentTimeMillis()) < 60*1000
 	}
 
 	private fun getFreq(): Int {

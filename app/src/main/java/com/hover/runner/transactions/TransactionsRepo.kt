@@ -16,6 +16,10 @@ class TransactionsRepo(private val context: Context) {
 		return Hover.getTransaction(uuid, context)
 	}
 
+	fun getTransactions(uuids: Array<String>): List<Transaction> {
+		return TransactionApi.getTransactions(uuids, context)
+	}
+
 	fun getTransactionsByAction(actionId: String): List<Transaction> {
 		return Hover.getTransactionsByActionId(actionId, context)
 	}

@@ -110,7 +110,7 @@ class RunningActivity : AppCompatActivity() {
 			Timber.e("Got result with action id %s", data.getStringExtra("action_id"))
 			viewModel.setRunInProgress(false)
 			Handler().postDelayed({
-				viewModel.updateQueue(data.getStringExtra("action_id")!!)
+				viewModel.update(data.getStringExtra("action_id")!!, data.getStringExtra("uuid")!!)
 			}, SharedPrefUtils.getDelay(this)*1000L)
 		} else Timber.e("Got result with no action id")
 	}

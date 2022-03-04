@@ -72,7 +72,7 @@ class NewRunViewModel(private val application: Application, private val actionRe
 	}
 
 	fun save(name: String, freq: Int) {
-		val r = TestRun(name, freq, if (freq == 0) System.currentTimeMillis() else startTimestamp.value!!, Utils.convertActionListToIds(actionQueue.value!!))
+		val r = TestRun(name, freq, if (startTimestamp.value == 0L) System.currentTimeMillis() else startTimestamp.value!!, Utils.convertActionListToIds(actionQueue.value!!))
 		viewModelScope.launch(Dispatchers.IO) {
 			val id = runRepo.saveNew(r)
 			run.postValue(runRepo.load(id))
