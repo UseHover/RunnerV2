@@ -33,7 +33,8 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		viewModel.run.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
-		viewModel.actions.observe(viewLifecycleOwner) { it?.let { addActions(it) } }
+		viewModel.actions.observe(viewLifecycleOwner) { it?.let { addActions(it, viewModel.statuses.value) } }
+		viewModel.statuses.observe(viewLifecycleOwner) { it?.let { addActions(viewModel.actions.value, it) } }
 		viewModel.load(requireArguments().getLong(RUN_ID))
 		binding.delete.setOnClickListener { showDeleteDialog() }
 	}
@@ -51,10 +52,10 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 		}
 	}
 
-	private fun addActions(actions: List<HoverAction>?) {
-		actions?.let {
+	private fun addActions(actions: List<HoverAction>?, statuses: HashMap<String, String?>?) {
+		if (actions != null && statuses != null) {
 			binding.recyclerView.setLayoutManagerToLinear()
-			binding.recyclerView.adapter = ActionRecyclerAdapter(it, hashMapOf(), this)
+			binding.recyclerView.adapter = ActionRecyclerAdapter(actions, statuses, this)
 		}
 	}
 

@@ -30,9 +30,6 @@ class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		viewModel.runs.observe(viewLifecycleOwner) { onLoad(it) }
-
-		if (requireArguments().getInt("run_id") != null)
-			viewModel.load(requireArguments().getInt("run_id").toLong())
 	}
 
 	private fun onLoad(runs: List<TestRun>?) {
