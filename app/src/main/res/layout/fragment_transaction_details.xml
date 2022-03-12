@@ -126,7 +126,24 @@
                     android:textSize="@dimen/text_15" />
             </TableRow>
 
-            <TableRow android:layout_marginBottom="@dimen/margin16">
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin21"
+                    android:textColor="@color/runnerPrimary"
+                    android:textSize="@dimen/text_15"
+                    android:text="@string/label_env"/>
+
+                <TextView android:id="@+id/value_environment"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondaryGrey"
+                    android:textSize="@dimen/text_15" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="@dimen/margin16">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,23 +153,6 @@
                     android:text="@string/label_result"/>
 
                 <TextView android:id="@+id/value_result"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/secondaryGrey"
-                    android:textSize="@dimen/text_15" />
-            </TableRow>
-
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin21"
-                    android:textColor="@color/runnerPrimary"
-                    android:textSize="@dimen/text_15"
-                    android:text="@string/label_operator"/>
-
-                <TextView android:id="@+id/value_operator"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"

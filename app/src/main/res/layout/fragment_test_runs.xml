@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1"
-		android:orientation="vertical">
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -17,6 +12,7 @@
 			android:layout_gravity="center_vertical"
 			android:gravity="center_vertical"
 			android:paddingTop="4dp"
+			android:id="@+id/topBar"
 			android:orientation="horizontal">
 
 			<TextView
@@ -31,11 +27,24 @@
 				android:layout_weight="1" />
 		</LinearLayout>
 
+		<TextView
+			android:id="@+id/runs_empty"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/sheduled_run_empty_label"
+			android:layout_gravity="center"
+			android:gravity="center"
+			android:textStyle="bold"
+			android:visibility="gone"
+			android:layout_margin="@dimen/text_15"
+			android:layout_centerInParent="true"
+			android:textColor="@color/white"/>
+
 		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/recyclerView"
+			android:layout_below="@id/topBar"
 			android:layout_width="match_parent"
 			android:layout_marginTop="@dimen/margin16"
 			android:layout_height="match_parent"/>
 
-	</LinearLayout>
-</LinearLayout>
+</RelativeLayout>

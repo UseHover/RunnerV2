@@ -57,7 +57,17 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		binding.valueActionId.text = transaction.actionId
 		binding.valueTime.text = DateUtils.humanFriendlyDateTime(transaction.reqTimestamp)
 		binding.valueTransactionId.text = transaction.uuid
-		binding.valueResult.text = transaction.userMessage
+		binding.valueEnvironment.setText(getReadableEnv(transaction.env))
+		with(transaction.ussdMessages) {
+			binding.valueResult.text = this.getString(this.length()-1)
+		}
+	}
+	private fun getReadableEnv(env: Int) : Int {
+		return when(env) {
+			0 -> R.string.normal_mode
+			1 -> R.string.debug_mode
+			else -> R.string.test_mode
+		}
 	}
 
 	private fun createMessagesAdapter(t: Transaction, a: HoverAction) {
