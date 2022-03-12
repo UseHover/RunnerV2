@@ -5,11 +5,13 @@ import com.hover.runner.actions.ActionRepo
 import com.hover.runner.transactions.TransactionsRepo
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.parsers.HoverParser
+import com.hover.sdk.transactions.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ParserViewModel(private val parserRepo: ParserRepo, private val actionRepo: ActionRepo, private val transactionsRepo: TransactionsRepo) : ViewModel() {
 	val parser: MutableLiveData<HoverParser> = MutableLiveData()
+	private var parserId: Int = 0
 	val action: LiveData<HoverAction>
 //	val transactions: LiveData<List<Transaction>>
 
@@ -18,7 +20,8 @@ class ParserViewModel(private val parserRepo: ParserRepo, private val actionRepo
 //		transactions = Transformations.switchMap(parser, this::getTransactions)
 	}
 
-	fun setParser(parserId: Int) {
+	fun setParser(id: Int) {
+		parserId = id
 		viewModelScope.launch(Dispatchers.IO) {
 			parser.postValue(parserRepo.getParser(parserId))
 		}
@@ -28,8 +31,8 @@ class ParserViewModel(private val parserRepo: ParserRepo, private val actionRepo
 		return actionRepo.load(parser.actionId)
 	}
 
-//	private fun getTransactions(parser: HoverParser) : LiveData<List<RunnerTransaction>> {
-//		return transactionsRepo.getTransactionsByParser(parser.id)
-//	}
+	fun getTransactions() : LiveData<List<Transaction>> {
+		return transactionsRepo.getAllTransactionsByParser(parserId.toString())
+	}
 
 }

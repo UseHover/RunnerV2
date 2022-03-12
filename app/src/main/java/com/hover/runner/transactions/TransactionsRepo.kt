@@ -1,35 +1,31 @@
 package com.hover.runner.transactions
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.hover.sdk.api.Hover
-import com.hover.sdk.api.TransactionApi
+import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.transactions.Transaction
 
-class TransactionsRepo(private val context: Context) {
-	fun getAllTransactions(): List<Transaction> {
-		return Hover.getAllTransactions(context)
+class TransactionsRepo(private val sdkDB: HoverRoomDatabase) {
+	fun getAllTransactions(): LiveData<List<Transaction>> {
+		return sdkDB.transactionDao().allLive
 	}
 
-	fun getTransaction(uuid: String): Transaction {
-		return Hover.getTransaction(uuid, context)
+	fun getAllTransactionsByParser(parserId: String): LiveData<List<Transaction>> {
+		return sdkDB.transactionDao().getLiveTransactionsByParserId(parserId);
 	}
 
-	fun getTransactions(uuids: Array<String>): List<Transaction> {
-		return TransactionApi.getTransactions(uuids, context)
+	fun getTransactionsByActionIds(actionIds: Array<String>): LiveData<List<Transaction>> {
+		return sdkDB.transactionDao().getLivePendingTransactionsByActionIds(actionIds);
 	}
 
-	fun getTransactionsByAction(actionId: String): List<Transaction> {
-		return Hover.getTransactionsByActionId(actionId, context)
+	fun getTransaction(uuid: String): LiveData<Transaction> {
+		return sdkDB.transactionDao().getLiveTransaction(uuid)
 	}
 
-	fun getLatestStatusForAction(actionId: String): String {
-		return TransactionApi.getStatusForAction(actionId, context)
+	fun getTransactions(uuids: Array<String>): LiveData<List<Transaction>> {
+		return sdkDB.transactionDao().getLiveTransactions(uuids)
 	}
 
-	fun getCountByStatus(actionId: String, status: String): LiveData<Int> {
-//		return transactionDao.getCountByStatus(actionId, status)
-		return MutableLiveData(0)
+	fun getTransactionsByAction(actionId: String): LiveData<List<Transaction>> {
+		return sdkDB.transactionDao().getLiveTransactionsByActionId(actionId);
 	}
 }

@@ -3,34 +3,42 @@ package com.hover.runner.actions
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.hover.runner.transactions.TransactionsRepo
 import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.api.TransactionApi
+import com.hover.sdk.transactions.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 const val SQL_SELECT = "SELECT * FROM hover_actions"
 
-class ActionsViewModel(private val application: Application, private val actionRepo: ActionRepo) : ViewModel() {
+class ActionsViewModel(private val application: Application, private val actionRepo: ActionRepo, private val transactionsRepo: TransactionsRepo) : ViewModel() {
 
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
+	private val filteredTransactions: LiveData<List<Transaction>>
+
 	// This is not great, but easier than creating a whole new model just to hold a status.
 	val statuses: MediatorLiveData<HashMap<String, String?>> = MediatorLiveData()
 
-	var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
+	private var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
+
 
 	val searchString: MutableLiveData<String> = MutableLiveData()
 	val selectedTags: MutableLiveData<List<String>> = MutableLiveData()
 
 	init {
 		filteredActions.value = listOf()
+
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterQuery, this@ActionsViewModel::runFilter)
 		}
+		filteredTransactions = Transformations.switchMap(filteredActions, this@ActionsViewModel::filterTransaction)
 		statuses.addSource(filteredActions, this@ActionsViewModel::lookUpStatuses)
+		statuses.addSource(filteredTransactions, this@ActionsViewModel::updateStatuses)
+
 
 		filterQuery.value = null
 		filterQuery.apply {
@@ -50,11 +58,28 @@ class ActionsViewModel(private val application: Application, private val actionR
 		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
 	}
 
+	private fun filterTransaction(actions: List<HoverAction>?) : LiveData<List<Transaction>> {
+		if(actions !=null) return transactionsRepo.getTransactionsByActionIds(actions.map { it.public_id }.toTypedArray())
+		else return liveData {
+			emit(emptyList());
+		}
+	}
+
+	private fun updateStatuses(transactions: List<Transaction>) {
+		val actions: List<HoverAction>? = filteredActions.value
+		actions?.let {
+			val sMap = hashMapOf<String, String?>()
+			for (action in actions)
+				sMap[action.public_id] = transactions.find { it.actionId == action.public_id }?.status
+			statuses.postValue(sMap)
+		}
+	}
+
 	private fun lookUpStatuses(actions: List<HoverAction>?) {
 		actions?.let {
 			val sMap = hashMapOf<String, String?>()
 			for (action in actions)
-				sMap[action.public_id] = TransactionApi.getStatusForAction(action.public_id, application)
+				sMap[action.public_id] = filteredTransactions.value!!.find { it.actionId == action.public_id }?.status
 			statuses.postValue(sMap)
 		}
 	}

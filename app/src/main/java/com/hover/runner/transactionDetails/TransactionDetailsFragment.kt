@@ -32,12 +32,13 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		return binding.root
 	}
 
-	override fun onResume() {
-		super.onResume()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 		loadTransaction()
 	}
-
 	private fun loadTransaction() {
+		viewModel.load(requireArguments().getString("uuid", ""))
+
 		viewModel.transaction.observe(viewLifecycleOwner) {
 			it?.let { fillDetails(it) }
 			viewModel.action.value?.let { a -> createMessagesAdapter(it, a) }
@@ -46,7 +47,6 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		viewModel.action.observe(viewLifecycleOwner) {
 			Timber.e("Loaded action: %s", it?.public_id?: "null")
 			viewModel.transaction.value?.let { t -> createMessagesAdapter(t, it) } }
-		viewModel.load(requireArguments().getString("uuid", ""))
 	}
 
 	private fun fillDetails(transaction: Transaction) {

@@ -5,21 +5,16 @@ import com.hover.runner.actions.ActionRepo
 import com.hover.runner.transactions.TransactionsRepo
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.transactions.Transaction
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class TransactionDetailsViewModel(private val repo: TransactionsRepo, private val actionRepo: ActionRepo) : ViewModel() {
 
-	val transaction: MutableLiveData<Transaction> = MutableLiveData()
+	var transaction: LiveData<Transaction> = MutableLiveData();
 	var action: LiveData<HoverAction> = MutableLiveData()
 
 	fun load(uuid: String) {
+		transaction = repo.getTransaction(uuid);
 		action = Transformations.map(transaction, this::loadAction)
-
-		viewModelScope.launch(Dispatchers.IO) {
-			transaction.postValue(repo.getTransaction(uuid))
-		}
 	}
 
 	private fun loadAction(t: Transaction): HoverAction {

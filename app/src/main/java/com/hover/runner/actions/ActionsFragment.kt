@@ -43,6 +43,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	override fun onResume() {
 		super.onResume()
 		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
+		actionsViewModel.allActions
 	}
 
 	private fun observeActions() {
