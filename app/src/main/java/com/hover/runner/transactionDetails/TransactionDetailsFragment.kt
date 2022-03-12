@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTransactionDetailsBinding
-import com.hover.runner.main.DetailsHeaderView
 import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.utils.DateUtils
-import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction

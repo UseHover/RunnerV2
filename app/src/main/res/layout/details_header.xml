@@ -16,6 +16,7 @@
 		android:drawablePadding="@dimen/margin16"
 		android:textColor="@color/runnerDark"
 		android:textSize="@dimen/text_22"
+		android:ellipsize="marquee"
 		android:background="?selectableItemBackground"
 		android:transitionName="action_title"
 		android:id="@+id/header_title"

@@ -24,34 +24,35 @@ class ParserDetailsFragment : BaseFragment(), View.OnClickListener, StatusUiTran
 	private val viewModel: ParserViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
 		_binding = ParsersFragmentBinding.inflate(inflater, container, false)
 		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		setupToolBar()
-		initViewModelData()
+		val parserId: Int = arguments?.getInt("parser_id", 0)!!
+		initViewModelData(parserId)
+		setupToolBar(parserId)
 		observeParserInfo()
 		observeTransactions()
 	}
 
-	private fun setupToolBar() {
+	private fun setupToolBar(parserId: Int) {
 		binding.toolbarText.setOnClickListener { navigateBack() }
-		binding.toolbarText.text = arguments?.get("parser_id").toString()
 	}
 
-	private fun initViewModelData() {
-		val parserId: Int = arguments?.getInt("parser_id", 0)!!
+	private fun initViewModelData(parserId: Int) {
 		viewModel.setParser(parserId)
 	}
 
 	private fun observeParserInfo() {
 		viewModel.parser.observe(viewLifecycleOwner) { parser ->
 			if (parser != null) {
+				binding.toolbarText.text = "#${parser.serverId} - ${parser.category}"
 				binding.responseType.text = parser.responseType
 				binding.category.text = parser.category
-				//binding.createdAt.text = parser .created_date
+				//binding.createdAt.text = parser.created_date
 				binding.sender.text = parser.senderNumber
 				binding.regex.text = parser.regex
 				binding.status.text = parser.status
@@ -68,8 +69,8 @@ class ParserDetailsFragment : BaseFragment(), View.OnClickListener, StatusUiTran
 	}
 
 	private fun observeTransactions() {
-		binding.transactions.setLayoutManagerToLinear()
-		viewModel.getTransactions().observe(viewLifecycleOwner) { transactions ->
+		/*binding.transactions.setLayoutManagerToLinear()
+		viewModel.transactions.observe(viewLifecycleOwner) { transactions ->
 			if (transactions != null) {
 				if (transactions.isEmpty()) {
 					binding.recentHeader.text = resources.getString(R.string.zero_transactions)
@@ -79,7 +80,7 @@ class ParserDetailsFragment : BaseFragment(), View.OnClickListener, StatusUiTran
 					binding.transactions.adapter = TransactionsRecyclerAdapter(transactions, this)
 				}
 			}
-		}
+		} */
 	}
 
 	override fun onClick(v: View?) {

@@ -11,19 +11,17 @@ import kotlinx.coroutines.launch
 
 class ParserViewModel(private val parserRepo: ParserRepo, private val actionRepo: ActionRepo, private val transactionsRepo: TransactionsRepo) : ViewModel() {
 	val parser: MutableLiveData<HoverParser> = MutableLiveData()
-	private var parserId: Int = 0
 	val action: LiveData<HoverAction>
-//	val transactions: LiveData<List<Transaction>>
+	val transactions: LiveData<List<Transaction>>
 
 	init {
 		action = Transformations.map(parser, this::getAction)
-//		transactions = Transformations.switchMap(parser, this::getTransactions)
+		transactions = Transformations.switchMap(parser, this::getTransactions)
 	}
 
 	fun setParser(id: Int) {
-		parserId = id
 		viewModelScope.launch(Dispatchers.IO) {
-			parser.postValue(parserRepo.getParser(parserId))
+			parser.postValue(parserRepo.getParser(id))
 		}
 	}
 
@@ -31,8 +29,8 @@ class ParserViewModel(private val parserRepo: ParserRepo, private val actionRepo
 		return actionRepo.load(parser.actionId)
 	}
 
-	fun getTransactions() : LiveData<List<Transaction>> {
-		return transactionsRepo.getAllTransactionsByParser(parserId.toString())
+	private fun getTransactions(parser: HoverParser) : LiveData<List<Transaction>> {
+		return transactionsRepo.getAllTransactionsByParser(parser.serverId)
 	}
 
 }

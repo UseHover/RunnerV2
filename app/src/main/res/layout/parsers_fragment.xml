@@ -21,6 +21,7 @@
                 android:drawablePadding="@dimen/margin16"
                 android:textColor="@color/runnerWhite"
                 android:textSize="@dimen/text_22"
+                android:ellipsize="marquee"
                 android:paddingHorizontal="@dimen/margin16"
                 android:id="@+id/toolbarText"/>
 
