@@ -59,6 +59,8 @@ class ActionsViewModel(private val application: Application, private val actionR
 	}
 
 	private fun filterTransaction(actions: List<HoverAction>?) : LiveData<List<Transaction>> {
+		Timber.i("filter transaction has been called")
+
 		if(actions !=null) return transactionsRepo.getTransactionsByActionIds(actions.map { it.public_id }.toTypedArray())
 		else return liveData {
 			emit(emptyList());
@@ -66,6 +68,8 @@ class ActionsViewModel(private val application: Application, private val actionR
 	}
 
 	private fun updateStatuses(transactions: List<Transaction>) {
+		Timber.i("Update status has been called")
+
 		val actions: List<HoverAction>? = filteredActions.value
 		actions?.let {
 			val sMap = hashMapOf<String, String?>()
