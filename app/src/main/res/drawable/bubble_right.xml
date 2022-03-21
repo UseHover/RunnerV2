@@ -8,8 +8,8 @@
                 android:toDegrees="0">
             <shape android:shape="rectangle" android:padding="10dp">
 
-                <solid android:color="@color/colorMainGrey"/>
-                <corners android:radius="@dimen/corner_radius" />
+                <solid android:color="@color/mainGrey"/>
+                <corners android:radius="@dimen/radius_corner" />
 
             </shape>
         </rotate>
@@ -17,9 +17,9 @@
     <item android:right="10dp">
         <shape android:shape="rectangle" android:padding="10dp">
 
-            <solid android:color="@color/colorPrimaryDark"/>
-            <stroke android:width="2dp" android:color="@color/colorMainGrey"/>
-            <corners android:radius="@dimen/corner_radius" />
+            <solid android:color="@color/runnerDark"/>
+            <stroke android:width="2dp" android:color="@color/mainGrey"/>
+            <corners android:radius="@dimen/radius_corner" />
 
         </shape>
     </item>

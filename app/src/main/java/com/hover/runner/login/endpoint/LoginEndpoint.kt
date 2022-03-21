@@ -7,10 +7,8 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface LoginEndpoint {
-    @Multipart
-    @POST("authenticate")
-    fun getTokenFromHover(
-        @Part("email") email: RequestBody?,
-        @Part("password") password: RequestBody?
-    ): Call<TokenModel>
+	@Multipart
+	@POST("authenticate")
+	fun getTokenFromHover(@Part("email") email: RequestBody?,
+	                      @Part("password") password: RequestBody?): Call<Token>
 }

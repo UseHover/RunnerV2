@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:background="@color/colorPrimaryDark"
-		android:layout_marginBottom="55dp"
-		xmlns:tools="http://schemas.android.com/tools"
-		tools:context=".actions.fragments.ActionsFragment"
-		xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context=".actions.ActionsFragment">
 
 	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-			android:id="@+id/pullToRefresh"
-			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1"
-			>
+		android:id="@+id/pullToRefresh"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+
 		<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:orientation="vertical"
-				android:paddingTop="4dp"
-				>
+				android:paddingTop="4dp" >
 
 			<LinearLayout
 					android:layout_width="match_parent"
@@ -35,48 +30,52 @@
 						android:layout_height="wrap_content"
 						android:textAlignment="textStart"
 						android:textStyle="bold"
-						android:textSize="@dimen/text22"
-						android:textColor="@color/colorHoverWhite"
+						android:textSize="@dimen/text_22"
+						android:textColor="@color/runnerWhite"
 						android:text="@string/title_actions"
 						android:paddingHorizontal="@dimen/margin16"
-						android:layout_weight="1"
-						/>
+						android:layout_weight="1" />
 
-				<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@color/colorHoverWhite"
-						android:textSize="@dimen/margin15"
-						android:textStyle="bold"
-						android:layout_gravity="center"
-						android:gravity="center"
-						android:paddingHorizontal="@dimen/margin16"
-						android:paddingVertical="16dp"
-						android:id="@+id/actionFilter_id"
-						android:text="@string/filter_text"/>
+				<TextView android:id="@+id/actionFilter"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:gravity="center"
+					android:drawablePadding="@dimen/margin8"
+					android:padding="@dimen/margin16"
+					android:textColor="@color/runnerWhite"
+					android:textSize="@dimen/text_17"
+					android:textStyle="bold"
+					android:text="@string/filter_underlined" />
 
 			</LinearLayout>
 
 			<include android:id="@+id/recyclerViewState"
+				android:visibility="gone"
 				layout="@layout/recycler_view_state"/>
 
-			<include
+			<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/recyclerView"
-				layout="@layout/general_recycler_view"
-					android:visibility="gone"/>
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
 
 		</LinearLayout>
 	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-	<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:background="@color/colorPrimary"
-			android:textAlignment="center"
-			android:paddingVertical="10dp"
-			android:textStyle="bold"
-			android:textColor="@color/runActionTextColor"
-			android:textSize="@dimen/text_17"
-			android:id="@+id/testAllActions_id"
-			android:text="@string/testAllActions"/>
 
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="45dp"
+		android:background="@color/runnerPrimary">
+
+		<TextView android:id="@+id/startTestRun"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:background="?selectableItemBackground"
+			android:textAlignment="center"
+			android:textStyle="bold"
+			android:textColor="?attr/colorOnPrimary"
+			android:textSize="@dimen/text_17"
+			android:text="@string/test_all"/>
+	</FrameLayout>
 </LinearLayout>

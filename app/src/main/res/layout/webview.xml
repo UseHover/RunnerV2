@@ -2,7 +2,7 @@
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
-		android:background="@color/colorHoverWhite"
+		android:background="@color/runnerWhite"
 		android:orientation="vertical"
 		android:layout_height="match_parent">
 
@@ -10,8 +10,8 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:padding="@dimen/margin16"
-			android:textColor="@color/colorHoverWhite"
-			android:background="@color/colorPrimaryDark"
+			android:textColor="@color/runnerWhite"
+			android:background="@color/runnerDark"
 			android:drawableStart="@drawable/ic_arrow_back_grey_24dp"
 			android:textStyle="bold"
 			android:id="@+id/webviewTitle"

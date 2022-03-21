@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin52" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/margin16"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_22"
+                    android:textColor="@color/runnerWhite"
+                    android:text="@string/title_filter_actions"
+                    android:layout_weight="1" />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mainGrey"
+                        android:textSize="@dimen/text_17"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/margin16"
+                        android:paddingEnd="0dp"
+                        android:paddingVertical="6dp"
+                        android:id="@+id/reset_btn"
+                        android:text="@string/reset"/>
+            </LinearLayout>
+
+            <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/filter_progressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/entry_filter_view"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_search"
+                    android:textColor="@color/runnerWhite"
+                    android:textSize="@dimen/text_17"
+                    android:layout_marginTop="@dimen/margin16"
+                    android:textStyle="bold"/>
+
+                <EditText android:id="@+id/searchInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin21"
+                    android:paddingStart="@dimen/margin21"
+                    android:paddingEnd="@dimen/margin21"
+                    android:paddingRight="@dimen/margin21"
+                    android:paddingTop="@dimen/margin13"
+                    android:paddingBottom="@dimen/margin13"
+                    android:hint="@string/hint_search"
+                    android:textColorHint="@color/textHint"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:drawableStart="@drawable/ic_search_white_24dp"
+                    android:drawablePadding="8dp"
+                    android:textAllCaps="false"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/runnerWhite"
+                    android:background="@drawable/edit_text_bg"/>
+
+                <TextView android:id="@+id/tag_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_filter_tags"
+                    android:textColor="@color/runnerWhite"
+                    android:textSize="@dimen/text_17"
+                    android:layout_marginTop="32dp"
+                    android:textStyle="bold"/>
+
+                <TextView android:id="@+id/tagInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin21"
+                    android:paddingStart="@dimen/margin21"
+                    android:paddingEnd="@dimen/margin21"
+                    android:paddingRight="@dimen/margin21"
+                    android:paddingTop="@dimen/margin13"
+                    android:paddingBottom="@dimen/margin13"
+                    android:hint="@string/hint_tags"
+                    android:textColorHint="@color/textHint"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_17"
+                    android:textAllCaps="true"
+                    android:textColor="@color/runnerWhite"
+                    android:background="@drawable/edit_text_bg"/>
+
+<!--                <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/date_range"-->
+<!--                        android:id="@+id/dateRange_label_id"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:labelFor="@+id/dateRangeEditId"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:textStyle="bold"/>-->
+
+<!--                <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingLeft="@dimen/margin21"-->
+<!--                        android:paddingStart="@dimen/margin21"-->
+<!--                        android:paddingEnd="@dimen/margin21"-->
+<!--                        android:paddingRight="@dimen/margin21"-->
+<!--                        android:paddingTop="@dimen/margin13"-->
+<!--                        android:paddingBottom="@dimen/margin13"-->
+<!--                        android:text="@string/from_account_creation_to_today"-->
+<!--                        android:textColorHint="@color/textHint"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:id="@+id/dateRangeEditId"-->
+<!--                        android:autofillHints="@string/search_hint"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:background="@drawable/edit_text_bg"/>-->
+
+
+<!--                <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/countries"-->
+<!--                        android:id="@+id/countries_label_id"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:textStyle="bold"/>-->
+
+<!--                <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingLeft="@dimen/margin21"-->
+<!--                        android:paddingStart="@dimen/margin21"-->
+<!--                        android:paddingEnd="@dimen/margin21"-->
+<!--                        android:paddingRight="@dimen/margin21"-->
+<!--                        android:paddingTop="@dimen/margin13"-->
+<!--                        android:paddingBottom="@dimen/margin13"-->
+<!--                        android:hint="@string/countries_hint"-->
+<!--                        android:textColorHint="@color/textHint"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:id="@+id/countryEntryId"-->
+<!--                        android:autofillHints="@string/search_hint"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:background="@drawable/edit_text_bg"/>-->
+
+
+<!--                <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/network"-->
+<!--                        android:id="@+id/network_label_id"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:textStyle="bold"/>-->
+
+<!--                <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:paddingLeft="@dimen/margin21"-->
+<!--                        android:paddingStart="@dimen/margin21"-->
+<!--                        android:paddingEnd="@dimen/margin21"-->
+<!--                        android:paddingRight="@dimen/margin21"-->
+<!--                        android:paddingTop="@dimen/margin13"-->
+<!--                        android:paddingBottom="@dimen/margin13"-->
+<!--                        android:hint="@string/countries_hint"-->
+<!--                        android:textColorHint="@color/textHint"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:id="@+id/networkEntryId"-->
+<!--                        android:autofillHints="@string/search_hint"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:background="@drawable/edit_text_bg"/>-->
+
+<!--                <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/status"-->
+<!--                        android:id="@+id/status_label_id"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:textStyle="bold"/>-->
+
+<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="true"-->
+<!--                        app:buttonTint="@color/runnerPrimary"-->
+<!--                        android:layout_marginTop="@dimen/margin16"-->
+<!--                        android:id="@+id/checkbox_success"-->
+<!--                        android:text="@string/success_label"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:paddingHorizontal="@dimen/margin16"-->
+<!--                        />-->
+
+<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="true"-->
+<!--                        app:buttonTint="@color/runnerPrimary"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:id="@+id/checkbox_pending"-->
+<!--                        android:text="@string/pending_label"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:paddingHorizontal="@dimen/margin16"-->
+<!--                        />-->
+
+<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="true"-->
+<!--                        app:buttonTint="@color/runnerPrimary"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:id="@+id/checkbox_fail"-->
+<!--                        android:text="@string/failed_label"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:paddingHorizontal="@dimen/margin16"-->
+<!--                        />-->
+
+<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="true"-->
+<!--                        app:buttonTint="@color/runnerPrimary"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:id="@+id/checkbox_no_transaction"-->
+<!--                        android:text="@string/no_transaction"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:paddingHorizontal="@dimen/margin16"-->
+<!--                        />-->
+
+<!--                <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/parsers"-->
+<!--                        android:id="@+id/parsers_label_id"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:textStyle="bold"/>-->
+
+<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="false"-->
+<!--                        app:buttonTint="@color/runnerPrimary"-->
+<!--                        android:layout_marginTop="@dimen/margin16"-->
+<!--                        android:id="@+id/checkbox_parsers"-->
+<!--                        android:text="@string/parsers_checkbox"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:paddingHorizontal="@dimen/margin16"-->
+<!--                        />-->
+
+<!--                <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/sim_filter"-->
+<!--                        android:id="@+id/sim_label_id"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:layout_marginTop="32dp"-->
+<!--                        android:textStyle="bold"/>-->
+
+<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="false"-->
+<!--                        app:buttonTint="@color/runnerPrimary"-->
+<!--                        android:layout_marginBottom="52dp"-->
+<!--                        android:layout_marginTop="@dimen/margin16"-->
+<!--                        android:id="@+id/checkbox_sim"-->
+<!--                        android:text="@string/sim_checkbox"-->
+<!--                        android:textColor="@color/runnerWhite"-->
+<!--                        android:textSize="@dimen/text_17"-->
+<!--                        android:paddingHorizontal="@dimen/margin16"-->
+<!--                        />-->
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/runnerPrimary">
+
+        <TextView android:id="@+id/filterNow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="?selectableItemBackground"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="@dimen/text_17"
+            android:text="@string/filter_text"/>
+    </FrameLayout>
+</RelativeLayout>

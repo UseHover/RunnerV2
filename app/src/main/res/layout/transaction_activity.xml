@@ -4,5 +4,5 @@
         android:name="com.hover.runner.ui.transactions.TransactionFragment"
         android:id="@+id/transactionsActivityFragmentId"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/runnerDark"
         android:layout_height="match_parent"/>

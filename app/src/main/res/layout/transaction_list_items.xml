@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="16dp"
+    android:background="?selectableItemBackground"
+    android:orientation="vertical">
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:textStyle="bold"
+        android:id="@+id/transaction_action_name"
+        android:textColor="@color/runnerWhite"
+        android:drawablePadding="@dimen/margin8"
+        android:paddingHorizontal="@dimen/margin16"
+        android:textSize="@dimen/text_17"
+        tools:text="Sample"/>
+
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:id="@+id/transaction_date_id"
-            android:textColor="@color/colorHoverWhite"
+            android:textColor="@color/mainGrey"
+            android:id="@+id/transaction_date"
+            android:drawablePadding="@dimen/margin8"
             android:paddingHorizontal="@dimen/margin16"
-            android:textSize="@dimen/text_17"/>
+            android:textSize="@dimen/text_13"
+            tools:text="March 3, 2020 at 5:43"/>
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorMainGrey"
-            android:id="@+id/transaction_content_id"
+            android:textColor="@color/mainGrey"
+            android:id="@+id/transaction_content"
             android:layout_marginEnd="32dp"
             android:paddingHorizontal="@dimen/margin16"
-            android:textSize="@dimen/text_17"/>
+            android:layout_marginBottom="16dp"
+            android:textSize="@dimen/text_15"
+            tools:text="This is a long message that could very well take multiple lines like three or four or five because it shows lots o details"/>
 
     <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:id="@+id/divider"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/lineColor"/>
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/divider"
+        android:background="@color/lineColor"/>
 
 </LinearLayout>

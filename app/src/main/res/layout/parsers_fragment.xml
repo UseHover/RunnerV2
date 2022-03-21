@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/runnerDark"
         >
     <LinearLayout
             android:layout_width="match_parent"
@@ -19,14 +19,14 @@
                 android:textStyle="bold"
                 android:drawableStart="@drawable/ic_arrow_back_white_24dp"
                 android:drawablePadding="@dimen/margin16"
-                android:textColor="@color/colorHoverWhite"
-                android:textSize="@dimen/text22"
+                android:textColor="@color/runnerWhite"
+                android:textSize="@dimen/text_22"
                 android:paddingHorizontal="@dimen/margin16"
-                android:id="@+id/parserDetails_toolbarText"/>
+                android:id="@+id/toolbarText"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/runnerDark"
                 android:paddingTop="8dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginHorizontal="16dp"
@@ -37,17 +37,17 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_type"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
                     android:textAllCaps="true"
-                    android:id="@+id/parser_type_content" />
+                    android:id="@+id/response_type" />
 
         </LinearLayout>
 
@@ -62,17 +62,17 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_action"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
                     android:textStyle="bold"
-                    android:id="@+id/parser_action_content" />
+                    android:id="@+id/action" />
 
         </LinearLayout>
 
@@ -87,17 +87,17 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_actionID"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
                     android:textStyle="bold"
-                    android:id="@+id/parser_actionId_content" />
+                    android:id="@+id/actionId" />
 
         </LinearLayout>
 
@@ -112,16 +112,16 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_category"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_category_content" />
+                    android:id="@+id/category" />
 
         </LinearLayout>
 
@@ -136,16 +136,16 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_status"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_status_content" />
+                    android:id="@+id/status" />
 
         </LinearLayout>
 
@@ -160,16 +160,16 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_created"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_createdAt_content" />
+                    android:id="@+id/createdAt" />
 
         </LinearLayout>
 
@@ -184,16 +184,16 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_sender"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_sender_content" />
+                    android:id="@+id/sender" />
 
         </LinearLayout>
 
@@ -208,16 +208,16 @@
             <TextView
                     android:layout_width="105dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/runnerPrimary"
                     android:textSize="@dimen/text_15"
                     android:text="@string/parser_regex"/>
 
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorSecondaryGrey"
+                    android:textColor="@color/secondaryGrey"
                     android:textSize="@dimen/text_15"
-                    android:id="@+id/parser_regex_content" />
+                    android:id="@+id/regex" />
 
         </LinearLayout>
 
@@ -228,8 +228,8 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginHorizontal="@dimen/margin16"
                 android:text="@string/recent_transactions"
-                android:id="@+id/recentTransa_id"
-                android:textColor="@color/colorHoverWhite"
+                android:id="@+id/recentHeader"
+                android:textColor="@color/runnerWhite"
                 android:textSize="@dimen/text_17"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
@@ -239,7 +239,7 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/runnerPrimary"
                 android:layout_marginVertical="8dp"
                 android:layout_marginHorizontal="@dimen/margin16"
                 />
@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/parser_transac_recyclerView"/>
+                android:id="@+id/transactions"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

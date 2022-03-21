@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<androidx.appcompat.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/margin85"
+		android:layout_marginBottom="@dimen/margin16"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:elevation="@dimen/elevation_up"
+		app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+		app:subtitle="@string/new_run_subtitle"
+		app:subtitleTextAppearance="@style/SubtitleText"
+		app:title="@string/summary_title"
+		app:titleTextAppearance="@style/TitleText" />
+
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:layout_marginHorizontal="@dimen/margin16">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/runName"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/LabeledInput"
+				android:hint="@string/label_name">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/nameInput"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textColor="@color/runnerWhite"
+					android:textSize="@dimen/text_17"
+					android:textColorHint="@color/runnerWhite"
+					android:maxLines="1" />
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/frequencyDropdown"
+				android:labelFor="@id/frequencyAutocomplete"
+				style="@style/LabeledDropdown"
+				android:hint="@string/label_frequency_input"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<AutoCompleteTextView
+					android:id="@+id/frequencyAutocomplete"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="none"
+					android:completionThreshold="0"
+					android:drawablePadding="@dimen/margin13"
+					android:dropDownWidth="wrap_content"
+					android:textColor="@color/runnerWhite"
+					android:textCursorDrawable="@null"
+					app:endIconMode="dropdown_menu"
+					app:errorTextColor="@color/runnerRed" />
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/scheduleWhen"
+				android:labelFor="@id/whenAutocomplete"
+				style="@style/LabeledDropdown"
+				android:hint="@string/label_when"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<AutoCompleteTextView
+					android:id="@+id/whenAutocomplete"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="none"
+					android:completionThreshold="0"
+					android:drawablePadding="@dimen/margin13"
+					android:dropDownWidth="wrap_content"
+					android:textColor="@color/runnerWhite"
+					android:textCursorDrawable="@null"
+					app:endIconMode="dropdown_menu"
+					app:errorTextColor="@color/runnerRed" />
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<TextView
+				android:id="@+id/scheduleStart"
+				style="@style/LabeledInput"
+				android:padding="@dimen/margin16"
+				android:background="@drawable/button_input_bg"
+				android:hint="@string/label_start"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone">
+			</TextView>
+		</LinearLayout>
+	</androidx.core.widget.NestedScrollView>
+
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="45dp"
+		android:background="@color/runnerPrimary">
+
+		<TextView android:id="@+id/fab"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="?selectableItemBackground"
+			android:gravity="center"
+			android:textAlignment="center"
+			android:textStyle="bold"
+			android:textSize="@dimen/text_17"
+			android:textColor="?attr/colorOnPrimary"
+			android:text="@string/label_run"/>
+	</FrameLayout>
+</LinearLayout>

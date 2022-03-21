@@ -3,10 +3,8 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@color/colorPrimaryDark"
 		android:orientation="vertical"
-		android:layout_marginBottom="55dp"
-		tools:context=".transactions.fragments.TransactionListFragment">
+		tools:context=".transactions.TransactionListFragment">
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -27,8 +25,8 @@
 					android:layout_height="wrap_content"
 					android:textAlignment="textStart"
 					android:textStyle="bold"
-					android:textSize="@dimen/text22"
-					android:textColor="@color/colorHoverWhite"
+					android:textSize="@dimen/text_22"
+					android:textColor="@color/runnerWhite"
 					android:text="@string/title_transactions"
 					android:paddingHorizontal="@dimen/margin16"
 					android:layout_weight="1"
@@ -37,15 +35,15 @@
 			<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textColor="@color/colorHoverWhite"
-					android:textSize="@dimen/margin15"
+					android:textColor="@color/runnerWhite"
+					android:textSize="@dimen/text_17"
 					android:textStyle="bold"
 					android:layout_gravity="center"
 					android:gravity="center"
 					android:paddingVertical="16dp"
 					android:paddingHorizontal="@dimen/margin16"
 					android:id="@+id/transactionFilter_id"
-					android:text="@string/filter_text"/>
+					android:text="@string/filter_underlined"/>
 
 		</LinearLayout>
 
@@ -53,9 +51,12 @@
 			layout="@layout/recycler_view_state"
 			android:visibility="gone"/>
 
-		<include android:id="@+id/recyclerViewLayout"
-				layout="@layout/general_recycler_view"
-				android:visibility="gone"/>
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerView"
+			android:layout_width="match_parent"
+			android:visibility="gone"
+			android:layout_marginTop="32dp"
+			android:layout_height="match_parent"/>
 
 	</LinearLayout>
 <!--	<TextView-->

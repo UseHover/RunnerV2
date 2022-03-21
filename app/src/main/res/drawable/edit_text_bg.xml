@@ -5,9 +5,9 @@
 	<item android:state_pressed="true">
 		<shape android:shape="rectangle" android:padding="10dp">
 
-			<solid android:color="@color/colorPrimaryDark"/>
-			<stroke android:width="@dimen/stroke_bold" android:color="@color/colorPureWhite"/>
-			<corners android:radius="@dimen/corner_radius" />
+			<solid android:color="@color/runnerDark"/>
+			<stroke android:width="@dimen/stroke_bold" android:color="@color/white"/>
+			<corners android:radius="@dimen/radius_corner" />
 
 		</shape>
 
@@ -16,9 +16,10 @@
 	<item android:state_activated="true">
 		<shape android:shape="rectangle" android:padding="10dp">
 
-			<solid android:color="@color/colorPrimaryDark"/>
-			<stroke android:width="@dimen/stroke_bold" android:color="@color/colorRed"/>
-			<corners android:radius="@dimen/corner_radius" />
+			<solid android:color="@color/runnerDark"/>
+			<stroke android:width="@dimen/stroke_bold" android:color="@color/runnerRed"/>
+			<corners android:radius="@dimen/radius_corner" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item>
@@ -27,9 +28,10 @@
 	<item android:state_focused="true">
 		<shape android:shape="rectangle" android:padding="10dp">
 
-			<solid android:color="@color/colorPrimaryDark"/>
-			<stroke android:width="@dimen/stroke_bold" android:color="@color/colorPureWhite"/>
-			<corners android:radius="@dimen/corner_radius" />
+			<solid android:color="@color/runnerDark"/>
+			<stroke android:width="@dimen/stroke_bold" android:color="@color/white"/>
+			<corners android:radius="@dimen/radius_corner" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item> <!-- focused -->
@@ -37,11 +39,12 @@
 	<item android:state_activated="false">
 		<shape android:shape="rectangle" android:padding="10dp">
 
-			<solid android:color="@color/colorPrimaryDark"/>
+			<solid android:color="@color/runnerDark"/>
 			<stroke android:width="@dimen/stroke"
 					android:dashGap="3dp"
-					android:color="@color/colorMainGrey"/>
-			<corners android:radius="@dimen/corner_radius" />
+					android:color="@color/mainGrey"/>
+			<corners android:radius="@dimen/radius_corner" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item>
@@ -49,11 +52,12 @@
 	<item>
 		<shape android:shape="rectangle" android:padding="10dp">
 
-			<solid android:color="@color/colorPrimaryDark"/>
+			<solid android:color="@color/runnerDark"/>
 			<stroke android:width="@dimen/stroke"
 					android:dashGap="3dp"
-					android:color="@color/colorMainGrey"/>
-			<corners android:radius="@dimen/corner_radius" />
+					android:color="@color/mainGrey"/>
+			<corners android:radius="@dimen/radius_corner" />
+			<padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
 
 		</shape>
 	</item> <!-- default -->

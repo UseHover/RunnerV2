@@ -1,19 +1,113 @@
 <resources>
-	<string name="app_name">Runner</string>
+	<string name="app_name" translatable="false">Runner</string>
+
+	<string name="url_forgot_password" translatable="false">https://www.usehover.com/u/password/new</string>
+	<string name="api_url" translatable="false">https://www.usehover.com/api/</string>
+	<string name="hsdk_base_url" translatable="false">https://www.usehover.com/sdk/</string>
+	<string name="auth_endpoint" translatable="false">authenticate</string>
+	<string name="token_endpoint" translatable="false">get_token</string>
+
 	<string name="title_actions">Actions</string>
 	<string name="title_transactions">Transactions</string>
+	<string name="title_runs">Scheduled</string>
+	<string name="title_run_details">Run Details</string>
 	<string name="title_settings">Settings</string>
+
+	<!--	NAVIGATION-->
 	<string name="title_actions_in_filter">Choose actions</string>
+	<string name="transaction_details">Transaction details</string>
+	<string name="header_runs">Scheduled Runs</string>
 	<string name="action_details">Action details</string>
-	<string name="transaction_details">Action details</string>
 	<string name="parser_details">Parser details</string>
 
+	<string name="permissions_not_granted">You will need to grant permissions to have full functionality.</string>
 
-	<string name="title_filter">Filter Actions</string>
+	<!--	ACTIONS-->
+	<string name="filter_text">Filter</string>
+	<string name="filter_underlined"><u>Filter</u></string>
+	<string name="test_all">Test all actions</string>
+	<string name="test_some">Test %1$d actions</string>
+	<string name="test_single">Test action</string>
+
+	<!--	TEST RUNS-->
+	<string name="new_run_vars_title">New Test Run</string>
+	<string name="new_run_vars_subtitle">%1$d/%2$d actions complete</string>
+	<string name="run_group_description">Please fill out the remaining variables to create the test run.</string>
+	<string name="above_skip_text">Don’t have the values for these variables right now?</string>
+	<string name="label_skip">Skip</string>
+	<string name="label_next">Next ></string>
+	<string name="finish">Finish</string>
+
+	<string name="summary_title">Create Test Run</string>
+	<string name="new_run_single_subtitle">Testing %1$s</string>
+	<string name="new_run_subtitle">Testing %1$d Actions</string>
+
+	<string name="run_template">%1$s-actionsX%2$d</string>
+	<string name="run_template_single">%1$s-action-%2$s</string>
+	<string name="label_name">Test Run Name</string>
+	<string name="label_frequency_input">How often?</string>
+	<string-array name="frequency_array">
+		<item>Once</item>
+		<item>Hourly</item>
+		<item>Daily</item>
+		<item>Weekly</item>
+	</string-array>
+	<string name="label_when">Start</string>
+	<string-array name="when_array">
+		<item>Now</item>
+		<item>Later</item>
+	</string-array>
+	<string name="label_start">Choose date and time</string>
+	<string name="now">Now</string>
+
+	<string name="label_run">Start Run</string>
+	<string name="label_schedule">Schedule</string>
+	<string name="notify_name_error">Please enter a name</string>
+	<string name="notify_start_error">Please choose a start date and time</string>
+	<string name="notify_past_error">Please choose a time in the future</string>
+	<string name="notify_start_now">The chosen time is within 1 minutes, starting now</string>
+	<string name="notify_starting">Starting test run…</string>
+	<string name="notify_scheduled">Test run saved. It will run at the appropriate time.</string>
+	<string name="notify_run_error">No run id, canceling.</string>
+	<string name="in_progress_title">Tests running</string>
+	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
+	<string name="all_complete">All tests complete</string>
+
+	<string name="run_details_subtitle">Test Run</string>
+	<string name="label_frequency">Frequency</string>
+	<string name="label_next_start">Next run</string>
+	<string name="label_last_start">Ran at</string>
+	<string name="actions_run">Actions run</string>
+	<string name="actions_to_run">Actions to run</string>
+	<string name="delete_text">Delete Run</string>
+	<string name="delete_title">Delete this test run?</string>
+	<string name="delete_message">This will cancel all future scheduled runs.</string>
+	<string name="cancel">Cancel</string>
+	<string name="delete">Delete</string>
+	<string name="run_deleted">Test run deleted</string>
+
+<!--	TRANSACTIONS-->
+	<string name="label_status">Status</string>
+	<string name="label_action">Action</string>
+	<string name="label_action_id">Action ID</string>
+	<string name="label_time">Time</string>
+	<string name="label_transaction_id">UUID</string>
+	<string name="label_result">Result</string>
+	<string name="label_category">Category</string>
+	<string name="label_operator">Operator</string>
+
+<!--	FILTERS-->
+	<string name="title_filter_actions">Filter Actions</string>
+	<string name="cta_filter_actions">Show %1$d Actions</string>
+	<string name="reset"><u>Reset</u></string>
+	<string name="label_search">Search</string>
+	<string name="hint_search">Search for action ID or name</string>
+	<string name="label_filter_tags">Tags</string>
+	<string name="title_filter_tags">Choose Tags</string>
+	<string name="hint_tags">Select tags</string>
+	<string name="empty_tags">Only actions with no tags</string>
+
 	<string name="title_filter_trans">Filter transactions</string>
-	<string name="reset">Reset</string>
-	<string name="search">Search</string>
-	<string name="search_hint">Search for actionID, name or root code</string>
 	<string name="search_hint_transaction">Search transaction id, or session text</string>
 	<string name="date_range">Date range</string>
 	<string name="countries">Countries</string>
@@ -27,7 +121,6 @@
 	<string name="parsers_checkbox">Only show actions with parsers</string>
 	<string name="sim_checkbox">Only show actions with SIM present</string>
 	<string name="somethingWentWrong">Something went wrong, please try again</string>
-	<string name="url_forgot_password">https://www.usehover.com/u/password/new</string>
 
 	<string name="simon_content_desc">Hover_background</string>
 	<string name="login_image_transition">image_transition</string>
@@ -49,19 +142,18 @@
 	<string name="sign_in_err">Unable to sign in, please check your email and password.</string>
 	<string name="sign_in_success">Signed in successfully</string>
 	<string name="one_or_more_empty_variable">This action has one or more empty variables. Please check.</string>
-	<string name="filter_text">Filter</string>
-	<string name="testAllActions">Test all actions</string>
-	<string name="test_single_action">Test action</string>
+
+<!--	SETTINGS-->
 	<string name="testing_mode">Testing mode</string>
 	<string name="normal">Normal</string>
 	<string name="normal_toolTip">USSD sessions run in the background</string>
 	<string name="Debug">Debug</string>
 	<string name="debug_toolTip">Watch USSD sessions as they happen</string>
 	<string name="no_sim">No SIM</string>
-	<string name="delay_hint">Set ms delay between sessions</string>
+	<string name="delay_hint">Seconds delay between sessions</string>
 	<string name="no_sim_toolTip">When you do not have the correct SIM for the service you want to test</string>
 	<string name="sim_cards">SIM cards</string>
-	<string name="action_icon_status_description">Action status after it was ran</string>
+	<string name="action_icon_status_description">Status indicator</string>
 	<string name="sim_tooltip">Don’t see the correct SIM? Try removing it and re-inserting it. If that doesn\’t work, contact support.</string>
 	<string name="contact_support">Contact support</string>
 	<string name="refresh">Refresh</string>
@@ -75,18 +167,18 @@
 
 	<string name="pendingStatus_title">This action has a pending transaction.</string>
 	<string name="pendingStatus_desc">This transaction has no parsers or has failed to match an existing parser.</string>
-	<string name="pendingStatus_linkText">Learn more about pending transactions</string>
+	<string name="pendingStatus_linkText"><u>Learn more about pending transactions</u></string>
 	<string name="pendingStatus_url">https://docs.usehover.com/parsing</string>
 	<string name="pending_transaction">Pending Transaction</string>
 	<string name="failed_transaction">Failed Transaction</string>
 
 	<string name="failedStatus_title">This action has a failed transaction.</string>
 	<string name="failedStatus_desc">This action has matched a parser with a failed transaction status.</string>
-	<string name="failedStatus_linkText">Learn more about failed transactions</string>
+	<string name="failedStatus_linkText"><u>Learn more about failed transactions</u></string>
 	<string name="failedStatus_url">https://docs.usehover.com/parsing</string>
 
 	<string name="successStatus_title">This action works.</string>
-	<string name="unrunStatus_title">This action is yet to be run on this device.</string>
+	<string name="unrunStatus_title">This action has not yet been run on this device.</string>
 	<string name="emptyString"> </string>
 
 	<string name="transaction_det_failed">This transaction failed</string>
@@ -133,6 +225,7 @@
 	<string name="contactUs"><![CDATA[Don’t see the correct SIM?<br/> Try removing it and re-inserting it. If that doesn\’t work, <a href="mailto:support@usehover.com">contact support.</a>]]></string>
 	<string name="hint_choose_actions">Choose actions</string>
 	<string name="selected_range">Selected range</string>
+	<string name="no_parser_matched">Session did not end with an expected response</string>
 
 	<string name="act_missing_info_singular">action is missing information</string>
 	<string name="act_missing_info_pluarl">actions are missing information</string>
@@ -145,31 +238,15 @@
 	<string name="no_actions_yet">No Actions yet</string>
 	<string name="no_actions_desc">Try swiping down to refresh</string>
 	
-	<string name="uncompleted_variable_notice">Please enter values for the variables below.</string>
-	<string name="above_skip_text">Don’t have the values for these variables right now?</string>
-	<string name="skip_text">Skip this action for now.</string>
-	<string name="below_skip_text">You can always add the values later on this action’s details page</string>
-	<string name="bad_steps_config">Something went wrong with your steps. Please check your dashboard settings</string>
-	
 	<string name="title_countries">Choose countries</string>
 	<string name="title_categories">Choose categories</string>
 	<string name="title_networks">Choose networks</string>
 	<string name="save_text">Save</string>
-
 	<string name="reset_successful">Reset successful</string>
-	<string name="no_actions_filter_result">0 Actions</string>
-	<string name="no_transactions_filter_result">0 Transactions</string>
-	<string name="next_label">Next</string>
-	<string name="save_continue">Save and continue</string>
-
-	<string name="api_url">https://www.usehover.com/api/</string>
-	<string name="hsdk_base_url" translatable="false">https://www.usehover.com/sdk/</string>
-	<string name="auth_endpoint">authenticate</string>
-	<string name="token_endpoint">get_token</string>
 
 	<string name="INVALID_EMAIL">Invalid email format, please enter correct email and try again</string>
 	<string name="INVALID_PASSWORD">Invalid password format. Ensure password has a minimum of 5 letters with no space</string>
 	<string name="NO_NETWORK">Internet connection not found</string>
 	<string name="transaction_coming_up">Transaction coming right up…</string>
-	<string name="uncompleted_variable_unfilled">Please fill in empty variable</string>
+	<string name="summary_incomplete">Please fill in all empty variables</string>
 </resources>

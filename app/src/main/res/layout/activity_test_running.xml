@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_marginBottom="@dimen/margin52"
+	android:background="?attr/colorPrimary">
+
+	<androidx.appcompat.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/margin85"
+		android:layout_marginBottom="@dimen/margin16"
+		app:elevation="@dimen/elevation_up"
+		android:background="?attr/colorPrimary"
+		android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+		app:titleTextAppearance="@style/TitleText"
+		app:subtitleTextAppearance="@style/SubtitleText"
+		app:title="@string/in_progress_title" />
+
+	<TextView android:id="@+id/progress"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:textAlignment="center"
+		android:textSize="@dimen/text_22"
+		android:textStyle="bold"
+		android:text="@string/in_progress_subtitle" />
+
+</RelativeLayout>

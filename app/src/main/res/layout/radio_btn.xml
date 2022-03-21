@@ -6,6 +6,6 @@
         android:paddingStart="@dimen/margin13"
         android:paddingEnd="0dp"
         android:fontFamily="font-normal"
-        app:buttonTint="@color/colorPrimary"
-        android:textColor="@color/colorSecondaryGrey"
+        app:buttonTint="@color/runnerPrimary"
+        android:textColor="@color/secondaryGrey"
         android:textSize="@dimen/text_17" />

@@ -8,59 +8,115 @@
 	<!--Actions -->
 	<fragment
 		android:id="@+id/navigation_actions"
-		android:name="com.hover.runner.actions.fragments.ActionsFragment"
+		android:name="com.hover.runner.actions.ActionsFragment"
 		android:label="@string/title_actions"
 		tools:layout="@layout/fragment_actions" />
 
 	<fragment
 		android:id="@+id/navigation_actionDetails"
-		android:name="com.hover.runner.actions.fragments.ActionDetailsFragment"
+		android:name="com.hover.runner.actionDetails.ActionDetailFragment"
 		android:label="@string/action_details"
-		tools:layout="@layout/action_details_fragment">
+		tools:layout="@layout/fragment_action_details">
 		<argument
 			android:name="action_id"
 			app:argType="string" />
 	</fragment>
 
 	<fragment
-		android:id="@+id/navigation_uncompletedVariableFragment"
-		android:name="com.hover.runner.actions.fragments.UnCompletedVariablesFragment"
-		android:label="@string/uncompleted_variable_notice"
-		tools:layout="@layout/uncompleted_variable_fragment_layout">
+		android:id="@+id/navigation_run_variables"
+		android:name="com.hover.runner.testRunCreation.FillVariablesFragment"
+		android:label="@string/run_group_description"
+		tools:layout="@layout/fragment_fill_variables">
+		<argument
+			android:name="action_id"
+			app:argType="string" />
+		<argument
+			android:name="action_ids"
+			app:argType="string[]" />
 	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_run_summary"
+		android:name="com.hover.runner.testRunCreation.RunSummaryFragment"
+		tools:layout="@layout/fragment_run_summary">
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_run_in_progress"
+		android:name="com.hover.runner.testRunCreation.RunSummaryFragment"
+		tools:layout="@layout/activity_test_running">
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_actionFilter"
+		android:name="com.hover.runner.actionFilters.ActionsFilterFragment"
+		android:label="@string/title_filter_actions"
+		tools:layout="@layout/fragment_filter_actions" />
+
 
 	<!--Transactions -->
 	<fragment
 		android:id="@+id/navigation_transactions"
-		android:name="com.hover.runner.transactions.fragments.TransactionListFragment"
+		android:name="com.hover.runner.transactions.TransactionListFragment"
 		android:label="@string/title_transactions"
 		tools:layout="@layout/fragment_transactions" />
 
 	<fragment
 		android:id="@+id/navigation_transactionDetails"
-		android:name="com.hover.runner.transactions.fragments.TransactionDetailsFragment"
+		android:name="com.hover.runner.transactionDetails.TransactionDetailsFragment"
 		android:label="@string/transaction_details"
-		tools:layout="@layout/transaction_details_fragment">
+		tools:layout="@layout/fragment_transaction_details">
 		<argument
 			android:name="uuid"
 			app:argType="string" />
 	</fragment>
 
-	<!--Parsers -->
+	<fragment
+		android:id="@+id/navigation_filter_selection"
+		android:name="com.hover.runner.actionFilters.SelectionFragment"
+		android:label="@string/title_filter_actions"
+		tools:layout="@layout/fragment_selection">
+		<argument
+			android:name="type"
+			app:argType="string" />
+	</fragment>
 
+	<!--Parsers -->
 	<fragment
 		android:id="@+id/navigation_parserDetails"
-		android:name="com.hover.runner.parser.fragment.ParserDetailsFragment"
+		android:name="com.hover.runner.parser.ParserDetailsFragment"
 		android:label="@string/parser_details"
 		tools:layout="@layout/parsers_fragment">
 		<argument
 			android:name="parser_id"
 			app:argType="integer" />
+		<argument
+			android:name="action_id"
+			app:argType="string" />
 	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_runs"
+		android:name="com.hover.runner.testRuns.RunsFragment"
+		android:label="@string/title_runs"
+		tools:layout="@layout/fragment_test_runs">
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_run_details"
+		android:name="com.hover.runner.testRuns.RunDetailsFragment"
+		android:label="@string/title_runs"
+		tools:layout="@layout/fragment_test_run_details">
+
+		<argument
+			android:name="run_id"
+			app:argType="long" />
+	</fragment>
+
 	<!--Settings -->
 	<fragment
 		android:id="@+id/navigation_settings"
-		android:name="com.hover.runner.settings.fragment.SettingsFragment"
+		android:name="com.hover.runner.settings.SettingsFragment"
 		android:label="@string/title_settings"
 		tools:layout="@layout/settings_fragment" />
 
