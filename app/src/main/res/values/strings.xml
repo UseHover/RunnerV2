@@ -85,6 +85,7 @@
 	<string name="cancel">Cancel</string>
 	<string name="delete">Delete</string>
 	<string name="run_deleted">Test run deleted</string>
+	<string name="sheduled_run_empty_label">No relevant scheduled run found. Try running an action(s) to schedule new runs </string>
 
 <!--	TRANSACTIONS-->
 	<string name="label_status">Status</string>
@@ -94,7 +95,12 @@
 	<string name="label_transaction_id">UUID</string>
 	<string name="label_result">Result</string>
 	<string name="label_category">Category</string>
+	<string name="label_env">Environment</string>
 	<string name="label_operator">Operator</string>
+
+	<string name="normal_mode">Normal Mode</string>
+	<string name="debug_mode">Debug Mode</string>
+	<string name="test_mode">No SIM mode</string>
 
 <!--	FILTERS-->
 	<string name="title_filter_actions">Filter Actions</string>

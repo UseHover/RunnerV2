@@ -36,15 +36,17 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
 		_binding = FragmentActionDetailsBinding.inflate(inflater, container, false)
 		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		val actionId = requireArguments().getString("action_id", "")
 		initListeners()
 		initObservers()
-		actionViewModel.loadAction(requireArguments().getString("action_id", ""))
+		actionViewModel.loadAction(actionId)
 	}
 
 	private fun initListeners() {
@@ -84,17 +86,15 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 		actionViewModel.action.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
 
 		actionViewModel.transactions.observe(viewLifecycleOwner) {
+			Timber.i("how many transactions? : ${it.size}")
 			fillTransactionDetails(it)
+			setStatusCounts(it)
 			binding.header.setStatus(if (!it.isNullOrEmpty()) it[0].status else null, requireActivity())
 		}
 
 		actionViewModel.parsers.observe(viewLifecycleOwner) {
 			it?.let { fillParserDetails(it, binding.parsers) }
 		}
-
-		actionViewModel.successCount.observe(viewLifecycleOwner) { it?.let { binding.successCount.text = it.toString() } }
-		actionViewModel.failedCount.observe(viewLifecycleOwner) { it?.let { binding.failedCount.text = it.toString() } }
-		actionViewModel.pendingCount.observe(viewLifecycleOwner) { it?.let { binding.pendingCount.text = it.toString() } }
 	}
 
 	private fun fillDetails(action: HoverAction) {
@@ -130,8 +130,17 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 
 	private fun fillTransactionDetails(transactions: List<Transaction>) {
 		if (!transactions.isNullOrEmpty()) setTransactionsList(transactions)
-		else binding.recentHeader.setText(R.string.zero_transactions)
+		else {
+			binding.recentHeader.setText(R.string.zero_transactions)
+			binding.transactionRecycler.adapter = null
+		}
 		binding.transactionCount.text = transactions.size.toString()
+	}
+
+	private fun setStatusCounts(transactions: List<Transaction>) {
+		binding.successCount.text = transactions.count { it.status == Transaction.SUCCEEDED}.toString()
+		binding.pendingCount.text = transactions.count { it.status == Transaction.PENDING}.toString()
+		binding.failedCount.text = transactions.count { it.status == Transaction.FAILED}.toString()
 	}
 
 	private fun setTransactionsList(transactions: List<Transaction>) {

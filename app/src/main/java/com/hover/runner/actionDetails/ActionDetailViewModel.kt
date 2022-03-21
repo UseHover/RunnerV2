@@ -16,17 +16,9 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 	val transactions: LiveData<List<Transaction>>
 	val parsers: LiveData<List<HoverParser>>
 
-	val successCount: LiveData<Int>
-	val failedCount: LiveData<Int>
-	val pendingCount: LiveData<Int>
-
 	init {
 		transactions = Transformations.switchMap(action, this::getActionTransactions)
 		parsers = Transformations.map(action, this::getActionParsers)
-
-		successCount = Transformations.switchMap(action) { getStatusCount(it, Transaction.SUCCEEDED) }
-		failedCount = Transformations.switchMap(action){ getStatusCount(it, Transaction.FAILED) }
-		pendingCount = Transformations.switchMap(action) { getStatusCount(it, Transaction.PENDING) }
 	}
 
 	fun loadAction(id: String) {
@@ -36,17 +28,11 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 	}
 
 	private fun getActionTransactions(action: HoverAction) : LiveData<List<Transaction>> {
-		return liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-			emit(transactionsRepo.getTransactionsByAction(action.public_id))
-		}
+		return transactionsRepo.getLiveTransactionsByAction(action.public_id)
 	}
 
 	private fun getActionParsers(action: HoverAction) : List<HoverParser> {
 		return parserRepo.getParsersByActionId(action.public_id)
-	}
-
-	private fun getStatusCount(action: HoverAction, status: String) : LiveData<Int> {
-		return transactionsRepo.getCountByStatus(action.public_id, status)
 	}
 
 	companion object {

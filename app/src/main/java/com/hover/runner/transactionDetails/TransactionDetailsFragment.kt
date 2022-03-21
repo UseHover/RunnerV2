@@ -7,13 +7,10 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTransactionDetailsBinding
-import com.hover.runner.main.DetailsHeaderView
 import com.hover.runner.parser.ParserClickListener
 import com.hover.runner.utils.DateUtils
-import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction
@@ -32,12 +29,13 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		return binding.root
 	}
 
-	override fun onResume() {
-		super.onResume()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 		loadTransaction()
 	}
-
 	private fun loadTransaction() {
+		viewModel.load(requireArguments().getString("uuid", ""))
+
 		viewModel.transaction.observe(viewLifecycleOwner) {
 			it?.let { fillDetails(it) }
 			viewModel.action.value?.let { a -> createMessagesAdapter(it, a) }
@@ -46,7 +44,6 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		viewModel.action.observe(viewLifecycleOwner) {
 			Timber.e("Loaded action: %s", it?.public_id?: "null")
 			viewModel.transaction.value?.let { t -> createMessagesAdapter(t, it) } }
-		viewModel.load(requireArguments().getString("uuid", ""))
 	}
 
 	private fun fillDetails(transaction: Transaction) {
@@ -57,7 +54,16 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		binding.valueActionId.text = transaction.actionId
 		binding.valueTime.text = DateUtils.humanFriendlyDateTime(transaction.reqTimestamp)
 		binding.valueTransactionId.text = transaction.uuid
+		binding.valueEnvironment.setText(getReadableEnv(transaction.env))
 		binding.valueResult.text = transaction.userMessage
+	}
+
+	private fun getReadableEnv(env: Int) : Int {
+		return when(env) {
+			0 -> R.string.normal_mode
+			1 -> R.string.debug_mode
+			else -> R.string.test_mode
+		}
 	}
 
 	private fun createMessagesAdapter(t: Transaction, a: HoverAction) {

@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTestRunsBinding
+import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
+import com.hover.runner.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener {
@@ -34,9 +36,15 @@ class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener {
 
 	private fun onLoad(runs: List<TestRun>?) {
 		runs?.let {
-			binding.recyclerView.setLayoutManagerToLinear()
-			runsRecyclerAdapter = RunsRecyclerAdapter(it, this)
-			binding.recyclerView.adapter = runsRecyclerAdapter
+			if(it.isEmpty()) {
+				binding.runsEmpty.visibility = View.VISIBLE
+			}
+			else {
+				binding.runsEmpty.visibility = View.GONE
+				binding.recyclerView.setLayoutManagerToLinear()
+				runsRecyclerAdapter = RunsRecyclerAdapter(it, this)
+				binding.recyclerView.adapter = runsRecyclerAdapter
+			}
 		}
 	}
 

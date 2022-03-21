@@ -42,9 +42,9 @@
       <option name="url" value="https://jitpack.io" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="BintrayJCenter" />
-      <option name="name" value="BintrayJCenter" />
-      <option name="url" value="https://jcenter.bintray.com/" />
+      <option name="id" value="maven4" />
+      <option name="name" value="maven4" />
+      <option name="url" value="https://pro.maven.usehover.com/snapshots" />
     </remote-repository>
   </component>
 </project>
