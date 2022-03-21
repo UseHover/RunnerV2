@@ -6,7 +6,7 @@ import com.hover.runner.testRuns.TestRun
 
 @Dao
 interface RunDao {
-	@Query("SELECT * FROM test_runs")
+	@Query("SELECT * FROM test_runs ORDER BY start_at DESC")
 	fun allRuns(): LiveData<List<TestRun>>
 
 	@Query("SELECT * FROM test_runs WHERE finished_at = 0")

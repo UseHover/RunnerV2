@@ -25,7 +25,7 @@ allprojects {
 		maven { url "https://maven.usehover.com/snapshots"
 			allowInsecureProtocol = true}
         maven {
-            url 'https://pro.maven.usehover.com/releases'
+            url 'https://pro.maven.usehover.com/snapshots'
             credentials {
 	            username "${HoverUsername}"
 	            password "${HoverPassword}"

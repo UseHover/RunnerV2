@@ -39,7 +39,6 @@ class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.Transact
 		initViews()
 		setupRecyclerView()
 		observeTransactionsList()
-		transactionsViewModel.reload()
 //		filterTextView.setOnClickListener { transactionNavigationInterface.navigateTransactionFilterFragment() }
 	}
 

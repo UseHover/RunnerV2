@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.hover.runner.actions.ActionRepo
 import com.hover.runner.transactions.TransactionsRepo
 import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.api.TransactionApi
 import com.hover.sdk.transactions.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ class RunsViewModel(private val application: Application, private val runRepo: T
 	var transactions: LiveData<List<Transaction>>
 
 	init {
-		transactions = Transformations.map(run, this::getTransactions)
+		transactions = Transformations.switchMap(run, this::getTransactions)
 		actions = Transformations.map(run, this::getActions)
 	}
 
@@ -32,7 +31,7 @@ class RunsViewModel(private val application: Application, private val runRepo: T
 		return actionRepo.getHoverActions(r.action_id_list.toTypedArray())
 	}
 
-	private fun getTransactions(r: TestRun): List<Transaction> {
+	private fun getTransactions(r: TestRun): LiveData<List<Transaction>> {
 		return transactionRepo.getTransactions(r.transaction_uuid_list.toTypedArray())
 	}
 
