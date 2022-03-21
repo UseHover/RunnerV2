@@ -5,7 +5,6 @@ plugins {
 	id 'com.google.gms.google-services'
 	id 'com.google.firebase.crashlytics'
 }
-apply plugin: 'kotlin-kapt'
 
 android {
 	compileSdk 31
@@ -108,12 +107,14 @@ dependencies {
 
 	//Hover
 	def sdk_version = "2.0.0-alpha1.0.4"
+	//implementation "com.hover:android-sdk:$sdk_version"
+
 	debugImplementation project(":hover.sdk")
 	//normalInternalReleaseImplementation "com.hover:android-sdk:$sdk_version"
 	//normalDashboardImplementation "com.hover:android-sdk:$sdk_version"
 	proImplementation "com.hover:android-sdk:$sdk_version"
 
-	debugImplementation 'com.android.volley:volley:1.1.1'
+	debugImplementation 'com.android.volley:volley:1.2.1'
 	debugImplementation "androidx.work:work-runtime:2.6.0"
 	debugImplementation 'com.google.android.gms:play-services-analytics:17.0.1'
 	debugImplementation 'io.sentry:sentry-android:4.3.0'
