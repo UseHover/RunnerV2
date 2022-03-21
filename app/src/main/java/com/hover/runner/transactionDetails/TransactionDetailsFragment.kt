@@ -55,10 +55,9 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		binding.valueTime.text = DateUtils.humanFriendlyDateTime(transaction.reqTimestamp)
 		binding.valueTransactionId.text = transaction.uuid
 		binding.valueEnvironment.setText(getReadableEnv(transaction.env))
-		with(transaction.ussdMessages) {
-			binding.valueResult.text = this.getString(this.length()-1)
-		}
+		binding.valueResult.text = transaction.userMessage
 	}
+
 	private fun getReadableEnv(env: Int) : Int {
 		return when(env) {
 			0 -> R.string.normal_mode

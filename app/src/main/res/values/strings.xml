@@ -100,7 +100,7 @@
 
 	<string name="normal_mode">Normal Mode</string>
 	<string name="debug_mode">Debug Mode</string>
-	<string name="test_mode">Testing/No-SIM mode</string>
+	<string name="test_mode">No SIM mode</string>
 
 <!--	FILTERS-->
 	<string name="title_filter_actions">Filter Actions</string>
