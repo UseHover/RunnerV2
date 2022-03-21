@@ -33,10 +33,6 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 		return parserRepo.getParsersByActionId(action.public_id)
 	}
 
-	private fun getStatusCount(transactions: List<Transaction>, status: String) : Int {
-		return transactions.count { it.status == status }
-	}
-
 	companion object {
 		const val T_LIMIT = 10
 	}
