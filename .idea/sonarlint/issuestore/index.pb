@@ -1,14 +1,10 @@
 
 g
 7app/src/main/java/com/hover/runner/main/MainActivity.kt,a/4/a41ecaccb2cd32b9120165dae616b7f252c2c0dc
-<
-build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
 r
 Bapp/src/main/java/com/hover/runner/parser/ParserDetailsFragment.kt,f/e/fe1ab6b72afc32f273379a69e73e3096fd04d4b0
 l
 <app/src/main/java/com/hover/runner/main/DetailsHeaderView.kt,5/a/5ad920fabf016962bfb645a51b1545033634796a
-@
-app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
