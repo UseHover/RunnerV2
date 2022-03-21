@@ -44,9 +44,9 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		val actionId = requireArguments().getString("action_id", "")
-		actionViewModel.loadAction(actionId)
 		initListeners()
-		initObservers(actionId)
+		initObservers()
+		actionViewModel.loadAction(actionId)
 	}
 
 	private fun initListeners() {
@@ -82,10 +82,10 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 		return true
 	}
 
-	private fun initObservers(actionId: String) {
+	private fun initObservers() {
 		actionViewModel.action.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
 
-		actionViewModel.getActionTransactions(actionId).observe(viewLifecycleOwner) {
+		actionViewModel.transactions.observe(viewLifecycleOwner) {
 			Timber.i("how many transactions? : ${it.size}")
 			fillTransactionDetails(it)
 			setStatusCounts(it)
@@ -130,26 +130,19 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 
 	private fun fillTransactionDetails(transactions: List<Transaction>) {
 		if (!transactions.isNullOrEmpty()) setTransactionsList(transactions)
-		else binding.recentHeader.setText(R.string.zero_transactions)
+		else {
+			binding.recentHeader.setText(R.string.zero_transactions)
+			binding.transactionRecycler.adapter = null
+		}
 		binding.transactionCount.text = transactions.size.toString()
 	}
 
 	private fun setStatusCounts(transactions: List<Transaction>) {
-		var successNum = 0
-		var pendingNum = 0
-		var failedNum = 0
-
-		transactions.forEach {
-			when (it.status) {
-				Transaction.SUCCEEDED -> successNum += 1
-				Transaction.PENDING -> pendingNum += 1
-				else -> failedNum +=1
-			}
-		}
-		binding.successCount.text = successNum.toString()
-		binding.pendingCount.text = pendingNum.toString()
-		binding.failedCount.text = failedNum.toString()
+		binding.successCount.text = transactions.count { it.status == Transaction.SUCCEEDED}.toString()
+		binding.pendingCount.text = transactions.count { it.status == Transaction.PENDING}.toString()
+		binding.failedCount.text = transactions.count { it.status == Transaction.FAILED}.toString()
 	}
+
 	private fun setTransactionsList(transactions: List<Transaction>) {
 		binding.recentHeader.setText(R.string.recent_transactions)
 		binding.transactionRecycler.setLayoutManagerToLinear()

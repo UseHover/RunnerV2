@@ -13,9 +13,11 @@ import kotlinx.coroutines.launch
 class ActionDetailViewModel(private val actionRepo: ActionRepo, private val transactionsRepo: TransactionsRepo, private val parserRepo: ParserRepo) : ViewModel() {
 
 	val action: MutableLiveData<HoverAction> = MutableLiveData()
+	val transactions: LiveData<List<Transaction>>
 	val parsers: LiveData<List<HoverParser>>
 
 	init {
+		transactions = Transformations.switchMap(action, this::getActionTransactions)
 		parsers = Transformations.map(action, this::getActionParsers)
 	}
 
@@ -25,8 +27,8 @@ class ActionDetailViewModel(private val actionRepo: ActionRepo, private val tran
 		}
 	}
 
-	fun getActionTransactions(actionId: String) : LiveData<List<Transaction>> {
-			return transactionsRepo.getLiveTransactionsByAction(actionId)
+	private fun getActionTransactions(action: HoverAction) : LiveData<List<Transaction>> {
+		return transactionsRepo.getLiveTransactionsByAction(action.public_id)
 	}
 
 	private fun getActionParsers(action: HoverAction) : List<HoverParser> {
