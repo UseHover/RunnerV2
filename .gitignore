@@ -15,4 +15,5 @@
 .cxx
 local.properties
 hover.sdk/
+app/pro/*
 *.apk
