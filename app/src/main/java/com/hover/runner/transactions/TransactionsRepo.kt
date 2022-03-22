@@ -13,6 +13,10 @@ class TransactionsRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.transactionDao().getLiveTransactionsByParserId("%$parserId%");
 	}
 
+	fun getTransactionByDistinctActions() : LiveData<List<Transaction>> {
+		return sdkDB.transactionDao().latestTransactionOfDistinctActions
+	}
+
 	fun getTransactionsByActionIds(actionIds: Array<String>): LiveData<List<Transaction>> {
 		return sdkDB.transactionDao().getLiveTransactionsByActionIds(actionIds);
 	}

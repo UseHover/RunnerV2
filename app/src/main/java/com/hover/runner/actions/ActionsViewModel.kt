@@ -17,13 +17,10 @@ class ActionsViewModel(private val application: Application, private val actionR
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
-	private val filteredTransactions: LiveData<List<Transaction>>
-
-	// This is not great, but easier than creating a whole new model just to hold a status.
+	private val transactionsByDistinctActions = transactionsRepo.getTransactionByDistinctActions()
 	val statuses: MediatorLiveData<HashMap<String, String?>> = MediatorLiveData()
 
 	private var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
-
 
 	val searchString: MutableLiveData<String> = MutableLiveData()
 	val selectedTags: MutableLiveData<List<String>> = MutableLiveData()
@@ -35,10 +32,9 @@ class ActionsViewModel(private val application: Application, private val actionR
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterQuery, this@ActionsViewModel::runFilter)
 		}
-		filteredTransactions = Transformations.switchMap(filteredActions, this@ActionsViewModel::filterTransaction)
-		statuses.addSource(filteredActions, this@ActionsViewModel::lookUpStatuses)
-		statuses.addSource(filteredTransactions, this@ActionsViewModel::updateStatuses)
 
+		statuses.addSource(filteredActions, this@ActionsViewModel::lookUpStatuses)
+		statuses.addSource(transactionsByDistinctActions, this@ActionsViewModel::updateStatuses)
 
 		filterQuery.value = null
 		filterQuery.apply {
@@ -58,15 +54,6 @@ class ActionsViewModel(private val application: Application, private val actionR
 		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
 	}
 
-	private fun filterTransaction(actions: List<HoverAction>?) : LiveData<List<Transaction>> {
-		Timber.i("filter transaction has been called")
-
-		if(actions !=null) return transactionsRepo.getTransactionsByActionIds(actions.map { it.public_id }.toTypedArray())
-		else return liveData {
-			emit(emptyList());
-		}
-	}
-
 	private fun updateStatuses(transactions: List<Transaction>) {
 		Timber.i("Update status has been called")
 
@@ -83,7 +70,7 @@ class ActionsViewModel(private val application: Application, private val actionR
 		actions?.let {
 			val sMap = hashMapOf<String, String?>()
 			for (action in actions)
-				sMap[action.public_id] = filteredTransactions.value!!.find { it.actionId == action.public_id }?.status
+				sMap[action.public_id] = transactionsByDistinctActions.value!!.find { it.actionId == action.public_id }?.status
 			statuses.postValue(sMap)
 		}
 	}
