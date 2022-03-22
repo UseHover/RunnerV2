@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MediatorLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.ApplicationInstance
@@ -39,6 +41,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 		showLoadingView()
 		observeActions()
 		setupListeners()
+		setActionStat()
 	}
 
 	override fun onResume() {
@@ -67,6 +70,10 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 	private fun setFilterState(actionListSize: Int) {
 		binding.actionFilter.setTextColor(getColor(requireContext(), if (showingAll(actionListSize)) R.color.runnerWhite else R.color.runnerPrimary))
 		binding.actionFilter.setCompoundDrawablesWithIntrinsicBounds(if (showingAll(actionListSize)) 0 else R.drawable.ic_dot_purple_24dp, 0, 0, 0)
+	}
+
+	private fun setActionStat() {
+		binding.actionStatView.setup(actionsViewModel, viewLifecycleOwner)
 	}
 
 	private fun getCtaText(actionListSize: Int): String {

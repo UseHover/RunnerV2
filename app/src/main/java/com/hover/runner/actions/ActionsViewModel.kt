@@ -43,6 +43,13 @@ class ActionsViewModel(private val application: Application, private val actionR
 		}
 	}
 
+	fun filterOutActions(status: String?) {
+		val actionIdsByStatus : Array<String> =  statuses.value!!.entries.filter { it.value == status }.map { it.key }.toTypedArray()
+		val actions = actionRepo.getHoverActions(actionIdsByStatus);
+		filteredActions.postValue(actions)
+	}
+
+
 	private fun runFilter(actions: List<HoverAction>?) {
 		if (!actions.isNullOrEmpty() && filterQuery.value == null) {
 			filteredActions.value = actions

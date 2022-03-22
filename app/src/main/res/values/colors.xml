@@ -9,6 +9,7 @@
 	<color name="runnerRed">#F70047</color>
 	<color name="runnerGreen">#05EB8F</color>
 	<color name="mainGrey">#B1B2B6</color>
+	<color name="darkGrey">#54575D</color>
 	<color name="secondaryGrey">#F1F1F4</color>
 	<color name="textHint">#54575D</color>
 	<color name="runnerWhite">#F1F1F4</color>

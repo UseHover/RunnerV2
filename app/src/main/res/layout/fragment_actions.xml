@@ -50,6 +50,11 @@
 
 			</LinearLayout>
 
+			<com.hover.runner.actions.ActionStatView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/actionStatView"/>
+
 			<include android:id="@+id/recyclerViewState"
 				android:visibility="gone"
 				layout="@layout/recycler_view_state"/>

@@ -55,6 +55,7 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 		return SimpleSQLiteQuery(fString)
 	}
 
+
 	private fun generateSearchString(search: String?): String {
 		if (search.isNullOrEmpty())
 			return ""
