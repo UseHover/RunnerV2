@@ -6,6 +6,8 @@ import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
 
+const val SQL_SELECT = "SELECT * FROM hover_actions"
+
 class ActionRepo(private val sdkDB: HoverRoomDatabase) {
 	fun getAll(): LiveData<List<HoverAction>> {
 		return sdkDB.actionDao().allLive

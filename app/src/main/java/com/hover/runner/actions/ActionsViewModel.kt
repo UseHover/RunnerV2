@@ -17,16 +17,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-const val SQL_SELECT = "SELECT * FROM hover_actions"
-
 class ActionsViewModel(private val application: Application, private val actionRepo: ActionRepo, private val transactionsRepo: TransactionsRepo) : ViewModel() {
 
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
-	// This is not great, but easier than creating a whole new model just to hold a status.
 	val statuses: MediatorLiveData<HashMap<String, String?>> = MediatorLiveData()
-
 	private var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
 
 	val searchString: MutableLiveData<String> = MutableLiveData()
