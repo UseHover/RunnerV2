@@ -110,7 +110,7 @@ class RunningActivity : AppCompatActivity() {
 			Timber.e("Got result with action id %s", data.getStringExtra("action_id"))
 			viewModel.setRunInProgress(false)
 			Handler().postDelayed({
-				viewModel.update(data.getStringExtra("action_id")!!, data.getStringExtra("uuid")!!)
+				viewModel.update(data.getStringExtra("action_id")!!, data.getStringExtra("uuid"))
 			}, SharedPrefUtils.getDelay(this)*1000L)
 		} else Timber.e("Got result with no action id")
 	}
@@ -125,7 +125,6 @@ class RunningActivity : AppCompatActivity() {
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {
-		Timber.e("Saving state")
 		outState.putString("running_action_id", viewModel.currentAction.value?.public_id)
 		super.onSaveInstanceState(outState)
 	}

@@ -10,15 +10,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RunsViewModel(private val application: Application, private val runRepo: TestRunRepo, private val actionRepo: ActionRepo, private val transactionRepo: TransactionsRepo) : ViewModel() {
-	var runs: LiveData<List<TestRun>> = runRepo.getAll()
+	var runs: MediatorLiveData<List<TestRun>> = MediatorLiveData()
 
 	var run: MutableLiveData<TestRun> = MutableLiveData()
 	var actions: LiveData<List<HoverAction>>
 	var transactions: LiveData<List<Transaction>>
 
+	var filter: MutableLiveData<String> = MutableLiveData()
+
 	init {
+		filter.value = "Future";
 		transactions = Transformations.switchMap(run, this::getTransactions)
 		actions = Transformations.map(run, this::getActions)
+		runs.addSource(filter, this@RunsViewModel::load)
+	}
+
+	fun updateFilter(new: String) {
+		viewModelScope.launch(Dispatchers.IO) {
+			filter.postValue(new)
+		}
+	}
+
+	fun load(filter: String) {
+		viewModelScope.launch(Dispatchers.IO) {
+			runs.postValue(runRepo.get(filter))
+		}
 	}
 
 	fun load(id: Long) {

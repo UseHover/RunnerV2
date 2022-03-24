@@ -44,14 +44,15 @@ class RunningViewModel(private val application: Application, private val actionR
 		return testRunning.value!!
 	}
 
-	fun update(finishedActionId: String, transactionUuid: String) {
+	fun update(finishedActionId: String, transactionUuid: String?) {
 		viewModelScope.launch(Dispatchers.IO) {
 			val tr = run.value!!
 			val actionIdList = tr.pending_action_id_list.toMutableList()
 			actionIdList.remove(finishedActionId)
 			tr.pending_action_id_list = actionIdList.toList()
 			val uuidList = tr.transaction_uuid_list.toMutableList()
-			uuidList.add(transactionUuid)
+			if (transactionUuid != null)
+				uuidList.add(transactionUuid)
 			tr.transaction_uuid_list = uuidList.toList()
 
 			if (actionIdList.size == 0) {

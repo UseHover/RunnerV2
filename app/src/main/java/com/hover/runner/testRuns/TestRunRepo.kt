@@ -7,12 +7,12 @@ import com.hover.runner.database.AppDatabase
 class TestRunRepo(db: AppDatabase) {
 	private val runDao: RunDao = db.runDao()
 
-	fun getAll(): LiveData<List<TestRun>> {
-		return runDao.allRuns()
-	}
-
-	fun getFuture(): LiveData<List<TestRun>> {
-		return runDao.getFuture()
+	fun get(filter: String): List<TestRun> {
+		return when (filter) {
+			"Future" -> runDao.getFuture()
+			"Past" -> runDao.getPast()
+			else -> runDao.allRuns()
+		}
 	}
 
 	fun load(id: Long): TestRun {

@@ -25,6 +25,10 @@
 				android:text="@string/header_runs"
 				android:paddingHorizontal="@dimen/margin16"
 				android:layout_weight="1" />
+
+			<Spinner android:id="@+id/runs_filter"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 		</LinearLayout>
 
 		<TextView

@@ -7,10 +7,13 @@ import com.hover.runner.testRuns.TestRun
 @Dao
 interface RunDao {
 	@Query("SELECT * FROM test_runs ORDER BY start_at DESC")
-	fun allRuns(): LiveData<List<TestRun>>
+	fun allRuns(): List<TestRun>
 
 	@Query("SELECT * FROM test_runs WHERE finished_at = 0")
-	fun getFuture(): LiveData<List<TestRun>>
+	fun getFuture(): List<TestRun>
+
+	@Query("SELECT * FROM test_runs WHERE finished_at != 0")
+	fun getPast(): List<TestRun>
 
 	@Query("SELECT * FROM test_runs WHERE id = :id LIMIT 1")
 	fun load(id: Long): TestRun

@@ -73,6 +73,11 @@
 	<string name="in_progress_subtitle">%1$d of %2$d complete</string>
 	<string name="all_complete">All tests complete</string>
 
+	<string-array name="runs_filter_array">
+		<item>Future</item>
+		<item>Past</item>
+		<item>All</item>
+	</string-array>
 	<string name="run_details_subtitle">Test Run</string>
 	<string name="label_frequency">Frequency</string>
 	<string name="label_next_start">Next run</string>
