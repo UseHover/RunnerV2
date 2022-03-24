@@ -117,6 +117,47 @@
                     android:textColor="@color/runnerWhite"
                     android:background="@drawable/edit_text_bg"/>
 
+                <TextView android:id="@+id/status_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_filter_status"
+                    android:textColor="@color/runnerWhite"
+                    android:textSize="@dimen/text_17"
+                    android:layout_marginTop="32dp"
+                    android:textStyle="bold"/>
+
+                <CheckBox android:id="@+id/checkbox_succeeded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_17"
+                    android:textColor="@color/runnerWhite"
+                    android:text="@string/success_label"
+                    android:checked="true" />
+
+                <CheckBox android:id="@+id/checkbox_pending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_17"
+                    android:textColor="@color/runnerWhite"
+                    android:text="@string/pending_label"
+                    android:checked="true" />
+
+                <CheckBox android:id="@+id/checkbox_failed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_17"
+                    android:textColor="@color/runnerWhite"
+                    android:text="@string/failed_label"
+                    android:checked="true" />
+
+                <CheckBox android:id="@+id/checkbox_none"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_17"
+                    android:textColor="@color/runnerWhite"
+                    android:text="@string/not_yet_run_label"
+                    android:checked="true" />
+
 <!--                <TextView-->
 <!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="wrap_content"-->

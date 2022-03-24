@@ -17,6 +17,7 @@ import com.hover.runner.main.BaseFragment
 import com.hover.runner.databinding.FragmentFilterActionsBinding
 import com.hover.runner.utils.UIHelper
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class ActionsFilterFragment : BaseFragment() {
 	private val actionsViewModel: ActionsViewModel by sharedViewModel()
@@ -43,6 +44,10 @@ class ActionsFilterFragment : BaseFragment() {
 		binding.tagInput.setOnClickListener {
 			findNavController().navigate(R.id.navigation_filter_selection, bundleOf("type" to "tags"))
 		}
+		binding.checkboxSucceeded.setOnCheckedChangeListener { _, checked -> actionsViewModel.setStatus("succeeded", checked) }
+		binding.checkboxPending.setOnCheckedChangeListener { _, checked -> actionsViewModel.setStatus("pending", checked) }
+		binding.checkboxFailed.setOnCheckedChangeListener { _, checked -> actionsViewModel.setStatus("failed", checked) }
+		binding.checkboxNone.setOnCheckedChangeListener { _, checked -> actionsViewModel.setStatus(null, checked) }
 	}
 
 	private fun saveFilter() {
@@ -65,6 +70,13 @@ class ActionsFilterFragment : BaseFragment() {
 		actionsViewModel.selectedTags.observe(viewLifecycleOwner) { tags ->
 			if (!tags.isNullOrEmpty()) binding.tagInput.text = tags.joinToString(", ")
 			else binding.tagInput.text = getString(R.string.empty_tags)
+		}
+
+		actionsViewModel.selectedStatuses.observe(viewLifecycleOwner) { statuses ->
+			binding.checkboxSucceeded.isChecked = statuses.contains("succeeded")
+			binding.checkboxPending.isChecked = statuses.contains("pending")
+			binding.checkboxFailed.isChecked = statuses.contains("failed")
+			binding.checkboxNone.isChecked = statuses.contains(null)
 		}
 	}
 

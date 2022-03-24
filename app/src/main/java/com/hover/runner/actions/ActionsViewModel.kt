@@ -27,6 +27,7 @@ class ActionsViewModel(private val application: Application, private val actionR
 
 	val searchString: MutableLiveData<String> = MutableLiveData()
 	val selectedTags: MutableLiveData<List<String>> = MutableLiveData()
+	val selectedStatuses: MutableLiveData<List<String?>> = MutableLiveData()
 
 	private val transactionReceiver: BroadcastReceiver
 
@@ -34,7 +35,7 @@ class ActionsViewModel(private val application: Application, private val actionR
 		transactionReceiver = object : BroadcastReceiver() {
 			override fun onReceive(context: Context?, intent: Intent?) {
 				viewModelScope.launch {
-					lookUpStatuses(filteredActions.value)
+					lookUpStatuses(allActions.value)
 				}
 			}
 		}
@@ -46,8 +47,9 @@ class ActionsViewModel(private val application: Application, private val actionR
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterQuery, this@ActionsViewModel::runFilter)
+			addSource(selectedStatuses) { runFilter(filterQuery.value) }
 		}
-		statuses.addSource(filteredActions, this@ActionsViewModel::lookUpStatuses)
+		statuses.addSource(allActions, this@ActionsViewModel::lookUpStatuses)
 
 		filterQuery.value = null
 		filterQuery.apply {
@@ -59,12 +61,15 @@ class ActionsViewModel(private val application: Application, private val actionR
 	private fun runFilter(actions: List<HoverAction>?) {
 		if (!actions.isNullOrEmpty() && filterQuery.value == null) {
 			filteredActions.value = actions
-			selectedTags.postValue(actionRepo.getAllTags())
+			reset()
 		}
 	}
 
 	private fun runFilter(query: SimpleSQLiteQuery?) {
-		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
+		var queryActions = if (query != null) actionRepo.search(query) else allActions.value
+		if (selectedStatuses.value?.size != 4 && !statuses.value.isNullOrEmpty())
+			queryActions = queryActions?.filter { statuses.value!![it.public_id] in selectedStatuses.value!! }
+		filteredActions.value = queryActions
 	}
 
 	private fun lookUpStatuses(actions: List<HoverAction>?) {
@@ -81,11 +86,20 @@ class ActionsViewModel(private val application: Application, private val actionR
 	fun reset() {
 		searchString.value = null
 		selectedTags.value = actionRepo.getAllTags()
+		selectedStatuses.value = listOf("succeeded", "pending", "failed", null)
 	}
 
 	fun setSearch(value: String) {
 		viewModelScope.launch(Dispatchers.IO) {
 			searchString.postValue(value)
+		}
+	}
+
+	fun setStatus(value: String?, shouldBePresent: Boolean) {
+		viewModelScope.launch(Dispatchers.IO) {
+			val selStatuses = selectedStatuses.value!!.toMutableList()
+			if (shouldBePresent) selStatuses.add(value) else selStatuses.remove(value)
+			selectedStatuses.postValue(selStatuses)
 		}
 	}
 
