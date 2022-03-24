@@ -17,10 +17,6 @@ class TransactionsRepo(private val sdkDB: HoverRoomDatabase) {
 		return sdkDB.transactionDao().getLatestStatusForAction(actionId)
 	}
 
-	fun getTransactionsByActionIds(actionIds: Array<String>): LiveData<List<Transaction>> {
-		return sdkDB.transactionDao().getLiveTransactionsByActionIds(actionIds);
-	}
-
 	fun getTransaction(uuid: String): LiveData<Transaction> {
 		return sdkDB.transactionDao().getLiveTransaction(uuid)
 	}

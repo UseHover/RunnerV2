@@ -33,7 +33,7 @@
 			<TableLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginVertical="@dimen/margin33">
+				android:layout_marginTop="@dimen/margin33">
 
 				<TableRow android:layout_marginBottom="@dimen/margin16">
 					<TextView
@@ -52,7 +52,7 @@
 						android:textSize="@dimen/text_15" />
 				</TableRow>
 
-				<TableRow>
+				<TableRow android:layout_marginBottom="@dimen/margin16">
 					<TextView android:id="@+id/start_label"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -70,9 +70,45 @@
 				</TableRow>
 			</TableLayout>
 
-			<TextView  android:id="@+id/relationTitle"
+			<include android:id="@+id/transaction_summary"
+				layout="@layout/transactions_status_summary" />
+
+			<TextView  android:id="@+id/error"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/margin33"
+				android:textColor="@color/runnerRed"
+				android:textStyle="bold"
+				android:textSize="@dimen/text_17"
+				android:text="@string/unfinished_run"
+				android:visibility="gone"/>
+
+			<TextView  android:id="@+id/transactionsTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/margin33"
+				android:textColor="@color/runnerWhite"
+				android:textStyle="bold"
+				android:textSize="@dimen/text_17"
+				android:text="@string/title_transactions"/>
+
+			<View android:id="@+id/transactionsDivider"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/runnerPrimary"
+				android:layout_marginTop="8dp"
+				android:layout_marginBottom="@dimen/margin16"/>
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1"
+				android:id="@+id/transactionsRecycler"/>
+
+			<TextView  android:id="@+id/actionsTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/margin33"
 				android:textColor="@color/runnerWhite"
 				android:textStyle="bold"
 				android:textSize="@dimen/text_17"
@@ -89,8 +125,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dp"
 				android:layout_weight="1"
-				app:layout_behavior="@string/appbar_scrolling_view_behavior"
-				android:id="@+id/recyclerView"/>
+				android:id="@+id/actonsRecycler"/>
 
 			<TextView android:id="@+id/delete"
 				android:layout_width="wrap_content"

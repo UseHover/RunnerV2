@@ -55,20 +55,27 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 	}
 
 	private fun addActions(actions: List<HoverAction>) {
-		if (viewModel.run.value != null && viewModel.run.value?.finished_at == 0L) {
-			binding.relationTitle.text = getString(R.string.actions_to_run)
-			binding.recyclerView.setLayoutManagerToLinear()
-			binding.recyclerView.adapter = ActionRecyclerAdapter(actions, hashMapOf(), this)
-		}
+		binding.actonsRecycler.setLayoutManagerToLinear()
+		binding.actonsRecycler.adapter = ActionRecyclerAdapter(actions, hashMapOf(), this)
 	}
 
 	private fun addTransactions(transactions: List<Transaction>) {
-		if (viewModel.run.value != null && viewModel.run.value?.finished_at != 0L) {
-			binding.relationTitle.text = getString(R.string.actions_run)
-			binding.recyclerView.setLayoutManagerToLinear()
-			binding.recyclerView.adapter = TransactionsRecyclerAdapter(transactions, this)
-			binding.delete.visibility = View.GONE
-		}
+		binding.transactionsRecycler.setLayoutManagerToLinear()
+		binding.transactionsRecycler.adapter = TransactionsRecyclerAdapter(transactions, this)
+		setStatusCounts(transactions)
+		binding.transactionsTitle.visibility = if (transactions.isNullOrEmpty()) View.GONE else View.VISIBLE
+		binding.transactionsDivider.visibility = if (transactions.isNullOrEmpty()) View.GONE else View.VISIBLE
+		binding.transactionsRecycler.visibility = if (transactions.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+		binding.delete.visibility = if (transactions.isNullOrEmpty()) View.VISIBLE else View.GONE
+		binding.error.visibility = if (transactions.isNotEmpty() && !viewModel.actions.value.isNullOrEmpty() && transactions.size < viewModel.actions.value!!.size) View.VISIBLE else View.GONE
+	}
+
+	private fun setStatusCounts(transactions: List<Transaction>) {
+		binding.transactionSummary.transactionCount.text = transactions.size.toString()
+		binding.transactionSummary.successCount.text = transactions.count { it.status == Transaction.SUCCEEDED}.toString()
+		binding.transactionSummary.pendingCount.text = transactions.count { it.status == Transaction.PENDING}.toString()
+		binding.transactionSummary.failedCount.text = transactions.count { it.status == Transaction.FAILED}.toString()
 	}
 
 	private fun showDeleteDialog() {

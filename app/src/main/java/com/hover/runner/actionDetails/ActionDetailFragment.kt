@@ -88,7 +88,6 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 		actionViewModel.transactions.observe(viewLifecycleOwner) {
 			Timber.i("how many transactions? : ${it.size}")
 			fillTransactionDetails(it)
-			setStatusCounts(it)
 			binding.header.setStatus(if (!it.isNullOrEmpty()) it[0].status else null, requireActivity())
 		}
 
@@ -134,13 +133,14 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 			binding.recentHeader.setText(R.string.zero_transactions)
 			binding.transactionRecycler.adapter = null
 		}
-		binding.transactionCount.text = transactions.size.toString()
+		setStatusCounts(transactions)
 	}
 
 	private fun setStatusCounts(transactions: List<Transaction>) {
-		binding.successCount.text = transactions.count { it.status == Transaction.SUCCEEDED}.toString()
-		binding.pendingCount.text = transactions.count { it.status == Transaction.PENDING}.toString()
-		binding.failedCount.text = transactions.count { it.status == Transaction.FAILED}.toString()
+		binding.transactionSummary.transactionCount.text = transactions.size.toString()
+		binding.transactionSummary.successCount.text = transactions.count { it.status == Transaction.SUCCEEDED}.toString()
+		binding.transactionSummary.pendingCount.text = transactions.count { it.status == Transaction.PENDING}.toString()
+		binding.transactionSummary.failedCount.text = transactions.count { it.status == Transaction.FAILED}.toString()
 	}
 
 	private fun setTransactionsList(transactions: List<Transaction>) {

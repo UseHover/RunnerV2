@@ -54,6 +54,7 @@
         <entry key="app/src/main/res/layout/transaction_details_fragment.xml" value="0.31657608695652173" />
         <entry key="app/src/main/res/layout/transaction_filter_fragment.xml" value="0.26666666666666666" />
         <entry key="app/src/main/res/layout/transaction_list_items.xml" value="0.24139492753623187" />
+        <entry key="app/src/main/res/layout/transactions_status_summary.xml" value="0.33" />
         <entry key="app/src/main/res/layout/uncompleted_variable_fragment_layout.xml" value="0.13323201621073963" />
         <entry key="app/src/main/res/layout/variable_item.xml" value="0.2125" />
         <entry key="app/src/main/res/layout/variables_items.xml" value="0.378125" />

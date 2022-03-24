@@ -77,8 +77,7 @@
 	<string name="label_frequency">Frequency</string>
 	<string name="label_next_start">Next run</string>
 	<string name="label_last_start">Ran at</string>
-	<string name="actions_run">Actions run</string>
-	<string name="actions_to_run">Actions to run</string>
+	<string name="actions_to_run">Actions included</string>
 	<string name="delete_text">Delete Run</string>
 	<string name="delete_title">Delete this test run?</string>
 	<string name="delete_message">This will cancel all future scheduled runs.</string>
@@ -86,6 +85,7 @@
 	<string name="delete">Delete</string>
 	<string name="run_deleted">Test run deleted</string>
 	<string name="sheduled_run_empty_label">No relevant scheduled run found. Try running an action(s) to schedule new runs </string>
+	<string name="unfinished_run">Looks like this run did not complete successfully, it did not run every included action.</string>
 
 <!--	TRANSACTIONS-->
 	<string name="label_status">Status</string>

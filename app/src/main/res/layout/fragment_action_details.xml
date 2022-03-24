@@ -6,88 +6,72 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".ui.action_details.ActionDetailsFragment"
-                android:orientation="vertical">
+    <com.hover.runner.main.DetailsHeaderView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header"/>
 
-            <com.hover.runner.main.DetailsHeaderView
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp">
+
+            <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/header"/>
+                android:layout_marginTop="@dimen/margin33">
 
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:background="@color/runnerDark"
-                    android:paddingTop="8dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:layout_height="wrap_content">
-
-                <TextView
+                <TableRow android:layout_marginBottom="@dimen/margin16">
+                    <TextView
                         android:layout_width="105dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/runnerPrimary"
                         android:textSize="@dimen/text_15"
                         android:text="@string/operators"/>
 
-                <TextView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondaryGrey"
                         android:textSize="@dimen/text_15"
                         android:id="@+id/operators" />
 
-            </LinearLayout>
+                </TableRow>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="8dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:layout_height="wrap_content">
+                <TableRow android:layout_marginBottom="@dimen/margin16">
 
-                <TextView
+                    <TextView
                         android:layout_width="105dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/runnerPrimary"
                         android:textSize="@dimen/text_15"
                         android:text="@string/longcode"/>
 
-                <TextView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondaryGrey"
                         android:textSize="@dimen/text_15"
                         android:id="@+id/longcode" />
 
-            </LinearLayout>
+                </TableRow>
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="8dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="4dp"
-                    android:layout_height="wrap_content">
+                <TableRow android:layout_marginBottom="@dimen/margin16">
 
-                <TextView
+                    <TextView
                         android:layout_width="105dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/runnerPrimary"
                         android:text="@string/parsers"
                         android:textSize="@dimen/text_15"/>
 
-                <TextView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondaryGrey"
@@ -97,111 +81,17 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:id="@+id/parsers" />
+                </TableRow>
+            </TableLayout>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="8dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="10dp"
-                    android:layout_height="wrap_content">
-
-                <TextView
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/runnerPrimary"
-                        android:textSize="@dimen/text_15"
-                        android:text="@string/title_transactions"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondaryGrey"
-                        android:textSize="@dimen/text_15"
-                        android:id="@+id/transactionCount" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="8dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginStart="56dp"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-
-                <TextView
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/runnerGreen"
-                        android:textSize="@dimen/text_15"
-                        android:text="@string/success_label"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondaryGrey"
-                        android:textSize="@dimen/text_15"
-                        android:id="@+id/successCount" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="8dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginStart="56dp"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-
-                <TextView
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/runnerYellow"
-                        android:textSize="@dimen/text_15"
-                        android:text="@string/pending_label"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondaryGrey"
-                        android:textSize="@dimen/text_15"
-                        android:id="@+id/pendingCount" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:paddingTop="8dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginStart="56dp"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-
-                <TextView
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/runnerRed"
-                        android:textSize="@dimen/text_15"
-                        android:text="@string/failed_label"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/secondaryGrey"
-                        android:textSize="@dimen/text_15"
-                        android:id="@+id/failedCount" />
-
-            </LinearLayout>
+            <include android:id="@+id/transaction_summary"
+                layout="@layout/transactions_status_summary" />
 
             <LinearLayout
                 android:id="@+id/variable_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/margin33"
                 android:orientation="vertical">
 
                 <TextView
@@ -283,8 +173,6 @@
                     android:id="@+id/transaction_recycler"/>
 
         </LinearLayout>
-
-
 
     </androidx.core.widget.NestedScrollView>
 

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<TableRow android:layout_marginBottom="@dimen/margin16">
+		<TextView
+			android:layout_width="105dp"
+			android:layout_height="wrap_content"
+			android:textColor="@color/runnerPrimary"
+			android:textSize="@dimen/text_15"
+			android:text="@string/title_transactions"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="56dp"
+			android:textColor="@color/secondaryGrey"
+			android:textSize="@dimen/text_15"
+			android:id="@+id/transactionCount"
+			tools:text="55"/>
+
+	</TableRow>
+
+	<TableRow android:layout_marginBottom="@dimen/margin16"
+		android:layout_marginEnd="25dp"
+		android:layout_marginStart="56dp">
+
+		<TextView
+			android:layout_width="105dp"
+			android:layout_height="wrap_content"
+			android:textColor="@color/runnerGreen"
+			android:textSize="@dimen/text_15"
+			android:text="@string/success_label"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textColor="@color/secondaryGrey"
+			android:textSize="@dimen/text_15"
+			android:id="@+id/successCount"
+			tools:text="33"/>
+
+	</TableRow>
+
+	<TableRow android:layout_marginBottom="@dimen/margin16"
+		android:layout_marginEnd="25dp"
+		android:layout_marginStart="56dp">
+
+		<TextView
+			android:layout_width="105dp"
+			android:layout_height="wrap_content"
+			android:textColor="@color/runnerYellow"
+			android:textSize="@dimen/text_15"
+			android:text="@string/pending_label"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textColor="@color/secondaryGrey"
+			android:textSize="@dimen/text_15"
+			android:id="@+id/pendingCount" />
+
+	</TableRow>
+
+	<TableRow android:layout_marginBottom="@dimen/margin16"
+		android:layout_marginEnd="25dp"
+		android:layout_marginStart="56dp">
+
+		<TextView
+			android:layout_width="105dp"
+			android:layout_height="wrap_content"
+			android:textColor="@color/runnerRed"
+			android:textSize="@dimen/text_15"
+			android:text="@string/failed_label"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textColor="@color/secondaryGrey"
+			android:textSize="@dimen/text_15"
+			android:id="@+id/failedCount" />
+
+	</TableRow>
+</TableLayout>
