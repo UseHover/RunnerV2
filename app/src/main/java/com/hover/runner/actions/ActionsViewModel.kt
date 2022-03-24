@@ -1,10 +1,17 @@
 package com.hover.runner.actions
 
 import android.app.Application
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.lifecycle.*
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.hover.runner.transactions.TransactionsRepo
+import com.hover.runner.utils.Utils
 import com.hover.sdk.actions.HoverAction
+import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.transactions.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,28 +24,34 @@ class ActionsViewModel(private val application: Application, private val actionR
 	val allActions: LiveData<List<HoverAction>> = actionRepo.getAll()
 	val filteredActions: MediatorLiveData<List<HoverAction>> = MediatorLiveData()
 
-	private val filteredTransactions: LiveData<List<Transaction>>
-
 	// This is not great, but easier than creating a whole new model just to hold a status.
 	val statuses: MediatorLiveData<HashMap<String, String?>> = MediatorLiveData()
 
 	private var filterQuery: MediatorLiveData<SimpleSQLiteQuery> = MediatorLiveData()
 
-
 	val searchString: MutableLiveData<String> = MutableLiveData()
 	val selectedTags: MutableLiveData<List<String>> = MutableLiveData()
 
+	private val transactionReceiver: BroadcastReceiver
+
 	init {
+		transactionReceiver = object : BroadcastReceiver() {
+			override fun onReceive(context: Context?, intent: Intent?) {
+				viewModelScope.launch {
+					lookUpStatuses(filteredActions.value)
+				}
+			}
+		}
+		LocalBroadcastManager.getInstance(application)
+			.registerReceiver(transactionReceiver, IntentFilter(Utils.getPackage(application).plus(".TRANSACTION_UPDATE")))
+
 		filteredActions.value = listOf()
 
 		filteredActions.apply {
 			addSource(allActions, this@ActionsViewModel::runFilter)
 			addSource(filterQuery, this@ActionsViewModel::runFilter)
 		}
-		filteredTransactions = Transformations.switchMap(filteredActions, this@ActionsViewModel::filterTransaction)
 		statuses.addSource(filteredActions, this@ActionsViewModel::lookUpStatuses)
-		statuses.addSource(filteredTransactions, this@ActionsViewModel::updateStatuses)
-
 
 		filterQuery.value = null
 		filterQuery.apply {
@@ -58,32 +71,13 @@ class ActionsViewModel(private val application: Application, private val actionR
 		filteredActions.value = if (query != null) actionRepo.search(query)	else allActions.value
 	}
 
-	private fun filterTransaction(actions: List<HoverAction>?) : LiveData<List<Transaction>> {
-		Timber.i("filter transaction has been called")
-
-		if(actions !=null) return transactionsRepo.getTransactionsByActionIds(actions.map { it.public_id }.toTypedArray())
-		else return liveData {
-			emit(emptyList());
-		}
-	}
-
-	private fun updateStatuses(transactions: List<Transaction>) {
-		Timber.i("Update status has been called")
-
-		val actions: List<HoverAction>? = filteredActions.value
-		actions?.let {
-			val sMap = hashMapOf<String, String?>()
-			for (action in actions)
-				sMap[action.public_id] = transactions.find { it.actionId == action.public_id }?.status
-			statuses.postValue(sMap)
-		}
-	}
-
 	private fun lookUpStatuses(actions: List<HoverAction>?) {
 		actions?.let {
 			val sMap = hashMapOf<String, String?>()
-			for (action in actions)
-				sMap[action.public_id] = filteredTransactions.value!!.find { it.actionId == action.public_id }?.status
+			HoverRoomDatabase.getInstance(application).runInTransaction {
+				for (action in actions)
+					sMap[action.public_id] = transactionsRepo.loadStatusForAction(action.public_id)
+			}
 			statuses.postValue(sMap)
 		}
 	}
@@ -117,5 +111,12 @@ class ActionsViewModel(private val application: Application, private val actionR
 
 	private fun generateSQLStatement(tagList: List<String>?) {
 		tagList?.let {  filterQuery.postValue(actionRepo.generateSQLStatement(searchString.value, tagList)) }
+	}
+
+	override fun onCleared() {
+		try {
+			LocalBroadcastManager.getInstance(application).unregisterReceiver(transactionReceiver)
+		} catch (ignored: Exception) { }
+		super.onCleared()
 	}
 }
