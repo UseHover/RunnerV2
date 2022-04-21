@@ -29,8 +29,7 @@
 					android:textColor="@color/runnerWhite"
 					android:text="@string/title_transactions"
 					android:paddingHorizontal="@dimen/margin16"
-					android:layout_weight="1"
-					/>
+					android:layout_weight="1" />
 
 			<TextView
 					android:layout_width="wrap_content"
@@ -42,19 +41,20 @@
 					android:gravity="center"
 					android:paddingVertical="16dp"
 					android:paddingHorizontal="@dimen/margin16"
-					android:id="@+id/transactionFilter_id"
+					android:id="@+id/filter_btn"
 					android:text="@string/filter_underlined"/>
 
 		</LinearLayout>
 
-		<include android:id="@+id/recyclerViewState"
-			layout="@layout/recycler_view_state"
-			android:visibility="gone"/>
+		<include android:id="@+id/graph"
+			layout="@layout/summary_graph"/>
+
+		<include android:id="@+id/emptyState"
+			layout="@layout/recycler_view_state"/>
 
 		<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/recyclerView"
 			android:layout_width="match_parent"
-			android:visibility="gone"
 			android:layout_marginTop="32dp"
 			android:layout_height="match_parent"/>
 
