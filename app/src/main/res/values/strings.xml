@@ -123,6 +123,11 @@
 	<string name="failed_label">Failed</string>
 	<string name="not_yet_run_label">No transactions</string>
 
+	<string name="succeeded_count_label">%1$d succeeded</string>
+	<string name="pending_count_label">%1$d pending</string>
+	<string name="failed_count_label">%1$d failed</string>
+	<string name="count_label">%1$d total</string>
+
 	<string name="title_filter_trans">Filter transactions</string>
 	<string name="search_hint_transaction">Search transaction id, or session text</string>
 	<string name="date_range">Date range</string>
