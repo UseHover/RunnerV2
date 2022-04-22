@@ -15,6 +15,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentFilterBinding
 import com.hover.runner.main.BaseFragment
+import com.hover.runner.utils.DateUtils
 import com.hover.runner.utils.UIHelper
 
 abstract class FilterFragment : BaseFragment() {
@@ -52,6 +53,7 @@ abstract class FilterFragment : BaseFragment() {
 		binding.tagInput.setOnClickListener {
 			findNavController().navigate(R.id.navigation_filter_selection, bundleOf("type" to "tags"))
 		}
+		binding.dateRangeInput.setOnClickListener { pickDateRange() }
 		binding.checkboxSucceeded.setOnCheckedChangeListener { _, checked -> viewModel.setStatus("succeeded", checked) }
 		binding.checkboxPending.setOnCheckedChangeListener { _, checked -> viewModel.setStatus("pending", checked) }
 		binding.checkboxFailed.setOnCheckedChangeListener { _, checked -> viewModel.setStatus("failed", checked) }
@@ -65,6 +67,7 @@ abstract class FilterFragment : BaseFragment() {
 	@CallSuper
 	open fun observeFilterData() {
 		viewModel.selectedTags.observe(viewLifecycleOwner) { setTags(it) }
+		viewModel.selectedDateRange.observe(viewLifecycleOwner) { setDates(it) }
 		viewModel.selectedStatuses.observe(viewLifecycleOwner) { setStatuses(it) }
 	}
 
@@ -75,6 +78,16 @@ abstract class FilterFragment : BaseFragment() {
 	private fun setTags(tags: List<String?>) {
 		if (!tags.isNullOrEmpty()) binding.tagInput.text = tags.joinToString(", ")
 		else binding.tagInput.text = getString(R.string.empty_tags)
+	}
+
+	private fun setDates(dateRange: Pair<Long, Long>?) {
+		if (dateRange == null) {
+			binding.dateRangeInput.hint = getString(R.string.hint_date_range)
+			binding.dateRangeInput.text = null
+		} else {
+			binding.dateRangeInput.text = getString(R.string.descrip_date_range,
+				DateUtils.humanFriendlyDate(dateRange.first), DateUtils.humanFriendlyDate(dateRange.second))
+		}
 	}
 
 	private fun setStatuses(statuses: List<String?>) {
@@ -97,7 +110,7 @@ abstract class FilterFragment : BaseFragment() {
 
 		val picker = builder.setTitleText(resources.getString(R.string.selected_range)).build()
 		picker.addOnPositiveButtonClickListener { selection: Pair<Long, Long>? ->
-			//			selection?.let { actionsViewModel.setDate(it.first, it.second) }
+			selection?.let { viewModel.setDateRange(it.first, it.second) }
 		}
 		return picker
 	}
@@ -113,7 +126,6 @@ abstract class FilterFragment : BaseFragment() {
 
 	private fun updateFilterEntryData(filterMap: Map<String, String>) {
 		with(filterMap) {
-			//			searchActionEditText.setText(getActionIdOrRootCode())
 			//			countryEntryTextView.text = getCountryListAsString()
 			//			categoryEntryTextView.text = getCategoryListAsString()
 			//			networkEntryTextView.text = getNetworkNamesAsString()

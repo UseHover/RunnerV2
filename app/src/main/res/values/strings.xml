@@ -119,6 +119,8 @@
 	<string name="title_filter_tags">Choose Tags</string>
 	<string name="hint_tags">Select tags</string>
 	<string name="empty_tags">Only actions with no tags</string>
+	<string name="hint_date_range"><![CDATA[From <account creation> to <today>]]></string>
+	<string name="descrip_date_range">From %1$s to %2$s</string>
 	<string name="label_filter_status">Status</string>
 	<string name="success_label">Succeeded</string>
 	<string name="pending_label">Pending</string>
@@ -239,7 +241,6 @@
 	<string name="transac_details_result">Result</string>
 	<string name="tranac_details_category">Category</string>
 	<string name="transac_details_operator">Operator</string>
-	<string name="from_account_creation_to_today"><![CDATA[From <account creation> to <today>]]></string>
 	<string name="contactUs"><![CDATA[Don’t see the correct SIM?<br/> Try removing it and re-inserting it. If that doesn\’t work, <a href="mailto:support@usehover.com">contact support.</a>]]></string>
 	<string name="hint_choose_actions">Choose actions</string>
 	<string name="selected_range">Selected range</string>

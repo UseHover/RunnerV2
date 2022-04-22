@@ -1,6 +1,7 @@
 package com.hover.runner.filters
 
 import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.core.util.Pair
 import com.hover.sdk.database.HoverRoomDatabase
 import timber.log.Timber
 
@@ -16,15 +17,22 @@ abstract class FilterRepo(private val sdkDB: HoverRoomDatabase) {
 			.split(",").distinct().filter { it.isNotEmpty() }
 	}
 
-	fun generateSQLStatement(search: String?, tagList: List<String>?): SimpleSQLiteQuery {
+	fun generateSQLStatement(search: String?, tagList: List<String>?, dateRange: Pair<Long, Long>?): SimpleSQLiteQuery {
 		var fString = getTable()
 
-		if (generateSearchString(search).isNotEmpty() || generateTagString(tagList).isNotEmpty())
+		if (generateSearchString(search).isNotEmpty() || generateTagString(tagList).isNotEmpty() || generateDateString(dateRange).isNotEmpty())
 			fString += " WHERE "
 
-		fString += generateSearchString(search)
-		fString += generateTagString(tagList)
+		var whereStr = ""
+		whereStr += generateSearchString(search)
+		if (whereStr.isNotEmpty() && generateTagString(tagList).isNotEmpty())
+			whereStr += " AND "
+		whereStr += generateTagString(tagList)
+		if (whereStr.isNotEmpty() && generateDateString(dateRange).isNotEmpty())
+			whereStr += " AND "
+		whereStr += generateDateString(dateRange)
 
+		fString += whereStr
 		Timber.e("Searching %s", fString)
 		return SimpleSQLiteQuery(fString)
 	}
@@ -47,6 +55,8 @@ abstract class FilterRepo(private val sdkDB: HoverRoomDatabase) {
 		Timber.e("Searching tag list: %s", sqlStr)
 		return sqlStr
 	}
+
+	abstract fun generateDateString(dateRange: Pair<Long, Long>?): String
 
 	fun getAllCountryCodes(): List<String> {
 		return sdkDB.actionDao().allCountryCodes

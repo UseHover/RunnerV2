@@ -124,11 +124,11 @@
                         android:id="@+id/dateRange_label_id"
                         android:textColor="@color/runnerWhite"
                         android:textSize="@dimen/text_17"
-                        android:labelFor="@+id/dateRangeEditId"
                         android:layout_marginTop="32dp"
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/dateRangeInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/margin21"
@@ -137,13 +137,12 @@
                         android:paddingRight="@dimen/margin21"
                         android:paddingTop="@dimen/margin13"
                         android:paddingBottom="@dimen/margin13"
-                        android:text="@string/from_account_creation_to_today"
+                        android:hint="@string/hint_date_range"
                         android:textColorHint="@color/textHint"
                         android:layout_marginTop="8dp"
                         android:maxLines="1"
                         android:textSize="@dimen/text_17"
                         android:textAllCaps="false"
-                        android:id="@+id/dateRangeEditId"
                         android:textColor="@color/runnerWhite"
                         android:background="@drawable/edit_text_bg"/>
                 </LinearLayout>
@@ -257,68 +256,6 @@
 <!--                        android:autofillHints="@string/search_hint"-->
 <!--                        android:textColor="@color/runnerWhite"-->
 <!--                        android:background="@drawable/edit_text_bg"/>-->
-
-<!--                <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/status"-->
-<!--                        android:id="@+id/status_label_id"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:layout_marginTop="32dp"-->
-<!--                        android:textStyle="bold"/>-->
-
-<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:checked="true"-->
-<!--                        app:buttonTint="@color/runnerPrimary"-->
-<!--                        android:layout_marginTop="@dimen/margin16"-->
-<!--                        android:id="@+id/checkbox_success"-->
-<!--                        android:text="@string/success_label"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:paddingHorizontal="@dimen/margin16"-->
-<!--                        />-->
-
-<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:checked="true"-->
-<!--                        app:buttonTint="@color/runnerPrimary"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:id="@+id/checkbox_pending"-->
-<!--                        android:text="@string/pending_label"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:paddingHorizontal="@dimen/margin16"-->
-<!--                        />-->
-
-<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:checked="true"-->
-<!--                        app:buttonTint="@color/runnerPrimary"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:id="@+id/checkbox_fail"-->
-<!--                        android:text="@string/failed_label"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:paddingHorizontal="@dimen/margin16"-->
-<!--                        />-->
-
-<!--                <androidx.appcompat.widget.AppCompatCheckBox-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:checked="true"-->
-<!--                        app:buttonTint="@color/runnerPrimary"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:id="@+id/checkbox_no_transaction"-->
-<!--                        android:text="@string/no_transaction"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:paddingHorizontal="@dimen/margin16"-->
-<!--                        />-->
 
 <!--                <TextView-->
 <!--                        android:layout_width="wrap_content"-->

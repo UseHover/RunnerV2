@@ -24,7 +24,6 @@ class TransactionsFilterFragment : FilterFragment() {
 		binding.filterTitle.text = getString(R.string.title_filter_transactions)
 		binding.searchInput.hint = getString(R.string.search_hint_transaction)
 		binding.statusWrapper.visibility = View.GONE
-		binding.dateWrapper.visibility = View.GONE
 	}
 
 	override fun onSave() {

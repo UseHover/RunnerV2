@@ -8,11 +8,9 @@ import android.content.IntentFilter
 import androidx.lifecycle.*
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.core.util.Pair
 import com.hover.runner.actions.ActionRepo
-import com.hover.runner.transactions.TransactionsRepo
 import com.hover.runner.utils.Utils
-import com.hover.sdk.actions.HoverAction
-import com.hover.sdk.database.HoverRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,6 +19,7 @@ abstract class FilterViewModel(private val application: Application, private val
 
 	val searchString: MutableLiveData<String> = MutableLiveData()
 	val selectedTags: MutableLiveData<List<String>> = MutableLiveData()
+	val selectedDateRange: MutableLiveData<Pair<Long, Long>?> = MutableLiveData()
 
 	val statuses: MediatorLiveData<HashMap<String, String?>> = MediatorLiveData()
 	val selectedStatuses: MutableLiveData<List<String?>> = MutableLiveData()
@@ -42,6 +41,7 @@ abstract class FilterViewModel(private val application: Application, private val
 		filterQuery.apply {
 			addSource(searchString, this@FilterViewModel::generateSQLStatement)
 			addSource(selectedTags, this@FilterViewModel::generateSQLStatement)
+			addSource(selectedDateRange, this@FilterViewModel::generateSQLStatement)
 		}
 	}
 
@@ -50,20 +50,13 @@ abstract class FilterViewModel(private val application: Application, private val
 	fun reset() {
 		searchString.value = null
 		selectedTags.value = actionRepo.getAllTags()
+		selectedDateRange.value = null
 		selectedStatuses.value = listOf("succeeded", "pending", "failed", null)
 	}
 
 	fun setSearch(value: String) {
 		viewModelScope.launch(Dispatchers.IO) {
 			searchString.postValue(value)
-		}
-	}
-
-	fun setStatus(value: String?, shouldBePresent: Boolean) {
-		viewModelScope.launch(Dispatchers.IO) {
-			val selStatuses = selectedStatuses.value!!.toMutableList()
-			if (shouldBePresent) selStatuses.add(value) else selStatuses.remove(value)
-			selectedStatuses.postValue(selStatuses)
 		}
 	}
 
@@ -79,18 +72,34 @@ abstract class FilterViewModel(private val application: Application, private val
 		}
 	}
 
+	fun setDateRange(start: Long, end: Long) {
+		viewModelScope.launch(Dispatchers.IO) {
+			selectedDateRange.postValue(Pair(start, end))
+		}
+	}
+
+	fun setStatus(value: String?, shouldBePresent: Boolean) {
+		viewModelScope.launch(Dispatchers.IO) {
+			val selStatuses = selectedStatuses.value!!.toMutableList()
+			if (shouldBePresent) selStatuses.add(value) else selStatuses.remove(value)
+			selectedStatuses.postValue(selStatuses)
+		}
+	}
+
 	abstract fun generateSQLStatement(search: String?)
 
 	abstract fun generateSQLStatement(tagList: List<String>?)
+
+	abstract fun generateSQLStatement(dateRange: Pair<Long, Long>?)
+
+	fun generateSQLStatement(filterRepo: FilterRepo, search: String?, tagList: List<String>?, dateRange: Pair<Long, Long>?) {
+		filterQuery.postValue(filterRepo.generateSQLStatement(search, tagList, dateRange))
+	}
 
 	override fun onCleared() {
 		try {
 			LocalBroadcastManager.getInstance(application).unregisterReceiver(transactionReceiver)
 		} catch (ignored: Exception) { }
 		super.onCleared()
-	}
-
-	interface FilterDelegate {
-		fun showAlertMessage(message: String)
 	}
 }

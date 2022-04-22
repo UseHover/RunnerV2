@@ -3,6 +3,7 @@ package com.hover.runner.transactions
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.core.util.Pair
 import com.hover.runner.actions.ActionRepo
 import com.hover.runner.filters.FilterViewModel
 import com.hover.sdk.transactions.Transaction
@@ -36,10 +37,14 @@ class TransactionsViewModel(application: Application, actionRepo: ActionRepo, pr
 	}
 
 	override fun generateSQLStatement(search: String?) {
-		search?.let { filterQuery.postValue(repo.generateSQLStatement(search, selectedTags.value)) }
+		search?.let { generateSQLStatement(repo, search, selectedTags.value, selectedDateRange.value) }
 	}
 
 	override fun generateSQLStatement(tagList: List<String>?) {
-		tagList?.let {  filterQuery.postValue(repo.generateSQLStatement(searchString.value, tagList)) }
+		tagList?.let { generateSQLStatement(repo, searchString.value, tagList, selectedDateRange.value) }
+	}
+
+	override fun generateSQLStatement(dateRange: Pair<Long, Long>?) {
+		dateRange?.let { generateSQLStatement(repo, searchString.value, selectedTags.value, dateRange) }
 	}
 }

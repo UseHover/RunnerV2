@@ -2,10 +2,10 @@ package com.hover.runner.actions
 
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.core.util.Pair
 import com.hover.runner.filters.FilterRepo
 import com.hover.sdk.actions.HoverAction
 import com.hover.sdk.database.HoverRoomDatabase
-import timber.log.Timber
 
 class ActionRepo(private val sdkDB: HoverRoomDatabase): FilterRepo(sdkDB) {
 	override fun getTable(): String { return "SELECT * FROM hover_actions" }
@@ -31,5 +31,9 @@ class ActionRepo(private val sdkDB: HoverRoomDatabase): FilterRepo(sdkDB) {
 			return ""
 		val s = "%$search%"
 		return "(server_id LIKE '$s' OR name LIKE '$s')"
+	}
+
+	override fun generateDateString(dateRange: Pair<Long, Long>?): String {
+		return ""
 	}
 }
