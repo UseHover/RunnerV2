@@ -1,6 +1,7 @@
 package com.hover.runner.utils
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import com.hover.runner.R
 import com.hover.sdk.transactions.Transaction
 
@@ -8,10 +9,10 @@ interface StatusUiTranslator {
 
 	fun getHeaderColor(status: String?, context: Context): Int {
 		return when (status) {
-			Transaction.PENDING -> RunnerColor(context).YELLOW
-			Transaction.FAILED -> RunnerColor(context).RED
-			Transaction.SUCCEEDED -> RunnerColor(context).GREEN
-			else -> RunnerColor(context).SILVER
+			Transaction.PENDING -> ContextCompat.getColor(context, R.color.runnerYellow)
+			Transaction.FAILED -> ContextCompat.getColor(context, R.color.runnerRed)
+			Transaction.SUCCEEDED -> ContextCompat.getColor(context, R.color.runnerGreen)
+			else -> ContextCompat.getColor(context, R.color.secondaryGrey)
 		}
 	}
 

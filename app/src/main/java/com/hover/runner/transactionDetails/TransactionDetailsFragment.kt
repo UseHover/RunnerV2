@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -47,7 +48,6 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 	}
 
 	private fun fillDetails(transaction: Transaction) {
-		UIHelper.changeStatusBarColor(requireActivity(), UIHelper.getStatusColor(transaction.status, requireContext()))
 		binding.transactionDetailsTopLayoutId.setTransaction(transaction, requireActivity())
 		binding.valueStatus.text = transaction.status
 		binding.valueCategory.text = transaction.category
@@ -72,6 +72,11 @@ class TransactionDetailsFragment : Fragment(), ParserClickListener {
 		binding.transacMessagesRecyclerView.setLayoutManagerToLinear()
 		val messagesInfoAdapter = TransactionMessagesRecyclerAdapter(messages)
 		binding.transacMessagesRecyclerView.adapter = messagesInfoAdapter
+	}
+
+	override fun onPause() {
+		super.onPause()
+		UIHelper.changeStatusBarColor(requireActivity(), ContextCompat.getColor(requireContext(), R.color.runnerPrimary))
 	}
 
 	override fun onDestroyView() {

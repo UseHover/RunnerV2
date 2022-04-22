@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import com.hover.runner.utils.StatusUiTranslator
 import com.hover.runner.databinding.DetailsHeaderBinding
 import com.hover.runner.utils.DateUtils
@@ -42,7 +43,7 @@ class DetailsHeaderView(context: Context, attributeSet: AttributeSet) : LinearLa
 	private fun updateColorsAndIcons(status: String?, activity: Activity) {
 		binding.detailHeaderRoot.setBackgroundColor(getHeaderColor(status, context))
 		binding.headerDescription.setCompoundDrawablesWithIntrinsicBounds(getDarkStatusIcon(status), 0, 0, 0)
-		UIHelper.changeStatusBarColor(activity, resources.getColor(getColor(status)))
+		UIHelper.changeStatusBarColor(activity, ContextCompat.getColor(activity, getColor(status)))
 	}
 
 	private fun addListeners(status: String?, activity: Activity) {

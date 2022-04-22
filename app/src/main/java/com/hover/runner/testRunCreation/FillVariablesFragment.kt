@@ -9,7 +9,6 @@ import com.hover.runner.R
 import com.hover.runner.actionDetails.VariableRecyclerAdapter
 import com.hover.runner.main.BaseFragment
 import com.hover.runner.databinding.FragmentFillVariablesBinding
-import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.actions.HoverAction
@@ -23,7 +22,6 @@ class FillVariablesFragment : BaseFragment() {
 	private val newRunViewModel: NewRunViewModel by sharedViewModel()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
 		_binding = FragmentFillVariablesBinding.inflate(inflater, container, false)
 		return binding.root
 	}

@@ -37,14 +37,14 @@ class TransactionsViewModel(application: Application, actionRepo: ActionRepo, pr
 	}
 
 	override fun generateSQLStatement(search: String?) {
-		search?.let { generateSQLStatement(repo, search, selectedTags.value, selectedDateRange.value) }
+		generateSQLStatement(repo, search, selectedTags.value, selectedDateRange.value)
 	}
 
 	override fun generateSQLStatement(tagList: List<String>?) {
-		tagList?.let { generateSQLStatement(repo, searchString.value, tagList, selectedDateRange.value) }
+		generateSQLStatement(repo, searchString.value, tagList, selectedDateRange.value)
 	}
 
 	override fun generateSQLStatement(dateRange: Pair<Long, Long>?) {
-		dateRange?.let { generateSQLStatement(repo, searchString.value, selectedTags.value, dateRange) }
+		generateSQLStatement(repo, searchString.value, selectedTags.value, dateRange)
 	}
 }

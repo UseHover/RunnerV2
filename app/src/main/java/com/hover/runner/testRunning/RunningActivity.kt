@@ -130,6 +130,7 @@ class RunningActivity : AppCompatActivity() {
 	}
 
 	override fun onDestroy() {
+		UIHelper.changeStatusBarColor(this, getColor(this, R.color.runnerPrimary))
 		Timber.e("Destroying activity")
 		wakeLock.release()
 		super.onDestroy()

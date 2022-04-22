@@ -55,14 +55,14 @@ class ActionsViewModel(private val application: Application, private val actionR
 	}
 
 	override fun generateSQLStatement(search: String?) {
-		search?.let { generateSQLStatement(actionRepo, search, selectedTags.value, selectedDateRange.value) }
+		generateSQLStatement(actionRepo, search, selectedTags.value, selectedDateRange.value)
 	}
 
 	override fun generateSQLStatement(tagList: List<String>?) {
-		tagList?.let { generateSQLStatement(actionRepo, searchString.value, tagList, selectedDateRange.value) }
+		generateSQLStatement(actionRepo, searchString.value, tagList, selectedDateRange.value)
 	}
 
 	override fun generateSQLStatement(dateRange: Pair<Long, Long>?) {
-		dateRange?.let { generateSQLStatement(actionRepo, searchString.value, selectedTags.value, dateRange) }
+		generateSQLStatement(actionRepo, searchString.value, selectedTags.value, dateRange)
 	}
 }

@@ -13,6 +13,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -152,6 +153,11 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 
 	override fun onItemClick(uuid: String) {
 		findNavController().navigate(R.id.navigation_transactionDetails, bundleOf("uuid" to uuid))
+	}
+
+	override fun onPause() {
+		super.onPause()
+		UIHelper.changeStatusBarColor(requireActivity(), getColor(requireContext(), R.color.runnerPrimary))
 	}
 
 	override fun onDestroyView() {

@@ -10,7 +10,6 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:gravity="center_vertical"
-			android:paddingTop="4dp"
 			android:id="@+id/topBar"
 			android:orientation="horizontal">
 
@@ -22,12 +21,13 @@
 				android:textSize="@dimen/text_22"
 				android:textColor="@color/runnerWhite"
 				android:text="@string/header_runs"
-				android:paddingHorizontal="@dimen/margin16"
+				android:padding="@dimen/margin16"
 				android:layout_weight="1" />
 
 			<Spinner android:id="@+id/runs_filter"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" />
+				android:layout_height="wrap_content"
+				android:padding="@dimen/margin16"/>
 		</LinearLayout>
 
 		<TextView
