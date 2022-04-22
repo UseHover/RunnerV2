@@ -7,7 +7,9 @@ import com.hover.sdk.database.HoverRoomDatabase
 import com.hover.sdk.transactions.Transaction
 
 class TransactionsRepo(private val sdkDB: HoverRoomDatabase): FilterRepo(sdkDB) {
-	override fun getTable(): String { return "SELECT * FROM hover_transactions" }
+	override fun getTable(): String {
+		return "SELECT * FROM hover_transactions ht" + " LEFT JOIN 'hover_actions' a ON a.server_id = ht.actionId"
+	}
 
 	fun getAllTransactions(): LiveData<List<Transaction>> {
 		return sdkDB.transactionDao().allLive

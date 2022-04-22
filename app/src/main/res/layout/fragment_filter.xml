@@ -111,42 +111,42 @@
                     android:textColor="@color/runnerWhite"
                     android:background="@drawable/edit_text_bg"/>
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/date_wrapper"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:orientation="vertical">-->
+                <LinearLayout
+                    android:id="@+id/date_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/date_range"-->
-<!--                        android:id="@+id/dateRange_label_id"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:labelFor="@+id/dateRangeEditId"-->
-<!--                        android:layout_marginTop="32dp"-->
-<!--                        android:textStyle="bold"/>-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/date_range"
+                        android:id="@+id/dateRange_label_id"
+                        android:textColor="@color/runnerWhite"
+                        android:textSize="@dimen/text_17"
+                        android:labelFor="@+id/dateRangeEditId"
+                        android:layout_marginTop="32dp"
+                        android:textStyle="bold"/>
 
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:paddingLeft="@dimen/margin21"-->
-<!--                        android:paddingStart="@dimen/margin21"-->
-<!--                        android:paddingEnd="@dimen/margin21"-->
-<!--                        android:paddingRight="@dimen/margin21"-->
-<!--                        android:paddingTop="@dimen/margin13"-->
-<!--                        android:paddingBottom="@dimen/margin13"-->
-<!--                        android:text="@string/from_account_creation_to_today"-->
-<!--                        android:textColorHint="@color/textHint"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:maxLines="1"-->
-<!--                        android:textSize="@dimen/text_17"-->
-<!--                        android:textAllCaps="false"-->
-<!--                        android:id="@+id/dateRangeEditId"-->
-<!--                        android:textColor="@color/runnerWhite"-->
-<!--                        android:background="@drawable/edit_text_bg"/>-->
-<!--                </LinearLayout>-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin21"
+                        android:paddingStart="@dimen/margin21"
+                        android:paddingEnd="@dimen/margin21"
+                        android:paddingRight="@dimen/margin21"
+                        android:paddingTop="@dimen/margin13"
+                        android:paddingBottom="@dimen/margin13"
+                        android:text="@string/from_account_creation_to_today"
+                        android:textColorHint="@color/textHint"
+                        android:layout_marginTop="8dp"
+                        android:maxLines="1"
+                        android:textSize="@dimen/text_17"
+                        android:textAllCaps="false"
+                        android:id="@+id/dateRangeEditId"
+                        android:textColor="@color/runnerWhite"
+                        android:background="@drawable/edit_text_bg"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/status_wrapper"

@@ -31,7 +31,7 @@ abstract class FilterRepo(private val sdkDB: HoverRoomDatabase) {
 
 	abstract fun generateSearchString(search: String?): String
 
-	private fun generateTagString(tagList: List<String>?): String {
+	open fun generateTagString(tagList: List<String>?): String {
 		if (tagList?.size == getAllTags().size || getAllTags().isEmpty())
 			return ""
 		else if (tagList.isNullOrEmpty())
@@ -44,6 +44,7 @@ abstract class FilterRepo(private val sdkDB: HoverRoomDatabase) {
 			sqlStr += "tags_list LIKE '$t'"
 		}
 		sqlStr += ")"
+		Timber.e("Searching tag list: %s", sqlStr)
 		return sqlStr
 	}
 

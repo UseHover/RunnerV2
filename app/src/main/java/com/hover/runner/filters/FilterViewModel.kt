@@ -89,4 +89,8 @@ abstract class FilterViewModel(private val application: Application, private val
 		} catch (ignored: Exception) { }
 		super.onCleared()
 	}
+
+	interface FilterDelegate {
+		fun showAlertMessage(message: String)
+	}
 }

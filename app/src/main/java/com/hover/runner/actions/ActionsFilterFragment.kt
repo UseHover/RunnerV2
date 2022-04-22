@@ -23,7 +23,7 @@ class ActionsFilterFragment : FilterFragment() {
 		super.onViewCreated(view, savedInstanceState)
 		binding.filterTitle.text = getString(R.string.title_filter_actions)
 		binding.searchInput.hint = getString(R.string.hint_search)
-//		binding.dateWrapper.visibility = View.GONE
+		binding.dateWrapper.visibility = View.GONE
 	}
 
 	override fun onSave() {
