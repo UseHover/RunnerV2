@@ -24,6 +24,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/filter_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAlignment="textStart"
@@ -47,13 +48,6 @@
                         android:id="@+id/reset_btn"
                         android:text="@string/reset"/>
             </LinearLayout>
-
-            <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/filter_progressBar"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,48 +111,13 @@
                     android:textColor="@color/runnerWhite"
                     android:background="@drawable/edit_text_bg"/>
 
-                <TextView android:id="@+id/status_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_filter_status"
-                    android:textColor="@color/runnerWhite"
-                    android:textSize="@dimen/text_17"
-                    android:layout_marginTop="32dp"
-                    android:textStyle="bold"/>
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/date_wrapper"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical">-->
 
-                <CheckBox android:id="@+id/checkbox_succeeded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_17"
-                    android:textColor="@color/runnerWhite"
-                    android:text="@string/success_label"
-                    android:checked="true" />
-
-                <CheckBox android:id="@+id/checkbox_pending"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_17"
-                    android:textColor="@color/runnerWhite"
-                    android:text="@string/pending_label"
-                    android:checked="true" />
-
-                <CheckBox android:id="@+id/checkbox_failed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_17"
-                    android:textColor="@color/runnerWhite"
-                    android:text="@string/failed_label"
-                    android:checked="true" />
-
-                <CheckBox android:id="@+id/checkbox_none"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_17"
-                    android:textColor="@color/runnerWhite"
-                    android:text="@string/not_yet_run_label"
-                    android:checked="true" />
-
-<!--                <TextView-->
+<!--                    <TextView-->
 <!--                        android:layout_width="wrap_content"-->
 <!--                        android:layout_height="wrap_content"-->
 <!--                        android:text="@string/date_range"-->
@@ -169,7 +128,7 @@
 <!--                        android:layout_marginTop="32dp"-->
 <!--                        android:textStyle="bold"/>-->
 
-<!--                <TextView-->
+<!--                    <TextView-->
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="wrap_content"-->
 <!--                        android:paddingLeft="@dimen/margin21"-->
@@ -185,9 +144,57 @@
 <!--                        android:textSize="@dimen/text_17"-->
 <!--                        android:textAllCaps="false"-->
 <!--                        android:id="@+id/dateRangeEditId"-->
-<!--                        android:autofillHints="@string/search_hint"-->
 <!--                        android:textColor="@color/runnerWhite"-->
 <!--                        android:background="@drawable/edit_text_bg"/>-->
+<!--                </LinearLayout>-->
+
+                <LinearLayout
+                    android:id="@+id/status_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView android:id="@+id/status_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_filter_status"
+                        android:textColor="@color/runnerWhite"
+                        android:textSize="@dimen/text_17"
+                        android:layout_marginTop="32dp"
+                        android:textStyle="bold"/>
+
+                    <CheckBox android:id="@+id/checkbox_succeeded"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_17"
+                        android:textColor="@color/runnerWhite"
+                        android:text="@string/success_label"
+                        android:checked="true" />
+
+                    <CheckBox android:id="@+id/checkbox_pending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_17"
+                        android:textColor="@color/runnerWhite"
+                        android:text="@string/pending_label"
+                        android:checked="true" />
+
+                    <CheckBox android:id="@+id/checkbox_failed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_17"
+                        android:textColor="@color/runnerWhite"
+                        android:text="@string/failed_label"
+                        android:checked="true" />
+
+                    <CheckBox android:id="@+id/checkbox_none"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_17"
+                        android:textColor="@color/runnerWhite"
+                        android:text="@string/not_yet_run_label"
+                        android:checked="true" />
+                </LinearLayout>
 
 
 <!--                <TextView-->

@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
+import com.hover.runner.actions.ActionRecyclerAdapter
 import com.hover.runner.databinding.FragmentTransactionsBinding
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
 import com.hover.sdk.transactions.Transaction
@@ -21,6 +23,7 @@ class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.Transact
 	private val binding get() = _binding!!
 
 	private val transactionsViewModel: TransactionsViewModel by sharedViewModel()
+	private var transactionRecycler: TransactionsRecyclerAdapter? = null
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentTransactionsBinding.inflate(inflater, container, false)
@@ -29,17 +32,13 @@ class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.Transact
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		setupRecyclerView()
-		observeTransactionsList()
-//		binding.filterBtn.setOnClickListener { view.findNavController().navigate(R.id.navigation_transactionFilter) }
-	}
-
-	private fun setupRecyclerView() {
 		binding.recyclerView.setLayoutManagerToLinear()
+		observeTransactionsList()
+		binding.filterBtn.setOnClickListener { view.findNavController().navigate(R.id.navigation_transactionFilter) }
 	}
 
 	private fun observeTransactionsList() {
-		transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+		transactionsViewModel.filteredTransactions.observe(viewLifecycleOwner) { transactions ->
 			if (transactions.isNullOrEmpty()) {
 				binding.emptyState.root.visibility = View.VISIBLE
 				binding.graph.root.visibility = View.GONE
@@ -52,7 +51,8 @@ class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.Transact
 	private fun showTransactions(ts: List<Transaction>) {
 		setFilterState(ts.size)
 		binding.emptyState.root.visibility = View.GONE
-		binding.recyclerView.adapter = TransactionsRecyclerAdapter(ts, this)
+		transactionRecycler = TransactionsRecyclerAdapter(ts, this)
+		binding.recyclerView.adapter = transactionRecycler
 		updatePie(ts)
 	}
 
@@ -68,13 +68,13 @@ class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.Transact
 		binding.graph.failedTotal.text = getString(R.string.failed_count_label, ts.count{ it.status == "failed" })
 	}
 
-	private fun setFilterState(actionListSize: Int) {
-		binding.filterBtn.setTextColor(ContextCompat.getColor(requireContext(), if (showingAll(actionListSize)) R.color.runnerWhite else R.color.runnerPrimary))
-		binding.filterBtn.setCompoundDrawablesWithIntrinsicBounds(if (showingAll(actionListSize)) 0 else R.drawable.ic_dot_purple_24dp, 0, 0, 0)
+	private fun setFilterState(listSize: Int) {
+		binding.filterBtn.setTextColor(ContextCompat.getColor(requireContext(), if (showingAll(listSize)) R.color.runnerWhite else R.color.runnerPrimary))
+		binding.filterBtn.setCompoundDrawablesWithIntrinsicBounds(if (showingAll(listSize)) 0 else R.drawable.ic_dot_purple_24dp, 0, 0, 0)
 	}
 
 	private fun showingAll(transactionsSize: Int): Boolean {
-		return transactionsViewModel.transactions.value == null || transactionsSize == transactionsViewModel.transactions.value!!.size
+		return transactionsViewModel.filteredTransactions.value == null || transactionsSize == transactionsViewModel.allTransactions.value!!.size
 	}
 
 	override fun onDestroyView() {

@@ -1,4 +1,4 @@
-package com.hover.runner.actionFilters
+package com.hover.runner.filters
 
 import android.content.res.ColorStateList
 import android.graphics.Color

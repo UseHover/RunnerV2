@@ -49,9 +49,15 @@
 
 	<fragment
 		android:id="@+id/navigation_actionFilter"
-		android:name="com.hover.runner.actionFilters.ActionsFilterFragment"
+		android:name="com.hover.runner.actions.ActionsFilterFragment"
 		android:label="@string/title_filter_actions"
-		tools:layout="@layout/fragment_filter_actions" />
+		tools:layout="@layout/fragment_filter" />
+
+	<fragment
+		android:id="@+id/navigation_transactionFilter"
+		android:name="com.hover.runner.transactions.TransactionsFilterFragment"
+		android:label="@string/title_filter_transactions"
+		tools:layout="@layout/fragment_filter" />
 
 
 	<!--Transactions -->
@@ -73,7 +79,7 @@
 
 	<fragment
 		android:id="@+id/navigation_filter_selection"
-		android:name="com.hover.runner.actionFilters.SelectionFragment"
+		android:name="com.hover.runner.filters.SelectionFragment"
 		android:label="@string/title_filter_actions"
 		tools:layout="@layout/fragment_selection">
 		<argument
