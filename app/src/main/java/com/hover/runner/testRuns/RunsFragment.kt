@@ -6,17 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTestRunsBinding
-import com.hover.runner.utils.DateUtils
-import com.hover.runner.utils.RunnerColor
 import com.hover.runner.utils.UIHelper
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
-import com.hover.runner.utils.Utils
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener, AdapterView.OnItemSelectedListener {
@@ -34,6 +31,7 @@ class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener, Adapt
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		UIHelper.changeStatusBarColor(requireActivity(), ContextCompat.getColor(requireContext(), R.color.runnerPrimary))
 		binding.runsFilter.adapter = ArrayAdapter.createFromResource(requireContext(), R.array.runs_filter_array, R.layout.dropdown_item)
 		binding.runsFilter.onItemSelectedListener = this
 		viewModel.runs.observe(viewLifecycleOwner) { onLoad(it) }
@@ -62,4 +60,9 @@ class RunsFragment : Fragment(), RunsRecyclerAdapter.TestRunClickListener, Adapt
 	}
 
 	override fun onNothingSelected(parent: AdapterView<*>) {}
+
+	override fun onPause() {
+		super.onPause()
+		UIHelper.changeStatusBarColor(requireActivity(), ContextCompat.getColor(requireContext(), R.color.runnerPrimary))
+	}
 }

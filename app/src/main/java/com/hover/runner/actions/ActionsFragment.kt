@@ -24,9 +24,10 @@ import kotlin.collections.HashMap
 class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapter.ActionClickListener {
 
 	private var _binding: FragmentActionsBinding? = null
+	private val binding get() = _binding!!
+
 	private val actionsViewModel: ActionsViewModel by sharedViewModel()
 	private var actionRecyclerAdapter: ActionRecyclerAdapter? = null
-	private val binding get() = _binding!!
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		actionsViewModel.allActions
@@ -38,11 +39,6 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 		super.onViewCreated(view, savedInstanceState)
 		observeActions()
 		setupListeners()
-	}
-
-	override fun onResume() {
-		super.onResume()
-		UIHelper.changeStatusBarColor(requireActivity(), RunnerColor(requireContext()).DARK)
 	}
 
 	private fun observeActions() {

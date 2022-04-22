@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,6 +34,7 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		UIHelper.changeStatusBarColor(requireActivity(), getColor(requireContext(), R.color.runnerPrimary))
 		viewModel.run.observe(viewLifecycleOwner) { it?.let { fillDetails(it) } }
 		viewModel.actions.observe(viewLifecycleOwner) { it?.let { addActions(it) } }
 		viewModel.transactions.observe(viewLifecycleOwner) { it?.let { addTransactions(it) } }
@@ -101,5 +103,10 @@ class RunDetailsFragment : Fragment(), ActionRecyclerAdapter.ActionClickListener
 
 	override fun onItemClick(uuid: String) {
 		findNavController().navigate(R.id.navigation_transactionDetails, bundleOf("uuid" to uuid))
+	}
+
+	override fun onPause() {
+		super.onPause()
+		UIHelper.changeStatusBarColor(requireActivity(), getColor(requireContext(), R.color.runnerPrimary))
 	}
 }

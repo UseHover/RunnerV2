@@ -9,7 +9,7 @@
 
 	<string name="title_actions">Actions</string>
 	<string name="title_transactions">Transactions</string>
-	<string name="title_runs">Scheduled</string>
+	<string name="title_runs">Schedule</string>
 	<string name="title_run_details">Run Details</string>
 	<string name="title_settings">Settings</string>
 
@@ -109,14 +109,18 @@
 
 <!--	FILTERS-->
 	<string name="title_filter_actions">Filter Actions</string>
-	<string name="cta_filter_actions">Show %1$d Actions</string>
+	<string name="cta_filter_actions">Show %1$d Actions</string>\
+	<string name="title_filter_transactions">Filter Transactions</string>
+	<string name="cta_filter_transactions">Show %1$d Transactions</string>
 	<string name="reset"><u>Reset</u></string>
 	<string name="label_search">Search</string>
-	<string name="hint_search">Search for action ID or name</string>
+	<string name="hint_search">Action ID or name</string>
 	<string name="label_filter_tags">Tags</string>
 	<string name="title_filter_tags">Choose Tags</string>
 	<string name="hint_tags">Select tags</string>
 	<string name="empty_tags">Only actions with no tags</string>
+	<string name="hint_date_range"><![CDATA[From <account creation> to <today>]]></string>
+	<string name="descrip_date_range">From %1$s to %2$s</string>
 	<string name="label_filter_status">Status</string>
 	<string name="success_label">Succeeded</string>
 	<string name="pending_label">Pending</string>
@@ -128,8 +132,7 @@
 	<string name="failed_count_label">%1$d failed</string>
 	<string name="count_label">%1$d total</string>
 
-	<string name="title_filter_trans">Filter transactions</string>
-	<string name="search_hint_transaction">Search transaction id, or session text</string>
+	<string name="search_hint_transaction">uuid, action name, or action ID</string>
 	<string name="date_range">Date range</string>
 	<string name="countries">Countries</string>
 	<string name="countries_hint">Select countries</string>
@@ -238,7 +241,6 @@
 	<string name="transac_details_result">Result</string>
 	<string name="tranac_details_category">Category</string>
 	<string name="transac_details_operator">Operator</string>
-	<string name="from_account_creation_to_today"><![CDATA[From <account creation> to <today>]]></string>
 	<string name="contactUs"><![CDATA[Don’t see the correct SIM?<br/> Try removing it and re-inserting it. If that doesn\’t work, <a href="mailto:support@usehover.com">contact support.</a>]]></string>
 	<string name="hint_choose_actions">Choose actions</string>
 	<string name="selected_range">Selected range</string>

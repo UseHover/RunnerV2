@@ -27,7 +27,7 @@ val appModule = module {
 	}
 
 	viewModel {
-		TransactionsViewModel(get())
+		TransactionsViewModel(get(), get(), get())
 	}
 
 	viewModel {
