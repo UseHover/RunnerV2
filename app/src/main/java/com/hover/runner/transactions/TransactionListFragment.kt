@@ -3,31 +3,24 @@ package com.hover.runner.transactions
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.hover.runner.R
 import com.hover.runner.databinding.FragmentTransactionsBinding
 import com.hover.runner.utils.UIHelper.Companion.setLayoutManagerToLinear
+import com.hover.sdk.transactions.Transaction
+import org.eazegraph.lib.models.PieModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 
 class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.TransactionClickListener {
 	private var _binding: FragmentTransactionsBinding? = null
 	private val binding get() = _binding!!
 
 	private val transactionsViewModel: TransactionsViewModel by sharedViewModel()
-	private lateinit var filterTextView: TextView
-	private lateinit var emptyInfoLayout: LinearLayout
-	private lateinit var progressBar: ProgressBar
-	private lateinit var homeTransactionsRecyclerView: RecyclerView
-	private lateinit var emptyStateView: RelativeLayout
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 		_binding = FragmentTransactionsBinding.inflate(inflater, container, false)
@@ -36,65 +29,52 @@ class TransactionListFragment : Fragment(), TransactionsRecyclerAdapter.Transact
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initViews()
 		setupRecyclerView()
 		observeTransactionsList()
-//		filterTextView.setOnClickListener { transactionNavigationInterface.navigateTransactionFilterFragment() }
-	}
-
-	private fun initViews() {
-		filterTextView = binding.transactionFilterId
-		progressBar = binding.recyclerViewState.progressState1
-		emptyInfoLayout = binding.recyclerViewState.emptyInfoLayout
-		emptyStateView = binding.recyclerViewState.layoutForEmptyStateId
-		homeTransactionsRecyclerView = binding.recyclerView
+//		binding.filterBtn.setOnClickListener { view.findNavController().navigate(R.id.navigation_transactionFilter) }
 	}
 
 	private fun setupRecyclerView() {
-		homeTransactionsRecyclerView.setLayoutManagerToLinear()
-		homeTransactionsRecyclerView.setHasFixedSize(false)
+		binding.recyclerView.setLayoutManagerToLinear()
 	}
 
 	private fun observeTransactionsList() {
-		transactionsViewModel.transactions.observe(viewLifecycleOwner) { it ->
-			if (it.isNullOrEmpty()) showLoadingView()
-			else {
-				showRecyclerView()
-				updateFilterTextStyle(it.size)
-				homeTransactionsRecyclerView.adapter = TransactionsRecyclerAdapter(it, this)
+		transactionsViewModel.transactions.observe(viewLifecycleOwner) { transactions ->
+			if (transactions.isNullOrEmpty()) {
+				binding.emptyState.root.visibility = View.VISIBLE
+				binding.graph.root.visibility = View.GONE
+			} else {
+				showTransactions(transactions)
 			}
 		}
 	}
 
-	private fun updateFilterTextStyle(currentTransactionListSize: Int) {
-		filterTextView.visibility = GONE
-//		val initialTransactionListSize: Int = transactionsViewModel.filter_transactionsTotal()
-//		val isFilterOn: Boolean = currentTransactionListSize < initialTransactionListSize
-//
-//		if (isFilterOn) filterTextView.styleAsFilterOn()
-//		else filterTextView.styleAsFilterOff()
+	private fun showTransactions(ts: List<Transaction>) {
+		setFilterState(ts.size)
+		binding.emptyState.root.visibility = View.GONE
+		binding.recyclerView.adapter = TransactionsRecyclerAdapter(ts, this)
+		updatePie(ts)
 	}
 
-	private fun showLoadingView() {
-		homeTransactionsRecyclerView.visibility = View.GONE
-		progressBar.visibility = View.VISIBLE
-		emptyInfoLayout.visibility = View.GONE
-		emptyStateView.visibility = View.GONE
-
+	private fun updatePie(ts: List<Transaction>) {
+		binding.graph.root.visibility = View.VISIBLE
+		binding.graph.pie.clearChart()
+		binding.graph.pie.innerValueString = getString(R.string.count_label, ts.count())
+		binding.graph.pie.addPieSlice(PieModel(ts.count { it.status == "pending" }.toFloat(), resources.getColor(R.color.runnerYellow)))
+		binding.graph.pie.addPieSlice(PieModel(ts.count { it.status == "succeeded" }.toFloat(), resources.getColor(R.color.runnerGreen)))
+		binding.graph.pie.addPieSlice(PieModel(ts.count { it.status == "failed" }.toFloat(), resources.getColor(R.color.runnerRed)))
+		binding.graph.pendingTotal.text = getString(R.string.pending_count_label, ts.count{ it.status == "pending" })
+		binding.graph.succeededTotal.text = getString(R.string.succeeded_count_label, ts.count{ it.status == "succeeded" })
+		binding.graph.failedTotal.text = getString(R.string.failed_count_label, ts.count{ it.status == "failed" })
 	}
 
-	private fun showEmptyView() {
-		homeTransactionsRecyclerView.visibility = View.GONE
-		progressBar.visibility = View.GONE
-		emptyInfoLayout.visibility = View.VISIBLE
-		emptyStateView.visibility = View.VISIBLE
+	private fun setFilterState(actionListSize: Int) {
+		binding.filterBtn.setTextColor(ContextCompat.getColor(requireContext(), if (showingAll(actionListSize)) R.color.runnerWhite else R.color.runnerPrimary))
+		binding.filterBtn.setCompoundDrawablesWithIntrinsicBounds(if (showingAll(actionListSize)) 0 else R.drawable.ic_dot_purple_24dp, 0, 0, 0)
 	}
 
-	private fun showRecyclerView() {
-		homeTransactionsRecyclerView.visibility = View.VISIBLE
-		progressBar.visibility = View.GONE
-		emptyInfoLayout.visibility = View.GONE
-		emptyStateView.visibility = View.GONE
+	private fun showingAll(transactionsSize: Int): Boolean {
+		return transactionsViewModel.transactions.value == null || transactionsSize == transactionsViewModel.transactions.value!!.size
 	}
 
 	override fun onDestroyView() {

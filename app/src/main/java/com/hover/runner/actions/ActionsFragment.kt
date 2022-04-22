@@ -36,7 +36,6 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		showLoadingView()
 		observeActions()
 		setupListeners()
 	}
@@ -48,8 +47,7 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 
 	private fun observeActions() {
 		actionsViewModel.filteredActions.observe(viewLifecycleOwner) { actions ->
-			if (actions.isNullOrEmpty()) showLoadingView()
-			else {
+			if (!actions.isNullOrEmpty()) {
 				setFilterState(actions.size)
 				if (actionsViewModel.statuses.value != null)
 					setActionListAdapter(actions, actionsViewModel.statuses.value!!)
@@ -96,11 +94,6 @@ class ActionsFragment : Fragment(), Hover.DownloadListener, ActionRecyclerAdapte
 					Utils.convertActionListToIds(actionsViewModel.filteredActions.value!!).toTypedArray())))
 		} else
 			UIHelper.flashMessage(requireContext(), resources.getString(R.string.noRunnableAction))
-	}
-
-	private fun showLoadingView() {
-		binding.pullToRefresh.isRefreshing = false
-		binding.recyclerViewState.progressState1.visibility = View.VISIBLE
 	}
 
 	private fun setupPullToRefresh() {

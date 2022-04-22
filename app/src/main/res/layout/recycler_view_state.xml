@@ -3,22 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/layoutForEmptyStateId"
         android:visibility="gone"
         android:layout_centerInParent="false">
-
-    <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress_state_1"
-            android:visibility="gone"
-            android:layout_centerInParent="true"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/empty_info_layout"
-            android:visibility="gone"
             android:orientation="vertical">
 
         <TextView
@@ -26,7 +16,6 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:id="@+id/empty_title_text"
-                android:visibility="visible"
                 android:textSize="@dimen/text_15"
                 android:layout_marginTop="16dp"
                 android:paddingHorizontal="16dp"
@@ -40,7 +29,6 @@
                 android:paddingHorizontal="@dimen/margin16"
                 android:textStyle="bold"
                 android:id="@+id/empty_subtitle_text"
-                android:visibility="visible"
                 android:textColor="@color/mainGrey"
                 android:text="@string/no_transactions_desc"/>
 
