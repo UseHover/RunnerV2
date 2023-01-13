@@ -43,7 +43,9 @@ class NewRunViewModel(private val application: Application, private val actionRe
 		val unfilled = mutableListOf<HoverAction>()
 		if (!actions.isNullOrEmpty()) {
 			for (a in actions) {
-				for (key in a.requiredParams) {
+				val keys: Iterator<String> = a.required_params.keys()
+				while (keys.hasNext()) {
+					val key = keys.next()
 					if (SharedPrefUtils.getVarValue(a.public_id, key, application).isEmpty()) {
 						unfilled.add(a)
 						break
@@ -56,7 +58,9 @@ class NewRunViewModel(private val application: Application, private val actionRe
 
 	fun next(): Boolean {
 		val a = unfilledActions.value!![0]
-		for (key in a.requiredParams) {
+		val keys: Iterator<String> = a.required_params.keys()
+		while (keys.hasNext()) {
+			val key = keys.next()
 			if (SharedPrefUtils.getVarValue(a.public_id, key, application).isEmpty())
 				return false
 		}

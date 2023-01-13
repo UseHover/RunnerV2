@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
 	private fun initHover() {
 		Timber.e("initializing hover. key: %s", SharedPrefUtils.getApiKey(this))
-		Hover.initialize(this, SharedPrefUtils.getApiKey(this))
+		Hover.initialize(this, SharedPrefUtils.getApiKey(this), true)
 		Hover.setBranding("Runner by Hover", R.drawable.ic_runner_logo, R.drawable.hsdk_ic_logo, this)
 	}
 

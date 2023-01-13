@@ -51,7 +51,8 @@ object SharedPrefUtils {
 		editor.commit()
 	}
 
-	fun getVarValue(action_id: String, key: String, c: Context): String {
+	fun getVarValue(action_id: String, key: String?, c: Context): String {
+		if (key == null) { return "" }
 		return getSharedPrefs(c).getString("$action_id-variable-$key", "")!!
 	}
 

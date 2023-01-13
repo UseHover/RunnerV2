@@ -21,12 +21,12 @@ class VariableRecyclerAdapter(private val action: HoverAction) : RecyclerView.Ad
 		return VariableItemListView(view)
 	}
 
-	private fun getVariableValue(name: String, context: Context) : String? {
+	private fun getVariableValue(name: String?, context: Context) : String {
 		return SharedPrefUtils.getVarValue(action.public_id, name, context)
 	}
 
 	override fun onBindViewHolder(holder: VariableItemListView, position: Int) {
-		val key: String = action.requiredParams[position]
+		val key: String? = getKeyForPos(position)
 		val value: String? = getVariableValue(key, holder.view.context)
 		holder.input.hint = key
 		holder.edittext.setText(value)
@@ -40,11 +40,22 @@ class VariableRecyclerAdapter(private val action: HoverAction) : RecyclerView.Ad
 		})
 	}
 
+	private fun getKeyForPos(position: Int): String? {
+		val keys: Iterator<String> = action.required_params.keys()
+		var idx = 0
+		while (keys.hasNext()) {
+			val key = keys.next()
+			if (position == idx) { return key }
+			idx += 1
+		}
+		return null
+	}
+
 	override fun getItemId(position: Int): Long { return position.toLong() }
 
 	override fun getItemViewType(position: Int): Int { return position }
 
-	override fun getItemCount(): Int { return action.requiredParams.size }
+	override fun getItemCount(): Int { return action.required_params.length() }
 
 	class VariableItemListView(val view: View) : RecyclerView.ViewHolder(view) {
 		val input: TextInputLayout = itemView.findViewById(R.id.inputLayout)

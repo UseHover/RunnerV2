@@ -83,7 +83,7 @@ class SplashScreenActivity : AppCompatActivity(), Hover.DownloadListener {
 	}
 
 	private fun observeLogin() {
-		loginViewModel.loginLiveData.observe(this, {
+		loginViewModel.loginLiveData.observe(this) {
 			when (it) {
 				is Resource.Loading -> {
 					loginProgress.isIndeterminate = true
@@ -93,16 +93,14 @@ class SplashScreenActivity : AppCompatActivity(), Hover.DownloadListener {
 					startActivity(Intent(this, MainActivity::class.java))
 					finishAffinity()
 				}
-				is Resource.ErrorWithRes -> {
+				else -> {
 					it.data?.let { stringRes ->
 						UIHelper.flashMessage(this, currentFocus, getString(stringRes))
 					}
 					navToLoginActivity()
 				}
-
 			}
-		})
-
+		}
 	}
 
 	private val loginProcessLauncher =

@@ -76,7 +76,9 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 	}
 
 	private fun allVarsFilled(action: HoverAction): Boolean {
-		for (key in action.requiredParams) {
+		val keys: Iterator<String> = action.required_params.keys()
+		while (keys.hasNext()) {
+			val key = keys.next()
 			if (SharedPrefUtils.getVarValue(action.public_id, key, requireContext()).isEmpty())
 				return false
 		}
@@ -107,7 +109,7 @@ class ActionDetailFragment : BaseFragment(), TransactionsRecyclerAdapter.Transac
 	private fun showVariables(action: HoverAction) {
 		binding.actionVariables.setLayoutManagerToLinear()
 		binding.actionVariables.adapter = VariableRecyclerAdapter(action)
-		binding.variableSection.visibility = if (action.requiredParams.size > 0) VISIBLE else GONE
+		binding.variableSection.visibility = if (action.required_params.length() > 0) VISIBLE else GONE
 	}
 
 	private fun fillParserDetails(parsers: List<HoverParser>, tv: TextView) {

@@ -98,7 +98,11 @@ class RunningActivity : AppCompatActivity() {
 		builder.request(action.public_id)
 		builder.setEnvironment(SettingsFragment.getCurrentEnv(this))
 		builder.finalMsgDisplayTime(0)
-		action.requiredParams.forEach { builder.extra(it, SharedPrefUtils.getVarValue(action.public_id, it, application)) }
+		val keys: Iterator<String> = action.required_params.keys()
+		while (keys.hasNext()) {
+			val key = keys.next()
+			builder.extra(key, SharedPrefUtils.getVarValue(action.public_id, key, application))
+		}
 		viewModel.setRunInProgress(true)
 		startActivityForResult(builder.buildIntent(), 0)
 	}
