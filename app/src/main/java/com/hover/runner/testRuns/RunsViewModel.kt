@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class RunsViewModel(private val application: Application, private val runRepo: TestRunRepo, private val actionRepo: ActionRepo, private val transactionRepo: TransactionsRepo) : ViewModel() {
 	var runs: MediatorLiveData<List<TestRun>> = MediatorLiveData()
 
-	var run: MutableLiveData<TestRun> = MutableLiveData()
+	var run: MutableLiveData<TestRun?> = MutableLiveData()
 	var actions: LiveData<List<HoverAction>>
 	var transactions: LiveData<List<Transaction>>
 
@@ -43,12 +43,13 @@ class RunsViewModel(private val application: Application, private val runRepo: T
 		}
 	}
 
-	private fun getActions(r: TestRun): List<HoverAction> {
-		return actionRepo.getHoverActions(r.action_id_list.toTypedArray())
+	private fun getActions(r: TestRun?): List<HoverAction> {
+		return if (r != null) actionRepo.getHoverActions(r.action_id_list.toTypedArray())
+		else ArrayList()
 	}
 
-	private fun getTransactions(r: TestRun): LiveData<List<Transaction>> {
-		return transactionRepo.getTransactions(r.transaction_uuid_list.toTypedArray())
+	private fun getTransactions(r: TestRun?): LiveData<List<Transaction>> {
+		return transactionRepo.getTransactions(r?.transaction_uuid_list?.toTypedArray() ?: emptyArray())
 	}
 
 	fun deleteRun() {
